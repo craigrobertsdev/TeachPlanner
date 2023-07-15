@@ -1,0 +1,12 @@
+C:\Users\craig\source\repos\TeachPlanner\Presentation\bin\Debug\net7.0\Presentation.deps.json
+C:\Users\craig\source\repos\TeachPlanner\Presentation\bin\Debug\net7.0\Presentation.dll
+C:\Users\craig\source\repos\TeachPlanner\Presentation\bin\Debug\net7.0\Presentation.pdb
+C:\Users\craig\source\repos\TeachPlanner\Presentation\obj\Debug\net7.0\Presentation.csproj.AssemblyReference.cache
+C:\Users\craig\source\repos\TeachPlanner\Presentation\obj\Debug\net7.0\Presentation.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\craig\source\repos\TeachPlanner\Presentation\obj\Debug\net7.0\Presentation.AssemblyInfoInputs.cache
+C:\Users\craig\source\repos\TeachPlanner\Presentation\obj\Debug\net7.0\Presentation.AssemblyInfo.cs
+C:\Users\craig\source\repos\TeachPlanner\Presentation\obj\Debug\net7.0\Presentation.csproj.CoreCompileInputs.cache
+C:\Users\craig\source\repos\TeachPlanner\Presentation\obj\Debug\net7.0\Presentation.dll
+C:\Users\craig\source\repos\TeachPlanner\Presentation\obj\Debug\net7.0\refint\Presentation.dll
+C:\Users\craig\source\repos\TeachPlanner\Presentation\obj\Debug\net7.0\Presentation.pdb
+C:\Users\craig\source\repos\TeachPlanner\Presentation\obj\Debug\net7.0\ref\Presentation.dll
