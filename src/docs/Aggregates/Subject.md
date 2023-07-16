@@ -209,3 +209,29 @@ abstract class BaseSubject
   ]
 }
 ```
+
+```json
+{
+  "id": { "value": "00000000-0000-0000-0000-000000000000" },
+  "name": "Child Protection Curriculum",
+  "yearLevels": [
+    {
+      "yearLevel": "string",
+      "strands": [
+        {
+          "name": "The right to be safe"
+        },
+        {
+          "name": "Relationships"
+        },
+        {
+          "name": "Recognising and reporting abuse"
+        },
+        {
+          "name": "Protective strategies"
+        }
+      ]
+    }
+  ]
+}
+```
