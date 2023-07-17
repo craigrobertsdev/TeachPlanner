@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "c:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\WebUI\\WebApp.csproj": {}
+    "C:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\WebUI\\WebApp.csproj": {}
   },
   "projects": {
-    "c:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\Application\\Application.csproj": {
+    "C:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\Application\\Application.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\Application\\Application.csproj",
+        "projectUniqueName": "C:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\Application\\Application.csproj",
         "projectName": "Application",
-        "projectPath": "c:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\Application\\Application.csproj",
+        "projectPath": "C:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\Application\\Application.csproj",
         "packagesPath": "C:\\Users\\craig\\.nuget\\packages\\",
-        "outputPath": "c:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\Application\\obj\\",
+        "outputPath": "C:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\Application\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\craig\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -27,7 +27,11 @@
         "frameworks": {
           "net7.0": {
             "targetAlias": "net7.0",
-            "projectReferences": {}
+            "projectReferences": {
+              "C:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\Domain\\Domain.csproj": {
+                "projectPath": "C:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\Domain\\Domain.csproj"
+              }
+            }
           }
         },
         "warningProperties": {
@@ -39,6 +43,20 @@
       "frameworks": {
         "net7.0": {
           "targetAlias": "net7.0",
+          "dependencies": {
+            "FluentValidation": {
+              "target": "Package",
+              "version": "[11.6.0, )"
+            },
+            "FluentValidation.AspNetCore": {
+              "target": "Package",
+              "version": "[11.3.0, )"
+            },
+            "MediatR": {
+              "target": "Package",
+              "version": "[12.1.1, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
@@ -59,14 +77,14 @@
         }
       }
     },
-    "c:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\Domain\\Domain.csproj": {
+    "C:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\Domain\\Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\Domain\\Domain.csproj",
+        "projectUniqueName": "C:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\Domain\\Domain.csproj",
         "projectName": "Domain",
-        "projectPath": "c:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\Domain\\Domain.csproj",
+        "projectPath": "C:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\Domain\\Domain.csproj",
         "packagesPath": "C:\\Users\\craig\\.nuget\\packages\\",
-        "outputPath": "c:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\Domain\\obj\\",
+        "outputPath": "C:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\Domain\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\craig\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -120,14 +138,14 @@
         }
       }
     },
-    "c:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\Infrastructure\\Infrastructure.csproj": {
+    "C:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\Infrastructure\\Infrastructure.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\Infrastructure\\Infrastructure.csproj",
+        "projectUniqueName": "C:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\Infrastructure\\Infrastructure.csproj",
         "projectName": "Infrastructure",
-        "projectPath": "c:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\Infrastructure\\Infrastructure.csproj",
+        "projectPath": "C:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\Infrastructure\\Infrastructure.csproj",
         "packagesPath": "C:\\Users\\craig\\.nuget\\packages\\",
-        "outputPath": "c:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\Infrastructure\\obj\\",
+        "outputPath": "C:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\Infrastructure\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\craig\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -144,8 +162,11 @@
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "c:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\Domain\\Domain.csproj": {
-                "projectPath": "c:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\Domain\\Domain.csproj"
+              "C:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\Application\\Application.csproj": {
+                "projectPath": "C:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\Application\\Application.csproj"
+              },
+              "C:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\Domain\\Domain.csproj": {
+                "projectPath": "C:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\Domain\\Domain.csproj"
               }
             }
           }
@@ -201,14 +222,14 @@
         }
       }
     },
-    "c:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\WebUI\\WebApp.csproj": {
+    "C:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\WebUI\\WebApp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\WebUI\\WebApp.csproj",
+        "projectUniqueName": "C:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\WebUI\\WebApp.csproj",
         "projectName": "WebApp",
-        "projectPath": "c:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\WebUI\\WebApp.csproj",
+        "projectPath": "C:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\WebUI\\WebApp.csproj",
         "packagesPath": "C:\\Users\\craig\\.nuget\\packages\\",
-        "outputPath": "c:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\WebUI\\obj\\",
+        "outputPath": "C:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\WebUI\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\craig\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -226,11 +247,11 @@
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "c:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\Application\\Application.csproj": {
-                "projectPath": "c:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\Application\\Application.csproj"
+              "C:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\Application\\Application.csproj": {
+                "projectPath": "C:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\Application\\Application.csproj"
               },
-              "c:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\Infrastructure\\Infrastructure.csproj": {
-                "projectPath": "c:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\Infrastructure\\Infrastructure.csproj"
+              "C:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\Infrastructure\\Infrastructure.csproj": {
+                "projectPath": "C:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\Infrastructure\\Infrastructure.csproj"
               }
             }
           }

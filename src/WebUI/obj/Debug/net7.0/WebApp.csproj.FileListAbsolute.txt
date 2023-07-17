@@ -90,3 +90,15 @@ C:\Users\craig\source\repos\TeachPlanner\WebUI\obj\Debug\net7.0\refint\WebApp.dl
 C:\Users\craig\source\repos\TeachPlanner\WebUI\obj\Debug\net7.0\WebApp.pdb
 C:\Users\craig\source\repos\TeachPlanner\WebUI\obj\Debug\net7.0\WebApp.genruntimeconfig.cache
 C:\Users\craig\source\repos\TeachPlanner\WebUI\obj\Debug\net7.0\ref\WebApp.dll
+C:\Users\craig\source\repos\TeachPlanner\src\WebUI\obj\Debug\net7.0\WebApp.csproj.AssemblyReference.cache
+C:\Users\craig\source\repos\TeachPlanner\src\WebUI\obj\Debug\net7.0\WebApp.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\craig\source\repos\TeachPlanner\src\WebUI\obj\Debug\net7.0\WebApp.AssemblyInfoInputs.cache
+C:\Users\craig\source\repos\TeachPlanner\src\WebUI\obj\Debug\net7.0\WebApp.AssemblyInfo.cs
+C:\Users\craig\source\repos\TeachPlanner\src\WebUI\obj\Debug\net7.0\WebApp.csproj.CoreCompileInputs.cache
+C:\Users\craig\source\repos\TeachPlanner\src\WebUI\obj\Debug\net7.0\WebApp.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\craig\source\repos\TeachPlanner\src\WebUI\obj\Debug\net7.0\WebApp.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\craig\source\repos\TeachPlanner\src\WebUI\obj\Debug\net7.0\WebApp.RazorAssemblyInfo.cache
+C:\Users\craig\source\repos\TeachPlanner\src\WebUI\obj\Debug\net7.0\WebApp.RazorAssemblyInfo.cs
+C:\Users\craig\source\repos\TeachPlanner\src\WebUI\obj\Debug\net7.0\WebApp.dll
+C:\Users\craig\source\repos\TeachPlanner\src\WebUI\obj\Debug\net7.0\refint\WebApp.dll
+C:\Users\craig\source\repos\TeachPlanner\src\WebUI\obj\Debug\net7.0\WebApp.pdb
