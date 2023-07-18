@@ -278,11 +278,21 @@
           "buildTransitive/net6.0/_._": {}
         }
       },
+      "OneOf/3.0.255": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/OneOf.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/OneOf.dll": {}
+        }
+      },
       "Domain/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v7.0",
         "dependencies": {
-          "Microsoft.EntityFrameworkCore": "7.0.7"
+          "Microsoft.EntityFrameworkCore": "7.0.7",
+          "OneOf": "3.0.255"
         },
         "compile": {
           "bin/placeholder/Domain.dll": {}
@@ -693,6 +703,21 @@
         "useSharedDesignerContext.txt"
       ]
     },
+    "OneOf/3.0.255": {
+      "sha512": "EKrroFkaqbCB80WXr8isiCpSyelDc44qEdUwJ2v++zUDXr3igZ88UPt8MRGlNP5CDdOlHyTjCEzm1WY0MHCypg==",
+      "type": "package",
+      "path": "oneof/3.0.255",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net35/OneOf.dll",
+        "lib/net45/OneOf.dll",
+        "lib/netstandard1.3/OneOf.dll",
+        "lib/netstandard2.0/OneOf.dll",
+        "oneof.3.0.255.nupkg.sha512",
+        "oneof.nuspec"
+      ]
+    },
     "Domain/1.0.0": {
       "type": "project",
       "path": "../Domain/Domain.csproj",
@@ -713,11 +738,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\Application\\Application.csproj",
+      "projectUniqueName": "c:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\Application\\Application.csproj",
       "projectName": "Application",
-      "projectPath": "C:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\Application\\Application.csproj",
+      "projectPath": "c:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\Application\\Application.csproj",
       "packagesPath": "C:\\Users\\craig\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\Application\\obj\\",
+      "outputPath": "c:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\Application\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\craig\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -734,8 +759,8 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "projectReferences": {
-            "C:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\Domain\\Domain.csproj": {
-              "projectPath": "C:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\Domain\\Domain.csproj"
+            "c:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\Domain\\Domain.csproj": {
+              "projectPath": "c:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\Domain\\Domain.csproj"
             }
           }
         }

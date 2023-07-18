@@ -32,3 +32,5 @@ C:\Users\craig\source\repos\TeachPlanner\src\Infrastructure\obj\Debug\net7.0\ref
 C:\Users\craig\source\repos\TeachPlanner\src\Infrastructure\obj\Debug\net7.0\Infrastructure.pdb
 C:\Users\craig\source\repos\TeachPlanner\src\Infrastructure\obj\Debug\net7.0\Infrastructure.genruntimeconfig.cache
 C:\Users\craig\source\repos\TeachPlanner\src\Infrastructure\obj\Debug\net7.0\ref\Infrastructure.dll
+C:\Users\craig\source\repos\TeachPlanner\src\Infrastructure\bin\Debug\net7.0\Application.dll
+C:\Users\craig\source\repos\TeachPlanner\src\Infrastructure\bin\Debug\net7.0\Application.pdb

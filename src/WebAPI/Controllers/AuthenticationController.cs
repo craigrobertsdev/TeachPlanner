@@ -7,9 +7,9 @@ using WebAPI.Authentication;
 using Application.Authentication.Commands.Register;
 using Application.Common;
 using Application.Authentication.Common;
-using Application.Common.Exceptions;
 using WebAPI.Contracts.Authentication;
 using Application.Authentication.Queries.Login;
+using Application.Common.Exceptions.Authentication;
 
 namespace WebAPI.Controllers;
 
@@ -30,7 +30,7 @@ public class AuthenticationController : ApiController
     public async Task<IActionResult> Register(RegisterRequest request)
     {
         var command = _mapper.Map<RegisterCommand>(request);
-        Either<AuthenticationResult, AuthenticationException> result = await _mediator.Send(command);
+        Either<AuthenticationResult, DuplicateUserException> result = await _mediator.Send(command);
 
         return result.Match<IActionResult>(
             authResult => Ok(_mapper.Map<AuthenticationResponse>(authResult)),
@@ -41,7 +41,7 @@ public class AuthenticationController : ApiController
     public async Task<IActionResult> Login(LoginRequest request)
     {
         var command = _mapper.Map<LoginCommand>(request);
-        Either<AuthenticationResult, AuthenticationException> result = await _mediator.Send(command);
+        Either<AuthenticationResult, DuplicateUserException> result = await _mediator.Send(command);
 
         return result.Match<IActionResult>(
             authResult => Ok(_mapper.Map<AuthenticationResponse>(authResult)),

@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "fuz9k8LkDNm0cAArR0wulCYtnhmpoaafGe5fUpYXpfuB/aftWlWcH1Irj5GNuCMMIzDzV/HUGPo9kLJ6m8nFpg==",
+  "dgSpecHash": "YGXoBSsI2VAoUv930iUp0LCPTVCaY+At6n1US3DrsOmXUPdxpbdDZeAQkcDKWM+XLQM8UbnllLX0MuZ+uMJVqQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\WebUI\\WebApp.csproj",
   "expectedPackageFiles": [
@@ -12,6 +12,7 @@
     "C:\\Users\\craig\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\craig\\.nuget\\packages\\mediatr\\12.1.1\\mediatr.12.1.1.nupkg.sha512",
     "C:\\Users\\craig\\.nuget\\packages\\mediatr.contracts\\2.0.1\\mediatr.contracts.2.0.1.nupkg.sha512",
+    "C:\\Users\\craig\\.nuget\\packages\\microsoft.aspnetcore.authentication.jwtbearer\\7.0.9\\microsoft.aspnetcore.authentication.jwtbearer.7.0.9.nupkg.sha512",
     "C:\\Users\\craig\\.nuget\\packages\\microsoft.aspnetcore.cryptography.internal\\7.0.7\\microsoft.aspnetcore.cryptography.internal.7.0.7.nupkg.sha512",
     "C:\\Users\\craig\\.nuget\\packages\\microsoft.aspnetcore.cryptography.keyderivation\\7.0.7\\microsoft.aspnetcore.cryptography.keyderivation.7.0.7.nupkg.sha512",
     "C:\\Users\\craig\\.nuget\\packages\\microsoft.aspnetcore.diagnostics.entityframeworkcore\\7.0.7\\microsoft.aspnetcore.diagnostics.entityframeworkcore.7.0.7.nupkg.sha512",
@@ -56,6 +57,7 @@
     "C:\\Users\\craig\\.nuget\\packages\\microsoft.win32.registry\\5.0.0\\microsoft.win32.registry.5.0.0.nupkg.sha512",
     "C:\\Users\\craig\\.nuget\\packages\\microsoft.win32.systemevents\\5.0.0\\microsoft.win32.systemevents.5.0.0.nupkg.sha512",
     "C:\\Users\\craig\\.nuget\\packages\\mono.texttemplating\\2.2.1\\mono.texttemplating.2.2.1.nupkg.sha512",
+    "C:\\Users\\craig\\.nuget\\packages\\oneof\\3.0.255\\oneof.3.0.255.nupkg.sha512",
     "C:\\Users\\craig\\.nuget\\packages\\system.buffers\\4.5.1\\system.buffers.4.5.1.nupkg.sha512",
     "C:\\Users\\craig\\.nuget\\packages\\system.codedom\\4.4.0\\system.codedom.4.4.0.nupkg.sha512",
     "C:\\Users\\craig\\.nuget\\packages\\system.configuration.configurationmanager\\5.0.0\\system.configuration.configurationmanager.5.0.0.nupkg.sha512",

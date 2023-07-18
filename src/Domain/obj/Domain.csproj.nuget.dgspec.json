@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\Domain\\Domain.csproj": {}
+    "c:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\Domain\\Domain.csproj": {}
   },
   "projects": {
-    "C:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\Domain\\Domain.csproj": {
+    "c:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\Domain\\Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\Domain\\Domain.csproj",
+        "projectUniqueName": "c:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\Domain\\Domain.csproj",
         "projectName": "Domain",
-        "projectPath": "C:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\Domain\\Domain.csproj",
+        "projectPath": "c:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\Domain\\Domain.csproj",
         "packagesPath": "C:\\Users\\craig\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\Domain\\obj\\",
+        "outputPath": "c:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\Domain\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\craig\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -43,6 +43,10 @@
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
               "version": "[7.0.7, )"
+            },
+            "OneOf": {
+              "target": "Package",
+              "version": "[3.0.255, )"
             }
           },
           "imports": [

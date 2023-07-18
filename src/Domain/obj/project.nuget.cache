@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "I6R/PLrgv//jyYX3L4npA+8Vn7kvjujNQT3XM2RvR4fuRpzps3N6V7NXfE+i5u7eazl4xXAqZ6jX/RGUW1hTVg==",
+  "dgSpecHash": "QgpmT41rojsS4VTppqZdB4E7BC4X4y5RR22K1lmNvpNFFhfTNJYV00h1aYmS/isnV1RHZti+MbbaNo/Rc+nTRQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\Domain\\Domain.csproj",
+  "projectFilePath": "c:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\Domain\\Domain.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\craig\\.nuget\\packages\\microsoft.entityframeworkcore\\7.0.7\\microsoft.entityframeworkcore.7.0.7.nupkg.sha512",
     "C:\\Users\\craig\\.nuget\\packages\\microsoft.entityframeworkcore.abstractions\\7.0.7\\microsoft.entityframeworkcore.abstractions.7.0.7.nupkg.sha512",
@@ -14,7 +14,8 @@
     "C:\\Users\\craig\\.nuget\\packages\\microsoft.extensions.logging\\7.0.0\\microsoft.extensions.logging.7.0.0.nupkg.sha512",
     "C:\\Users\\craig\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\7.0.0\\microsoft.extensions.logging.abstractions.7.0.0.nupkg.sha512",
     "C:\\Users\\craig\\.nuget\\packages\\microsoft.extensions.options\\7.0.0\\microsoft.extensions.options.7.0.0.nupkg.sha512",
-    "C:\\Users\\craig\\.nuget\\packages\\microsoft.extensions.primitives\\7.0.0\\microsoft.extensions.primitives.7.0.0.nupkg.sha512"
+    "C:\\Users\\craig\\.nuget\\packages\\microsoft.extensions.primitives\\7.0.0\\microsoft.extensions.primitives.7.0.0.nupkg.sha512",
+    "C:\\Users\\craig\\.nuget\\packages\\oneof\\3.0.255\\oneof.3.0.255.nupkg.sha512"
   ],
   "logs": []
 }

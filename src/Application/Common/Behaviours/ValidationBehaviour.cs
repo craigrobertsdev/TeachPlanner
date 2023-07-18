@@ -1,5 +1,5 @@
-﻿using Application.Common.Exceptions;
-using Domain.Abstractions;
+﻿using Application.Common.Exceptions.Authentication;
+using Domain.Interfaces;
 using FluentValidation;
 using MediatR;
 
@@ -7,7 +7,7 @@ namespace Application.Common.Behaviours;
 
 public class ValidationBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
     where TRequest : IRequest<TResponse>
-    where TResponse : IEither<TResponse, AuthenticationException>
+    where TResponse : IEither<TResponse, DuplicateUserException>
 {
     private readonly IValidator<TRequest>? _validator;
 

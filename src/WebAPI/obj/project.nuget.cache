@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "Xp1Q5h+DCtc0mFnKHxkwdTpUkdWQ5is4xKS2y8l1svGmoSB0FI652lG4z/4j5JdtKqZ9GkDD6PjsQDpFlp8N8w==",
+  "dgSpecHash": "gfjZ/WAg6pCAVA5+gd1Gj2mYQ7//5nq7tYL1139tDCeN6Uf5kcSkkVyu3EdWxywI8DiJCV3IM+mgm/aEHRDVzA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\WebAPI\\WebAPI.csproj",
+  "projectFilePath": "c:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\WebAPI\\WebAPI.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\craig\\.nuget\\packages\\fluentvalidation\\11.6.0\\fluentvalidation.11.6.0.nupkg.sha512",
     "C:\\Users\\craig\\.nuget\\packages\\fluentvalidation.aspnetcore\\11.3.0\\fluentvalidation.aspnetcore.11.3.0.nupkg.sha512",
@@ -29,6 +29,7 @@
     "C:\\Users\\craig\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
     "C:\\Users\\craig\\.nuget\\packages\\microsoft.netcore.targets\\1.1.0\\microsoft.netcore.targets.1.1.0.nupkg.sha512",
     "C:\\Users\\craig\\.nuget\\packages\\microsoft.openapi\\1.4.3\\microsoft.openapi.1.4.3.nupkg.sha512",
+    "C:\\Users\\craig\\.nuget\\packages\\oneof\\3.0.255\\oneof.3.0.255.nupkg.sha512",
     "C:\\Users\\craig\\.nuget\\packages\\swashbuckle.aspnetcore\\6.5.0\\swashbuckle.aspnetcore.6.5.0.nupkg.sha512",
     "C:\\Users\\craig\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\6.5.0\\swashbuckle.aspnetcore.swagger.6.5.0.nupkg.sha512",
     "C:\\Users\\craig\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\6.5.0\\swashbuckle.aspnetcore.swaggergen.6.5.0.nupkg.sha512",

@@ -19,12 +19,12 @@ public class Entity<TId> : IEquatable<Entity<TId>> where TId : notnull
         return Equals((object?)other);
     }
 
-    public static bool operator ==(Entity<TId> left, Entity<TId> right)
+    public static bool operator ==(Entity<TId>? left, Entity<TId>? right)
     {
         return Equals(left, right);
     }
 
-    public static bool operator !=(Entity<TId> left, Entity<TId> right)
+    public static bool operator !=(Entity<TId>? left, Entity<TId>? right)
     {
         return !Equals(left, right);
     }

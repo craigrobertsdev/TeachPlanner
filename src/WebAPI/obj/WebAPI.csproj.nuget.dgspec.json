@@ -1,7 +1,7 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\WebAPI\\WebAPI.csproj": {}
+    "c:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\WebAPI\\WebAPI.csproj": {}
   },
   "projects": {
     "C:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\Application\\Application.csproj": {
@@ -28,8 +28,8 @@
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "C:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\Domain\\Domain.csproj": {
-                "projectPath": "C:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\Domain\\Domain.csproj"
+              "c:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\Domain\\Domain.csproj": {
+                "projectPath": "c:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\Domain\\Domain.csproj"
               }
             }
           }
@@ -77,14 +77,14 @@
         }
       }
     },
-    "C:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\Domain\\Domain.csproj": {
+    "c:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\Domain\\Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\Domain\\Domain.csproj",
+        "projectUniqueName": "c:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\Domain\\Domain.csproj",
         "projectName": "Domain",
-        "projectPath": "C:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\Domain\\Domain.csproj",
+        "projectPath": "c:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\Domain\\Domain.csproj",
         "packagesPath": "C:\\Users\\craig\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\Domain\\obj\\",
+        "outputPath": "c:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\Domain\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\craig\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -116,6 +116,10 @@
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
               "version": "[7.0.7, )"
+            },
+            "OneOf": {
+              "target": "Package",
+              "version": "[3.0.255, )"
             }
           },
           "imports": [
@@ -138,14 +142,14 @@
         }
       }
     },
-    "C:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\WebAPI\\WebAPI.csproj": {
+    "c:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\WebAPI\\WebAPI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\WebAPI\\WebAPI.csproj",
+        "projectUniqueName": "c:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\WebAPI\\WebAPI.csproj",
         "projectName": "WebAPI",
-        "projectPath": "C:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\WebAPI\\WebAPI.csproj",
+        "projectPath": "c:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\WebAPI\\WebAPI.csproj",
         "packagesPath": "C:\\Users\\craig\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\WebAPI\\obj\\",
+        "outputPath": "c:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\WebAPI\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\craig\\AppData\\Roaming\\NuGet\\NuGet.Config",
