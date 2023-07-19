@@ -47,10 +47,6 @@
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
               "version": "[7.0.7, )"
-            },
-            "OneOf": {
-              "target": "Package",
-              "version": "[3.0.255, )"
             }
           },
           "imports": [

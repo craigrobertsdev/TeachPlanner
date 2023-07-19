@@ -1632,8 +1632,7 @@
         "framework": ".NETCoreApp,Version=v7.0",
         "dependencies": {
           "ErrorOr": "1.2.1",
-          "Microsoft.EntityFrameworkCore": "7.0.7",
-          "OneOf": "3.0.255"
+          "Microsoft.EntityFrameworkCore": "7.0.7"
         },
         "compile": {
           "bin/placeholder/Domain.dll": {}
