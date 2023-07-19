@@ -2,7 +2,9 @@
 
 namespace Domain.UserAggregate.ValueObjects;
 
-public class UserId : AggregateRootId<Guid>
+public record UserId(Guid Value);
+
+/*public class UserId : AggregateRootId<Guid>
 {
     public override Guid Value { get; protected set; }
 
@@ -26,3 +28,4 @@ public class UserId : AggregateRootId<Guid>
         yield return Value;
     }
 }
+*/

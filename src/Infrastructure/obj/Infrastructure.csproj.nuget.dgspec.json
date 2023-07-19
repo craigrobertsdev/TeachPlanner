@@ -28,8 +28,8 @@
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "c:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\Domain\\Domain.csproj": {
-                "projectPath": "c:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\Domain\\Domain.csproj"
+              "C:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\Domain\\Domain.csproj": {
+                "projectPath": "C:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\Domain\\Domain.csproj"
               }
             }
           }
@@ -44,6 +44,10 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "dependencies": {
+            "ErrorOr": {
+              "target": "Package",
+              "version": "[1.2.1, )"
+            },
             "FluentValidation": {
               "target": "Package",
               "version": "[11.6.0, )"
@@ -77,14 +81,14 @@
         }
       }
     },
-    "c:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\Domain\\Domain.csproj": {
+    "C:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\Domain\\Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\Domain\\Domain.csproj",
+        "projectUniqueName": "C:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\Domain\\Domain.csproj",
         "projectName": "Domain",
-        "projectPath": "c:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\Domain\\Domain.csproj",
+        "projectPath": "C:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\Domain\\Domain.csproj",
         "packagesPath": "C:\\Users\\craig\\.nuget\\packages\\",
-        "outputPath": "c:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\Domain\\obj\\",
+        "outputPath": "C:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\Domain\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\craig\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -113,6 +117,10 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "dependencies": {
+            "ErrorOr": {
+              "target": "Package",
+              "version": "[1.2.1, )"
+            },
             "Microsoft.EntityFrameworkCore": {
               "target": "Package",
               "version": "[7.0.7, )"
@@ -169,8 +177,8 @@
               "C:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\Application\\Application.csproj": {
                 "projectPath": "C:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\Application\\Application.csproj"
               },
-              "c:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\Domain\\Domain.csproj": {
-                "projectPath": "c:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\Domain\\Domain.csproj"
+              "C:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\Domain\\Domain.csproj": {
+                "projectPath": "C:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\Domain\\Domain.csproj"
               }
             }
           }

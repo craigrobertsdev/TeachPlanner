@@ -2,6 +2,19 @@
   "version": 3,
   "targets": {
     "net7.0": {
+      "ErrorOr/1.2.1": {
+        "type": "package",
+        "compile": {
+          "lib/net6.0/ErrorOr.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net6.0/ErrorOr.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "FluentValidation/11.6.0": {
         "type": "package",
         "compile": {
@@ -291,6 +304,7 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v7.0",
         "dependencies": {
+          "ErrorOr": "1.2.1",
           "Microsoft.EntityFrameworkCore": "7.0.7",
           "OneOf": "3.0.255"
         },
@@ -304,6 +318,22 @@
     }
   },
   "libraries": {
+    "ErrorOr/1.2.1": {
+      "sha512": "5xcbQErEPQKq2z/sLwSaFPX3T2G7x4ISX0us0X7jSxXSQT/wlfOOhw4knPUN/GWOf2strhuzdvRA36JViwvu+A==",
+      "type": "package",
+      "path": "erroror/1.2.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "erroror.1.2.1.nupkg.sha512",
+        "erroror.nuspec",
+        "icon-square.png",
+        "lib/net6.0/ErrorOr.dll",
+        "lib/net6.0/ErrorOr.xml",
+        "lib/netstandard2.0/ErrorOr.dll",
+        "lib/netstandard2.0/ErrorOr.xml"
+      ]
+    },
     "FluentValidation/11.6.0": {
       "sha512": "DWKd0jHA33d7BXVWytSoN5Oafj9nYuiLUyyFoaUboOZZiaN5tlXdcJpkRbmrrWBUTWdSxjTwIoyUs38KSU/7OQ==",
       "type": "package",
@@ -727,6 +757,7 @@
   "projectFileDependencyGroups": {
     "net7.0": [
       "Domain >= 1.0.0",
+      "ErrorOr >= 1.2.1",
       "FluentValidation >= 11.6.0",
       "FluentValidation.AspNetCore >= 11.3.0",
       "MediatR >= 12.1.1"
@@ -738,11 +769,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "c:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\Application\\Application.csproj",
+      "projectUniqueName": "C:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\Application\\Application.csproj",
       "projectName": "Application",
-      "projectPath": "c:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\Application\\Application.csproj",
+      "projectPath": "C:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\Application\\Application.csproj",
       "packagesPath": "C:\\Users\\craig\\.nuget\\packages\\",
-      "outputPath": "c:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\Application\\obj\\",
+      "outputPath": "C:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\Application\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\craig\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -759,8 +790,8 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "projectReferences": {
-            "c:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\Domain\\Domain.csproj": {
-              "projectPath": "c:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\Domain\\Domain.csproj"
+            "C:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\Domain\\Domain.csproj": {
+              "projectPath": "C:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\Domain\\Domain.csproj"
             }
           }
         }
@@ -775,6 +806,10 @@
       "net7.0": {
         "targetAlias": "net7.0",
         "dependencies": {
+          "ErrorOr": {
+            "target": "Package",
+            "version": "[1.2.1, )"
+          },
           "FluentValidation": {
             "target": "Package",
             "version": "[11.6.0, )"

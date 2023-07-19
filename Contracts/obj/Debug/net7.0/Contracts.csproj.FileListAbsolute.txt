@@ -1,0 +1,15 @@
+C:\Users\craig\source\repos\TeachPlanner\Contracts\bin\Debug\net7.0\Contracts.deps.json
+C:\Users\craig\source\repos\TeachPlanner\Contracts\bin\Debug\net7.0\Contracts.dll
+C:\Users\craig\source\repos\TeachPlanner\Contracts\bin\Debug\net7.0\Contracts.pdb
+C:\Users\craig\source\repos\TeachPlanner\Contracts\obj\Debug\net7.0\Contracts.csproj.AssemblyReference.cache
+C:\Users\craig\source\repos\TeachPlanner\Contracts\obj\Debug\net7.0\Contracts.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\craig\source\repos\TeachPlanner\Contracts\obj\Debug\net7.0\Contracts.AssemblyInfoInputs.cache
+C:\Users\craig\source\repos\TeachPlanner\Contracts\obj\Debug\net7.0\Contracts.AssemblyInfo.cs
+C:\Users\craig\source\repos\TeachPlanner\Contracts\obj\Debug\net7.0\Contracts.csproj.CoreCompileInputs.cache
+C:\Users\craig\source\repos\TeachPlanner\Contracts\obj\Debug\net7.0\Contracts.dll
+C:\Users\craig\source\repos\TeachPlanner\Contracts\obj\Debug\net7.0\refint\Contracts.dll
+C:\Users\craig\source\repos\TeachPlanner\Contracts\obj\Debug\net7.0\Contracts.pdb
+C:\Users\craig\source\repos\TeachPlanner\Contracts\obj\Debug\net7.0\ref\Contracts.dll
+C:\Users\craig\source\repos\TeachPlanner\Contracts\bin\Debug\net7.0\Domain.dll
+C:\Users\craig\source\repos\TeachPlanner\Contracts\bin\Debug\net7.0\Domain.pdb
+C:\Users\craig\source\repos\TeachPlanner\Contracts\obj\Debug\net7.0\Contracts.csproj.CopyComplete

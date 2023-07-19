@@ -16,17 +16,18 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
+        services.AddPersistence(configuration);
         services.AddAuth(configuration);
         return services;
     }
 
     private static IServiceCollection AddPersistence(this IServiceCollection services, IConfiguration configuration)
     {
-        var dbContextSettings = new DbContextSettings();
-        configuration.Bind(DbContextSettings.SectionName, dbContextSettings);
-        services.AddSingleton(Options.Create(dbContextSettings));
+        //var dbContextSettings = new DbContextSettings();
+        //configuration.Bind(DbContextSettings.SectionName, dbContextSettings);
+        //services.AddSingleton(Options.Create(dbContextSettings));
 
-        services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(dbContextSettings.DefaultConnection));
+        //services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(dbContextSettings.DefaultConnection));
 
         services.AddScoped<IUserRepository, UserRepository>();
 

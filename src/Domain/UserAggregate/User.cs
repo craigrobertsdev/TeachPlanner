@@ -3,7 +3,7 @@ using Domain.UserAggregate.ValueObjects;
 
 namespace Domain.UserAggregate;
 
-public sealed class User : AggregateRoot<UserId, Guid>
+public sealed class User : AggregateRoot<UserId>
 {
     public string FirstName { get; private set; }
     public string LastName { get; private set; }
@@ -34,7 +34,7 @@ public sealed class User : AggregateRoot<UserId, Guid>
     public static User Create(string firstName, string lastName, string email, string password)
     {
         return new(
-            UserId.Create(),
+            new UserId(Guid.NewGuid()),
             firstName,
             lastName,
             email,
@@ -42,5 +42,10 @@ public sealed class User : AggregateRoot<UserId, Guid>
             DateTime.UtcNow,
             DateTime.UtcNow
         );
+    }
+
+#pragma warning disable CS8618
+    private User()
+    {
     }
 }

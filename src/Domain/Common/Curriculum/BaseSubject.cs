@@ -4,7 +4,7 @@ using Domain.Common.Primatives;
 
 namespace Domain.Common.Curriculum;
 
-public abstract class BaseSubject : AggregateRoot<SubjectId, Guid>
+public abstract class BaseSubject : AggregateRoot<SubjectId>
 {
     private readonly List<YearLevel> _yearLevels = new();
     public string Name { get; private set; }

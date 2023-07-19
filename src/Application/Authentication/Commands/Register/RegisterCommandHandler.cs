@@ -1,18 +1,18 @@
 ﻿using Application.Authentication.Common;
-using Application.Common;
-using Application.Common.Exceptions.Authentication;
 using Application.Common.Interfaces.Authentication;
 using Application.Common.Interfaces.Persistence;
+using Application.Common.Errors;
 using Domain.UserAggregate;
+using ErrorOr;
 using MediatR;
 
 namespace Application.Authentication.Commands.Register;
 
 public class RegisterCommandHandler
-    : IRequestHandler<RegisterCommand, Either<AuthenticationResult, DuplicateUserException>>
+    : IRequestHandler<RegisterCommand, ErrorOr<AuthenticationResult>>
 {
-    private IJwtTokenGenerator _jwtTokenGenerator;
-    private IUserRepository _userRepository;
+    private readonly IJwtTokenGenerator _jwtTokenGenerator;
+    private readonly IUserRepository _userRepository;
 
     public RegisterCommandHandler(
         IJwtTokenGenerator jwtTokenGenerator,
@@ -23,32 +23,25 @@ public class RegisterCommandHandler
         _userRepository = userRepository;
     }
 
-#pragma warning disable CS1998
-    public async Task<Either<AuthenticationResult, DuplicateUserException>> Handle(
-        RegisterCommand command,
-        CancellationToken cancellationToken
-    )
+#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
+    public async Task<ErrorOr<AuthenticationResult>> Handle(RegisterCommand command, CancellationToken cancellationToken)
     {
         if (_userRepository.GetUserByEmail(command.Email) != null)
         {
-            return new Either<AuthenticationResult, DuplicateUserException>(
-                new DuplicateUserException()
-            );
+            return Errors.User.DuplicateEmail;
         }
 
         var user = User.Create(
             command.FirstName,
             command.LastName,
             command.Email,
-            command.Password
-        );
+            command.Password);
 
         _userRepository.Add(user);
 
         var token = _jwtTokenGenerator.GenerateToken(user);
 
-        return new Either<AuthenticationResult, DuplicateUserException>(
-            new AuthenticationResult(user, token)
-        );
+        return new AuthenticationResult(user, token);
     }
+
 }
