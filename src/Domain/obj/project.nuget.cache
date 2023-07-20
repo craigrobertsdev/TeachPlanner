@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "2Jwb0JtvOuuPBr72i8mrHcWHirEAY5mCJ4o6Wp81AVdSq4TYz2cc6I9H/5p2n9+KcaJs+UoU+Sj3RIwVcJ5THw==",
+  "dgSpecHash": "aIPSRmcdDatYZbGx46dQlSpuNFKRfL72eOaSHvwLOXgtheb6YSTOjyaEW4tzP+QJy2UQ1pWnDxjcsQIdqKnaBg==",
   "success": true,
   "projectFilePath": "C:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\Domain\\Domain.csproj",
   "expectedPackageFiles": [
@@ -15,7 +15,8 @@
     "C:\\Users\\craig\\.nuget\\packages\\microsoft.extensions.logging\\7.0.0\\microsoft.extensions.logging.7.0.0.nupkg.sha512",
     "C:\\Users\\craig\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\7.0.0\\microsoft.extensions.logging.abstractions.7.0.0.nupkg.sha512",
     "C:\\Users\\craig\\.nuget\\packages\\microsoft.extensions.options\\7.0.0\\microsoft.extensions.options.7.0.0.nupkg.sha512",
-    "C:\\Users\\craig\\.nuget\\packages\\microsoft.extensions.primitives\\7.0.0\\microsoft.extensions.primitives.7.0.0.nupkg.sha512"
+    "C:\\Users\\craig\\.nuget\\packages\\microsoft.extensions.primitives\\7.0.0\\microsoft.extensions.primitives.7.0.0.nupkg.sha512",
+    "C:\\Users\\craig\\.nuget\\packages\\oneof\\3.0.255\\oneof.3.0.255.nupkg.sha512"
   ],
   "logs": []
 }

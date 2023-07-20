@@ -9,7 +9,7 @@ public sealed class ContentDescriptor : Entity<ContentDescriptorId>
     public string Description { get; private set; }
     public IReadOnlyList<Elaboration> Elaborations => _elaborations.AsReadOnly();
 
-    private ContentDescriptor(string description, List<Elaboration> elaborations)
+    private ContentDescriptor(ContentDescriptorId id, string description, List<Elaboration> elaborations) : base(id)
     {
         Description = description;
         _elaborations = elaborations;
@@ -17,6 +17,6 @@ public sealed class ContentDescriptor : Entity<ContentDescriptorId>
 
     public static ContentDescriptor Create(string description, List<Elaboration> elaborations)
     {
-        return new(description, elaborations);
+        return new(new ContentDescriptorId(Guid.NewGuid()), description, elaborations);
     }
 }

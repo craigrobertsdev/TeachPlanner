@@ -566,14 +566,6 @@
           }
         }
       },
-      "OneOf/3.0.255": {
-        "runtime": {
-          "lib/netstandard2.0/OneOf.dll": {
-            "assemblyVersion": "1.0.0.0",
-            "fileVersion": "1.0.0.0"
-          }
-        }
-      },
       "System.Buffers/4.5.1": {},
       "System.CodeDom/4.4.0": {
         "runtime": {
@@ -814,8 +806,7 @@
       "Domain/1.0.0": {
         "dependencies": {
           "ErrorOr": "1.2.1",
-          "Microsoft.EntityFrameworkCore": "7.0.7",
-          "OneOf": "3.0.255"
+          "Microsoft.EntityFrameworkCore": "7.0.7"
         },
         "runtime": {
           "Domain.dll": {}
@@ -1206,13 +1197,6 @@
       "sha512": "sha512-KZYeKBET/2Z0gY1WlTAK7+RHTl7GSbtvTLDXEZZojUdAPqpQNDL6tHv7VUpqfX5VEOh+uRGKaZXkuD253nEOBQ==",
       "path": "mono.texttemplating/2.2.1",
       "hashPath": "mono.texttemplating.2.2.1.nupkg.sha512"
-    },
-    "OneOf/3.0.255": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-EKrroFkaqbCB80WXr8isiCpSyelDc44qEdUwJ2v++zUDXr3igZ88UPt8MRGlNP5CDdOlHyTjCEzm1WY0MHCypg==",
-      "path": "oneof/3.0.255",
-      "hashPath": "oneof.3.0.255.nupkg.sha512"
     },
     "System.Buffers/4.5.1": {
       "type": "package",

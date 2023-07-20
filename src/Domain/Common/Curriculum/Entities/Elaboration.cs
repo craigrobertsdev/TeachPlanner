@@ -7,13 +7,13 @@ public sealed class Elaboration : Entity<ElaborationId>
 {
     public string Description { get; private set; }
 
-    private Elaboration(string description)
+    private Elaboration(ElaborationId id, string description) : base(id)
     {
         Description = description;
     }
 
     public static Elaboration Create(string description)
     {
-        return new(description);
+        return new(new ElaborationId(Guid.NewGuid(), description);
     }
 }

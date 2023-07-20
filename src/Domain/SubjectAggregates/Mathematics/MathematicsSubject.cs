@@ -16,6 +16,6 @@ public sealed class MathematicsSubject : BaseSubject
 
     public static MathematicsSubject Create(string name)
     {
-        return new(SubjectId.Create(), name, DateTime.UtcNow, DateTime.UtcNow);
+        return new(new SubjectId(Guid.NewGuid()), name, DateTime.UtcNow, DateTime.UtcNow);
     }
 }

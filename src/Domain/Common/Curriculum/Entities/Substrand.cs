@@ -9,7 +9,7 @@ public sealed class Substrand : Entity<SubstrandId>
     public string Name { get; private set; }
     public IReadOnlyList<ContentDescriptor> ContentDescriptors => _contentDescriptors.AsReadOnly();
 
-    private Substrand(string name, List<ContentDescriptor> contentDescriptors)
+    private Substrand(SubstrandId id, string name, List<ContentDescriptor> contentDescriptors) : base(id)
     {
         Name = name;
         _contentDescriptors = contentDescriptors;
@@ -17,6 +17,6 @@ public sealed class Substrand : Entity<SubstrandId>
 
     public static Substrand Create(string name, List<ContentDescriptor> contentDescriptors)
     {
-        return new(name, contentDescriptors);
+        return new(new SubstrandId(Guid.NewGuid()), name, contentDescriptors);
     }
 }

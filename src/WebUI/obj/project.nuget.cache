@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "aWXB7Bqm7junBztMUbSsGleZEfPkDswaV4kdVIVUrtABETB21hL6XZR82cWn9YD5BJ8MqOs/qIU/JPsSQCFmMg==",
+  "dgSpecHash": "yPaK+zcn9m5k7xs3bNLLcSkVU8bCnp8KknWHt2xNIRt0QE384cCe2qF29+vM78cPlpx5TZelTbhOtN5xVVPpyA==",
   "success": true,
   "projectFilePath": "C:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\WebUI\\WebApp.csproj",
   "expectedPackageFiles": [
@@ -58,6 +58,7 @@
     "C:\\Users\\craig\\.nuget\\packages\\microsoft.win32.registry\\5.0.0\\microsoft.win32.registry.5.0.0.nupkg.sha512",
     "C:\\Users\\craig\\.nuget\\packages\\microsoft.win32.systemevents\\5.0.0\\microsoft.win32.systemevents.5.0.0.nupkg.sha512",
     "C:\\Users\\craig\\.nuget\\packages\\mono.texttemplating\\2.2.1\\mono.texttemplating.2.2.1.nupkg.sha512",
+    "C:\\Users\\craig\\.nuget\\packages\\oneof\\3.0.255\\oneof.3.0.255.nupkg.sha512",
     "C:\\Users\\craig\\.nuget\\packages\\system.buffers\\4.5.1\\system.buffers.4.5.1.nupkg.sha512",
     "C:\\Users\\craig\\.nuget\\packages\\system.codedom\\4.4.0\\system.codedom.4.4.0.nupkg.sha512",
     "C:\\Users\\craig\\.nuget\\packages\\system.configuration.configurationmanager\\5.0.0\\system.configuration.configurationmanager.5.0.0.nupkg.sha512",

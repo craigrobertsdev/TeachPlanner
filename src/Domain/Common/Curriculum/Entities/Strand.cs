@@ -25,10 +25,19 @@ public sealed class Strand : Entity<StrandId>
         _contentDescriptors = contentDescriptors;
     }
 
+    /// <summary>
+    /// This method is used to create a Strand entity. It will return an error if both substrands and contentDescriptors are null.
+    /// Some subjects have substrands, others only have content descriptors.
+    /// Exactly one of substrands or contentDescriptors must be provided.
+    /// </summary>
+    /// <param name="name"></param>
+    /// <param name="substrands"></param>
+    /// <param name="contentDescriptors"></param>
+    /// <returns></returns>
     public static OneOf<Strand, ArgumentException> Create(
         string name,
-        List<Substrand>? substrands,
-        List<ContentDescriptor>? contentDescriptors
+        List<Substrand>? substrands = null,
+        List<ContentDescriptor>? contentDescriptors = null
     )
     {
         if (substrands is null && contentDescriptors is null)
@@ -38,7 +47,7 @@ public sealed class Strand : Entity<StrandId>
             );
         }
 
-        return new Strand(StrandId.Create(), name, substrands, contentDescriptors);
+        return new Strand(new StrandId(Guid.NewGuid()), name, substrands, contentDescriptors);
     }
 
     public List<ContentDescriptor> GetContentDescriptors()

@@ -32,6 +32,6 @@ public sealed class YearLevel : Entity<YearLevelId>
 
     public static YearLevel Create(string name, YearLevelValue yearLevelValue, List<Strand> strands)
     {
-        return new(YearLevelId.Create(), name, yearLevelValue, strands);
+        return new(new YearLevelId(Guid.NewGuid()), name, yearLevelValue, strands);
     }
 }
