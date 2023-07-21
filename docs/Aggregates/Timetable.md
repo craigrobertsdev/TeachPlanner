@@ -1,0 +1,7 @@
+# Timetable
+
+### TimetableTemplate
+
+```json
+{}
+```

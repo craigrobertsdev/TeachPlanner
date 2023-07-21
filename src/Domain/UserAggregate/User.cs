@@ -45,7 +45,5 @@ public sealed class User : AggregateRoot<UserId>
     }
 
 #pragma warning disable CS8618
-    private User()
-    {
-    }
+    private User() { }
 }

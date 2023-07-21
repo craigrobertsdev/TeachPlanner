@@ -12,13 +12,6 @@ public class RegisterCommandValidator : AbstractValidator<RegisterCommand>
         RuleFor(x => x.Password).NotEmpty().MinimumLength(8);
         // TODO add better password validation behaviour
 
-        RuleFor(u => u.Email)
-            .NotEmpty()
-            .EmailAddress()
-            .Must((email, _) =>
-            {
-                return userRepository.IsEmailUnique(email.Email);
-            })
-            .WithMessage("The email must be unique");
+        RuleFor(u => u.Email).NotEmpty().EmailAddress();
     }
 }

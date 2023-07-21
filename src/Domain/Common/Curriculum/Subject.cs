@@ -4,7 +4,7 @@ using Domain.Common.Primatives;
 
 namespace Domain.Common.Curriculum;
 
-public abstract class BaseSubject : AggregateRoot<SubjectId>
+public abstract class Subject : AggregateRoot<SubjectId>
 {
     private readonly List<YearLevel> _yearLevels = new();
     public string Name { get; private set; }
@@ -12,7 +12,7 @@ public abstract class BaseSubject : AggregateRoot<SubjectId>
     public DateTime CreatedDateTime { get; private set; }
     public DateTime UpdatedDateTime { get; private set; }
 
-    protected BaseSubject(
+    protected Subject(
         SubjectId id,
         string name,
         DateTime createdDateTime,

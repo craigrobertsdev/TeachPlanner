@@ -14,6 +14,6 @@ public sealed class Elaboration : Entity<ElaborationId>
 
     public static Elaboration Create(string description)
     {
-        return new(new ElaborationId(Guid.NewGuid(), description);
+        return new(new ElaborationId(Guid.NewGuid()), description);
     }
 }

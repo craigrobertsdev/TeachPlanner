@@ -28,6 +28,7 @@
       "createdDateTime": "2020-01-01T00:00:00.000Z",
       "modifiedDateTime": "2020-01-01T00:00:00.000Z",
       "completed": true,
+      "completedDateTime": "2020-01-01T00:00:00.000Z",
       "struckThrough": false
     }
   ],

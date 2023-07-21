@@ -4,7 +4,7 @@ using Domain.Common.Curriculum.ValueObjects;
 
 namespace Domain.SubjectAggregates.Mathematics;
 
-public sealed class MathematicsSubject : BaseSubject
+public sealed class MathematicsSubject : Subject
 {
     private MathematicsSubject(
         SubjectId id,
