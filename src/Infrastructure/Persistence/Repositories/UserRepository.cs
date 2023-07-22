@@ -1,7 +1,7 @@
 ﻿using Application.Common.Interfaces.Persistence;
 using Domain.UserAggregate;
 
-namespace Infrastructure.Persistence;
+namespace Infrastructure.Persistence.Repositories;
 
 public class UserRepository : IUserRepository
 {

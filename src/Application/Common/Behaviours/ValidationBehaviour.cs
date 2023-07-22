@@ -20,7 +20,6 @@ public class ValidationBehaviour<TRequest, TResponse> : IPipelineBehavior<TReque
         if (_validator is null)
         {
             return await next();
-
         }
 
         var validationResult = await _validator.ValidateAsync(request, cancellationToken);

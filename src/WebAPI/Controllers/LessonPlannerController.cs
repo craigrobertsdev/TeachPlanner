@@ -1,4 +1,5 @@
-﻿using Contracts.Plannner;
+﻿using Application.LessonPlan.CreateLessonPlan.Commands;
+using Contracts.Plannner;
 using FluentValidation;
 using MapsterMapper;
 using MediatR;
@@ -21,16 +22,16 @@ public class LessonPlannerController : ApiController
     }
 
     [HttpPost]
-    public IActionResult CreateLessonPlan(CreateLessonPlanRequest request, string teacherId)
+    public async Task<IActionResult> CreateLessonPlan(CreateLessonPlanRequest request, string teacherId)
     {
-        var command = _mapper.Map<CreateLessonPlanCommand>(request);
+        var command = _mapper.Map<CreateLessonPlanCommand>((request, teacherId));
 
         var validationResult = _createLessonPlanValidator.Validate(command);
 
-        var createLessonPlanResult = _sender.Send(command);
+        var createLessonPlanResult = await _sender.Send(command);
 
         return createLessonPlanResult.Match(
-            createdLessonPlanResult => Ok(_mapper.Map<CreateLessonPlanResponse>(createdLessonPlanResult)),
+            lessonPlanResult => Ok(lessonPlanResult),
             errors => Problem(errors));
     }
 

@@ -4,6 +4,7 @@ using Domain.Common.Primatives;
 using Domain.LessonAggregate.Entities;
 using Domain.LessonAggregate.ValueObjects;
 using Domain.Resource.ValueObjects;
+using Domain.TeacherAggregate.ValueObjects;
 
 namespace Domain.LessonAggregate;
 
@@ -11,7 +12,8 @@ public sealed class Lesson : AggregateRoot<LessonId>
 {
     private readonly List<ResourceId> _resourceIds = new();
     private readonly List<AssessmentId> _assessmentIds = new();
-    private readonly List<Comment> _comments = new();
+    private readonly List<LessonComment> _comments = new();
+    public TeacherId TeacherId { get; private set; }
     public SubjectId SubjectId { get; private set; }
     public string PlanningNotes { get; private set; }
     public DateTime StartTime { get; private set; }
@@ -19,33 +21,51 @@ public sealed class Lesson : AggregateRoot<LessonId>
     public DateTime CreatedDateTime { get; private set; }
     public DateTime UpdatedDateTime { get; private set; }
 
-    public IReadOnlyList<ResourceId> Resources => _resourceIds.AsReadOnly();
-    public IReadOnlyList<AssessmentId> Assessments => _assessmentIds.AsReadOnly();
-    public IReadOnlyList<Comment> Comments => _comments.AsReadOnly();
+    public IReadOnlyList<ResourceId> ResourceIds => _resourceIds.AsReadOnly();
+    public IReadOnlyList<AssessmentId> AssessmentIds => _assessmentIds.AsReadOnly();
+    public IReadOnlyList<LessonComment> Comments => _comments.AsReadOnly();
 
     private Lesson(
+        LessonId id,
+        TeacherId teacherId,
         SubjectId subjectId,
         string planningNotes,
         DateTime startTime,
         DateTime endTime,
         DateTime createdDateTime,
-        DateTime updatedDateTime)
+        DateTime updatedDateTime,
+        List<ResourceId>? resourceIds,
+        List<AssessmentId>? assessmentIds) : base(id)
     {
+        TeacherId = teacherId;
         SubjectId = subjectId;
         PlanningNotes = planningNotes;
         StartTime = startTime;
         EndTime = endTime;
         CreatedDateTime = createdDateTime;
         UpdatedDateTime = updatedDateTime;
+
+        if (resourceIds != null)
+        {
+            _resourceIds = resourceIds;
+        }
+
+        if (assessmentIds != null)
+        {
+            _assessmentIds = assessmentIds;
+        }
     }
 
     public static Lesson Create(
+        TeacherId teacherId,
         SubjectId subjectId,
         string planningNotes,
         DateTime startTime,
-        DateTime endTime)
+        DateTime endTime,
+        List<ResourceId>? resourceIds,
+        List<AssessmentId>? assessmentIds)
     {
-        return new Lesson(subjectId, planningNotes, startTime, endTime, DateTime.UtcNow, DateTime.UtcNow);
+        return new Lesson(new LessonId(Guid.NewGuid()), teacherId, subjectId, planningNotes, startTime, endTime, DateTime.UtcNow, DateTime.UtcNow, resourceIds, assessmentIds);
     }
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.

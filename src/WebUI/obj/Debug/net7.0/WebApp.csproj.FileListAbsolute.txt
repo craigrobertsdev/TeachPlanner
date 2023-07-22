@@ -189,3 +189,4 @@ C:\Users\craig\source\repos\TeachPlanner\src\WebUI\obj\Debug\net7.0\WebApp.genru
 C:\Users\craig\source\repos\TeachPlanner\src\WebUI\obj\Debug\net7.0\ref\WebApp.dll
 C:\Users\craig\source\repos\TeachPlanner\src\WebUI\bin\Debug\net7.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
 C:\Users\craig\source\repos\TeachPlanner\src\WebUI\bin\Debug\net7.0\OneOf.dll
+C:\Users\craig\source\repos\TeachPlanner\src\WebUI\bin\Debug\net7.0\ErrorOr.dll

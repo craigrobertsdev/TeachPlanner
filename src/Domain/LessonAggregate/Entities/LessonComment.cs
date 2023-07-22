@@ -3,7 +3,7 @@ using Domain.LessonAggregate.ValueObjects;
 
 namespace Domain.LessonAggregate.Entities;
 
-public sealed class Comment : Entity<CommentId>
+public sealed class LessonComment : Entity<CommentId>
 {
     public string Content { get; private set; }
     public bool Completed { get; private set; }
@@ -12,7 +12,7 @@ public sealed class Comment : Entity<CommentId>
     public DateTime CreatedDateTime { get; private set; }
     public DateTime UpdatedDateTime { get; private set; }
 
-    private Comment(
+    private LessonComment(
         CommentId id, string content, bool completed, bool struckThrough, DateTime createdDateTime, DateTime updatedDateTime, DateTime? completedDateTime)
         : base(id)
     {
@@ -24,9 +24,9 @@ public sealed class Comment : Entity<CommentId>
         CompletedDateTime = completedDateTime;
     }
 
-    public static Comment Create(string content)
+    public static LessonComment Create(string content)
     {
-        return new Comment(new CommentId(Guid.NewGuid()), content, false, false, DateTime.UtcNow, DateTime.UtcNow, null);
+        return new LessonComment(new CommentId(Guid.NewGuid()), content, false, false, DateTime.UtcNow, DateTime.UtcNow, null);
     }
 
     public void Update(string content)

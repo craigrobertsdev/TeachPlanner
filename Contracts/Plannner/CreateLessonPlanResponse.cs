@@ -1,24 +1,19 @@
-﻿namespace Contracts.Plannner;
+﻿using System;
+
+namespace Contracts.Plannner;
 
 public record CreateLessonPlanResponse(
     string Id,
     string SubjectId,
     string PlanningNotes,
-    List<ResourceResponse> Resources,
-    List<AssessmentResponse> Assessments,
-    List<CommentResponse> Comments,
+    List<ResourceResponse> ResourceIds,
+    List<AssessmentResponse> AssessmentIds,
     DateTime StartTime,
     DateTime EndTime);
 
-public record ResourceResponse(
-    string Id,
-    string Name,
-    string Url);
+public record ResourceResponse(string Id);
 
-public record AssessmentResponse(
-    string Id,
-    string Name,
-    string Url);
+public record AssessmentResponse(string Id);
 
 public record CommentResponse(
     string Id,

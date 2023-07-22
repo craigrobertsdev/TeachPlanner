@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using WebApp.Areas.Identity;
-using Infrastructure.Persistence;
+using Infrastructure.Persistence.DbContexts;
 
 var builder = WebApplication.CreateBuilder(args);
 
