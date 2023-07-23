@@ -1,7 +1,7 @@
 ﻿using Domain.Common.Primatives;
-using Domain.LessonAggregate.ValueObjects;
+using Domain.LessonPlanAggregate.ValueObjects;
 
-namespace Domain.LessonAggregate.Entities;
+namespace Domain.LessonPlanAggregate.Entities;
 
 public sealed class LessonComment : Entity<CommentId>
 {

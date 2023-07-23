@@ -1,4 +1,4 @@
-﻿using Domain.LessonAggregate;
+﻿using Domain.LessonPlanAggregate;
 using ErrorOr;
 using MediatR;
 
@@ -8,7 +8,7 @@ public record CreateLessonPlanCommand(
     string TeacherId,
     string SubjectId,
     string PlanningNotes,
-    List<string>? ResourceIds,
-    List<string>? AssessmentIds,
+    List<string> ResourceIds,
+    List<string> AssessmentIds,
     DateTime StartTime,
-    DateTime EndTime) : IRequest<ErrorOr<Lesson>>;
+    DateTime EndTime) : IRequest<ErrorOr<Domain.LessonPlanAggregate.LessonPlan>>;

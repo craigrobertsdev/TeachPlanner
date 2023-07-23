@@ -1,14 +1,14 @@
 ﻿using Domain.Common.Assessment.ValueObjects;
 using Domain.Common.Curriculum.ValueObjects;
 using Domain.Common.Primatives;
-using Domain.LessonAggregate.Entities;
-using Domain.LessonAggregate.ValueObjects;
+using Domain.LessonPlanAggregate.Entities;
+using Domain.LessonPlanAggregate.ValueObjects;
 using Domain.Resource.ValueObjects;
 using Domain.TeacherAggregate.ValueObjects;
 
-namespace Domain.LessonAggregate;
+namespace Domain.LessonPlanAggregate;
 
-public sealed class Lesson : AggregateRoot<LessonId>
+public sealed class LessonPlan : AggregateRoot<LessonPlanId>
 {
     private readonly List<ResourceId> _resourceIds = new();
     private readonly List<AssessmentId> _assessmentIds = new();
@@ -25,8 +25,8 @@ public sealed class Lesson : AggregateRoot<LessonId>
     public IReadOnlyList<AssessmentId> AssessmentIds => _assessmentIds.AsReadOnly();
     public IReadOnlyList<LessonComment> Comments => _comments.AsReadOnly();
 
-    private Lesson(
-        LessonId id,
+    private LessonPlan(
+        LessonPlanId id,
         TeacherId teacherId,
         SubjectId subjectId,
         string planningNotes,
@@ -56,7 +56,7 @@ public sealed class Lesson : AggregateRoot<LessonId>
         }
     }
 
-    public static Lesson Create(
+    public static LessonPlan Create(
         TeacherId teacherId,
         SubjectId subjectId,
         string planningNotes,
@@ -65,9 +65,9 @@ public sealed class Lesson : AggregateRoot<LessonId>
         List<ResourceId>? resourceIds,
         List<AssessmentId>? assessmentIds)
     {
-        return new Lesson(new LessonId(Guid.NewGuid()), teacherId, subjectId, planningNotes, startTime, endTime, DateTime.UtcNow, DateTime.UtcNow, resourceIds, assessmentIds);
+        return new LessonPlan(new LessonPlanId(Guid.NewGuid()), teacherId, subjectId, planningNotes, startTime, endTime, DateTime.UtcNow, DateTime.UtcNow, resourceIds, assessmentIds);
     }
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-    private Lesson() { }
+    private LessonPlan() { }
 }

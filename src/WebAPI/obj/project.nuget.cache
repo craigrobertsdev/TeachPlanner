@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "0JXdpLB6Yz7Q08B61e7T3s5qUOFNLV1S1YpLT6w0xvS/5JcsufBJKFsvqIDKl2SWoE6ktRG3eRE7TkJOf7Cfew==",
+  "dgSpecHash": "xCGkFRpTVjhzPDKvbwfYEdocG5DY1G1lMQR/CZ+qHweAjzAfGF/DJ/2iWnypE9CjKpInyyS4GkRs51U2cum33g==",
   "success": true,
   "projectFilePath": "C:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\WebAPI\\WebAPI.csproj",
   "expectedPackageFiles": [
@@ -64,7 +64,9 @@
     "C:\\Users\\craig\\.nuget\\packages\\microsoft.win32.registry\\5.0.0\\microsoft.win32.registry.5.0.0.nupkg.sha512",
     "C:\\Users\\craig\\.nuget\\packages\\microsoft.win32.systemevents\\5.0.0\\microsoft.win32.systemevents.5.0.0.nupkg.sha512",
     "C:\\Users\\craig\\.nuget\\packages\\mono.texttemplating\\2.2.1\\mono.texttemplating.2.2.1.nupkg.sha512",
+    "C:\\Users\\craig\\.nuget\\packages\\mysqlconnector\\2.2.5\\mysqlconnector.2.2.5.nupkg.sha512",
     "C:\\Users\\craig\\.nuget\\packages\\oneof\\3.0.255\\oneof.3.0.255.nupkg.sha512",
+    "C:\\Users\\craig\\.nuget\\packages\\pomelo.entityframeworkcore.mysql\\7.0.0\\pomelo.entityframeworkcore.mysql.7.0.0.nupkg.sha512",
     "C:\\Users\\craig\\.nuget\\packages\\swashbuckle.aspnetcore\\6.5.0\\swashbuckle.aspnetcore.6.5.0.nupkg.sha512",
     "C:\\Users\\craig\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\6.5.0\\swashbuckle.aspnetcore.swagger.6.5.0.nupkg.sha512",
     "C:\\Users\\craig\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\6.5.0\\swashbuckle.aspnetcore.swaggergen.6.5.0.nupkg.sha512",

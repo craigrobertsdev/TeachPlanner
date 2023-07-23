@@ -1,22 +1,22 @@
-﻿using Domain.LessonAggregate;
-using Domain.LessonAggregate.ValueObjects;
+﻿using Domain.Common.Curriculum.ValueObjects;
+using Domain.LessonPlanAggregate;
+using Domain.LessonPlanAggregate.ValueObjects;
 using Domain.TeacherAggregate.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Infrastructure.Persistence.Configurations;
 
-public class LessonConfiguration : IEntityTypeConfiguration<Lesson>
+public class LessonConfiguration : IEntityTypeConfiguration<LessonPlan>
 {
-    public void Configure(EntityTypeBuilder<Lesson> builder)
+    public void Configure(EntityTypeBuilder<LessonPlan> builder)
     {
         ConfigureLessonTable(builder);
-        ConfigureCommentTable(builder);
         ConfigureLessonResourceIdsTable(builder);
         ConfigureLessonAssessmentIdsTable(builder);
     }
 
-    private void ConfigureLessonAssessmentIdsTable(EntityTypeBuilder<Lesson> builder)
+    private void ConfigureLessonAssessmentIdsTable(EntityTypeBuilder<LessonPlan> builder)
     {
         builder.OwnsMany(l => l.AssessmentIds, aib =>
         {
@@ -30,9 +30,11 @@ public class LessonConfiguration : IEntityTypeConfiguration<Lesson>
                 .HasColumnName("AssessmentId")
                 .ValueGeneratedNever();
         });
+
+        builder.Metadata.FindNavigation(nameof(LessonPlan.AssessmentIds))!.SetPropertyAccessMode(PropertyAccessMode.Field);
     }
 
-    private void ConfigureLessonResourceIdsTable(EntityTypeBuilder<Lesson> builder)
+    private void ConfigureLessonResourceIdsTable(EntityTypeBuilder<LessonPlan> builder)
     {
         builder.OwnsMany(l => l.ResourceIds, rib =>
         {
@@ -46,36 +48,39 @@ public class LessonConfiguration : IEntityTypeConfiguration<Lesson>
                 .HasColumnName("ResourceId")
                 .ValueGeneratedNever();
         });
-    }
 
-    private void ConfigureCommentTable(EntityTypeBuilder<Lesson> builder)
+        builder.Metadata.FindNavigation(nameof(LessonPlan.ResourceIds))!.SetPropertyAccessMode(PropertyAccessMode.Field);
+    }
+    private void ConfigureLessonTable(EntityTypeBuilder<LessonPlan> builder)
     {
-        builder.OwnsMany(l => l.Comments, cb =>
+        builder.ToTable("LessonPlans");
+
+        builder.HasKey(lp => lp.Id);
+        builder.Property(lp => lp.Id)
+            .HasConversion(lp => lp.Value, value => new LessonPlanId(value))
+            .ValueGeneratedNever();
+
+        builder.Property(lp => lp.TeacherId)
+            .HasConversion(t => t.Value, value => new TeacherId(value));
+
+        builder.Property(lp => lp.SubjectId)
+            .HasConversion(id => id.Value, value => new SubjectId(value));
+
+        builder.OwnsMany(lp => lp.Comments, cb =>
         {
-            cb.ToTable("LessonComments");
+            cb.ToTable("Comments");
 
             cb.WithOwner().HasForeignKey("LessonId");
 
-            cb.HasKey("Id", "LessonId");
+            cb.HasKey(lp => lp.Id);
 
-            cb.Property(c => c.Id)
+            cb.Property(lp => lp.Id)
                 .HasColumnName("CommentId")
-                .HasConversion(id => id.Value, value => new CommentId(value));
-
+                .HasConversion(id => id.Value, value => new CommentId(value))
+                .ValueGeneratedNever();
 
         });
-    }
 
-    private void ConfigureLessonTable(EntityTypeBuilder<Lesson> builder)
-    {
-        builder.ToTable("Lessons");
-
-        builder.HasKey(l => l.Id);
-        builder.Property(l => l.Id)
-            .HasConversion(l => l.Value, value => new LessonId(value))
-            .ValueGeneratedNever();
-
-        builder.Property(l => l.TeacherId)
-            .HasConversion(t => t.Value, value => new TeacherId(value));
+        builder.Metadata.FindNavigation(nameof(LessonPlan.Comments))!.SetPropertyAccessMode(PropertyAccessMode.Field);
     }
 }

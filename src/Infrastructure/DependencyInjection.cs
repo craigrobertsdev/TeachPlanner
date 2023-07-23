@@ -1,11 +1,13 @@
 ﻿using Application.Common.Interfaces.Authentication;
 using Application.Common.Interfaces.Persistence;
 using Infrastructure.Authentication;
+using Infrastructure.Persistence.DbContexts;
 using Infrastructure.Persistence.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
@@ -23,11 +25,15 @@ public static class DependencyInjection
 
     private static IServiceCollection AddPersistence(this IServiceCollection services, IConfiguration configuration)
     {
-        //var dbContextSettings = new DbContextSettings();
-        //configuration.Bind(DbContextSettings.SectionName, dbContextSettings);
-        //services.AddSingleton(Options.Create(dbContextSettings));
+        var connectionString = configuration.GetConnectionString("DefaultConnection");
 
-        //services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(dbContextSettings.DefaultConnection));
+        var serverVersion = ServerVersion.AutoDetect(connectionString);
+
+        services.AddDbContext<ApplicationDbContext>(options => options
+            .UseMySql(connectionString, serverVersion)
+            .LogTo(Console.WriteLine, LogLevel.Information)
+            .EnableSensitiveDataLogging()
+            .EnableDetailedErrors());
 
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<ILessonRepository, LessonRepository>();

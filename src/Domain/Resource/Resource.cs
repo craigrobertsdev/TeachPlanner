@@ -1,17 +1,17 @@
 ﻿using Domain.Common.Curriculum.ValueObjects;
 using Domain.Common.Primatives;
-using Domain.LessonAggregate.ValueObjects;
+using Domain.LessonPlanAggregate.ValueObjects;
 using Domain.Resource.ValueObjects;
 
 namespace Domain.Resource;
 
 public sealed class Resource : AggregateRoot<ResourceId>
 {
-    private readonly List<LessonId> _lessonIds = new();
+    private readonly List<LessonPlanId> _lessonIds = new();
     public string Name { get; private set; }
     public string Url { get; private set; }
     public bool IsAssessment { get; private set; }
-    public IReadOnlyList<LessonId> Lessons => _lessonIds.AsReadOnly();
+    public IReadOnlyList<LessonPlanId> Lessons => _lessonIds.AsReadOnly();
     public SubjectId SubjectId { get; private set; }
     public StrandId? StrandId { get; private set; }
     public DateTime CreatedDateTime { get; private set; }

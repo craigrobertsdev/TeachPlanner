@@ -1,8 +1,8 @@
-﻿using Domain.LessonAggregate;
+﻿using Domain.LessonPlanAggregate;
 
 namespace Application.Common.Interfaces.Persistence;
 
 public interface ILessonRepository
 {
-    Task Create(Lesson lesson);
+    Task Create(Domain.LessonPlanAggregate.LessonPlan lesson);
 }
