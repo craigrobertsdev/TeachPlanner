@@ -135,3 +135,5 @@ C:\Users\craig\source\repos\TeachPlanner\src\WebAPI\bin\Debug\net7.0\Infrastruct
 C:\Users\craig\source\repos\TeachPlanner\src\WebAPI\bin\Debug\net7.0\Contracts.dll
 C:\Users\craig\source\repos\TeachPlanner\src\WebAPI\bin\Debug\net7.0\Contracts.pdb
 C:\Users\craig\source\repos\TeachPlanner\src\WebAPI\bin\Debug\net7.0\ErrorOr.dll
+C:\Users\craig\source\repos\TeachPlanner\src\WebAPI\bin\Debug\net7.0\MySqlConnector.dll
+C:\Users\craig\source\repos\TeachPlanner\src\WebAPI\bin\Debug\net7.0\Pomelo.EntityFrameworkCore.MySql.dll

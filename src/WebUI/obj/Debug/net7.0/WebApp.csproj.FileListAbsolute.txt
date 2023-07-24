@@ -190,3 +190,5 @@ C:\Users\craig\source\repos\TeachPlanner\src\WebUI\obj\Debug\net7.0\ref\WebApp.d
 C:\Users\craig\source\repos\TeachPlanner\src\WebUI\bin\Debug\net7.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
 C:\Users\craig\source\repos\TeachPlanner\src\WebUI\bin\Debug\net7.0\OneOf.dll
 C:\Users\craig\source\repos\TeachPlanner\src\WebUI\bin\Debug\net7.0\ErrorOr.dll
+C:\Users\craig\source\repos\TeachPlanner\src\WebUI\bin\Debug\net7.0\MySqlConnector.dll
+C:\Users\craig\source\repos\TeachPlanner\src\WebUI\bin\Debug\net7.0\Pomelo.EntityFrameworkCore.MySql.dll
