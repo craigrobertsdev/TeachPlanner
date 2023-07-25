@@ -1,9 +1,9 @@
 ﻿using Domain.Assessments.ValueObjects;
-using Domain.Common.Curriculum.ValueObjects;
 using Domain.Common.Primatives;
 using Domain.LessonPlanAggregate.Entities;
 using Domain.LessonPlanAggregate.ValueObjects;
 using Domain.Resource.ValueObjects;
+using Domain.SubjectAggregates.ValueObjects;
 using Domain.TeacherAggregate.ValueObjects;
 
 namespace Domain.LessonPlanAggregate;

@@ -6,7 +6,7 @@ using Domain.TimeTableAggregate.ValueObjects;
 
 namespace Domain.TimeTableAggregate;
 
-public class WeekPlanner : AggregateRoot<WeekPlannerId>
+public sealed class WeekPlanner : AggregateRoot<WeekPlannerId>
 {
     private readonly List<LessonPlan> _lessonPlans = new();
     private readonly List<SchoolEvent> _schoolEvents = new();

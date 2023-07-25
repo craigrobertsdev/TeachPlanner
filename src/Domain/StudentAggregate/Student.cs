@@ -1,12 +1,12 @@
 ﻿using Domain.Assessments.ValueObjects;
-using Domain.Common.Curriculum.ValueObjects;
 using Domain.Common.Primatives;
 using Domain.ReportAggregate.ValueObjects;
 using Domain.StudentAggregate.ValueObjects;
+using Domain.SubjectAggregates.ValueObjects;
 
 namespace Domain.StudentAggregate;
 
-public class Student : AggregateRoot<StudentId>
+public sealed class Student : AggregateRoot<StudentId>
 {
     private readonly List<ReportId> _reportIds = new();
     private readonly List<SubjectId> _subjectIds = new();

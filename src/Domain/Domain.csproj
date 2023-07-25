@@ -18,4 +18,11 @@
 		<PackageReference Include="OneOf" Version="3.0.255" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="SubjectAggregates\English\Entities\" />
+	  <Folder Include="SubjectAggregates\English\ValueObjects\" />
+	  <Folder Include="SubjectAggregates\Mathematics\Entities\" />
+	  <Folder Include="SubjectAggregates\Mathematics\ValueObjects\" />
+	</ItemGroup>
+
 </Project>

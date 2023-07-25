@@ -4,7 +4,7 @@ using Domain.ReportAggregate.ValueObjects;
 
 namespace Domain.ReportAggregate.Entities;
 
-public class ReportComment : Entity<ReportCommentId>
+public sealed class ReportComment : Entity<ReportCommentId>
 {
     public Grade Grade { get; private set; }
     public string Comments { get; private set; }

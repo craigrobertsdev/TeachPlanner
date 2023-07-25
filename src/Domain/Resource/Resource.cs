@@ -1,7 +1,7 @@
-﻿using Domain.Common.Curriculum.ValueObjects;
-using Domain.Common.Primatives;
+﻿using Domain.Common.Primatives;
 using Domain.LessonPlanAggregate.ValueObjects;
 using Domain.Resource.ValueObjects;
+using Domain.SubjectAggregates.ValueObjects;
 
 namespace Domain.Resource;
 

@@ -1,14 +1,14 @@
-﻿using Domain.Common.Curriculum.ValueObjects;
-using Domain.Common.Enums;
+﻿using Domain.Common.Enums;
 using Domain.Common.Primatives;
 using Domain.ReportAggregate.Entities;
 using Domain.ReportAggregate.ValueObjects;
 using Domain.StudentAggregate.ValueObjects;
+using Domain.SubjectAggregates.ValueObjects;
 using Domain.TeacherAggregate.ValueObjects;
 
 namespace Domain.ReportAggregate;
 
-public class Report : AggregateRoot<ReportId>
+public sealed class Report : AggregateRoot<ReportId>
 {
     private readonly Dictionary<SubjectId, ReportComment> _subjectGrades = new();
     public TeacherId TeacherId { get; private set; }

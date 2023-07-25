@@ -1,10 +1,10 @@
-using Domain.Common.Curriculum.Entities;
-using Domain.Common.Curriculum.ValueObjects;
 using Domain.Common.Primatives;
+using Domain.SubjectAggregates.Entities;
+using Domain.SubjectAggregates.ValueObjects;
 
-namespace Domain.Common.Curriculum;
+namespace Domain.SubjectAggregates;
 
-public abstract class Subject : AggregateRoot<SubjectId>
+public sealed class Subject : AggregateRoot<SubjectId>
 {
     private readonly List<YearLevel> _yearLevels = new();
     public string Name { get; private set; }
@@ -12,20 +12,37 @@ public abstract class Subject : AggregateRoot<SubjectId>
     public DateTime CreatedDateTime { get; private set; }
     public DateTime UpdatedDateTime { get; private set; }
 
-    protected Subject(
+    private Subject(
         SubjectId id,
+        List<YearLevel> yearLevels,
         string name,
         DateTime createdDateTime,
         DateTime updatedDateTime
     )
         : base(id)
     {
+        _yearLevels = yearLevels;
         Name = name;
         CreatedDateTime = createdDateTime;
         UpdatedDateTime = updatedDateTime;
     }
 
+    public static Subject Create(
+        string name,
+        List<YearLevel> yearLevels,
+        DateTime createdDateTime,
+        DateTime updatedDateTime)
+    {
+        return new Subject(
+            new SubjectId(Guid.NewGuid()),
+            yearLevels,
+            name,
+            createdDateTime,
+            updatedDateTime);
+
+    }
+
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-    protected Subject() { }
+    private Subject() { }
 }
 

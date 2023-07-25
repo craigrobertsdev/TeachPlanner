@@ -4,7 +4,7 @@ using Domain.YearPlannerAggregate.Entities;
 using Domain.YearPlannerAggregate.ValueObjects;
 
 namespace Domain.YearPlannerAggregate;
-public class YearPlanner : AggregateRoot<YearPlannerId>
+public sealed class YearPlanner : AggregateRoot<YearPlannerId>
 {
     private readonly List<TermPlan> _termPlans = new();
     public YearLevelValue YearLevel { get; private set; }

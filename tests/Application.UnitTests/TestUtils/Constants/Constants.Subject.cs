@@ -1,4 +1,4 @@
-﻿using Domain.Common.Curriculum.ValueObjects;
+﻿using Domain.SubjectAggregates.ValueObjects;
 
 namespace Application.UnitTests.TestUtils.Constants;
 

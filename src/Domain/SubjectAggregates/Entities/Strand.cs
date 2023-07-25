@@ -1,8 +1,8 @@
-using Domain.Common.Curriculum.ValueObjects;
 using Domain.Common.Primatives;
+using Domain.SubjectAggregates.ValueObjects;
 using OneOf;
 
-namespace Domain.Common.Curriculum.Entities;
+namespace Domain.SubjectAggregates.Entities;
 
 public sealed class Strand : Entity<StrandId>
 {

@@ -1,8 +1,8 @@
 ﻿using Domain.Assessments.Entities;
 using Domain.Assessments.ValueObjects;
-using Domain.Common.Curriculum.ValueObjects;
 using Domain.Common.Enums;
 using Domain.StudentAggregate.ValueObjects;
+using Domain.SubjectAggregates.ValueObjects;
 using Domain.TeacherAggregate.ValueObjects;
 
 namespace Domain.Assessments;

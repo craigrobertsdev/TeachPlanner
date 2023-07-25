@@ -5,7 +5,7 @@ using Domain.TimeTableAggregate;
 
 namespace Domain.TermPlannerAggregate;
 
-public class TermPlanner : AggregateRoot<TermPlannerId>
+public sealed class TermPlanner : AggregateRoot<TermPlannerId>
 {
     private readonly List<WeekPlanner> _weekPlanners = new();
     private readonly List<SchoolEvent> _schoolEvents = new();

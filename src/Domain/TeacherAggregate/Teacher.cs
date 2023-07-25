@@ -1,9 +1,9 @@
 ﻿using Domain.Assessments.ValueObjects;
-using Domain.Common.Curriculum.ValueObjects;
 using Domain.Common.Primatives;
 using Domain.ReportAggregate.ValueObjects;
 using Domain.Resource.ValueObjects;
 using Domain.StudentAggregate.ValueObjects;
+using Domain.SubjectAggregates.ValueObjects;
 using Domain.TeacherAggregate.ValueObjects;
 using Domain.UserAggregate.ValueObjects;
 

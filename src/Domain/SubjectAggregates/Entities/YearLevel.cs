@@ -1,8 +1,8 @@
-using Domain.Common.Curriculum.ValueObjects;
 using Domain.Common.Enums;
 using Domain.Common.Primatives;
+using Domain.SubjectAggregates.ValueObjects;
 
-namespace Domain.Common.Curriculum.Entities;
+namespace Domain.SubjectAggregates.Entities;
 
 public sealed class YearLevel : Entity<YearLevelId>
 {
