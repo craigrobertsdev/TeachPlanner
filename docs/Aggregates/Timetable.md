@@ -1,7 +1,0 @@
-# Timetable
-
-### TimetableTemplate
-
-```json
-{}
-```

@@ -1,5 +1,5 @@
 ﻿using Application.Common.Interfaces.Persistence;
-using Domain.Common.Assessment.ValueObjects;
+using Domain.Assessments.ValueObjects;
 using Domain.Common.Curriculum.ValueObjects;
 using Domain.LessonPlanAggregate;
 using Domain.Resource.ValueObjects;

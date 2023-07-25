@@ -51,4 +51,9 @@ public sealed class LessonComment : Entity<CommentId>
     {
         StruckThrough = true;
     }
+
+    public void RemoveStrikeThrough()
+    {
+        StruckThrough = false;
+    }
 }

@@ -1,10 +1,10 @@
-﻿using Domain.Assessments.SummativeAssessment.ValueObjects;
+﻿using Domain.Assessments.ValueObjects;
 using Domain.Common.Curriculum.ValueObjects;
 using Domain.Common.Enums;
 using Domain.StudentAggregate.ValueObjects;
 using Domain.TeacherAggregate.ValueObjects;
 
-namespace Domain.Assessments.SummativeAssessment.Entities;
+namespace Domain.Assessments;
 
 public class FormativeAssessment : Assessment
 {
@@ -45,4 +45,7 @@ public class FormativeAssessment : Assessment
             conductedDateTime,
             comments);
     }
+
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+    private FormativeAssessment() { }
 }

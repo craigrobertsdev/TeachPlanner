@@ -1,4 +1,5 @@
-﻿using Domain.Common.Assessment.ValueObjects;
+﻿
+using Domain.Assessments.ValueObjects;
 
 namespace Application.UnitTests.TestUtils.Constants;
 public static partial class Constants

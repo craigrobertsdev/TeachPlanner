@@ -1,9 +1,9 @@
-﻿using Domain.Assessments.SummativeAssessment.ValueObjects;
+﻿using Domain.Assessments.ValueObjects;
 using Domain.Common.Enums;
 using Domain.Common.Primatives;
 using OneOf;
 
-namespace Domain.Assessments.SummativeAssessment.Entities;
+namespace Domain.Assessments.Entities;
 
 public class AssessmentGrade : Entity<GradeId>
 {

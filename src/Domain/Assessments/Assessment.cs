@@ -1,4 +1,4 @@
-﻿using Domain.Assessments.SummativeAssessment.ValueObjects;
+﻿using Domain.Assessments.ValueObjects;
 using Domain.Common.Curriculum.ValueObjects;
 using Domain.Common.Enums;
 using Domain.Common.Primatives;
@@ -32,4 +32,7 @@ public abstract class Assessment : AggregateRoot<AssessmentId>
         CreatedDateTime = DateTime.UtcNow;
         UpdatedDateTime = DateTime.UtcNow;
     }
+
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+    protected Assessment() { }
 }

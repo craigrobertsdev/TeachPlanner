@@ -1,4 +1,4 @@
-﻿using Domain.Common.Assessment.ValueObjects;
+﻿using Domain.Assessments.ValueObjects;
 using Domain.Common.Curriculum.ValueObjects;
 using Domain.Common.Primatives;
 using Domain.LessonPlanAggregate.Entities;
