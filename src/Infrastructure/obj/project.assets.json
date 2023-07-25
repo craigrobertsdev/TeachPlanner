@@ -4288,11 +4288,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\Infrastructure\\Infrastructure.csproj",
+      "projectUniqueName": "c:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\Infrastructure\\Infrastructure.csproj",
       "projectName": "Infrastructure",
-      "projectPath": "C:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\Infrastructure\\Infrastructure.csproj",
+      "projectPath": "c:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\Infrastructure\\Infrastructure.csproj",
       "packagesPath": "C:\\Users\\craig\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\Infrastructure\\obj\\",
+      "outputPath": "c:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\Infrastructure\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\craig\\AppData\\Roaming\\NuGet\\NuGet.Config",

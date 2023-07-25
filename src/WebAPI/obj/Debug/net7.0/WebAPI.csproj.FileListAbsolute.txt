@@ -137,3 +137,6 @@ C:\Users\craig\source\repos\TeachPlanner\src\WebAPI\bin\Debug\net7.0\Contracts.p
 C:\Users\craig\source\repos\TeachPlanner\src\WebAPI\bin\Debug\net7.0\ErrorOr.dll
 C:\Users\craig\source\repos\TeachPlanner\src\WebAPI\bin\Debug\net7.0\MySqlConnector.dll
 C:\Users\craig\source\repos\TeachPlanner\src\WebAPI\bin\Debug\net7.0\Pomelo.EntityFrameworkCore.MySql.dll
+C:\Users\craig\source\repos\TeachPlanner\src\WebAPI\bin\Debug\net7.0\ClientApp\package-lock.json
+C:\Users\craig\source\repos\TeachPlanner\src\WebAPI\bin\Debug\net7.0\ClientApp\package.json
+C:\Users\craig\source\repos\TeachPlanner\src\WebAPI\bin\Debug\net7.0\ClientApp\tsconfig.node.json

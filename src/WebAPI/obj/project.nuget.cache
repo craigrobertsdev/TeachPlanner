@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "xCGkFRpTVjhzPDKvbwfYEdocG5DY1G1lMQR/CZ+qHweAjzAfGF/DJ/2iWnypE9CjKpInyyS4GkRs51U2cum33g==",
+  "dgSpecHash": "GA1+qx2h9Hc71HMjtPmHdRDpLpP4xR3GDeVytspEdbvnWkAzSopb2TOJ9qf2bm4UJF2SDH+TV64d7hnIxuJLRQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\WebAPI\\WebAPI.csproj",
   "expectedPackageFiles": [
@@ -61,6 +61,7 @@
     "C:\\Users\\craig\\.nuget\\packages\\microsoft.netcore.targets\\1.1.0\\microsoft.netcore.targets.1.1.0.nupkg.sha512",
     "C:\\Users\\craig\\.nuget\\packages\\microsoft.openapi\\1.4.3\\microsoft.openapi.1.4.3.nupkg.sha512",
     "C:\\Users\\craig\\.nuget\\packages\\microsoft.sqlserver.server\\1.0.0\\microsoft.sqlserver.server.1.0.0.nupkg.sha512",
+    "C:\\Users\\craig\\.nuget\\packages\\microsoft.typescript.msbuild\\5.1.5\\microsoft.typescript.msbuild.5.1.5.nupkg.sha512",
     "C:\\Users\\craig\\.nuget\\packages\\microsoft.win32.registry\\5.0.0\\microsoft.win32.registry.5.0.0.nupkg.sha512",
     "C:\\Users\\craig\\.nuget\\packages\\microsoft.win32.systemevents\\5.0.0\\microsoft.win32.systemevents.5.0.0.nupkg.sha512",
     "C:\\Users\\craig\\.nuget\\packages\\mono.texttemplating\\2.2.1\\mono.texttemplating.2.2.1.nupkg.sha512",
