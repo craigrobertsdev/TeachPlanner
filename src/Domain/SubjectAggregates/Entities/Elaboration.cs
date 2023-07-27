@@ -14,7 +14,7 @@ public sealed class Elaboration : Entity<ElaborationId>
 
     public static Elaboration Create(string description)
     {
-        return new(new ElaborationId(Guid.NewGuid()), description);
+        return new(ElaborationId.Create(), description);
     }
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.

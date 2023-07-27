@@ -41,7 +41,7 @@ public sealed class Resource : AggregateRoot<ResourceId>
         SubjectId subjectId,
         StrandId? strandId)
     {
-        return new(new ResourceId(Guid.NewGuid()), name, url, isAssessment, subjectId, strandId);
+        return new(ResourceId.Create(), name, url, isAssessment, subjectId, strandId);
     }
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.

@@ -32,7 +32,7 @@ public sealed class ReportComment : Entity<ReportCommentId>
         int characterLimit)
     {
         return new ReportComment(
-            new ReportCommentId(Guid.NewGuid()),
+            ReportCommentId.Create(),
             subjectId,
             grade,
             comments,

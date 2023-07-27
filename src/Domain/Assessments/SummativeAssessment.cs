@@ -46,7 +46,7 @@ public class SummativeAssessment : Assessment
         SummativeAssessmentResult result)
     {
         return new SummativeAssessment(
-            new AssessmentId(Guid.NewGuid()),
+            AssessmentId.Create(),
             teacherId,
             subjectId,
             studentId,

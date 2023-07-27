@@ -34,7 +34,7 @@ public sealed class User : AggregateRoot<UserId>
     public static User Create(string firstName, string lastName, string email, string password)
     {
         return new(
-            new UserId(Guid.NewGuid()),
+            UserId.Create(),
             firstName,
             lastName,
             email,

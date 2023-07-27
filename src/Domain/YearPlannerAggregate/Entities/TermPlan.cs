@@ -18,7 +18,7 @@ public sealed class TermPlan : Entity<TermPlanId>
     public static TermPlan Create(Dictionary<SubjectId, List<StrandId>> subjects)
     {
         return new TermPlan(
-            new TermPlanId(Guid.NewGuid()),
+            TermPlanId.Create(),
             subjects);
     }
 

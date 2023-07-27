@@ -11,6 +11,11 @@ public class CommentId : ValueObject
         Value = value;
     }
 
+    public static CommentId Create()
+    {
+        return new(Guid.NewGuid());
+    }
+
     public static CommentId Create(Guid value)
     {
         return new(value);
@@ -20,4 +25,7 @@ public class CommentId : ValueObject
     {
         yield return Value;
     }
+
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+    private CommentId() { }
 }

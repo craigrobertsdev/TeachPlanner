@@ -47,7 +47,7 @@ public sealed class Report : AggregateRoot<ReportCommentId>
         DateTime updatedDateTime)
     {
         return new Report(
-            new ReportId(Guid.NewGuid()),
+            ReportCommentId.Create(),
             new List<ReportComment>(),
             teacherId,
             studentId,

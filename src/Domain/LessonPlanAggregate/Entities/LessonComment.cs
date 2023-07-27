@@ -26,7 +26,7 @@ public sealed class LessonComment : Entity<CommentId>
 
     public static LessonComment Create(string content)
     {
-        return new LessonComment(new CommentId(Guid.NewGuid()), content, false, false, DateTime.UtcNow, DateTime.UtcNow, null);
+        return new LessonComment(CommentId.Create(), content, false, false, DateTime.UtcNow, DateTime.UtcNow, null);
     }
 
     public void Update(string content)

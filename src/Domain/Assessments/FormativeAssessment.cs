@@ -37,7 +37,7 @@ public class FormativeAssessment : Assessment
         string? comments)
     {
         return new FormativeAssessment(
-            new AssessmentId(Guid.NewGuid()),
+            AssessmentId.Create(),
             teacherId,
             subjectId,
             studentId,

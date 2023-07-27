@@ -32,7 +32,7 @@ public sealed class YearLevel : Entity<YearLevelId>
 
     public static YearLevel Create(string name, YearLevelValue yearLevelValue, List<Strand> strands)
     {
-        return new(new YearLevelId(Guid.NewGuid()), name, yearLevelValue, strands);
+        return new(YearLevelId.Create(), name, yearLevelValue, strands);
     }
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.

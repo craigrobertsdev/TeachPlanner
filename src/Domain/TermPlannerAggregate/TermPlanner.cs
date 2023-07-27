@@ -54,7 +54,7 @@ public sealed class TermPlanner : AggregateRoot<TermPlannerId>
         DateTime updatedDateTime)
     {
         return new TermPlanner(
-            new TermPlannerId(Guid.NewGuid()),
+            TermPlannerId.Create(),
             weekPlannerIds,
             schoolEventIds,
             termNumber,

@@ -47,7 +47,7 @@ public sealed class Strand : Entity<StrandId>
             );
         }
 
-        return new Strand(new StrandId(Guid.NewGuid()), name, substrands, contentDescriptors);
+        return new Strand(StrandId.Create(), name, substrands, contentDescriptors);
     }
 
     public List<ContentDescriptor> GetContentDescriptors()

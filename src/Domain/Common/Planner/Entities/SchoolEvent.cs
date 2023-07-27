@@ -38,7 +38,7 @@ public class SchoolEvent : Entity<SchoolEventId>
         DateTime eventEnd)
     {
         return new SchoolEvent(
-            new SchoolEventId(Guid.NewGuid()),
+            SchoolEventId.Create(),
             location,
             name,
             fullDay,

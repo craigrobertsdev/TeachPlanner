@@ -17,16 +17,16 @@ public class ResourceConfiguration : IEntityTypeConfiguration<Resource>
 
         builder.Property(r => r.Id)
             .ValueGeneratedNever()
-            .HasConversion(id => id.Value, id => new ResourceId(id));
+            .HasConversion(id => id.Value, id => ResourceId.Create(id));
 
         builder.Property(r => r.Name)
             .HasMaxLength(100);
 
         builder.Property(r => r.SubjectId)
-            .HasConversion(id => id.Value, id => new SubjectId(id));
+            .HasConversion(id => id.Value, id => SubjectId.Create(id));
 
         builder.Property(r => r.StrandId)
-            .HasConversion(id => id!.Value, id => new StrandId(id));
+            .HasConversion(id => id!.Value, id => StrandId.Create(id));
 
         /*        builder.OwnsMany(r => r.LessonIds, lpb =>
                 {
@@ -35,7 +35,6 @@ public class ResourceConfiguration : IEntityTypeConfiguration<Resource>
                     .Metadata.FindNavigation(nameof(Resource.LessonIds))!.SetPropertyAccessMode(PropertyAccessMode.Field);
         */
 
-        builder.Property
 
 
 

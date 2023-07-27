@@ -32,7 +32,7 @@ public sealed class Teacher : AggregateRoot<TeacherId>
 
     public static Teacher Create(UserId userId)
     {
-        return new Teacher(new TeacherId(Guid.NewGuid()), userId);
+        return new Teacher(TeacherId.Create(), userId);
     }
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.

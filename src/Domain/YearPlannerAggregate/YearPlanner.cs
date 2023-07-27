@@ -19,7 +19,7 @@ public sealed class YearPlanner : AggregateRoot<YearPlannerId>
     public static YearPlanner Create(YearLevelValue yearLevel, List<TermPlan> termPlans)
     {
         return new YearPlanner(
-            new YearPlannerId(Guid.NewGuid()),
+            YearPlannerId.Create(),
             yearLevel,
             termPlans);
     }

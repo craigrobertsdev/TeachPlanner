@@ -34,7 +34,7 @@ public sealed class Subject : AggregateRoot<SubjectId>
         DateTime updatedDateTime)
     {
         return new Subject(
-            new SubjectId(Guid.NewGuid()),
+            SubjectId.Create(),
             yearLevels,
             name,
             createdDateTime,

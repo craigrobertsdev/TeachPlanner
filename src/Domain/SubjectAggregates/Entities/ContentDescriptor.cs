@@ -17,7 +17,7 @@ public sealed class ContentDescriptor : Entity<ContentDescriptorId>
 
     public static ContentDescriptor Create(string description, List<Elaboration> elaborations)
     {
-        return new(new ContentDescriptorId(Guid.NewGuid()), description, elaborations);
+        return new(ContentDescriptorId.Create(), description, elaborations);
     }
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.

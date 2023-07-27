@@ -40,7 +40,7 @@ public class SummativeAssessmentResult : Entity<SummativeAssessmentResultId>
         DateTime dateMarked)
     {
         return new SummativeAssessmentResult(
-            new SummativeAssessmentResultId(Guid.NewGuid()),
+            SummativeAssessmentResultId.Create(),
             studentId,
             subjectId,
             comments,

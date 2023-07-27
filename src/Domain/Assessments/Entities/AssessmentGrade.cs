@@ -34,7 +34,7 @@ public class AssessmentGrade : Entity<GradeId>
             return new ArgumentException("Grade or Percentage must be provided");
         }
 
-        return new AssessmentGrade(new GradeId(Guid.NewGuid()), grade, percentage);
+        return new AssessmentGrade(GradeId.Create(), grade, percentage);
     }
 
     public Grade FromPercentage()

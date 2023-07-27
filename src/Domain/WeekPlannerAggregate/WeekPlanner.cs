@@ -44,7 +44,7 @@ public sealed class WeekPlanner : AggregateRoot<WeekPlannerId>
         List<SchoolEventId>? schoolEventIds = null)
     {
         return new WeekPlanner(
-            new WeekPlannerId(Guid.NewGuid()),
+            WeekPlannerId.Create(),
             weekStart,
             teacherId,
             lessonPlanIds,

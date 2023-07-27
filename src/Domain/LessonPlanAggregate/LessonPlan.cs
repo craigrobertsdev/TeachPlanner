@@ -65,7 +65,7 @@ public sealed class LessonPlan : AggregateRoot<LessonPlanId>
         List<ResourceId>? resourceIds,
         List<AssessmentId>? assessmentIds)
     {
-        return new LessonPlan(new LessonPlanId(Guid.NewGuid()), teacherId, subjectId, planningNotes, startTime, endTime, DateTime.UtcNow, DateTime.UtcNow, resourceIds, assessmentIds);
+        return new LessonPlan(LessonPlanId.Create(), teacherId, subjectId, planningNotes, startTime, endTime, DateTime.UtcNow, DateTime.UtcNow, resourceIds, assessmentIds);
     }
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
