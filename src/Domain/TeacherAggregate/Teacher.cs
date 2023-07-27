@@ -1,7 +1,7 @@
 ﻿using Domain.Assessments.ValueObjects;
 using Domain.Common.Primatives;
 using Domain.ReportAggregate.ValueObjects;
-using Domain.Resource.ValueObjects;
+using Domain.ResourceAggregate.ValueObjects;
 using Domain.StudentAggregate.ValueObjects;
 using Domain.SubjectAggregates.ValueObjects;
 using Domain.TeacherAggregate.ValueObjects;
@@ -15,13 +15,13 @@ public sealed class Teacher : AggregateRoot<TeacherId>
     private readonly List<StudentId> _studentIds = new();
     private readonly List<AssessmentId> _assessmentIds = new();
     private readonly List<ResourceId> _resourceIds = new();
-    private readonly List<ReportId> _reportIds = new();
+    private readonly List<ReportCommentId> _reportIds = new();
     public UserId UserId { get; private set; }
     public IReadOnlyList<SubjectId> SubjectIds => _subjectIds;
     public IReadOnlyList<StudentId> StudentIds => _studentIds;
     public IReadOnlyList<AssessmentId> AssessmentIds => _assessmentIds;
     public IReadOnlyList<ResourceId> ResourceIds => _resourceIds;
-    public IReadOnlyList<ReportId> ReportIds => _reportIds;
+    public IReadOnlyList<ReportCommentId> ReportIds => _reportIds;
 
     private Teacher(
         TeacherId id,

@@ -8,11 +8,11 @@ namespace Domain.StudentAggregate;
 
 public sealed class Student : AggregateRoot<StudentId>
 {
-    private readonly List<ReportId> _reportIds = new();
+    private readonly List<ReportCommentId> _reportIds = new();
     private readonly List<SubjectId> _subjectIds = new();
     private readonly List<AssessmentId> _assessmentIds = new();
 
-    public IReadOnlyList<ReportId> ReportIds => _reportIds;
+    public IReadOnlyList<ReportCommentId> ReportIds => _reportIds;
     public IReadOnlyList<SubjectId> SubjectIds => _subjectIds;
     public IReadOnlyList<AssessmentId> AssessmentIds => _assessmentIds;
 

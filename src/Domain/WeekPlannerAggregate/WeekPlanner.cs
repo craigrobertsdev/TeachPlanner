@@ -1,6 +1,6 @@
-﻿using Domain.Common.Planner.Entities;
+﻿using Domain.Common.Planner.ValueObjects;
 using Domain.Common.Primatives;
-using Domain.LessonPlanAggregate;
+using Domain.LessonPlanAggregate.ValueObjects;
 using Domain.TeacherAggregate.ValueObjects;
 using Domain.TimeTableAggregate.ValueObjects;
 
@@ -8,13 +8,13 @@ namespace Domain.TimeTableAggregate;
 
 public sealed class WeekPlanner : AggregateRoot<WeekPlannerId>
 {
-    private readonly List<LessonPlan> _lessonPlans = new();
-    private readonly List<SchoolEvent> _schoolEvents = new();
+    private readonly List<LessonPlanId> _lessonPlanIds = new();
+    private readonly List<SchoolEventId> _schoolEventIds = new();
     public DateTime WeekStart { get; private set; }
     public TeacherId TeacherId { get; private set; }
     public int WeekNumber { get; private set; }
-    public IReadOnlyList<LessonPlan> LessonPlans => _lessonPlans.AsReadOnly();
-    public IReadOnlyList<SchoolEvent> SchoolEvents => _schoolEvents.AsReadOnly();
+    public IReadOnlyList<LessonPlanId> LessonPlanIds => _lessonPlanIds.AsReadOnly();
+    public IReadOnlyList<LessonPlanId> SchoolEventIds => _lessonPlanIds.AsReadOnly();
     public DateTime CreatedDateTime { get; private set; }
     public DateTime UpdatedDateTime { get; private set; }
 
@@ -22,33 +22,33 @@ public sealed class WeekPlanner : AggregateRoot<WeekPlannerId>
         WeekPlannerId id,
         DateTime weekStart,
         TeacherId teacherId,
-        List<LessonPlan> lessonPlans,
-        List<SchoolEvent>? schoolEvents) : base(id)
+        List<LessonPlanId> lessonPlanIds,
+        List<SchoolEventId>? schoolEventIds) : base(id)
     {
         WeekStart = weekStart;
         TeacherId = teacherId;
-        _lessonPlans = lessonPlans;
+        _lessonPlanIds = lessonPlanIds;
         CreatedDateTime = DateTime.UtcNow;
         UpdatedDateTime = DateTime.UtcNow;
 
-        if (schoolEvents is not null)
+        if (schoolEventIds is not null)
         {
-            _schoolEvents = schoolEvents;
+            _schoolEventIds = schoolEventIds;
         }
     }
 
     public static WeekPlanner Create(
         DateTime weekStart,
         TeacherId teacherId,
-        List<LessonPlan> lessonPlans,
-        List<SchoolEvent>? schoolEvents = null)
+        List<LessonPlanId> lessonPlanIds,
+        List<SchoolEventId>? schoolEventIds = null)
     {
         return new WeekPlanner(
             new WeekPlannerId(Guid.NewGuid()),
             weekStart,
             teacherId,
-            lessonPlans,
-            schoolEvents);
+            lessonPlanIds,
+            schoolEventIds);
     }
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.

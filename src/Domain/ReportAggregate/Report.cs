@@ -8,20 +8,20 @@ using Domain.TeacherAggregate.ValueObjects;
 
 namespace Domain.ReportAggregate;
 
-public sealed class Report : AggregateRoot<ReportId>
+public sealed class Report : AggregateRoot<ReportCommentId>
 {
-    private readonly Dictionary<SubjectId, ReportComment> _subjectGrades = new();
+    private readonly List<ReportComment> _reportComments = new();
     public TeacherId TeacherId { get; private set; }
     public StudentId StudentId { get; private set; }
     public SubjectId SubjectId { get; private set; }
     public YearLevelValue YearLevel { get; private set; }
-    public IReadOnlyDictionary<SubjectId, ReportComment> SubjectGrades => _subjectGrades.AsReadOnly();
+    public IReadOnlyList<ReportComment> ReportComments => _reportComments.AsReadOnly();
     public DateTime CreatedDateTime { get; private set; }
     public DateTime UpdatedDateTime { get; private set; }
 
     private Report(
-        ReportId id,
-        Dictionary<SubjectId, ReportComment> subjectGrades,
+        ReportCommentId id,
+        List<ReportComment> reportComments,
         TeacherId teacherId,
         StudentId studentId,
         SubjectId subjectId,
@@ -29,7 +29,7 @@ public sealed class Report : AggregateRoot<ReportId>
         DateTime createdDateTime,
         DateTime updatedDateTime) : base(id)
     {
-        _subjectGrades = subjectGrades;
+        _reportComments = reportComments;
         TeacherId = teacherId;
         StudentId = studentId;
         SubjectId = subjectId;
@@ -48,7 +48,7 @@ public sealed class Report : AggregateRoot<ReportId>
     {
         return new Report(
             new ReportId(Guid.NewGuid()),
-            new Dictionary<SubjectId, ReportComment>(),
+            new List<ReportComment>(),
             teacherId,
             studentId,
             subjectId,
@@ -57,9 +57,9 @@ public sealed class Report : AggregateRoot<ReportId>
             updatedDateTime);
     }
 
-    public void AddSubjectGrade(SubjectId subjectId, ReportComment reportComment)
+    public void AddReportComment(ReportComment reportComment)
     {
-        _subjectGrades.Add(subjectId, reportComment);
+        _reportComments.Add(reportComment);
     }
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.

@@ -2,7 +2,7 @@
 using Domain.Common.Primatives;
 using Domain.LessonPlanAggregate.Entities;
 using Domain.LessonPlanAggregate.ValueObjects;
-using Domain.Resource.ValueObjects;
+using Domain.ResourceAggregate.ValueObjects;
 using Domain.SubjectAggregates.ValueObjects;
 using Domain.TeacherAggregate.ValueObjects;
 

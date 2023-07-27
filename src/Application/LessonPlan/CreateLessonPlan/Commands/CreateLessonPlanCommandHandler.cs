@@ -1,8 +1,7 @@
 ﻿using Application.Common.Interfaces.Persistence;
 using Domain.Assessments.ValueObjects;
-using Domain.Common.Curriculum.ValueObjects;
-using Domain.LessonPlanAggregate;
-using Domain.Resource.ValueObjects;
+using Domain.ResourceAggregate.ValueObjects;
+using Domain.SubjectAggregates.ValueObjects;
 using Domain.TeacherAggregate.ValueObjects;
 using ErrorOr;
 using MediatR;

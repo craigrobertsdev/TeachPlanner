@@ -1,4 +1,4 @@
-﻿using Domain.Resource.ValueObjects;
+﻿using Domain.ResourceAggregate.ValueObjects;
 
 namespace Application.UnitTests.TestUtils.Constants;
 

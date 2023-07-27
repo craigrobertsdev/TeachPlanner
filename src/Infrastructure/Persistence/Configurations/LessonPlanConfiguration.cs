@@ -1,6 +1,6 @@
-﻿using Domain.Common.Curriculum.ValueObjects;
-using Domain.LessonPlanAggregate;
+﻿using Domain.LessonPlanAggregate;
 using Domain.LessonPlanAggregate.ValueObjects;
+using Domain.SubjectAggregates.ValueObjects;
 using Domain.TeacherAggregate.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -72,9 +72,9 @@ public class LessonPlanConfiguration : IEntityTypeConfiguration<LessonPlan>
 
             lcb.WithOwner().HasForeignKey("LessonId");
 
-            lcb.HasKey(lp => lp.Id);
+            lcb.HasKey(lc => lc.Id);
 
-            lcb.Property(lp => lp.Id)
+            lcb.Property(lc => lc.Id)
                 .HasColumnName("CommentId")
                 .HasConversion(id => id.Value, value => new CommentId(value))
                 .ValueGeneratedNever();

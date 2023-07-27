@@ -1,20 +1,21 @@
 ﻿using Domain.Common.Primatives;
 
-namespace Domain.TeacherAggregate.ValueObjects;
+namespace Domain.ResourceAggregate.ValueObjects;
 
-public class TeacherId : ValueObject
+public class ResourceId : ValueObject
 {
     public Guid Value { get; private set; }
 
-    private TeacherId(Guid value)
+    private ResourceId(Guid value)
     {
         Value = value;
     }
 
-    public static TeacherId Create()
+    public static ResourceId Create()
     {
         return new(Guid.NewGuid());
     }
+
     public override IEnumerable<object?> GetEqualityComponents()
     {
         yield return Value;

@@ -19,4 +19,7 @@ public sealed class ContentDescriptor : Entity<ContentDescriptorId>
     {
         return new(new ContentDescriptorId(Guid.NewGuid()), description, elaborations);
     }
+
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+    private ContentDescriptor() { }
 }

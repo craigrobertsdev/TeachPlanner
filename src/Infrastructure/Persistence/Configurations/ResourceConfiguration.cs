@@ -1,6 +1,7 @@
-﻿using Domain.Common.Curriculum.ValueObjects;
-using Domain.Resource;
-using Domain.Resource.ValueObjects;
+﻿using Domain.LessonPlanAggregate.ValueObjects;
+using Domain.ResourceAggregate;
+using Domain.ResourceAggregate.ValueObjects;
+using Domain.SubjectAggregates.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -24,8 +25,19 @@ public class ResourceConfiguration : IEntityTypeConfiguration<Resource>
         builder.Property(r => r.SubjectId)
             .HasConversion(id => id.Value, id => new SubjectId(id));
 
-        builder.Property(builder => builder.StrandId)
+        builder.Property(r => r.StrandId)
             .HasConversion(id => id!.Value, id => new StrandId(id));
+
+        /*        builder.OwnsMany(r => r.LessonIds, lpb =>
+                {
+                    lpb.WithOwner().HasForeignKey("ResourceId");
+                })
+                    .Metadata.FindNavigation(nameof(Resource.LessonIds))!.SetPropertyAccessMode(PropertyAccessMode.Field);
+        */
+
+        builder.Property
+
+
 
     }
 }
