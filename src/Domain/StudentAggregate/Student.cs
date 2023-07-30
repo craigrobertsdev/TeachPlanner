@@ -8,13 +8,13 @@ namespace Domain.StudentAggregate;
 
 public sealed class Student : AggregateRoot<StudentId>
 {
-    private readonly List<ReportCommentId> _reportIds = new();
-    private readonly List<SubjectId> _subjectIds = new();
-    private readonly List<AssessmentId> _assessmentIds = new();
+    private readonly List<ReportIdForReference> _reportIds = new();
+    private readonly List<SubjectIdForReference> _subjectIds = new();
+    private readonly List<AssessmentIdForReference> _assessmentIds = new();
 
-    public IReadOnlyList<ReportCommentId> ReportIds => _reportIds;
-    public IReadOnlyList<SubjectId> SubjectIds => _subjectIds;
-    public IReadOnlyList<AssessmentId> AssessmentIds => _assessmentIds;
+    public IReadOnlyList<ReportIdForReference> ReportIds => _reportIds;
+    public IReadOnlyList<SubjectIdForReference> SubjectIds => _subjectIds;
+    public IReadOnlyList<AssessmentIdForReference> AssessmentIds => _assessmentIds;
 
     private Student(StudentId id) : base(id)
     {

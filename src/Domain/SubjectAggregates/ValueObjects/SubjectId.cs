@@ -2,9 +2,9 @@ using Domain.Common.Primatives;
 
 namespace Domain.SubjectAggregates.ValueObjects;
 
-public class SubjectId : ValueObject
+public class SubjectId : AggregateRootId<Guid>
 {
-    public Guid Value { get; private set; }
+    public override Guid Value { get; protected set; }
 
     private SubjectId(Guid value)
     {

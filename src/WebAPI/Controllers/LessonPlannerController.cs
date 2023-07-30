@@ -7,16 +7,16 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers;
 
-[Route("teachers/{teacherId}/lessonplanner")]
+[Route("teacher/{teacherId}/lessonplanner")]
 public class LessonPlannerController : ApiController
 {
-    private readonly ISender _sender;
+    private readonly ISender _mediator;
     private readonly IValidator<CreateLessonPlanCommand> _createLessonPlanValidator;
     private readonly IMapper _mapper;
 
     public LessonPlannerController(ISender sender, IValidator<CreateLessonPlanCommand> createLessonPlanValidator, IMapper mapper)
     {
-        _sender = sender;
+        _mediator = sender;
         _createLessonPlanValidator = createLessonPlanValidator;
         _mapper = mapper;
     }
@@ -28,7 +28,7 @@ public class LessonPlannerController : ApiController
 
         var validationResult = _createLessonPlanValidator.Validate(command);
 
-        var createLessonPlanResult = await _sender.Send(command);
+        var createLessonPlanResult = await _mediator.Send(command);
 
         return createLessonPlanResult.Match(
             lessonPlanResult => Ok(lessonPlanResult),

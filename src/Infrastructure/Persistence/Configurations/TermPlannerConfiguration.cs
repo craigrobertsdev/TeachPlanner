@@ -17,7 +17,7 @@ public class TermPlannerConfiguration : IEntityTypeConfiguration<TermPlanner>
     {
         builder.OwnsMany(t => t.WeekPlannerIds, wib =>
         {
-            wib.ToTable("TermPlannerWeekPlannerIds");
+            wib.ToTable("term_planner_week_planner_id");
 
             wib.WithOwner().HasForeignKey("TermPlannerId");
 
@@ -25,7 +25,7 @@ public class TermPlannerConfiguration : IEntityTypeConfiguration<TermPlanner>
 
             wib.Property(wib => wib.Value)
                 .ValueGeneratedNever()
-                .HasColumnName("WeekPlannerI");
+                .HasColumnName("WeekPlannerId");
         });
 
         builder.Metadata.FindNavigation(nameof(TermPlanner.WeekPlannerIds))!
@@ -36,7 +36,7 @@ public class TermPlannerConfiguration : IEntityTypeConfiguration<TermPlanner>
     {
         builder.OwnsMany(t => t.SchoolEventIds, seb =>
         {
-            seb.ToTable("TermPlannerSchoolEventIds");
+            seb.ToTable("term_planner_school_event_id");
 
             seb.WithOwner().HasForeignKey("TermPlannerId");
 
@@ -53,13 +53,13 @@ public class TermPlannerConfiguration : IEntityTypeConfiguration<TermPlanner>
 
     private void ConfigureTermPlannerTable(EntityTypeBuilder<TermPlanner> builder)
     {
-        builder.ToTable("TermPlanner");
+        builder.ToTable("term_planner");
 
         builder.HasKey(t => t.Id);
 
         builder.Property(t => t.Id)
             .HasConversion(
                 id => id.Value,
-                value => new TermPlannerId(value));
+                value => TermPlannerId.Create(value));
     }
 }

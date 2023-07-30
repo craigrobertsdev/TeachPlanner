@@ -2,9 +2,9 @@
 
 namespace Domain.ReportAggregate.ValueObjects;
 
-public class ReportId : ValueObject
+public class ReportId : AggregateRootId<Guid>
 {
-    public Guid Value { get; private set; }
+    public override Guid Value { get; protected set; }
 
     private ReportId(Guid value)
     {

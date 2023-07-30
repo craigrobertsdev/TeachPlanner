@@ -9,7 +9,7 @@ public class LessonPlanIdListConverter : ValueConverter<List<LessonPlanId>, stri
 {
     public LessonPlanIdListConverter() : base(
                 l => JsonSerializer.Serialize(l, (JsonSerializerOptions)null!),
-                l => JsonSerializer.Deserialize<List<LessonPlanId>>(l, (JsonSerializerOptions)null))
+                l => JsonSerializer.Deserialize<List<LessonPlanId>>(l, (JsonSerializerOptions)null!)!)
     {
 
     }

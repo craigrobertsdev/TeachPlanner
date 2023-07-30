@@ -11,7 +11,7 @@ public class LessonPlanConfiguration : IEntityTypeConfiguration<LessonPlan>
 {
     public void Configure(EntityTypeBuilder<LessonPlan> builder)
     {
-        ConfigureLessonTable(builder);
+        ConfigureLessonPlanTable(builder);
         ConfigureLessonResourceIdsTable(builder);
         ConfigureLessonAssessmentIdsTable(builder);
     }
@@ -20,7 +20,7 @@ public class LessonPlanConfiguration : IEntityTypeConfiguration<LessonPlan>
     {
         builder.OwnsMany(l => l.AssessmentIds, aib =>
         {
-            aib.ToTable("LessonAssessmentIds");
+            aib.ToTable("lesson_assessment_ids");
 
             aib.WithOwner().HasForeignKey("LessonId");
 
@@ -38,7 +38,7 @@ public class LessonPlanConfiguration : IEntityTypeConfiguration<LessonPlan>
     {
         builder.OwnsMany(l => l.ResourceIds, rib =>
         {
-            rib.ToTable("LessonResourceIds");
+            rib.ToTable("lesson_resource_ids");
 
             rib.WithOwner().HasForeignKey("LessonId");
 
@@ -51,32 +51,32 @@ public class LessonPlanConfiguration : IEntityTypeConfiguration<LessonPlan>
 
         builder.Metadata.FindNavigation(nameof(LessonPlan.ResourceIds))!.SetPropertyAccessMode(PropertyAccessMode.Field);
     }
-    private void ConfigureLessonTable(EntityTypeBuilder<LessonPlan> builder)
+    private void ConfigureLessonPlanTable(EntityTypeBuilder<LessonPlan> builder)
     {
-        builder.ToTable("LessonPlans");
+        builder.ToTable("lesson_plans");
 
         builder.HasKey(lp => lp.Id);
         builder.Property(lp => lp.Id)
-            .HasConversion(lp => lp.Value, value => new LessonPlanId(value))
+            .HasConversion(lp => lp.Value, value => LessonPlanId.Create(value))
             .ValueGeneratedNever();
 
         builder.Property(lp => lp.TeacherId)
-            .HasConversion(t => t.Value, value => new TeacherId(value));
+            .HasConversion(t => t.Value, value => TeacherIdForReference.Create(value));
 
         builder.Property(lp => lp.SubjectId)
-            .HasConversion(id => id.Value, value => new SubjectId(value));
+            .HasConversion(id => id.Value, value => SubjectIdForReference.Create(value));
 
         builder.OwnsMany(lp => lp.Comments, lcb =>
         {
-            lcb.ToTable("Comments");
+            lcb.ToTable("lesson_comment");
 
             lcb.WithOwner().HasForeignKey("LessonId");
 
             lcb.HasKey(lc => lc.Id);
 
             lcb.Property(lc => lc.Id)
-                .HasColumnName("CommentId")
-                .HasConversion(id => id.Value, value => new CommentId(value))
+                .HasColumnName("LessonCommentId")
+                .HasConversion(id => id.Value, value => LessonCommentId.Create(value))
                 .ValueGeneratedNever();
 
         });

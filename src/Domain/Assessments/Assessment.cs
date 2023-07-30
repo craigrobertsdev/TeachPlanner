@@ -7,20 +7,27 @@ using Domain.TeacherAggregate.ValueObjects;
 
 namespace Domain.Assessments;
 
+/// <summary>
+/// Each assessment is implemented as an isolated unit with associations to a single student, teacher, and subject.
+/// 
+/// I may need to implement a way of tracking which assesments were conducted as part of each round of assessments
+/// for some sort of data collection
+/// </summary>
 public abstract class Assessment : AggregateRoot<AssessmentId>
 {
-    public TeacherId TeacherId { get; private set; }
-    public SubjectId SubjectId { get; private set; }
-    public StudentId StudentId { get; private set; }
+    public TeacherIdForReference TeacherId { get; private set; }
+    public SubjectIdForReference SubjectId { get; private set; }
+    public StudentIdForReference StudentId { get; private set; }
     public YearLevelValue YearLevel { get; private set; }
     public DateTime ConductedDateTime { get; private set; }
     public DateTime CreatedDateTime { get; private set; }
     public DateTime UpdatedDateTime { get; private set; }
+
     protected Assessment(
         AssessmentId id,
-        TeacherId teacherId,
-        SubjectId subjectId,
-        StudentId studentId,
+        TeacherIdForReference teacherId,
+        SubjectIdForReference subjectId,
+        StudentIdForReference studentId,
         YearLevelValue yearLevel,
         DateTime conductedDateTime) : base(id)
     {

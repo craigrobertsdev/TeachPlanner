@@ -2,9 +2,9 @@
 
 namespace Domain.TermPlannerAggregate.ValueObjects;
 
-public class TermPlannerId : ValueObject
+public class TermPlannerId : AggregateRootId<Guid>
 {
-    public Guid Value { get; private set; }
+    public override Guid Value { get; protected set; }
 
     private TermPlannerId(Guid value)
     {

@@ -3,9 +3,9 @@ using Domain.Common.Primatives;
 
 namespace Domain.LessonPlanAggregate.ValueObjects;
 
-public class LessonPlanId : ValueObject
+public class LessonPlanId : AggregateRootId<Guid>
 {
-    public Guid Value { get; private set; }
+    public override Guid Value { get; protected set; }
 
     private LessonPlanId(Guid value)
     {

@@ -15,9 +15,9 @@ public class SummativeAssessment : Assessment
 
     private SummativeAssessment(
         AssessmentId id,
-        TeacherId teacherId,
-        SubjectId subjectId,
-        StudentId studentId,
+        TeacherIdForReference teacherId,
+        SubjectIdForReference subjectId,
+        StudentIdForReference studentId,
         YearLevelValue yearLevel,
         string planningNotes,
         DateTime conductedDateTime,
@@ -36,9 +36,9 @@ public class SummativeAssessment : Assessment
     }
 
     public static SummativeAssessment Create(
-        TeacherId teacherId,
-        SubjectId subjectId,
-        StudentId studentId,
+        TeacherIdForReference teacherId,
+        SubjectIdForReference subjectId,
+        StudentIdForReference studentId,
         YearLevelValue yearLevel,
         string planningNotes,
         DateTime conductedDateTime,

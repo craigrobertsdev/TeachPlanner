@@ -11,26 +11,27 @@ namespace Domain.TeacherAggregate;
 
 public sealed class Teacher : AggregateRoot<TeacherId>
 {
-    private readonly List<SubjectId> _subjectIds = new();
-    private readonly List<StudentId> _studentIds = new();
-    private readonly List<AssessmentId> _assessmentIds = new();
-    private readonly List<ResourceId> _resourceIds = new();
-    private readonly List<ReportCommentId> _reportIds = new();
-    public UserId UserId { get; private set; }
-    public IReadOnlyList<SubjectId> SubjectIds => _subjectIds;
-    public IReadOnlyList<StudentId> StudentIds => _studentIds;
-    public IReadOnlyList<AssessmentId> AssessmentIds => _assessmentIds;
-    public IReadOnlyList<ResourceId> ResourceIds => _resourceIds;
-    public IReadOnlyList<ReportCommentId> ReportIds => _reportIds;
+    private readonly List<SubjectIdForReference> _subjectIds = new();
+    private readonly List<StudentIdForReference> _studentIds = new();
+    private readonly List<AssessmentIdForReference> _assessmentIds = new();
+    private readonly List<ResourceIdForReference> _resourceIds = new();
+    private readonly List<ReportIdForReference> _reportIds = new();
+    private readonly UserIdForReference _userId;
+    public UserIdForReference UserId => _userId;
+    public IReadOnlyList<SubjectIdForReference> SubjectIds => _subjectIds;
+    public IReadOnlyList<StudentIdForReference> StudentIds => _studentIds;
+    public IReadOnlyList<AssessmentIdForReference> AssessmentIds => _assessmentIds;
+    public IReadOnlyList<ResourceIdForReference> ResourceIds => _resourceIds;
+    public IReadOnlyList<ReportIdForReference> ReportIds => _reportIds;
 
     private Teacher(
         TeacherId id,
-        UserId userId) : base(id)
+        UserIdForReference userId) : base(id)
     {
-        UserId = userId;
+        _userId = userId;
     }
 
-    public static Teacher Create(UserId userId)
+    public static Teacher Create(UserIdForReference userId)
     {
         return new Teacher(TeacherId.Create(), userId);
     }

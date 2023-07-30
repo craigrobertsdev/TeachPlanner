@@ -6,7 +6,7 @@ using Contracts.Authentication;
 
 namespace WebAPI.Common.Mappings;
 
-public class AuthenticationMappingConfig : IRegister
+public class AuthenticationMapping : IRegister
 {
     public void Register(TypeAdapterConfig config)
     {

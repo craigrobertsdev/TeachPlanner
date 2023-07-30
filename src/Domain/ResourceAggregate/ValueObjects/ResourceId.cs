@@ -2,9 +2,9 @@
 
 namespace Domain.ResourceAggregate.ValueObjects;
 
-public class ResourceId : ValueObject
+public class ResourceId : AggregateRootId<Guid>
 {
-    public Guid Value { get; private set; }
+    public override Guid Value { get; protected set; }
 
     private ResourceId(Guid value)
     {

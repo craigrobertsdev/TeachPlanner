@@ -1,9 +1,9 @@
 ﻿using Domain.Common.Primatives;
 
 namespace Domain.StudentAggregate.ValueObjects;
-public class StudentId : ValueObject
+public class StudentId : AggregateRootId<Guid>
 {
-    public Guid Value { get; private set; }
+    public override Guid Value { get; protected set; }
 
     private StudentId(Guid value)
     {

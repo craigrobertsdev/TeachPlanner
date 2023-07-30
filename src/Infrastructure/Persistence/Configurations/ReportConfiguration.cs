@@ -20,7 +20,7 @@ public class ReportConfiguration : IEntityTypeConfiguration<Report>
     {
         builder.OwnsMany(r => r.ReportComments, cb =>
         {
-            cb.ToTable("ReportComments");
+            cb.ToTable("report_comments");
 
             cb.WithOwner().HasForeignKey("ReportId");
 
@@ -28,11 +28,11 @@ public class ReportConfiguration : IEntityTypeConfiguration<Report>
 
             cb.Property(c => c.Id)
                 .ValueGeneratedNever()
-                .HasConversion(c => c.Value, value => new ReportCommentId(value));
+                .HasConversion(c => c.Value, value => ReportCommentId.Create(value));
 
             cb.Property(c => c.SubjectId)
                 .ValueGeneratedNever()
-                .HasConversion(s => s.Value, value => new SubjectId(value));
+                .HasConversion(s => s.Value, value => SubjectId.Create(value));
 
             cb.Property(c => c.Grade)
                 .HasConversion<string>();
@@ -43,20 +43,20 @@ public class ReportConfiguration : IEntityTypeConfiguration<Report>
 
     public void ConfigureReportTable(EntityTypeBuilder<Report> builder)
     {
-        builder.ToTable("Reports");
+        builder.ToTable("reports");
 
         builder.Property(r => r.Id)
             .ValueGeneratedNever()
-            .HasConversion(r => r.Value, value => new ReportId(value));
+            .HasConversion(r => r.Value, value => ReportId.Create(value));
 
         builder.Property(r => r.TeacherId)
-            .HasConversion(t => t.Value, value => new TeacherId(value));
+            .HasConversion(t => t.Value, value => TeacherIdForReference.Create(value));
 
         builder.Property(r => r.StudentId)
-            .HasConversion(s => s.Value, value => new StudentId(value));
+            .HasConversion(s => s.Value, value => StudentIdForReference.Create(value));
 
         builder.Property(r => r.SubjectId)
-            .HasConversion(s => s.Value, value => new SubjectId(value));
+            .HasConversion(s => s.Value, value => SubjectIdForReference.Create(value));
 
         builder.Property(r => r.YearLevel)
             .HasConversion<string>();

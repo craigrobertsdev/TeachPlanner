@@ -2,9 +2,9 @@
 
 namespace Domain.TimeTableAggregate.ValueObjects;
 
-public class WeekPlannerId : ValueObject
+public class WeekPlannerId : AggregateRootId<Guid>
 {
-    public Guid Value { get; private set; }
+    public override Guid Value { get; protected set; }
 
     private WeekPlannerId(Guid value)
     {

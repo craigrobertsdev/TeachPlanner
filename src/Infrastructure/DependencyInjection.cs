@@ -36,7 +36,8 @@ public static class DependencyInjection
             .EnableDetailedErrors());
 
         services.AddScoped<IUserRepository, UserRepository>();
-        services.AddScoped<ILessonRepository, LessonRepository>();
+        services.AddScoped<ILessonRepository, LessonPlanRepository>();
+        services.AddScoped<ITeacherRepository, TeacherRepository>();
 
         return services;
     }

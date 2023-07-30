@@ -12,9 +12,9 @@ public class FormativeAssessment : Assessment
 
     private FormativeAssessment(
         AssessmentId id,
-        TeacherId teacherId,
-        SubjectId subjectId,
-        StudentId studentId,
+        TeacherIdForReference teacherId,
+        SubjectIdForReference subjectId,
+        StudentIdForReference studentId,
         YearLevelValue yearLevel,
         DateTime conductedDateTime,
         string? comments) : base(
@@ -29,9 +29,9 @@ public class FormativeAssessment : Assessment
     }
 
     public static FormativeAssessment Create(
-        TeacherId teacherId,
-        SubjectId subjectId,
-        StudentId studentId,
+        TeacherIdForReference teacherId,
+        SubjectIdForReference subjectId,
+        StudentIdForReference studentId,
         YearLevelValue yearLevel,
         DateTime conductedDateTime,
         string? comments)

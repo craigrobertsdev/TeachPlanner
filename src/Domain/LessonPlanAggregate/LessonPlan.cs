@@ -10,32 +10,32 @@ namespace Domain.LessonPlanAggregate;
 
 public sealed class LessonPlan : AggregateRoot<LessonPlanId>
 {
-    private readonly List<ResourceId> _resourceIds = new();
-    private readonly List<AssessmentId> _assessmentIds = new();
+    private readonly List<ResourceIdForReference> _resourceIds = new();
+    private readonly List<AssessmentIdForReference> _assessmentIds = new();
     private readonly List<LessonComment> _comments = new();
-    public TeacherId TeacherId { get; private set; }
-    public SubjectId SubjectId { get; private set; }
+    public TeacherIdForReference TeacherId { get; private set; }
+    public SubjectIdForReference SubjectId { get; private set; }
     public string PlanningNotes { get; private set; }
     public DateTime StartTime { get; private set; }
     public DateTime EndTime { get; private set; }
     public DateTime CreatedDateTime { get; private set; }
     public DateTime UpdatedDateTime { get; private set; }
 
-    public IReadOnlyList<ResourceId> ResourceIds => _resourceIds.AsReadOnly();
-    public IReadOnlyList<AssessmentId> AssessmentIds => _assessmentIds.AsReadOnly();
+    public IReadOnlyList<ResourceIdForReference> ResourceIds => _resourceIds.AsReadOnly();
+    public IReadOnlyList<AssessmentIdForReference> AssessmentIds => _assessmentIds.AsReadOnly();
     public IReadOnlyList<LessonComment> Comments => _comments.AsReadOnly();
 
     private LessonPlan(
         LessonPlanId id,
-        TeacherId teacherId,
-        SubjectId subjectId,
+        TeacherIdForReference teacherId,
+        SubjectIdForReference subjectId,
         string planningNotes,
         DateTime startTime,
         DateTime endTime,
         DateTime createdDateTime,
         DateTime updatedDateTime,
-        List<ResourceId>? resourceIds,
-        List<AssessmentId>? assessmentIds) : base(id)
+        List<ResourceIdForReference>? resourceIds,
+        List<AssessmentIdForReference>? assessmentIds) : base(id)
     {
         TeacherId = teacherId;
         SubjectId = subjectId;
@@ -57,13 +57,13 @@ public sealed class LessonPlan : AggregateRoot<LessonPlanId>
     }
 
     public static LessonPlan Create(
-        TeacherId teacherId,
-        SubjectId subjectId,
+        TeacherIdForReference teacherId,
+        SubjectIdForReference subjectId,
         string planningNotes,
         DateTime startTime,
         DateTime endTime,
-        List<ResourceId>? resourceIds,
-        List<AssessmentId>? assessmentIds)
+        List<ResourceIdForReference>? resourceIds,
+        List<AssessmentIdForReference>? assessmentIds)
     {
         return new LessonPlan(LessonPlanId.Create(), teacherId, subjectId, planningNotes, startTime, endTime, DateTime.UtcNow, DateTime.UtcNow, resourceIds, assessmentIds);
     }

@@ -19,7 +19,7 @@ public class StudentConfiguration : IEntityTypeConfiguration<Student>
     {
         builder.OwnsMany(s => s.ReportIds, rib =>
         {
-            rib.ToTable("StudentReportIds");
+            rib.ToTable("student_report_ids");
 
             rib.WithOwner().HasForeignKey("StudentId");
 
@@ -38,7 +38,7 @@ public class StudentConfiguration : IEntityTypeConfiguration<Student>
     {
         builder.OwnsMany(s => s.SubjectIds, sib =>
         {
-            sib.ToTable("StudentSubjectIds");
+            sib.ToTable("student_subject_ids");
 
             sib.WithOwner().HasForeignKey("StudentId");
 
@@ -57,7 +57,7 @@ public class StudentConfiguration : IEntityTypeConfiguration<Student>
     {
         builder.OwnsMany(s => s.AssessmentIds, aib =>
         {
-            aib.ToTable("StudentAssessmentIds");
+            aib.ToTable("student_assessment_ids");
 
             aib.WithOwner().HasForeignKey("StudentId");
 
@@ -74,12 +74,10 @@ public class StudentConfiguration : IEntityTypeConfiguration<Student>
 
     public void ConfigureStudentsTable(EntityTypeBuilder<Student> builder)
     {
-        builder.ToTable("Students");
-
         builder.HasKey(s => s.Id);
 
         builder.Property(s => s.Id)
-            .HasConversion(s => s.Value, value => new StudentId(value))
+            .HasConversion(s => s.Value, value => StudentId.Create(value))
             .ValueGeneratedNever();
     }
 }

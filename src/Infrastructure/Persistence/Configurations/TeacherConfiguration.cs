@@ -21,7 +21,7 @@ public class TeacherConfiguration : IEntityTypeConfiguration<Teacher>
     {
         builder.OwnsMany(t => t.ReportIds, rib =>
         {
-            rib.ToTable("TeacherReportIds");
+            rib.ToTable("teacher_report_ids");
 
             rib.WithOwner().HasForeignKey("TeacherId");
 
@@ -40,7 +40,7 @@ public class TeacherConfiguration : IEntityTypeConfiguration<Teacher>
     {
         builder.OwnsMany(t => t.ResourceIds, rib =>
         {
-            rib.ToTable("TeacherResourceIds");
+            rib.ToTable("teacher_resource_ids");
 
             rib.WithOwner().HasForeignKey("TeacherId");
 
@@ -59,7 +59,7 @@ public class TeacherConfiguration : IEntityTypeConfiguration<Teacher>
     {
         builder.OwnsMany(t => t.AssessmentIds, aib =>
         {
-            aib.ToTable("TeacherAssessmentIds");
+            aib.ToTable("teacher_assessment_ids");
 
             aib.WithOwner().HasForeignKey("TeacherId");
 
@@ -78,7 +78,7 @@ public class TeacherConfiguration : IEntityTypeConfiguration<Teacher>
     {
         builder.OwnsMany(t => t.StudentIds, sib =>
         {
-            sib.ToTable("TeacherStudentIds");
+            sib.ToTable("teacher_student_ids");
 
             sib.WithOwner().HasForeignKey("TeacherId");
 
@@ -97,7 +97,7 @@ public class TeacherConfiguration : IEntityTypeConfiguration<Teacher>
     {
         builder.OwnsMany(t => t.SubjectIds, sib =>
         {
-            sib.ToTable("TeacherSubjectIds");
+            sib.ToTable("teacher_subject_ids");
 
             sib.WithOwner().HasForeignKey("TeacherId");
 
@@ -114,7 +114,7 @@ public class TeacherConfiguration : IEntityTypeConfiguration<Teacher>
 
     private void ConfigureTeacherTable(EntityTypeBuilder<Teacher> builder)
     {
-        builder.ToTable("Teachers");
+        builder.ToTable("teachers");
 
         builder.HasKey(t => t.Id);
 
@@ -122,6 +122,13 @@ public class TeacherConfiguration : IEntityTypeConfiguration<Teacher>
             .ValueGeneratedNever()
             .HasConversion(
                 id => id.Value,
-                value => new TeacherId(value));
+                value => TeacherId.Create(value));
+
+        builder.OwnsOne(t => t.UserId, uib =>
+        {
+            uib.Property(u => u.Value)
+                .HasColumnName("UserId")
+                .ValueGeneratedNever();
+        });
     }
 }

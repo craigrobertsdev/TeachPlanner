@@ -2,9 +2,9 @@
 
 namespace Domain.TeacherAggregate.ValueObjects;
 
-public class TeacherId : ValueObject
+public class TeacherId : AggregateRootId<Guid>
 {
-    public Guid Value { get; private set; }
+    public override Guid Value { get; protected set; }
 
     private TeacherId(Guid value)
     {

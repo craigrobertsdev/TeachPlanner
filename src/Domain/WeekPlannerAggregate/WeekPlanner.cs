@@ -2,28 +2,29 @@
 using Domain.Common.Primatives;
 using Domain.LessonPlanAggregate.ValueObjects;
 using Domain.TeacherAggregate.ValueObjects;
+using Domain.TermPlannerAggregate;
 using Domain.TimeTableAggregate.ValueObjects;
 
 namespace Domain.TimeTableAggregate;
 
 public sealed class WeekPlanner : AggregateRoot<WeekPlannerId>
 {
-    private readonly List<LessonPlanId> _lessonPlanIds = new();
-    private readonly List<SchoolEventId> _schoolEventIds = new();
+    private readonly List<LessonPlanIdForReference> _lessonPlanIds = new();
+    private readonly List<SchoolEventIdForReference> _schoolEventIds = new();
     public DateTime WeekStart { get; private set; }
-    public TeacherId TeacherId { get; private set; }
+    public TeacherIdForReference TeacherId { get; private set; }
     public int WeekNumber { get; private set; }
-    public IReadOnlyList<LessonPlanId> LessonPlanIds => _lessonPlanIds.AsReadOnly();
-    public IReadOnlyList<LessonPlanId> SchoolEventIds => _lessonPlanIds.AsReadOnly();
+    public IReadOnlyList<LessonPlanIdForReference> LessonPlanIds => _lessonPlanIds.AsReadOnly();
+    public IReadOnlyList<SchoolEventIdForReference> SchoolEventIds => _schoolEventIds.AsReadOnly();
     public DateTime CreatedDateTime { get; private set; }
     public DateTime UpdatedDateTime { get; private set; }
 
     private WeekPlanner(
         WeekPlannerId id,
         DateTime weekStart,
-        TeacherId teacherId,
-        List<LessonPlanId> lessonPlanIds,
-        List<SchoolEventId>? schoolEventIds) : base(id)
+        TeacherIdForReference teacherId,
+        List<LessonPlanIdForReference> lessonPlanIds,
+        List<SchoolEventIdForReference>? schoolEventIds) : base(id)
     {
         WeekStart = weekStart;
         TeacherId = teacherId;
@@ -39,9 +40,9 @@ public sealed class WeekPlanner : AggregateRoot<WeekPlannerId>
 
     public static WeekPlanner Create(
         DateTime weekStart,
-        TeacherId teacherId,
-        List<LessonPlanId> lessonPlanIds,
-        List<SchoolEventId>? schoolEventIds = null)
+        TeacherIdForReference teacherId,
+        List<LessonPlanIdForReference> lessonPlanIds,
+        List<SchoolEventIdForReference>? schoolEventIds = null)
     {
         return new WeekPlanner(
             WeekPlannerId.Create(),

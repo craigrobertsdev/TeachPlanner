@@ -8,23 +8,23 @@ using Domain.TeacherAggregate.ValueObjects;
 
 namespace Domain.ReportAggregate;
 
-public sealed class Report : AggregateRoot<ReportCommentId>
+public sealed class Report : AggregateRoot<ReportId>
 {
     private readonly List<ReportComment> _reportComments = new();
-    public TeacherId TeacherId { get; private set; }
-    public StudentId StudentId { get; private set; }
-    public SubjectId SubjectId { get; private set; }
+    public TeacherIdForReference TeacherId { get; private set; }
+    public StudentIdForReference StudentId { get; private set; }
+    public SubjectIdForReference SubjectId { get; private set; }
     public YearLevelValue YearLevel { get; private set; }
     public IReadOnlyList<ReportComment> ReportComments => _reportComments.AsReadOnly();
     public DateTime CreatedDateTime { get; private set; }
     public DateTime UpdatedDateTime { get; private set; }
 
     private Report(
-        ReportCommentId id,
+        ReportId id,
         List<ReportComment> reportComments,
-        TeacherId teacherId,
-        StudentId studentId,
-        SubjectId subjectId,
+        TeacherIdForReference teacherId,
+        StudentIdForReference studentId,
+        SubjectIdForReference subjectId,
         YearLevelValue yearLevel,
         DateTime createdDateTime,
         DateTime updatedDateTime) : base(id)
@@ -39,15 +39,15 @@ public sealed class Report : AggregateRoot<ReportCommentId>
     }
 
     public static Report Create(
-        TeacherId teacherId,
-        StudentId studentId,
-        SubjectId subjectId,
+        TeacherIdForReference teacherId,
+        StudentIdForReference studentId,
+        SubjectIdForReference subjectId,
         YearLevelValue yearLevel,
         DateTime createdDateTime,
         DateTime updatedDateTime)
     {
         return new Report(
-            ReportCommentId.Create(),
+            ReportId.Create(),
             new List<ReportComment>(),
             teacherId,
             studentId,

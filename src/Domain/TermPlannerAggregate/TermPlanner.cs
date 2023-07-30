@@ -1,26 +1,26 @@
 ﻿using Domain.Common.Planner.ValueObjects;
 using Domain.Common.Primatives;
 using Domain.TermPlannerAggregate.ValueObjects;
-using Domain.TimeTableAggregate.ValueObjects;
+using Domain.WeekPlannerAggregate.ValueObjects;
 
 namespace Domain.TermPlannerAggregate;
 
 public sealed class TermPlanner : AggregateRoot<TermPlannerId>
 {
-    private readonly List<WeekPlannerId> _weekPlannerIds = new();
-    private readonly List<SchoolEventId> _schoolEventIds = new();
+    private readonly List<WeekPlannerIdForReference> _weekPlannerIds = new();
+    private readonly List<SchoolEventIdForReference> _schoolEventIds = new();
     public int TermNumber { get; private set; }
     public DateTime TermStart { get; private set; }
     public DateTime TermEnd { get; private set; }
-    public IReadOnlyList<WeekPlannerId> WeekPlannerIds => _weekPlannerIds.AsReadOnly();
-    public IReadOnlyList<SchoolEventId> SchoolEventIds => _schoolEventIds.AsReadOnly();
+    public IReadOnlyList<WeekPlannerIdForReference> WeekPlannerIds => _weekPlannerIds.AsReadOnly();
+    public IReadOnlyList<SchoolEventIdForReference> SchoolEventIds => _schoolEventIds.AsReadOnly();
     public DateTime CreatedDateTime { get; private set; }
     public DateTime UpdatedDateTime { get; private set; }
 
     private TermPlanner(
         TermPlannerId id,
-        List<WeekPlannerId>? weekPlannerIds,
-        List<SchoolEventId>? schoolEventIds,
+        List<WeekPlannerIdForReference>? weekPlannerIds,
+        List<SchoolEventIdForReference>? schoolEventIds,
         int termNumber,
         DateTime termStart,
         DateTime termEnd,
@@ -45,8 +45,8 @@ public sealed class TermPlanner : AggregateRoot<TermPlannerId>
     }
 
     public static TermPlanner Create(
-        List<WeekPlannerId> weekPlannerIds,
-        List<SchoolEventId>? schoolEventIds,
+        List<WeekPlannerIdForReference> weekPlannerIds,
+        List<SchoolEventIdForReference>? schoolEventIds,
         int termNumber,
         DateTime termStart,
         DateTime termEnd,

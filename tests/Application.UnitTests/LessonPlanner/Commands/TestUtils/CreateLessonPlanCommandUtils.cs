@@ -14,8 +14,8 @@ public static class CreateLessonPlanCommandUtils
     // endTime
     public static CreateLessonPlanCommand CreateCommand(List<string>? resourceIds = null, List<string>? assessmentIds = null) =>
         new CreateLessonPlanCommand(
-            Constants.Teacher.Id.ToString(),
-            Constants.Subject.Id.ToString(),
+            Constants.Teacher.Id.ToString()!,
+            Constants.Subject.Id.ToString()!,
             Constants.LessonPlan.PlanningNotes,
             resourceIds != null ? CreateResourceIdList() : new List<string>(),
             assessmentIds != null ? CreateAssessmentIdList() : new List<string>(),

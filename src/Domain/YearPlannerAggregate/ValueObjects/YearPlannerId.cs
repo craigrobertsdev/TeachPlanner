@@ -2,9 +2,9 @@
 
 namespace Domain.YearPlannerAggregate.ValueObjects;
 
-public class YearPlannerId : ValueObject
+public class YearPlannerId : AggregateRootId<Guid>
 {
-    public Guid Value { get; private set; }
+    public override Guid Value { get; protected set; }
 
     private YearPlannerId(Guid value)
     {
@@ -16,7 +16,7 @@ public class YearPlannerId : ValueObject
         return new(Guid.NewGuid());
     }
 
-    public static YearPlannerId FromGuid(Guid value)
+    public static YearPlannerId Create(Guid value)
     {
         return new(value);
     }

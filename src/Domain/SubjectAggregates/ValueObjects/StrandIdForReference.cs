@@ -1,22 +1,21 @@
 ﻿using Domain.Common.Primatives;
 
-namespace Domain.LessonPlanAggregate.ValueObjects;
-
-public class CommentId : ValueObject
+namespace Domain.SubjectAggregates.ValueObjects;
+public class StrandIdForReference : ValueObject
 {
     public Guid Value { get; private set; }
 
-    private CommentId(Guid value)
+    private StrandIdForReference(Guid value)
     {
         Value = value;
     }
 
-    public static CommentId Create()
+    public static StrandIdForReference Create()
     {
         return new(Guid.NewGuid());
     }
 
-    public static CommentId Create(Guid value)
+    public static StrandIdForReference Create(Guid value)
     {
         return new(value);
     }
@@ -27,5 +26,5 @@ public class CommentId : ValueObject
     }
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-    private CommentId() { }
+    private StrandIdForReference() { }
 }

@@ -1,5 +1,6 @@
 ﻿using Domain.Common.Primatives;
 using Domain.UserAggregate.ValueObjects;
+using System.Resources;
 
 namespace Domain.UserAggregate;
 

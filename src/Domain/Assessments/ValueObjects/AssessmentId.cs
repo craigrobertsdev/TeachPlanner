@@ -1,9 +1,9 @@
 ﻿using Domain.Common.Primatives;
 
 namespace Domain.Assessments.ValueObjects;
-public class AssessmentId : ValueObject
+public class AssessmentId : AggregateRootId<Guid>
 {
-    public Guid Value { get; private set; }
+    public override Guid Value { get; protected set; }
 
     private AssessmentId(Guid value)
     {
