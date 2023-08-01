@@ -1,6 +1,6 @@
 ﻿using Application.Common.Interfaces.Persistence;
 using Domain.TeacherAggregate;
-using Domain.UserAggregate.ValueObjects;
+using Domain.UserAggregate;
 using Infrastructure.Persistence.DbContexts;
 using Microsoft.EntityFrameworkCore;
 
@@ -21,7 +21,7 @@ public class TeacherRepository : ITeacherRepository
         await _context.SaveChangesAsync();
     }
 
-    public async Task<Teacher?> GetTeacherByUserId(UserIdForReference userId)
+    public async Task<Teacher?> GetTeacherByUserId(UserId userId)
     {
         return await _context.Teachers
             .SingleOrDefaultAsync(t => t.UserId == userId);

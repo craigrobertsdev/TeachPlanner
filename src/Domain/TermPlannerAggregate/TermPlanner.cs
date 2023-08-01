@@ -1,26 +1,26 @@
-﻿using Domain.Common.Planner.ValueObjects;
+﻿using Domain.Common.Planner;
 using Domain.Common.Primatives;
-using Domain.TermPlannerAggregate.ValueObjects;
-using Domain.WeekPlannerAggregate.ValueObjects;
+using Domain.WeekPlannerAggregate;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Domain.TermPlannerAggregate;
 
 public sealed class TermPlanner : AggregateRoot<TermPlannerId>
 {
-    private readonly List<WeekPlannerIdForReference> _weekPlannerIds = new();
-    private readonly List<SchoolEventIdForReference> _schoolEventIds = new();
+    private readonly List<WeekPlannerId> _weekPlannerIds = new();
+    private readonly List<SchoolEvent> _schoolEvents = new();
     public int TermNumber { get; private set; }
     public DateTime TermStart { get; private set; }
     public DateTime TermEnd { get; private set; }
-    public IReadOnlyList<WeekPlannerIdForReference> WeekPlannerIds => _weekPlannerIds.AsReadOnly();
-    public IReadOnlyList<SchoolEventIdForReference> SchoolEventIds => _schoolEventIds.AsReadOnly();
+    public IReadOnlyList<WeekPlannerId> WeekPlannerIds => _weekPlannerIds.AsReadOnly();
+    public IReadOnlyList<SchoolEvent> SchoolEvent => _schoolEvents.AsReadOnly();
     public DateTime CreatedDateTime { get; private set; }
     public DateTime UpdatedDateTime { get; private set; }
 
     private TermPlanner(
         TermPlannerId id,
-        List<WeekPlannerIdForReference>? weekPlannerIds,
-        List<SchoolEventIdForReference>? schoolEventIds,
+        List<WeekPlannerId>? weekPlannerIds,
+        List<SchoolEvent>? schoolEvents,
         int termNumber,
         DateTime termStart,
         DateTime termEnd,
@@ -32,9 +32,9 @@ public sealed class TermPlanner : AggregateRoot<TermPlannerId>
             _weekPlannerIds = weekPlannerIds;
         }
 
-        if (schoolEventIds is not null)
+        if (schoolEvents is not null)
         {
-            _schoolEventIds = schoolEventIds;
+            _schoolEvents = schoolEvents;
         }
 
         TermNumber = termNumber;
@@ -45,8 +45,8 @@ public sealed class TermPlanner : AggregateRoot<TermPlannerId>
     }
 
     public static TermPlanner Create(
-        List<WeekPlannerIdForReference> weekPlannerIds,
-        List<SchoolEventIdForReference>? schoolEventIds,
+        List<WeekPlannerId> weekPlannerIds,
+        List<SchoolEvent>? schoolEvents,
         int termNumber,
         DateTime termStart,
         DateTime termEnd,
@@ -54,9 +54,9 @@ public sealed class TermPlanner : AggregateRoot<TermPlannerId>
         DateTime updatedDateTime)
     {
         return new TermPlanner(
-            TermPlannerId.Create(),
+            new TermPlannerId(Guid.NewGuid()),
             weekPlannerIds,
-            schoolEventIds,
+            schoolEvents,
             termNumber,
             termStart,
             termEnd,

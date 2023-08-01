@@ -1,6 +1,4 @@
 ﻿using Domain.SubjectAggregates;
-using Domain.SubjectAggregates.Entities;
-using Domain.SubjectAggregates.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -17,14 +15,88 @@ public class SubjectConfiguration : IEntityTypeConfiguration<Subject>
         builder.Property(s => s.Id)
             .HasColumnName("SubjectId")
             .ValueGeneratedNever()
-            .HasConversion(id => id.Value, id => SubjectId.Create(id));
+            .HasConversion(id => id.Value, id => new SubjectId(id));
 
+        builder.Property(s => s.Name)
+            .HasMaxLength(50);
+
+        /*        builder.OwnsMany(s => s.YearLevels, ylb =>
+                {
+                    ylb.ToTable("year_levels");
+
+                    ylb.WithOwner();
+
+                    ylb.Property<int>("Id");
+
+                    ylb.HasKey("Id");
+
+                    ylb.Property(yl => yl.YearLevelValue)
+                        .HasConversion<string>()
+                        .HasMaxLength(25);
+
+                    ylb.Property(yl => yl.Name)
+                        .HasMaxLength(50);
+
+                    ylb.OwnsMany(yl => yl.Strands, sb =>
+                    {
+                        sb.ToTable("strands");
+
+                        sb.WithOwner();
+
+                        sb.Property<int>("Id");
+
+                        sb.HasKey("Id");
+
+                        sb.Property(s => s.Name)
+                            .HasMaxLength(50);
+
+                        sb.OwnsMany(typeof(Substrand), "_substrands", ssb =>
+                        {
+                            ssb.ToTable("substrands");
+
+                            ssb.WithOwner();
+
+                            ssb.Property<int>("Id");
+
+                            ssb.HasKey("Id");
+
+                            ssb.Property("Name")
+                                .HasMaxLength(50);
+
+                            ssb.OwnsMany(typeof(ContentDescriptor), "_contentDescriptors", cdb =>
+                            {
+                                cdb.ToTable("content_descriptors");
+
+                                // Substrand may not exist in certain subjects
+                                cdb.WithOwner();
+
+                                cdb.Property<int>("Id");
+
+                                cdb.HasKey("Id");
+
+                                cdb.OwnsMany(typeof(Elaboration), "_elaborations", eb =>
+                                {
+                                    eb.ToTable("elaborations");
+
+                                    eb.WithOwner();
+
+                                    eb.Property<int>("Id");
+
+                                    eb.HasKey("Id");
+
+                                });
+                            });
+                        });
+                    });
+                });
+        */
         builder.HasMany(s => s.YearLevels)
             .WithOne()
-            .HasForeignKey("Subject")
-            .IsRequired();
+            .IsRequired()
+            .OnDelete(DeleteBehavior.Cascade);
 
-        builder.Navigation(s => s.YearLevels).UsePropertyAccessMode(PropertyAccessMode.Field);
+        builder.Metadata.FindNavigation(nameof(Subject.YearLevels))!
+            .SetPropertyAccessMode(PropertyAccessMode.Field);
     }
 }
 
@@ -34,19 +106,18 @@ public class YearLevelConfiguration : IEntityTypeConfiguration<YearLevel>
     {
         builder.ToTable("year_levels");
 
-        builder.HasKey(yl => yl.Id);
+        builder.Property<int>("Id");
 
-        builder.Property(yl => yl.Id)
-            .HasColumnName("YearLevelId")
-            .ValueGeneratedNever()
-            .HasConversion(id => id.Value, id => YearLevelId.Create(id));
+        builder.HasKey("Id");
 
         builder.HasMany(yl => yl.Strands)
             .WithOne()
-            .HasForeignKey("YearLevel")
-            .IsRequired();
+            .IsRequired()
+            .HasForeignKey("YearLevelId")
+            .OnDelete(DeleteBehavior.Cascade);
 
-        builder.Navigation(yl => yl.Strands).UsePropertyAccessMode(PropertyAccessMode.Field);
+        builder.Metadata.FindNavigation(nameof(YearLevel.Strands))!
+            .SetPropertyAccessMode(PropertyAccessMode.Field);
     }
 }
 
@@ -56,22 +127,19 @@ public class StrandConfiguration : IEntityTypeConfiguration<Strand>
     {
         builder.ToTable("strands");
 
-        builder.HasKey(sb => sb.Id);
+        builder.Property<int>("Id");
 
-        builder.Property(sb => sb.Id)
-            .HasColumnName("StrandId")
-            .ValueGeneratedNever()
-            .HasConversion(id => id.Value, id => StrandId.Create(id));
+        builder.HasKey("Id");
 
-        builder.HasMany<Substrand>("_substrands")
+        builder.HasMany<Substrand>()
             .WithOne()
-            .HasForeignKey("Strand")
-            .IsRequired();
+            .HasForeignKey("StrandId")
+            .OnDelete(DeleteBehavior.Cascade);
 
-        builder.HasMany<ContentDescriptor>("_contentDescriptors")
+        builder.HasMany<ContentDescriptor>()
             .WithOne()
-            .HasForeignKey("Strand")
-            .IsRequired();
+            .HasForeignKey("StrandId")
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }
 
@@ -81,17 +149,18 @@ public class SubstrandConfiguration : IEntityTypeConfiguration<Substrand>
     {
         builder.ToTable("substrands");
 
-        builder.HasKey(sb => sb.Id);
+        builder.Property<int>("Id");
 
-        builder.Property(sb => sb.Id)
-            .HasColumnName("SubstrandId")
-            .ValueGeneratedNever()
-            .HasConversion(id => id.Value, id => SubstrandId.Create(id));
+        builder.HasKey("Id");
 
-        builder.HasMany(ss => ss.ContentDescriptors)
+        builder.HasMany<ContentDescriptor>()
             .WithOne()
-            .HasForeignKey("Substrand")
-            .IsRequired();
+            .HasForeignKey("SubstrandId")
+            .IsRequired()
+            .OnDelete(DeleteBehavior.Cascade);
+
+        builder.Metadata.FindNavigation(nameof(Substrand.ContentDescriptors))!
+            .SetPropertyAccessMode(PropertyAccessMode.Field);
     }
 }
 
@@ -101,17 +170,18 @@ public class ContentDescriptorConfiguration : IEntityTypeConfiguration<ContentDe
     {
         builder.ToTable("content_descriptors");
 
-        builder.HasKey(cd => cd.Id);
+        builder.Property<int>("Id");
 
-        builder.Property(cd => cd.Id)
-            .HasColumnName("ContentDescriptorId")
-            .ValueGeneratedNever()
-            .HasConversion(id => id.Value, id => ContentDescriptorId.Create(id));
+        builder.HasKey("Id");
 
-        builder.HasMany(cd => cd.Elaborations)
+        builder.HasMany<Elaboration>()
             .WithOne()
-            .HasForeignKey("ContentDescriptor")
-            .IsRequired();
+            .HasForeignKey("ContentDescriptorId")
+            .IsRequired()
+            .OnDelete(DeleteBehavior.Cascade);
+
+        builder.Metadata.FindNavigation(nameof(ContentDescriptor.Elaborations))!
+            .SetPropertyAccessMode(PropertyAccessMode.Field);
     }
 }
 
@@ -121,11 +191,8 @@ public class ElaborationConfiguration : IEntityTypeConfiguration<Elaboration>
     {
         builder.ToTable("elaborations");
 
-        builder.HasKey(e => e.Id);
+        builder.Property<int>("Id");
 
-        builder.Property(e => e.Id)
-            .HasColumnName("Elaboration")
-            .ValueGeneratedNever()
-            .HasConversion(id => id.Value, id => ElaborationId.Create(id));
+        builder.HasKey("Id");
     }
 }

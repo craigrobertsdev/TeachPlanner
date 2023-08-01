@@ -1,19 +1,18 @@
 ﻿using Domain.Common.Primatives;
-using Domain.LessonPlanAggregate.ValueObjects;
-using Domain.ResourceAggregate.ValueObjects;
-using Domain.SubjectAggregates.ValueObjects;
+using Domain.LessonPlanAggregate;
+using Domain.SubjectAggregates;
 
 namespace Domain.ResourceAggregate;
 
 public sealed class Resource : AggregateRoot<ResourceId>
 {
-    //private readonly List<LessonPlanId> _lessonPlanIds = new();
+    private readonly List<LessonPlan> _lessonPlans = new();
     public string Name { get; private set; }
     public string Url { get; private set; }
     public bool IsAssessment { get; private set; }
-    //public IReadOnlyList<LessonPlanId> LessonPlanIds => _lessonPlanIds.AsReadOnly();
-    public SubjectIdForReference SubjectId { get; private set; }
-    public StrandIdForReference? StrandId { get; private set; }
+    public IReadOnlyList<LessonPlan> LessonPlan => _lessonPlans.AsReadOnly();
+    public SubjectId SubjectId { get; private set; }
+    public List<string> AssociatedStrands { get; private set; } = new();
     public DateTime CreatedDateTime { get; private set; }
     public DateTime UpdatedDateTime { get; private set; }
 
@@ -22,14 +21,19 @@ public sealed class Resource : AggregateRoot<ResourceId>
         string name,
         string url,
         bool isAssessment,
-        SubjectIdForReference subjectId,
-        StrandIdForReference? strandId) : base(id)
+        SubjectId subjectId,
+        List<string>? associatedStrands = null) : base(id)
     {
         Name = name;
         Url = url;
         IsAssessment = isAssessment;
         SubjectId = subjectId;
-        StrandId = strandId;
+
+        if (associatedStrands is not null)
+        {
+            AssociatedStrands = associatedStrands;
+        }
+
         CreatedDateTime = DateTime.UtcNow;
         UpdatedDateTime = DateTime.UtcNow;
     }
@@ -38,10 +42,10 @@ public sealed class Resource : AggregateRoot<ResourceId>
         string name,
         string url,
         bool isAssessment,
-        SubjectIdForReference subjectId,
-        StrandIdForReference? strandId)
+        SubjectId subjectId,
+        List<string>? strandNames)
     {
-        return new(ResourceId.Create(), name, url, isAssessment, subjectId, strandId);
+        return new(new ResourceId(Guid.NewGuid()), name, url, isAssessment, subjectId, strandNames);
     }
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.

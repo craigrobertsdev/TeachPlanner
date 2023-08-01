@@ -1,6 +1,8 @@
-﻿namespace Domain.Common.Planner;
+﻿using Domain.Common.Primatives;
 
-public class Location
+namespace Domain.Common.Planner;
+
+public class Location : ValueObject
 {
     public string StreetNumber { get; set; }
     public string StreetName { get; set; }
@@ -11,5 +13,12 @@ public class Location
         StreetNumber = streetNumber;
         StreetName = streetName;
         Suburb = suburb;
+    }
+
+    public override IEnumerable<object?> GetEqualityComponents()
+    {
+        yield return StreetNumber;
+        yield return StreetName;
+        yield return Suburb;
     }
 }

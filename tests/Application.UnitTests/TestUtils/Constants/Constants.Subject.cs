@@ -1,4 +1,4 @@
-﻿using Domain.SubjectAggregates.ValueObjects;
+﻿using Domain.SubjectAggregates;
 
 namespace Application.UnitTests.TestUtils.Constants;
 
@@ -6,6 +6,6 @@ public static partial class Constants
 {
     public static class Subject
     {
-        public static SubjectId Id = SubjectId.Create();
+        public static SubjectId Id = new SubjectId(Guid.NewGuid());
     }
 }

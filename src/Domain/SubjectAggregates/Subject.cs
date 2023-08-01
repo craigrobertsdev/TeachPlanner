@@ -1,6 +1,4 @@
 using Domain.Common.Primatives;
-using Domain.SubjectAggregates.Entities;
-using Domain.SubjectAggregates.ValueObjects;
 
 namespace Domain.SubjectAggregates;
 
@@ -34,7 +32,7 @@ public sealed class Subject : AggregateRoot<SubjectId>
         DateTime updatedDateTime)
     {
         return new Subject(
-            SubjectId.Create(),
+            new SubjectId(Guid.NewGuid()),
             yearLevels,
             name,
             createdDateTime,

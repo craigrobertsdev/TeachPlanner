@@ -1,5 +1,4 @@
 ﻿using Domain.StudentAggregate;
-using Domain.StudentAggregate.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -9,75 +8,31 @@ public class StudentConfiguration : IEntityTypeConfiguration<Student>
 {
     public void Configure(EntityTypeBuilder<Student> builder)
     {
-        ConfigureStudentsTable(builder);
-        ConfigureStudentReportIdsTable(builder);
-        ConfigureStudentSubjectIdsTable(builder);
-        ConfigureStudentAssessmentIdsTable(builder);
-    }
-
-    private void ConfigureStudentReportIdsTable(EntityTypeBuilder<Student> builder)
-    {
-        builder.OwnsMany(s => s.ReportIds, rib =>
-        {
-            rib.ToTable("student_report_ids");
-
-            rib.WithOwner().HasForeignKey("StudentId");
-
-            rib.HasKey("Id");
-
-            rib.Property(r => r.Value)
-                .HasColumnName("ReportId")
-                .ValueGeneratedNever();
-        });
-
-        builder.Metadata.FindNavigation(nameof(Student.ReportIds))!
-            .SetPropertyAccessMode(PropertyAccessMode.Field);
-    }
-
-    private void ConfigureStudentSubjectIdsTable(EntityTypeBuilder<Student> builder)
-    {
-        builder.OwnsMany(s => s.SubjectIds, sib =>
-        {
-            sib.ToTable("student_subject_ids");
-
-            sib.WithOwner().HasForeignKey("StudentId");
-
-            sib.HasKey("Id");
-
-            sib.Property(s => s.Value)
-                .HasColumnName("SubjectId")
-                .ValueGeneratedNever();
-        });
-
-        builder.Metadata.FindNavigation(nameof(Student.SubjectIds))!
-            .SetPropertyAccessMode(PropertyAccessMode.Field);
-    }
-
-    private void ConfigureStudentAssessmentIdsTable(EntityTypeBuilder<Student> builder)
-    {
-        builder.OwnsMany(s => s.AssessmentIds, aib =>
-        {
-            aib.ToTable("student_assessment_ids");
-
-            aib.WithOwner().HasForeignKey("StudentId");
-
-            aib.HasKey("Id");
-
-            aib.Property(a => a.Value)
-                .HasColumnName("AssessmentId")
-                .ValueGeneratedNever();
-        });
-
-        builder.Metadata.FindNavigation(nameof(Student.AssessmentIds))!
-            .SetPropertyAccessMode(PropertyAccessMode.Field);
-    }
-
-    public void ConfigureStudentsTable(EntityTypeBuilder<Student> builder)
-    {
         builder.HasKey(s => s.Id);
 
         builder.Property(s => s.Id)
-            .HasConversion(s => s.Value, value => StudentId.Create(value))
+            .HasConversion(s => s.Value, value => new StudentId(value))
             .ValueGeneratedNever();
+
+        builder.OwnsMany(s => s.ReportIds);
+
+        builder.OwnsMany(s => s.SummativeAssessmentIds, sib =>
+        {
+            sib.WithOwner().HasForeignKey("StudentId");
+
+            sib.ToTable("student_summative_assessment");
+        });
+
+        builder.OwnsMany(s => s.FormativeAssessmentIds, fib =>
+        {
+            fib.WithOwner().HasForeignKey("StudentId");
+
+            fib.ToTable("student_formative_assessment");
+        });
+
+        builder.OwnsOne(s => s.TeacherId);
+
+        builder.Navigation(s => s.ReportIds).Metadata.SetField("_reportIds");
+        builder.Navigation(s => s.ReportIds).Metadata.SetPropertyAccessMode(PropertyAccessMode.Field);
     }
 }

@@ -1,20 +1,20 @@
-﻿using Domain.Assessments.ValueObjects;
+﻿using Domain.Assessments;
 using Domain.Common.Primatives;
-using Domain.ReportAggregate.ValueObjects;
-using Domain.StudentAggregate.ValueObjects;
-using Domain.SubjectAggregates.ValueObjects;
+using Domain.ReportAggregate;
+using Domain.TeacherAggregate;
 
 namespace Domain.StudentAggregate;
 
 public sealed class Student : AggregateRoot<StudentId>
 {
-    private readonly List<ReportIdForReference> _reportIds = new();
-    private readonly List<SubjectIdForReference> _subjectIds = new();
-    private readonly List<AssessmentIdForReference> _assessmentIds = new();
+    private readonly List<ReportId> _reportIds = new();
+    private readonly List<SummativeAssessmentId> _summativeAssessmentIds = new();
+    private readonly List<FormativeAssessmentId> _formativeAssessmentIds = new();
+    public TeacherId? TeacherId { get; private set; }
 
-    public IReadOnlyList<ReportIdForReference> ReportIds => _reportIds;
-    public IReadOnlyList<SubjectIdForReference> SubjectIds => _subjectIds;
-    public IReadOnlyList<AssessmentIdForReference> AssessmentIds => _assessmentIds;
+    public IReadOnlyList<ReportId> ReportIds => _reportIds;
+    public IReadOnlyList<SummativeAssessmentId> SummativeAssessmentIds => _summativeAssessmentIds;
+    public IReadOnlyList<FormativeAssessmentId> FormativeAssessmentIds => _formativeAssessmentIds;
 
     private Student(StudentId id) : base(id)
     {
@@ -22,7 +22,7 @@ public sealed class Student : AggregateRoot<StudentId>
 
     public static Student Create()
     {
-        return new Student(StudentId.Create());
+        return new Student(new StudentId(Guid.NewGuid()));
     }
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.

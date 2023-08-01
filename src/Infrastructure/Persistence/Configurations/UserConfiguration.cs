@@ -1,5 +1,4 @@
 ﻿using Domain.UserAggregate;
-using Domain.UserAggregate.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -12,7 +11,7 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.HasKey(u => u.Id);
 
         builder.Property(u => u.Id)
-            .HasConversion(id => id.Value, value => UserId.Create(value));
+            .HasConversion(id => id.Value, value => new UserId(value));
 
         builder.Property(u => u.FirstName).HasMaxLength(50);
 

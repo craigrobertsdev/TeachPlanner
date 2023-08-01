@@ -1,10 +1,10 @@
 ﻿using Domain.TeacherAggregate;
-using Domain.UserAggregate.ValueObjects;
+using Domain.UserAggregate;
 
 namespace Application.Common.Interfaces.Persistence;
 public interface ITeacherRepository
 {
     void Create(Teacher teacher);
 
-    Task<Teacher?> GetTeacherByUserId(UserIdForReference userId);
+    Task<Teacher?> GetTeacherByUserId(UserId userId);
 }

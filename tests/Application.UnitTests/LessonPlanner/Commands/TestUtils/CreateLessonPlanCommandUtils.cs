@@ -12,13 +12,14 @@ public static class CreateLessonPlanCommandUtils
     // list of assessmentIds
     // startTime 
     // endTime
-    public static CreateLessonPlanCommand CreateCommand(List<string>? resourceIds = null, List<string>? assessmentIds = null) =>
+    public static CreateLessonPlanCommand CreateCommand(List<string>? resourceIds = null, List<string>? summativeAssessmentIds = null, List<string>? formativeAssessmentIds = null) =>
         new CreateLessonPlanCommand(
             Constants.Teacher.Id.ToString()!,
             Constants.Subject.Id.ToString()!,
             Constants.LessonPlan.PlanningNotes,
             resourceIds != null ? CreateResourceIdList() : new List<string>(),
-            assessmentIds != null ? CreateAssessmentIdList() : new List<string>(),
+            summativeAssessmentIds != null ? CreateAssessmentIdList() : new List<string>(),
+            formativeAssessmentIds != null ? CreateAssessmentIdList() : new List<string>(),
             Constants.LessonPlan.StartTime,
             Constants.LessonPlan.EndTime);
 

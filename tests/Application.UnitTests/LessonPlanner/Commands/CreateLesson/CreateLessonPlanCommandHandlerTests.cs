@@ -36,12 +36,12 @@ public class CreateLessonPlanCommandHandlerTests
 
         yield return new[]
         {
-            CreateLessonPlanCommandUtils.CreateCommand(resourceIds: CreateLessonPlanCommandUtils.CreateResourceIdList(3), assessmentIds: CreateLessonPlanCommandUtils.CreateAssessmentIdList(3))
+            CreateLessonPlanCommandUtils.CreateCommand(resourceIds: CreateLessonPlanCommandUtils.CreateResourceIdList(3), summativeAssessmentIds: CreateLessonPlanCommandUtils.CreateAssessmentIdList(3))
         };
 
         yield return new[]
         {
-            CreateLessonPlanCommandUtils.CreateCommand(assessmentIds: CreateLessonPlanCommandUtils.CreateAssessmentIdList(3))
+            CreateLessonPlanCommandUtils.CreateCommand(summativeAssessmentIds: CreateLessonPlanCommandUtils.CreateAssessmentIdList(3))
         };
 
         yield return new[]

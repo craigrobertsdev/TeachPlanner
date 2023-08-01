@@ -7,13 +7,15 @@ public record CreateLessonPlanResponse(
     string SubjectId,
     string PlanningNotes,
     List<ResourceResponse> ResourceIds,
-    List<AssessmentResponse> AssessmentIds,
+    List<SummativeAssessmentResponse> SummativeAssessmentIds,
+    List<FormativeAssessmentResponse> FormativeAssessmentIds,
     DateTime StartTime,
     DateTime EndTime);
 
 public record ResourceResponse(string Id);
 
-public record AssessmentResponse(string Id);
+public record SummativeAssessmentResponse(string Id);
+public record FormativeAssessmentResponse(string Id);
 
 public record CommentResponse(
     string Id,

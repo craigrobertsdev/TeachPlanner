@@ -1,6 +1,6 @@
-﻿using Domain.ResourceAggregate;
-using Domain.ResourceAggregate.ValueObjects;
-using Domain.SubjectAggregates.ValueObjects;
+﻿using Domain.LessonPlanAggregate;
+using Domain.ResourceAggregate;
+using Domain.SubjectAggregates;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -15,15 +15,15 @@ public class ResourceConfiguration : IEntityTypeConfiguration<Resource>
 
         builder.Property(r => r.Id)
             .ValueGeneratedNever()
-            .HasConversion(id => id.Value, id => ResourceId.Create(id));
+            .HasConversion(id => id.Value, id => new ResourceId(id));
 
         builder.Property(r => r.Name)
             .HasMaxLength(100);
 
-        builder.Property(r => r.SubjectId)
-            .HasConversion(id => id.Value, id => SubjectIdForReference.Create(id));
+        builder.HasOne<Subject>()
+            .WithMany()
+            .HasForeignKey(r => r.SubjectId)
+            .IsRequired();
 
-        builder.Property(r => r.StrandId)
-            .HasConversion(id => id!.Value, id => StrandIdForReference.Create(id));
     }
 }

@@ -1,7 +1,5 @@
 ﻿using Domain.Common.Enums;
 using Domain.Common.Primatives;
-using Domain.YearPlannerAggregate.Entities;
-using Domain.YearPlannerAggregate.ValueObjects;
 
 namespace Domain.YearPlannerAggregate;
 public sealed class YearPlanner : AggregateRoot<YearPlannerId>
@@ -19,7 +17,7 @@ public sealed class YearPlanner : AggregateRoot<YearPlannerId>
     public static YearPlanner Create(YearLevelValue yearLevel, List<TermPlan> termPlans)
     {
         return new YearPlanner(
-            YearPlannerId.Create(),
+            new YearPlannerId(Guid.NewGuid()),
             yearLevel,
             termPlans);
     }

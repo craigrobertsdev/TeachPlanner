@@ -1,8 +1,7 @@
 ﻿using Domain.ReportAggregate;
-using Domain.ReportAggregate.ValueObjects;
-using Domain.StudentAggregate.ValueObjects;
-using Domain.SubjectAggregates.ValueObjects;
-using Domain.TeacherAggregate.ValueObjects;
+using Domain.StudentAggregate;
+using Domain.SubjectAggregates;
+using Domain.TeacherAggregate;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -12,12 +11,35 @@ public class ReportConfiguration : IEntityTypeConfiguration<Report>
 {
     public void Configure(EntityTypeBuilder<Report> builder)
     {
-        ConfigureReportTable(builder);
-        ConfigureReportCommentTable(builder);
-    }
+        builder.ToTable("reports");
 
-    private void ConfigureReportCommentTable(EntityTypeBuilder<Report> builder)
-    {
+        builder.Property(r => r.Id)
+            .ValueGeneratedNever()
+            .HasConversion(r => r.Value, value => new ReportId(value));
+
+        builder.HasOne<Teacher>()
+            .WithMany()
+            .HasForeignKey(r => r.TeacherId)
+            .IsRequired();
+
+        builder.OwnsOne(r => r.StudentId, sib =>
+        {
+            sib.ToTable("student_report");
+
+            sib.WithOwner().HasForeignKey("ReportId");
+
+            sib.Property(s => s.Value)
+                .HasColumnName("StudentId");
+        });
+
+        builder.HasOne<Subject>()
+            .WithMany()
+            .HasForeignKey(r => r.SubjectId)
+            .IsRequired();
+
+        builder.Property(r => r.YearLevel)
+            .HasConversion<string>();
+
         builder.OwnsMany(r => r.ReportComments, cb =>
         {
             cb.ToTable("report_comments");
@@ -26,39 +48,16 @@ public class ReportConfiguration : IEntityTypeConfiguration<Report>
 
             cb.HasKey("Id");
 
-            cb.Property(c => c.Id)
-                .ValueGeneratedNever()
-                .HasConversion(c => c.Value, value => ReportCommentId.Create(value));
-
-            cb.Property(c => c.SubjectId)
-                .ValueGeneratedNever()
-                .HasConversion(s => s.Value, value => SubjectId.Create(value));
+            cb.HasOne<Subject>()
+                .WithMany()
+                .HasForeignKey(c => c.SubjectId)
+                .IsRequired();
 
             cb.Property(c => c.Grade)
                 .HasConversion<string>();
         });
 
         builder.Metadata.FindNavigation(nameof(Report.ReportComments))!.SetPropertyAccessMode(PropertyAccessMode.Field);
-    }
 
-    public void ConfigureReportTable(EntityTypeBuilder<Report> builder)
-    {
-        builder.ToTable("reports");
-
-        builder.Property(r => r.Id)
-            .ValueGeneratedNever()
-            .HasConversion(r => r.Value, value => ReportId.Create(value));
-
-        builder.Property(r => r.TeacherId)
-            .HasConversion(t => t.Value, value => TeacherIdForReference.Create(value));
-
-        builder.Property(r => r.StudentId)
-            .HasConversion(s => s.Value, value => StudentIdForReference.Create(value));
-
-        builder.Property(r => r.SubjectId)
-            .HasConversion(s => s.Value, value => SubjectIdForReference.Create(value));
-
-        builder.Property(r => r.YearLevel)
-            .HasConversion<string>();
     }
 }

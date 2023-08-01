@@ -1,41 +1,42 @@
-﻿using Domain.Assessments.ValueObjects;
+﻿using Domain.Assessments;
 using Domain.Common.Primatives;
-using Domain.LessonPlanAggregate.Entities;
-using Domain.LessonPlanAggregate.ValueObjects;
-using Domain.ResourceAggregate.ValueObjects;
-using Domain.SubjectAggregates.ValueObjects;
-using Domain.TeacherAggregate.ValueObjects;
+using Domain.ResourceAggregate;
+using Domain.SubjectAggregates;
+using Domain.TeacherAggregate;
 
 namespace Domain.LessonPlanAggregate;
 
 public sealed class LessonPlan : AggregateRoot<LessonPlanId>
 {
-    private readonly List<ResourceIdForReference> _resourceIds = new();
-    private readonly List<AssessmentIdForReference> _assessmentIds = new();
+    private readonly List<ResourceId> _resourceIds = new();
+    private readonly List<SummativeAssessmentId> _summativeAssessmentIds = new();
+    private readonly List<FormativeAssessmentId> _formativeAssessmentIds = new();
     private readonly List<LessonComment> _comments = new();
-    public TeacherIdForReference TeacherId { get; private set; }
-    public SubjectIdForReference SubjectId { get; private set; }
+    public TeacherId TeacherId { get; private set; }
+    public SubjectId SubjectId { get; private set; }
     public string PlanningNotes { get; private set; }
     public DateTime StartTime { get; private set; }
     public DateTime EndTime { get; private set; }
     public DateTime CreatedDateTime { get; private set; }
     public DateTime UpdatedDateTime { get; private set; }
 
-    public IReadOnlyList<ResourceIdForReference> ResourceIds => _resourceIds.AsReadOnly();
-    public IReadOnlyList<AssessmentIdForReference> AssessmentIds => _assessmentIds.AsReadOnly();
+    public IReadOnlyList<ResourceId> ResourceIds => _resourceIds.AsReadOnly();
+    public IReadOnlyList<SummativeAssessmentId> SummativeAssessmentIds => _summativeAssessmentIds.AsReadOnly();
+    public IReadOnlyList<FormativeAssessmentId> FormativeAssessmentIds => _formativeAssessmentIds.AsReadOnly();
     public IReadOnlyList<LessonComment> Comments => _comments.AsReadOnly();
 
     private LessonPlan(
         LessonPlanId id,
-        TeacherIdForReference teacherId,
-        SubjectIdForReference subjectId,
+        TeacherId teacherId,
+        SubjectId subjectId,
         string planningNotes,
         DateTime startTime,
         DateTime endTime,
         DateTime createdDateTime,
         DateTime updatedDateTime,
-        List<ResourceIdForReference>? resourceIds,
-        List<AssessmentIdForReference>? assessmentIds) : base(id)
+        List<ResourceId>? resourceIds,
+        List<SummativeAssessmentId>? summativeAssessmentIds,
+        List<FormativeAssessmentId>? formativeAssessmentIds) : base(id)
     {
         TeacherId = teacherId;
         SubjectId = subjectId;
@@ -44,28 +45,33 @@ public sealed class LessonPlan : AggregateRoot<LessonPlanId>
         EndTime = endTime;
         CreatedDateTime = createdDateTime;
         UpdatedDateTime = updatedDateTime;
-
         if (resourceIds != null)
         {
             _resourceIds = resourceIds;
         }
 
-        if (assessmentIds != null)
+        if (summativeAssessmentIds != null)
         {
-            _assessmentIds = assessmentIds;
+            _summativeAssessmentIds = summativeAssessmentIds;
+        }
+
+        if (formativeAssessmentIds != null)
+        {
+            _formativeAssessmentIds = formativeAssessmentIds;
         }
     }
 
     public static LessonPlan Create(
-        TeacherIdForReference teacherId,
-        SubjectIdForReference subjectId,
+        TeacherId teacherId,
+        SubjectId subjectId,
         string planningNotes,
         DateTime startTime,
         DateTime endTime,
-        List<ResourceIdForReference>? resourceIds,
-        List<AssessmentIdForReference>? assessmentIds)
+        List<ResourceId>? resourceIds,
+        List<SummativeAssessmentId>? summativeAssessmentIds,
+        List<FormativeAssessmentId>? formativeAssessmentIds)
     {
-        return new LessonPlan(LessonPlanId.Create(), teacherId, subjectId, planningNotes, startTime, endTime, DateTime.UtcNow, DateTime.UtcNow, resourceIds, assessmentIds);
+        return new LessonPlan(new LessonPlanId(Guid.NewGuid()), teacherId, subjectId, planningNotes, startTime, endTime, DateTime.UtcNow, DateTime.UtcNow, resourceIds, summativeAssessmentIds, formativeAssessmentIds);
     }
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.

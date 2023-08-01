@@ -1,4 +1,4 @@
-﻿using Domain.LessonPlanAggregate.ValueObjects;
+﻿using Domain.LessonPlanAggregate;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using System.Text.Json;

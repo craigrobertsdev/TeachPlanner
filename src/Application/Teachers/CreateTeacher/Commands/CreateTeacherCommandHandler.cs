@@ -2,9 +2,9 @@
 using Application.Teachers.Common;
 using Application.Common.Errors;
 using Domain.TeacherAggregate;
-using Domain.UserAggregate.ValueObjects;
 using ErrorOr;
 using MediatR;
+using Domain.UserAggregate;
 
 namespace Application.Teachers.CreateTeacher.Commands;
 
@@ -19,12 +19,12 @@ public class CreateTeacherCommandHandler : IRequestHandler<CreateTeacherCommand,
 
     public async Task<ErrorOr<TeacherCreatedResult>> Handle(CreateTeacherCommand command, CancellationToken cancellationToken)
     {
-        if (await _teacherRepository.GetTeacherByUserId(UserIdForReference.Create(command.UserId)) is not null)
+        if (await _teacherRepository.GetTeacherByUserId(new UserId(command.UserId)) is not null)
         {
             return Errors.Teacher.DuplicateUserId;
         }
 
-        var teacher = Teacher.Create(UserIdForReference.Create(command.UserId));
+        var teacher = Teacher.Create(new UserId(command.UserId));
 
         _teacherRepository.Create(teacher);
 

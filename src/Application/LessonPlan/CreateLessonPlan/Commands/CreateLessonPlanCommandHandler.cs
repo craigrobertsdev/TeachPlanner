@@ -1,8 +1,8 @@
 ﻿using Application.Common.Interfaces.Persistence;
-using Domain.Assessments.ValueObjects;
-using Domain.ResourceAggregate.ValueObjects;
-using Domain.SubjectAggregates.ValueObjects;
-using Domain.TeacherAggregate.ValueObjects;
+using Domain.Assessments;
+using Domain.ResourceAggregate;
+using Domain.SubjectAggregates;
+using Domain.TeacherAggregate;
 using ErrorOr;
 using MediatR;
 
@@ -20,13 +20,14 @@ public class CreateLessonPlanCommandHandler : IRequestHandler<CreateLessonPlanCo
     public async Task<ErrorOr<Domain.LessonPlanAggregate.LessonPlan>> Handle(CreateLessonPlanCommand command, CancellationToken cancellationToken)
     {
         var lesson = Domain.LessonPlanAggregate.LessonPlan.Create(
-            TeacherIdForReference.Create(Guid.Parse(command.TeacherId)),
-            SubjectIdForReference.Create(Guid.Parse(command.SubjectId)),
+            new TeacherId(Guid.Parse(command.TeacherId)),
+            new SubjectId(Guid.Parse(command.SubjectId)),
             command.PlanningNotes,
             command.StartTime,
             command.EndTime,
-            command.ResourceIds?.Select(resourceId => ResourceIdForReference.Create(Guid.Parse(resourceId))).ToList(),
-            command.AssessmentIds?.Select(assessmentId => AssessmentIdForReference.Create(Guid.Parse(assessmentId))).ToList());
+            command.ResourceIds?.Select(resourceId => new ResourceId(Guid.Parse(resourceId))).ToList(),
+            command.SummativeAssessmentIds?.Select(assessmentId => new SummativeAssessmentId(Guid.Parse(assessmentId))).ToList(),
+            command.FormativeAssessmentIds?.Select(assessmentId => new FormativeAssessmentId(Guid.Parse(assessmentId))).ToList());
 
         await _lessonRepository.Create(lesson);
 

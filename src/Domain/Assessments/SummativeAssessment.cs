@@ -1,44 +1,49 @@
-﻿using Domain.Assessments.Entities;
-using Domain.Assessments.ValueObjects;
-using Domain.Common.Enums;
-using Domain.StudentAggregate.ValueObjects;
-using Domain.SubjectAggregates.ValueObjects;
-using Domain.TeacherAggregate.ValueObjects;
+﻿using Domain.Common.Enums;
+using Domain.Common.Primatives;
+using Domain.StudentAggregate;
+using Domain.SubjectAggregates;
+using Domain.TeacherAggregate;
 
 namespace Domain.Assessments;
 
-public class SummativeAssessment : Assessment
+public class SummativeAssessment : AggregateRoot<SummativeAssessmentId>
 {
+    public TeacherId TeacherId { get; private set; }
+    public SubjectId SubjectId { get; private set; }
+    public StudentId StudentId { get; private set; }
+    public YearLevelValue YearLevel { get; private set; }
+    public DateTime ConductedDateTime { get; private set; }
+    public DateTime CreatedDateTime { get; private set; }
+    public DateTime UpdatedDateTime { get; private set; }
     public string PlanningNotes { get; private set; }
     public DateTime DateScheduled { get; private set; }
     public SummativeAssessmentResult Result { get; private set; }
 
     private SummativeAssessment(
-        AssessmentId id,
-        TeacherIdForReference teacherId,
-        SubjectIdForReference subjectId,
-        StudentIdForReference studentId,
+        SummativeAssessmentId id,
+        TeacherId teacherId,
+        SubjectId subjectId,
+        StudentId studentId,
         YearLevelValue yearLevel,
         string planningNotes,
         DateTime conductedDateTime,
         DateTime dateScheduled,
-        SummativeAssessmentResult result) : base(
-            id,
-            teacherId,
-            subjectId,
-            studentId,
-            yearLevel,
-            conductedDateTime)
+        SummativeAssessmentResult result) : base(id)
     {
+        TeacherId = teacherId;
+        SubjectId = subjectId;
+        StudentId = studentId;
+        YearLevel = yearLevel;
         PlanningNotes = planningNotes;
+        ConductedDateTime = conductedDateTime;
         DateScheduled = dateScheduled;
         Result = result;
     }
 
     public static SummativeAssessment Create(
-        TeacherIdForReference teacherId,
-        SubjectIdForReference subjectId,
-        StudentIdForReference studentId,
+        TeacherId teacherId,
+        SubjectId subjectId,
+        StudentId studentId,
         YearLevelValue yearLevel,
         string planningNotes,
         DateTime conductedDateTime,
@@ -46,7 +51,7 @@ public class SummativeAssessment : Assessment
         SummativeAssessmentResult result)
     {
         return new SummativeAssessment(
-            AssessmentId.Create(),
+            new SummativeAssessmentId(Guid.NewGuid()),
             teacherId,
             subjectId,
             studentId,

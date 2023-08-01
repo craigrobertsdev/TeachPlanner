@@ -1,5 +1,4 @@
 ﻿using Domain.Common.Primatives;
-using Domain.UserAggregate.ValueObjects;
 using System.Resources;
 
 namespace Domain.UserAggregate;
@@ -35,7 +34,7 @@ public sealed class User : AggregateRoot<UserId>
     public static User Create(string firstName, string lastName, string email, string password)
     {
         return new(
-            UserId.Create(),
+            new UserId(Guid.NewGuid()),
             firstName,
             lastName,
             email,

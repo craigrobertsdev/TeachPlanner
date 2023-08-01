@@ -1,4 +1,4 @@
-﻿using Domain.SubjectAggregates.Entities;
+﻿using Domain.SubjectAggregates;
 
 namespace Contracts.Students;
 public record CreateStudentRequest(

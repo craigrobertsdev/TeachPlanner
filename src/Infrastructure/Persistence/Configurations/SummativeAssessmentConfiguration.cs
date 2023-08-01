@@ -1,9 +1,7 @@
 ﻿using Domain.Assessments;
-using Domain.Assessments.Entities;
-using Domain.Assessments.ValueObjects;
-using Domain.StudentAggregate.ValueObjects;
-using Domain.SubjectAggregates.ValueObjects;
-using Domain.TeacherAggregate.ValueObjects;
+using Domain.StudentAggregate;
+using Domain.SubjectAggregates;
+using Domain.TeacherAggregate;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -18,21 +16,24 @@ public class SummativeAssessmentConfiguration : IEntityTypeConfiguration<Summati
 
         builder.Property(a => a.Id)
             .ValueGeneratedNever()
-            .HasConversion(id => id.Value, id => AssessmentId.Create(id));
+            .HasConversion(id => id.Value, id => new SummativeAssessmentId(id));
 
-        builder.Property(a => a.TeacherId)
-            .HasConversion(id => id.Value, id => TeacherIdForReference.Create(id));
+        builder.HasOne<Teacher>()
+            .WithMany()
+            .HasForeignKey(fa => fa.TeacherId);
 
-        builder.Property(a => a.SubjectId)
-            .HasConversion(id => id.Value, id => SubjectIdForReference.Create(id));
+        builder.HasOne<Subject>()
+            .WithMany()
+            .HasForeignKey(fa => fa.SubjectId);
 
-        builder.Property(a => a.StudentId)
-            .HasConversion(id => id.Value, id => StudentIdForReference.Create(id));
+        builder.OwnsOne(sa => sa.StudentId, sib =>
+        {
+            sib.WithOwner().HasForeignKey("SummativeAssessmentId");
+        });
 
         builder.Property(a => a.YearLevel)
             .HasConversion<string>();
 
-        builder.HasOne(sa => sa.Result);
     }
 }
 
@@ -42,35 +43,14 @@ public class SummativeAssessmentResultConfiguration : IEntityTypeConfiguration<S
     {
         builder.ToTable("summative_assessment_results");
 
+        builder.Property<int>("Id");
+
         builder.HasKey("Id");
 
-        builder.Property(rb => rb.Id)
-            .HasColumnName("SummativeAssessmentResultId")
-            .ValueGeneratedNever()
-            .HasConversion(
-                id => id.Value,
-                value => SummativeAssessmentResultId.Create(value));
-
-        builder.Property(rb => rb.StudentId)
-            .ValueGeneratedNever()
-            .HasConversion(
-                id => id.Value,
-                value => StudentId.Create(value));
-
-        builder.Property(rb => rb.SubjectId)
-            .ValueGeneratedNever()
-            .HasConversion(
-                id => id.Value,
-                value => SubjectId.Create(value));
-
-        builder.OwnsOne(rb => rb.Grade)
-            .Property(g => g.Grade)
-            .HasConversion<string>();
-
-        builder.OwnsOne(rb => rb.Grade)
-            .Property(g => g.Id)
-            .HasConversion(
-                id => id.Value,
-                value => GradeId.Create(value));
+        builder.OwnsOne(sa => sa.Grade, gb =>
+        {
+            gb.Property(g => g.Grade).HasConversion<string>();
+            gb.Property(g => g.Percentage);
+        });
     }
 }

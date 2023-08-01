@@ -9,6 +9,7 @@ public record CreateLessonPlanCommand(
     string SubjectId,
     string PlanningNotes,
     List<string> ResourceIds,
-    List<string> AssessmentIds,
+    List<string> SummativeAssessmentIds,
+    List<string> FormativeAssessmentIds,
     DateTime StartTime,
     DateTime EndTime) : IRequest<ErrorOr<Domain.LessonPlanAggregate.LessonPlan>>;
