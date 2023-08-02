@@ -1,7 +1,5 @@
 ﻿using Domain.Common.Planner;
 using Domain.Common.Primatives;
-using Domain.WeekPlannerAggregate;
-using System.Diagnostics.CodeAnalysis;
 
 namespace Domain.TermPlannerAggregate;
 

@@ -6,6 +6,6 @@ public static partial class Constants
 {
     public static class Subject
     {
-        public static SubjectId Id = new SubjectId(Guid.NewGuid());
+        public static Guid Id = Guid.NewGuid();
     }
 }

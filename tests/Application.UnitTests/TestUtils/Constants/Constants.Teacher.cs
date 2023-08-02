@@ -5,6 +5,6 @@ public static partial class Constants
 {
     public static class Teacher
     {
-        public static TeacherId Id = new TeacherId(Guid.NewGuid());
+        public static Guid Id = Guid.NewGuid();
     }
 }

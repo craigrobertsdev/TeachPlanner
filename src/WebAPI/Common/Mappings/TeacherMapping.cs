@@ -14,7 +14,6 @@ public class TeacherMapping : IRegister
             .Map(dest => dest.UserId, src => src.UserId);
 
         config
-            .NewConfig<TeacherCreatedResult, CreateTeacherResponse>()
-            .Map(dest => dest.TeacherId, src => src.Teacher.Id.Value);
+            .NewConfig<TeacherCreatedResult, CreateTeacherResponse>();
     }
 }

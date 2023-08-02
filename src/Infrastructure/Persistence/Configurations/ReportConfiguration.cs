@@ -13,9 +13,10 @@ public class ReportConfiguration : IEntityTypeConfiguration<Report>
     {
         builder.ToTable("reports");
 
+        builder.HasKey(r => r.Id);
+
         builder.Property(r => r.Id)
-            .ValueGeneratedNever()
-            .HasConversion(r => r.Value, value => new ReportId(value));
+            .HasColumnName("Id");
 
         builder.HasOne<Teacher>()
             .WithMany()
@@ -36,18 +37,16 @@ public class ReportConfiguration : IEntityTypeConfiguration<Report>
 
             cb.WithOwner().HasForeignKey("ReportId");
 
-            cb.HasKey("Id");
+            cb.Property<Guid>("Id");
 
-            cb.HasOne<Subject>()
-                .WithMany()
-                .HasForeignKey(c => c.SubjectId)
-                .IsRequired();
+            cb.HasKey("Id");
 
             cb.Property(c => c.Grade)
                 .HasConversion<string>();
         });
 
-        builder.Navigation(r => r.ReportComments).Metadata.SetField("_reportComments");
-        builder.Navigation(lp => lp.ReportComments).UsePropertyAccessMode(PropertyAccessMode.Field);
+        /*        builder.Navigation(r => r.ReportComments).Metadata.SetField("_reportComments");
+                builder.Navigation(lp => lp.ReportComments).UsePropertyAccessMode(PropertyAccessMode.Field);
+        */
     }
 }

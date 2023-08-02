@@ -1,8 +1,4 @@
 ﻿using Domain.Common.Enums;
-using Domain.Common.Primatives;
-using Domain.StudentAggregate;
-using Domain.SubjectAggregates;
-using Domain.TeacherAggregate;
 
 namespace Domain.Assessments;
 
@@ -24,6 +20,7 @@ public class SummativeAssessment : Assessment
         SummativeAssessmentResult result)
         : base(id, teacherId, subjectId, studentId, yearLevel, conductedDateTime)
     {
+        PlanningNotes = planningNotes;
         DateScheduled = dateScheduled;
         Result = result;
     }

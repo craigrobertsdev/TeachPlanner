@@ -11,14 +11,20 @@ public class ResourceConfiguration : IEntityTypeConfiguration<Resource>
     public void Configure(EntityTypeBuilder<Resource> builder)
     {
         builder.ToTable("resources");
+
         builder.HasKey(r => r.Id);
 
         builder.Property(r => r.Id)
-            .ValueGeneratedNever()
-            .HasConversion(id => id.Value, id => new ResourceId(id));
+            .HasColumnName("Id");
 
         builder.Property(r => r.Name)
             .HasMaxLength(100);
+
+        builder.Property(r => r.AssociatedStrands)
+            .HasConversion(
+                v => string.Join(',', v),
+                v => v.Split(',', StringSplitOptions.RemoveEmptyEntries).ToList(),
+                null);
 
         builder.HasOne<Subject>()
             .WithMany()

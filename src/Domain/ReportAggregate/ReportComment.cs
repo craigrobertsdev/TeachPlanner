@@ -6,18 +6,18 @@ namespace Domain.ReportAggregate;
 
 public sealed class ReportComment : ValueObject
 {
-    public SubjectId SubjectId { get; private set; }
+    public Guid Guid { get; private set; }
     public Grade Grade { get; private set; }
     public string Comments { get; private set; }
     public int CharacterLimit { get; private set; }
 
     private ReportComment(
-        SubjectId subjectId,
+        Guid subjectId,
         Grade grade,
         string comments,
         int characterLimit)
     {
-        SubjectId = subjectId;
+        Guid = subjectId;
         Grade = grade;
         Comments = comments;
         CharacterLimit = characterLimit;
@@ -25,7 +25,7 @@ public sealed class ReportComment : ValueObject
 
     public static ReportComment Create(
         Grade grade,
-        SubjectId subjectId,
+        Guid subjectId,
         string comments,
         int characterLimit)
     {
@@ -38,7 +38,7 @@ public sealed class ReportComment : ValueObject
 
     public override IEnumerable<object?> GetEqualityComponents()
     {
-        yield return SubjectId;
+        yield return Guid;
         yield return Grade;
         yield return Comments;
         yield return CharacterLimit;

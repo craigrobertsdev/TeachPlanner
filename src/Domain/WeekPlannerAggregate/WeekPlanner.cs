@@ -1,10 +1,7 @@
 ﻿using Domain.Common.Planner;
 using Domain.Common.Primatives;
-using Domain.LessonPlanAggregate;
-using Domain.TeacherAggregate;
-using Domain.WeekPlannerAggregate;
 
-namespace Domain.TimeTableAggregate;
+namespace Domain.WeekPlannerAggregate;
 
 public sealed class WeekPlanner : AggregateRoot
 {

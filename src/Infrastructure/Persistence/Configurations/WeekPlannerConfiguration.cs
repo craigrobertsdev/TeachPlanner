@@ -1,7 +1,5 @@
-﻿using Domain.Common.Planner;
-using Domain.LessonPlanAggregate;
+﻿using Domain.LessonPlanAggregate;
 using Domain.TeacherAggregate;
-using Domain.TimeTableAggregate;
 using Domain.WeekPlannerAggregate;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -17,8 +15,7 @@ public class WeekPlannerConfiguration : IEntityTypeConfiguration<WeekPlanner>
         builder.HasKey(w => w.Id);
 
         builder.Property(w => w.Id)
-            .ValueGeneratedNever()
-            .HasConversion(id => id.Value, value => new WeekPlannerId(value));
+            .HasColumnName("Id");
 
         builder.HasOne<Teacher>()
             .WithMany()
@@ -32,7 +29,8 @@ public class WeekPlannerConfiguration : IEntityTypeConfiguration<WeekPlanner>
         builder.HasMany(lp => lp.SchoolEvents)
             .WithMany();
 
-        builder.Navigation(wp => wp.LessonPlanIds).Metadata.SetField("_lessonPlanIds");
-        builder.Navigation(wp => wp.LessonPlanIds).UsePropertyAccessMode(PropertyAccessMode.Field);
+        /*        builder.Navigation(wp => wp.LessonPlanIds).Metadata.SetField("_lessonPlanIds");
+                builder.Navigation(wp => wp.LessonPlanIds).UsePropertyAccessMode(PropertyAccessMode.Field);
+        */
     }
 }

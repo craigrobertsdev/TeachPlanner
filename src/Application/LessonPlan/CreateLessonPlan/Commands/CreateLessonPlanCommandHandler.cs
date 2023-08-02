@@ -20,14 +20,14 @@ public class CreateLessonPlanCommandHandler : IRequestHandler<CreateLessonPlanCo
     public async Task<ErrorOr<Domain.LessonPlanAggregate.LessonPlan>> Handle(CreateLessonPlanCommand command, CancellationToken cancellationToken)
     {
         var lesson = Domain.LessonPlanAggregate.LessonPlan.Create(
-            new TeacherId(Guid.Parse(command.TeacherId)),
-            new SubjectId(Guid.Parse(command.SubjectId)),
+            Guid.NewGuid(),
+            Guid.NewGuid(),
             command.PlanningNotes,
             command.StartTime,
             command.EndTime,
-            command.ResourceIds?.Select(resourceId => new ResourceId(Guid.Parse(resourceId))).ToList(),
-            command.SummativeAssessmentIds?.Select(assessmentId => new SummativeAssessmentId(Guid.Parse(assessmentId))).ToList(),
-            command.FormativeAssessmentIds?.Select(assessmentId => new FormativeAssessmentId(Guid.Parse(assessmentId))).ToList());
+            command.ResourceIds?.Select(resourceId => Guid.Parse(resourceId)).ToList(),
+            command.SummativeAssessmentIds?.Select(assessmentId => Guid.Parse(assessmentId)).ToList(),
+            command.FormativeAssessmentIds?.Select(assessmentId => Guid.Parse(assessmentId)).ToList());
 
         await _lessonRepository.Create(lesson);
 

@@ -13,7 +13,7 @@ public class SchoolEventConfiguration : IEntityTypeConfiguration<SchoolEvent>
         builder.HasKey(se => se.Id);
 
         builder.Property(se => se.Id)
-            .HasConversion(id => id.Value, value => new SchoolEventId(value));
+            .HasColumnName("Id");
 
         builder.Property(se => se.Name)
             .HasMaxLength(100);

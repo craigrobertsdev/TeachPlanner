@@ -1,6 +1,5 @@
 ﻿using Domain.Common.Primatives;
 using Domain.LessonPlanAggregate;
-using Domain.SubjectAggregates;
 
 namespace Domain.ResourceAggregate;
 
@@ -11,7 +10,7 @@ public sealed class Resource : AggregateRoot
     public string Url { get; private set; }
     public bool IsAssessment { get; private set; }
     public IReadOnlyList<LessonPlan> LessonPlan => _lessonPlans.AsReadOnly();
-    public Guid Guid { get; private set; }
+    public Guid SubjectId { get; private set; }
     public List<string> AssociatedStrands { get; private set; } = new();
     public DateTime CreatedDateTime { get; private set; }
     public DateTime UpdatedDateTime { get; private set; }
@@ -27,7 +26,7 @@ public sealed class Resource : AggregateRoot
         Name = name;
         Url = url;
         IsAssessment = isAssessment;
-        Guid = subjectId;
+        SubjectId = subjectId;
 
         if (associatedStrands is not null)
         {

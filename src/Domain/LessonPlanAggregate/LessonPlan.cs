@@ -1,8 +1,4 @@
-﻿using Domain.Assessments;
-using Domain.Common.Primatives;
-using Domain.ResourceAggregate;
-using Domain.SubjectAggregates;
-using Domain.TeacherAggregate;
+﻿using Domain.Common.Primatives;
 
 namespace Domain.LessonPlanAggregate;
 
@@ -11,9 +7,9 @@ public sealed class LessonPlan : AggregateRoot
     private readonly List<Guid> _resourceIds = new();
     private readonly List<Guid> _summativeAssessmentIds = new();
     private readonly List<Guid> _formativeAssessmentIds = new();
-    private readonly List<Guid> _comments = new();
-    public TeacherId TeacherId { get; private set; }
-    public SubjectId SubjectId { get; private set; }
+    private readonly List<LessonComment> _comments = new();
+    public Guid TeacherId { get; private set; }
+    public Guid SubjectId { get; private set; }
     public string PlanningNotes { get; private set; }
     public DateTime StartTime { get; private set; }
     public DateTime EndTime { get; private set; }
@@ -23,7 +19,7 @@ public sealed class LessonPlan : AggregateRoot
     public IReadOnlyList<Guid> ResourceIds => _resourceIds.AsReadOnly();
     public IReadOnlyList<Guid> SummativeAssessmentIds => _summativeAssessmentIds.AsReadOnly();
     public IReadOnlyList<Guid> FormativeAssessmentIds => _formativeAssessmentIds.AsReadOnly();
-    public IReadOnlyList<Guid> Comments => _comments.AsReadOnly();
+    public IReadOnlyList<LessonComment> Comments => _comments.AsReadOnly();
 
     private LessonPlan(
         Guid id,
@@ -67,9 +63,9 @@ public sealed class LessonPlan : AggregateRoot
         string planningNotes,
         DateTime startTime,
         DateTime endTime,
-        List<ResourceId>? resourceIds,
-        List<SummativeAssessmentId>? summativeAssessmentIds,
-        List<FormativeAssessmentId>? formativeAssessmentIds)
+        List<Guid>? resourceIds,
+        List<Guid>? summativeAssessmentIds,
+        List<Guid>? formativeAssessmentIds)
     {
         return new LessonPlan(Guid.NewGuid(), teacherId, subjectId, planningNotes, startTime, endTime, DateTime.UtcNow, DateTime.UtcNow, resourceIds, summativeAssessmentIds, formativeAssessmentIds);
     }

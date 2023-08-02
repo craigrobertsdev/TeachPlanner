@@ -6,5 +6,5 @@ public interface ITeacherRepository
 {
     void Create(Teacher teacher);
 
-    Task<Teacher?> GetTeacherByUserId(UserId userId);
+    Task<Teacher?> GetTeacherByUserId(Guid userId);
 }

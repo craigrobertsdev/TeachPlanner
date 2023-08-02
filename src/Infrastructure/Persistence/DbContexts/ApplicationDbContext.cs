@@ -5,7 +5,7 @@ using Domain.ResourceAggregate;
 using Domain.SubjectAggregates;
 using Domain.TeacherAggregate;
 using Domain.TermPlannerAggregate;
-using Domain.TimeTableAggregate;
+using Domain.WeekPlannerAggregate;
 using Domain.UserAggregate;
 using Domain.YearPlannerAggregate;
 using Microsoft.EntityFrameworkCore;

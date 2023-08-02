@@ -25,7 +25,7 @@ public class UserRepository : IUserRepository
 
     }
 
-    public List<User?> GetAllUsers()
+    public List<User> GetAllUsers()
     {
         return _context.Users.ToList();
     }

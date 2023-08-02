@@ -2,7 +2,7 @@
 
 namespace Domain.Common.Planner;
 
-public class SchoolEvent : Entity<SchoolEventId>
+public class SchoolEvent : Entity
 {
     public Location Location { get; private set; }
     public string Name { get; private set; }
@@ -13,7 +13,7 @@ public class SchoolEvent : Entity<SchoolEventId>
     public DateTime UpdatedDateTime { get; private set; }
 
     private SchoolEvent(
-        SchoolEventId id,
+        Guid id,
         Location location,
         string name,
         bool fullDay,
@@ -37,7 +37,7 @@ public class SchoolEvent : Entity<SchoolEventId>
         DateTime eventEnd)
     {
         return new SchoolEvent(
-            new SchoolEventId(Guid.NewGuid()),
+            Guid.NewGuid(),
             location,
             name,
             fullDay,

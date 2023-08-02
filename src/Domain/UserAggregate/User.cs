@@ -1,5 +1,4 @@
 ﻿using Domain.Common.Primatives;
-using System.Resources;
 
 namespace Domain.UserAggregate;
 

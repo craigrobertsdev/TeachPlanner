@@ -14,16 +14,15 @@ public class YearPlannerCorfiguration : IEntityTypeConfiguration<YearPlanner>
         builder.HasKey(yp => yp.Id);
 
         builder.Property(yp => yp.Id)
-            .ValueGeneratedNever()
-            .HasConversion(id => id.Value, value => new YearPlannerId(value));
+            .HasColumnName("Id");
 
         builder.Property(yp => yp.YearLevel)
             .HasConversion<string>();
 
-        builder.ToTable("term_plan");
-
         builder.OwnsMany(yp => yp.TermPlans, tpb =>
         {
+            tpb.ToTable("term_plans");
+
             tpb.WithOwner().HasForeignKey("YearPlannerId");
 
             tpb.HasKey("Id", "YearPlannerId");
@@ -32,13 +31,9 @@ public class YearPlannerCorfiguration : IEntityTypeConfiguration<YearPlanner>
             tpb.Property(tp => tp.Subjects)
                 .HasConversion(
                     v => JsonSerializer.Serialize(v, new JsonSerializerOptions()),
-                    v => JsonSerializer.Deserialize<Dictionary<SubjectId, List<Strand>>>(v, new JsonSerializerOptions())
-                );
+                    v => JsonSerializer.Deserialize<Dictionary<Guid, List<Strand>>>(v, new JsonSerializerOptions()),
+                    null);
         });
-#pragma warning restore CS8603 // Possible null reference return.
-
-        builder.Navigation(yp => yp.TermPlans).Metadata.SetField("_termPlans");
-        builder.Navigation(yp => yp.TermPlans).UsePropertyAccessMode(PropertyAccessMode.Field);
     }
 }
 

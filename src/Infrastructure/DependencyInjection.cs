@@ -29,17 +29,14 @@ public static class DependencyInjection
         var dbContextSettings = new DbContextSettings();
         configuration.Bind(DbContextSettings.SectionName, dbContextSettings);
 
-        /*        services.AddDbContext<ApplicationDbContext>(options => options
-                    .UseMySql(connectionString, serverVersion)
-                    .LogTo(Console.WriteLine, LogLevel.Information)
-                    .EnableSensitiveDataLogging()
-                    .EnableDetailedErrors());
-        */
+        var serverVersion = ServerVersion.AutoDetect(dbContextSettings.DefaultConnection);
 
-        services.AddDbContext<ApplicationDbContext>(options =>
-        {
-            options.UseSqlServer(dbContextSettings.DefaultConnection);
-        });
+        services.AddDbContext<ApplicationDbContext>(options => options
+            .UseMySql(dbContextSettings.DefaultConnection, serverVersion)
+            .LogTo(Console.WriteLine, LogLevel.Information)
+            .EnableSensitiveDataLogging()
+            .EnableDetailedErrors());
+
 
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<ILessonRepository, LessonPlanRepository>();

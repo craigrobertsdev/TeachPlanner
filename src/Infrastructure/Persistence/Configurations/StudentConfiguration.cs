@@ -14,8 +14,7 @@ public class StudentConfiguration : IEntityTypeConfiguration<Student>
         builder.HasKey(s => s.Id);
 
         builder.Property(s => s.Id)
-            .HasConversion(s => s.Value, value => new StudentId(value))
-            .ValueGeneratedNever();
+            .HasColumnName("Id");
 
         builder.HasMany<Report>()
             .WithOne()
@@ -36,13 +35,14 @@ public class StudentConfiguration : IEntityTypeConfiguration<Student>
             .WithMany()
             .HasForeignKey(s => s.TeacherId);
 
-        builder.Navigation(s => s.ReportIds).Metadata.SetField("_reportIds");
-        builder.Navigation(s => s.ReportIds).Metadata.SetPropertyAccessMode(PropertyAccessMode.Field);
+        /*        builder.Navigation(s => s.ReportIds).Metadata.SetField("_reportIds");
+                builder.Navigation(s => s.ReportIds).Metadata.SetPropertyAccessMode(PropertyAccessMode.Field);
 
-        builder.Navigation(s => s.SummativeAssessmentIds).Metadata.SetField("_summativeAssessmentIds");
-        builder.Navigation(s => s.SummativeAssessmentIds).Metadata.SetPropertyAccessMode(PropertyAccessMode.Field);
+                builder.Navigation(s => s.SummativeAssessmentIds).Metadata.SetField("_summativeAssessmentIds");
+                builder.Navigation(s => s.SummativeAssessmentIds).Metadata.SetPropertyAccessMode(PropertyAccessMode.Field);
 
-        builder.Navigation(s => s.FormativeAssessmentIds).Metadata.SetField("_formativeAssessmentIds");
-        builder.Navigation(s => s.FormativeAssessmentIds).Metadata.SetPropertyAccessMode(PropertyAccessMode.Field);
+                builder.Navigation(s => s.FormativeAssessmentIds).Metadata.SetField("_formativeAssessmentIds");
+                builder.Navigation(s => s.FormativeAssessmentIds).Metadata.SetPropertyAccessMode(PropertyAccessMode.Field);
+        */
     }
 }

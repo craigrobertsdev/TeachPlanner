@@ -1,11 +1,4 @@
-﻿using Domain.Assessments;
-using Domain.Common.Primatives;
-using Domain.LessonPlanAggregate;
-using Domain.ReportAggregate;
-using Domain.ResourceAggregate;
-using Domain.StudentAggregate;
-using Domain.SubjectAggregates;
-using Domain.UserAggregate;
+﻿using Domain.Common.Primatives;
 
 namespace Domain.TeacherAggregate;
 

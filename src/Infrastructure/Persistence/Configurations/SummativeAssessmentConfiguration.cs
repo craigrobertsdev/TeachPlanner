@@ -12,31 +12,9 @@ public class SummativeAssessmentConfiguration : IEntityTypeConfiguration<Summati
     {
         builder.ToTable("summative_assessments");
 
-        builder.HasKey(a => a.Id);
-
-        builder.Property(a => a.Id)
-            .ValueGeneratedNever()
-            .HasConversion(id => id.Value, id => new SummativeAssessmentId(id));
-
-        builder.HasOne<Teacher>()
-            .WithMany()
-            .HasForeignKey(fa => fa.TeacherId)
-            .IsRequired();
-
-        builder.HasOne<Subject>()
-            .WithMany()
-            .HasForeignKey(fa => fa.SubjectId)
-            .IsRequired();
-
-        builder.HasOne<Student>()
-            .WithMany()
-            .HasForeignKey(fa => fa.StudentId)
-            .IsRequired();
-
         builder.Property(a => a.YearLevel)
             .HasConversion<string>()
             .IsRequired();
-
     }
 }
 
@@ -46,7 +24,7 @@ public class SummativeAssessmentResultConfiguration : IEntityTypeConfiguration<S
     {
         builder.ToTable("summative_assessment_results");
 
-        builder.Property<int>("Id");
+        builder.Property<Guid>("Id");
 
         builder.HasKey("Id");
 
