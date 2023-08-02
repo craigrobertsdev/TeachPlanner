@@ -95,8 +95,8 @@ public class SubjectConfiguration : IEntityTypeConfiguration<Subject>
             .IsRequired()
             .OnDelete(DeleteBehavior.Cascade);
 
-        builder.Metadata.FindNavigation(nameof(Subject.YearLevels))!
-            .SetPropertyAccessMode(PropertyAccessMode.Field);
+        builder.Navigation(s => s.YearLevels).Metadata.SetField("_yearLevels");
+        builder.Navigation(s => s.YearLevels).UsePropertyAccessMode(PropertyAccessMode.Field);
     }
 }
 
@@ -116,8 +116,8 @@ public class YearLevelConfiguration : IEntityTypeConfiguration<YearLevel>
             .HasForeignKey("YearLevelId")
             .OnDelete(DeleteBehavior.Cascade);
 
-        builder.Metadata.FindNavigation(nameof(YearLevel.Strands))!
-            .SetPropertyAccessMode(PropertyAccessMode.Field);
+        builder.Navigation(yl => yl.Strands).Metadata.SetField("_strands");
+        builder.Navigation(yl => yl.Strands).UsePropertyAccessMode(PropertyAccessMode.Field);
     }
 }
 
@@ -159,8 +159,8 @@ public class SubstrandConfiguration : IEntityTypeConfiguration<Substrand>
             .IsRequired()
             .OnDelete(DeleteBehavior.Cascade);
 
-        builder.Metadata.FindNavigation(nameof(Substrand.ContentDescriptors))!
-            .SetPropertyAccessMode(PropertyAccessMode.Field);
+        builder.Navigation(ss => ss.ContentDescriptors).Metadata.SetField("_contentDescriptors");
+        builder.Navigation(ss => ss.ContentDescriptors).UsePropertyAccessMode(PropertyAccessMode.Field);
     }
 }
 
@@ -180,8 +180,8 @@ public class ContentDescriptorConfiguration : IEntityTypeConfiguration<ContentDe
             .IsRequired()
             .OnDelete(DeleteBehavior.Cascade);
 
-        builder.Metadata.FindNavigation(nameof(ContentDescriptor.Elaborations))!
-            .SetPropertyAccessMode(PropertyAccessMode.Field);
+        builder.Navigation(cd => cd.Elaborations).Metadata.SetField("_elaborations");
+        builder.Navigation(cd => cd.Elaborations).UsePropertyAccessMode(PropertyAccessMode.Field);
     }
 }
 

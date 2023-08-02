@@ -2,13 +2,13 @@
 using Domain.Common.Primatives;
 
 namespace Domain.YearPlannerAggregate;
-public sealed class YearPlanner : AggregateRoot<YearPlannerId>
+public sealed class YearPlanner : AggregateRoot
 {
     private readonly List<TermPlan> _termPlans = new();
     public YearLevelValue YearLevel { get; private set; }
     public IReadOnlyList<TermPlan> TermPlans => _termPlans.AsReadOnly();
 
-    private YearPlanner(YearPlannerId id, YearLevelValue yearLevel, List<TermPlan> termPlans) : base(id)
+    private YearPlanner(Guid id, YearLevelValue yearLevel, List<TermPlan> termPlans) : base(id)
     {
         YearLevel = yearLevel;
         _termPlans = termPlans;
@@ -17,7 +17,7 @@ public sealed class YearPlanner : AggregateRoot<YearPlannerId>
     public static YearPlanner Create(YearLevelValue yearLevel, List<TermPlan> termPlans)
     {
         return new YearPlanner(
-            new YearPlannerId(Guid.NewGuid()),
+            Guid.NewGuid(),
             yearLevel,
             termPlans);
     }

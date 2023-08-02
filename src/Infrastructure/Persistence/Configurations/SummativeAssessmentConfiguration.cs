@@ -20,19 +20,22 @@ public class SummativeAssessmentConfiguration : IEntityTypeConfiguration<Summati
 
         builder.HasOne<Teacher>()
             .WithMany()
-            .HasForeignKey(fa => fa.TeacherId);
+            .HasForeignKey(fa => fa.TeacherId)
+            .IsRequired();
 
         builder.HasOne<Subject>()
             .WithMany()
-            .HasForeignKey(fa => fa.SubjectId);
+            .HasForeignKey(fa => fa.SubjectId)
+            .IsRequired();
 
-        builder.OwnsOne(sa => sa.StudentId, sib =>
-        {
-            sib.WithOwner().HasForeignKey("SummativeAssessmentId");
-        });
+        builder.HasOne<Student>()
+            .WithMany()
+            .HasForeignKey(fa => fa.StudentId)
+            .IsRequired();
 
         builder.Property(a => a.YearLevel)
-            .HasConversion<string>();
+            .HasConversion<string>()
+            .IsRequired();
 
     }
 }

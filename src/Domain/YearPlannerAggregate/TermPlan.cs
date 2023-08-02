@@ -4,16 +4,16 @@ using Domain.SubjectAggregates;
 namespace Domain.YearPlannerAggregate;
 public sealed class TermPlan : ValueObject
 {
-    private readonly Dictionary<SubjectId, List<Strand>> _subjects = new();
-    public IReadOnlyDictionary<SubjectId, List<Strand>> Subjects => _subjects.AsReadOnly();
+    private readonly Dictionary<Guid, List<Strand>> _subjects = new();
+    public IReadOnlyDictionary<Guid, List<Strand>> Subjects => _subjects.AsReadOnly();
 
     private TermPlan(
-        Dictionary<SubjectId, List<Strand>> subjects)
+        Dictionary<Guid, List<Strand>> subjects)
     {
         _subjects = subjects;
     }
 
-    public static TermPlan Create(Dictionary<SubjectId, List<Strand>> subjects)
+    public static TermPlan Create(Dictionary<Guid, List<Strand>> subjects)
     {
         return new TermPlan(subjects);
     }

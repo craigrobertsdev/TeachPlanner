@@ -6,23 +6,23 @@ using Domain.WeekPlannerAggregate;
 
 namespace Domain.TimeTableAggregate;
 
-public sealed class WeekPlanner : AggregateRoot<WeekPlannerId>
+public sealed class WeekPlanner : AggregateRoot
 {
-    private readonly List<LessonPlanId> _lessonPlanIds = new();
+    private readonly List<Guid> _lessonPlanIds = new();
     private readonly List<SchoolEvent> _schoolEvents = new();
     public DateTime WeekStart { get; private set; }
-    public TeacherId TeacherId { get; private set; }
+    public Guid TeacherId { get; private set; }
     public int WeekNumber { get; private set; }
-    public IReadOnlyList<LessonPlanId> LessonPlanIds => _lessonPlanIds.AsReadOnly();
+    public IReadOnlyList<Guid> LessonPlanIds => _lessonPlanIds.AsReadOnly();
     public IReadOnlyList<SchoolEvent> SchoolEvents => _schoolEvents.AsReadOnly();
     public DateTime CreatedDateTime { get; private set; }
     public DateTime UpdatedDateTime { get; private set; }
 
     private WeekPlanner(
-        WeekPlannerId id,
+        Guid id,
         DateTime weekStart,
-        TeacherId teacherId,
-        List<LessonPlanId> lessonPlanIds,
+        Guid teacherId,
+        List<Guid> lessonPlanIds,
         List<SchoolEvent>? schoolEvents) : base(id)
     {
         WeekStart = weekStart;
@@ -39,12 +39,12 @@ public sealed class WeekPlanner : AggregateRoot<WeekPlannerId>
 
     public static WeekPlanner Create(
         DateTime weekStart,
-        TeacherId teacherId,
-        List<LessonPlanId> lessonPlanIds,
+        Guid teacherId,
+        List<Guid> lessonPlanIds,
         List<SchoolEvent>? schoolEvents = null)
     {
         return new WeekPlanner(
-            new WeekPlannerId(Guid.NewGuid()),
+            Guid.NewGuid(),
             weekStart,
             teacherId,
             lessonPlanIds,

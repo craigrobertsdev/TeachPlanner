@@ -3,7 +3,7 @@ using System.Resources;
 
 namespace Domain.UserAggregate;
 
-public sealed class User : AggregateRoot<UserId>
+public sealed class User : AggregateRoot
 {
     public string FirstName { get; private set; }
     public string LastName { get; private set; }
@@ -13,7 +13,7 @@ public sealed class User : AggregateRoot<UserId>
     public DateTime UpdatedDateTime { get; private set; }
 
     private User(
-        UserId id,
+        Guid id,
         string firstName,
         string lastName,
         string email,
@@ -34,7 +34,7 @@ public sealed class User : AggregateRoot<UserId>
     public static User Create(string firstName, string lastName, string email, string password)
     {
         return new(
-            new UserId(Guid.NewGuid()),
+            Guid.NewGuid(),
             firstName,
             lastName,
             email,

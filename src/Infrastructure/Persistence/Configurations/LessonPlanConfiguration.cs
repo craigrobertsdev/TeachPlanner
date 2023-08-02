@@ -39,30 +39,28 @@ public class LessonPlanConfiguration : IEntityTypeConfiguration<LessonPlan>
             lcb.HasKey("Id", "LessonPlanId");
         });
 
-        builder.OwnsMany(lp => lp.SummativeAssessmentIds, sib =>
-        {
-            sib.WithOwner().HasForeignKey("LessonPlanId");
+        builder.HasMany<SummativeAssessment>()
+            .WithOne()
+            .HasForeignKey("LessonPlan");
 
-            sib.ToTable("lesson_summative_assessment");
-        });
+        builder.HasMany<FormativeAssessment>()
+            .WithOne()
+            .HasForeignKey("LessonPlan");
 
-        builder.OwnsMany(lp => lp.FormativeAssessmentIds, fib =>
-        {
-            fib.WithOwner().HasForeignKey("LessonPlanId");
+        builder.HasMany<Resource>()
+            .WithMany();
 
-            fib.ToTable("lesson_formative_assessment");
-        });
+        builder.Navigation(lp => lp.SummativeAssessmentIds).Metadata.SetField("_summativeAssessmentIds");
+        builder.Navigation(lp => lp.SummativeAssessmentIds).UsePropertyAccessMode(PropertyAccessMode.Field);
 
-        builder.OwnsMany(lp => lp.ResourceIds, rib =>
-        {
-            rib.WithOwner().HasForeignKey("LessonPlanId");
+        builder.Navigation(lp => lp.FormativeAssessmentIds).Metadata.SetField("_formativeAssessmentIds");
+        builder.Navigation(lp => lp.FormativeAssessmentIds).UsePropertyAccessMode(PropertyAccessMode.Field);
 
-            rib.ToTable("lesson_resource");
-        });
+        builder.Navigation(lp => lp.ResourceIds).Metadata.SetField("_resourceIds");
+        builder.Navigation(lp => lp.ResourceIds).UsePropertyAccessMode(PropertyAccessMode.Field);
 
-        builder.Metadata.FindNavigation(nameof(LessonPlan.Comments))!.SetPropertyAccessMode(PropertyAccessMode.Field);
-        builder.Metadata.FindNavigation(nameof(LessonPlan.SummativeAssessmentIds))!.SetPropertyAccessMode(PropertyAccessMode.Field);
-        builder.Metadata.FindNavigation(nameof(LessonPlan.FormativeAssessmentIds))!.SetPropertyAccessMode(PropertyAccessMode.Field);
+        builder.Navigation(lp => lp.Comments).Metadata.SetField("_comments");
+        builder.Navigation(lp => lp.Comments).UsePropertyAccessMode(PropertyAccessMode.Field);
 
     }
 }

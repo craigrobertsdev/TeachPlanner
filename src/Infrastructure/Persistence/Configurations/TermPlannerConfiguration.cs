@@ -22,7 +22,13 @@ public class TermPlannerConfiguration : IEntityTypeConfiguration<TermPlanner>
             .WithOne()
             .IsRequired();
 
-        builder.HasMany<SchoolEvent>()
+        builder.HasMany(tp => tp.SchoolEvents)
             .WithMany();
+
+        builder.Navigation(tp => tp.WeekPlannerIds).Metadata.SetField("_weekPlannerIds");
+        builder.Navigation(tp => tp.WeekPlannerIds).UsePropertyAccessMode(PropertyAccessMode.Field);
+
+        builder.Navigation(tp => tp.SchoolEvents).Metadata.SetField("_schoolEvents");
+        builder.Navigation(tp => tp.SchoolEvents).UsePropertyAccessMode(PropertyAccessMode.Field);
     }
 }

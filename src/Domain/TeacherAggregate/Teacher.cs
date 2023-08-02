@@ -9,35 +9,35 @@ using Domain.UserAggregate;
 
 namespace Domain.TeacherAggregate;
 
-public sealed class Teacher : AggregateRoot<TeacherId>
+public sealed class Teacher : AggregateRoot
 {
-    private readonly List<SubjectId> _subjectIds = new();
-    private readonly List<StudentId> _studentIds = new();
-    private readonly List<SummativeAssessmentId> _summativeAssessmentIds = new();
-    private readonly List<FormativeAssessmentId> _formativeAssessmentIds = new();
-    private readonly List<ResourceId> _resourceIds = new();
-    private readonly List<ReportId> _reportIds = new();
-    private readonly List<LessonPlan> _lessonPlans = new();
-    private readonly UserId _userId;
-    public UserId UserId => _userId;
-    public IReadOnlyList<SubjectId> SubjectIds => _subjectIds;
-    public IReadOnlyList<StudentId> StudentIds => _studentIds;
-    public IReadOnlyList<SummativeAssessmentId> SummativeAssessmentIds => _summativeAssessmentIds;
-    public IReadOnlyList<FormativeAssessmentId> FormativeAssessmentIds => _formativeAssessmentIds;
-    public IReadOnlyList<ResourceId> ResourceIds => _resourceIds;
-    public IReadOnlyList<ReportId> ReportIds => _reportIds;
-    public IReadOnlyList<LessonPlan> LessonPlans => _lessonPlans;
+    private readonly List<Guid> _subjectIds = new();
+    private readonly List<Guid> _studentIds = new();
+    private readonly List<Guid> _summativeAssessmentIds = new();
+    private readonly List<Guid> _formativeAssessmentIds = new();
+    private readonly List<Guid> _resourceIds = new();
+    private readonly List<Guid> _reportIds = new();
+    private readonly List<Guid> _lessonPlanIds = new();
+    private readonly Guid _userId;
+    public Guid UserId => _userId;
+    public IReadOnlyList<Guid> SubjectIds => _subjectIds;
+    public IReadOnlyList<Guid> StudentIds => _studentIds;
+    public IReadOnlyList<Guid> SummativeAssessmentIds => _summativeAssessmentIds;
+    public IReadOnlyList<Guid> FormativeAssessmentIds => _formativeAssessmentIds;
+    public IReadOnlyList<Guid> ResourceIds => _resourceIds;
+    public IReadOnlyList<Guid> ReportIds => _reportIds;
+    public IReadOnlyList<Guid> LessonPlanIds => _lessonPlanIds;
 
     private Teacher(
-        TeacherId id,
-        UserId userId) : base(id)
+        Guid id,
+        Guid userId) : base(id)
     {
         _userId = userId;
     }
 
-    public static Teacher Create(UserId userId)
+    public static Teacher Create(Guid userId)
     {
-        return new(new TeacherId(Guid.NewGuid()), userId);
+        return new(Guid.NewGuid(), userId);
     }
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.

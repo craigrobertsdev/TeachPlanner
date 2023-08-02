@@ -5,24 +5,24 @@ using Domain.TeacherAggregate;
 
 namespace Domain.StudentAggregate;
 
-public sealed class Student : AggregateRoot<StudentId>
+public sealed class Student : AggregateRoot
 {
-    private readonly List<ReportId> _reportIds = new();
-    private readonly List<SummativeAssessmentId> _summativeAssessmentIds = new();
-    private readonly List<FormativeAssessmentId> _formativeAssessmentIds = new();
+    private readonly List<Guid> _reportIds = new();
+    private readonly List<Guid> _summativeAssessmentIds = new();
+    private readonly List<Guid> _formativeAssessmentIds = new();
     public TeacherId? TeacherId { get; private set; }
 
-    public IReadOnlyList<ReportId> ReportIds => _reportIds;
-    public IReadOnlyList<SummativeAssessmentId> SummativeAssessmentIds => _summativeAssessmentIds;
-    public IReadOnlyList<FormativeAssessmentId> FormativeAssessmentIds => _formativeAssessmentIds;
+    public IReadOnlyList<Guid> ReportIds => _reportIds;
+    public IReadOnlyList<Guid> SummativeAssessmentIds => _summativeAssessmentIds;
+    public IReadOnlyList<Guid> FormativeAssessmentIds => _formativeAssessmentIds;
 
-    private Student(StudentId id) : base(id)
+    private Student(Guid id) : base(id)
     {
     }
 
     public static Student Create()
     {
-        return new Student(new StudentId(Guid.NewGuid()));
+        return new Student(Guid.NewGuid());
     }
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.

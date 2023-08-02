@@ -25,12 +25,9 @@ public class WeekPlannerConfiguration : IEntityTypeConfiguration<WeekPlanner>
             .HasForeignKey(w => w.TeacherId)
             .IsRequired();
 
-        builder.OwnsMany(wp => wp.LessonPlanIds, lp =>
-        {
-            lp.WithOwner().HasForeignKey("WeekPlannerId");
-
-            lp.ToTable("week_planner_lesson_plan");
-        });
+        builder.HasMany<LessonPlan>()
+            .WithOne()
+            .HasForeignKey("WeekPlannerId");
 
         builder.HasMany(lp => lp.SchoolEvents)
             .WithMany();

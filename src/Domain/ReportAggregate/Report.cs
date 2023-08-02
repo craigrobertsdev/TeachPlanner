@@ -6,23 +6,23 @@ using Domain.TeacherAggregate;
 
 namespace Domain.ReportAggregate;
 
-public sealed class Report : AggregateRoot<ReportId>
+public sealed class Report : AggregateRoot
 {
     private readonly List<ReportComment> _reportComments = new();
-    public TeacherId TeacherId { get; private set; }
-    public StudentId StudentId { get; private set; }
-    public SubjectId SubjectId { get; private set; }
+    public Guid TeacherId { get; private set; }
+    public Guid StudentId { get; private set; }
+    public Guid SubjectId { get; private set; }
     public YearLevelValue YearLevel { get; private set; }
     public IReadOnlyList<ReportComment> ReportComments => _reportComments.AsReadOnly();
     public DateTime CreatedDateTime { get; private set; }
     public DateTime UpdatedDateTime { get; private set; }
 
     private Report(
-        ReportId id,
+        Guid id,
         List<ReportComment> reportComments,
-        TeacherId teacherId,
-        StudentId studentId,
-        SubjectId subjectId,
+        Guid teacherId,
+        Guid studentId,
+        Guid subjectId,
         YearLevelValue yearLevel,
         DateTime createdDateTime,
         DateTime updatedDateTime) : base(id)
@@ -37,15 +37,15 @@ public sealed class Report : AggregateRoot<ReportId>
     }
 
     public static Report Create(
-        TeacherId teacherId,
-        StudentId studentId,
-        SubjectId subjectId,
+        Guid teacherId,
+        Guid studentId,
+        Guid subjectId,
         YearLevelValue yearLevel,
         DateTime createdDateTime,
         DateTime updatedDateTime)
     {
         return new Report(
-            new ReportId(Guid.NewGuid()),
+            Guid.NewGuid(),
             new List<ReportComment>(),
             teacherId,
             studentId,

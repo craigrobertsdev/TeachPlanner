@@ -22,16 +22,6 @@ public class ReportConfiguration : IEntityTypeConfiguration<Report>
             .HasForeignKey(r => r.TeacherId)
             .IsRequired();
 
-        builder.OwnsOne(r => r.StudentId, sib =>
-        {
-            sib.ToTable("student_report");
-
-            sib.WithOwner().HasForeignKey("ReportId");
-
-            sib.Property(s => s.Value)
-                .HasColumnName("StudentId");
-        });
-
         builder.HasOne<Subject>()
             .WithMany()
             .HasForeignKey(r => r.SubjectId)
@@ -57,7 +47,7 @@ public class ReportConfiguration : IEntityTypeConfiguration<Report>
                 .HasConversion<string>();
         });
 
-        builder.Metadata.FindNavigation(nameof(Report.ReportComments))!.SetPropertyAccessMode(PropertyAccessMode.Field);
-
+        builder.Navigation(r => r.ReportComments).Metadata.SetField("_reportComments");
+        builder.Navigation(lp => lp.ReportComments).UsePropertyAccessMode(PropertyAccessMode.Field);
     }
 }

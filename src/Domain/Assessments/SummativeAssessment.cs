@@ -6,44 +6,32 @@ using Domain.TeacherAggregate;
 
 namespace Domain.Assessments;
 
-public class SummativeAssessment : AggregateRoot<SummativeAssessmentId>
+public class SummativeAssessment : Assessment
 {
-    public TeacherId TeacherId { get; private set; }
-    public SubjectId SubjectId { get; private set; }
-    public StudentId StudentId { get; private set; }
-    public YearLevelValue YearLevel { get; private set; }
-    public DateTime ConductedDateTime { get; private set; }
-    public DateTime CreatedDateTime { get; private set; }
-    public DateTime UpdatedDateTime { get; private set; }
     public string PlanningNotes { get; private set; }
     public DateTime DateScheduled { get; private set; }
     public SummativeAssessmentResult Result { get; private set; }
 
     private SummativeAssessment(
-        SummativeAssessmentId id,
-        TeacherId teacherId,
-        SubjectId subjectId,
-        StudentId studentId,
+        Guid id,
+        Guid teacherId,
+        Guid subjectId,
+        Guid studentId,
         YearLevelValue yearLevel,
         string planningNotes,
         DateTime conductedDateTime,
         DateTime dateScheduled,
-        SummativeAssessmentResult result) : base(id)
+        SummativeAssessmentResult result)
+        : base(id, teacherId, subjectId, studentId, yearLevel, conductedDateTime)
     {
-        TeacherId = teacherId;
-        SubjectId = subjectId;
-        StudentId = studentId;
-        YearLevel = yearLevel;
-        PlanningNotes = planningNotes;
-        ConductedDateTime = conductedDateTime;
         DateScheduled = dateScheduled;
         Result = result;
     }
 
     public static SummativeAssessment Create(
-        TeacherId teacherId,
-        SubjectId subjectId,
-        StudentId studentId,
+        Guid teacherId,
+        Guid subjectId,
+        Guid studentId,
         YearLevelValue yearLevel,
         string planningNotes,
         DateTime conductedDateTime,
@@ -51,7 +39,7 @@ public class SummativeAssessment : AggregateRoot<SummativeAssessmentId>
         SummativeAssessmentResult result)
     {
         return new SummativeAssessment(
-            new SummativeAssessmentId(Guid.NewGuid()),
+            Guid.NewGuid(),
             teacherId,
             subjectId,
             studentId,

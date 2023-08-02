@@ -2,7 +2,7 @@ using Domain.Common.Primatives;
 
 namespace Domain.SubjectAggregates;
 
-public sealed class Subject : AggregateRoot<SubjectId>
+public sealed class Subject : AggregateRoot
 {
     private readonly List<YearLevel> _yearLevels = new();
     public string Name { get; private set; }
@@ -11,7 +11,7 @@ public sealed class Subject : AggregateRoot<SubjectId>
     public DateTime UpdatedDateTime { get; private set; }
 
     private Subject(
-        SubjectId id,
+        Guid id,
         List<YearLevel> yearLevels,
         string name,
         DateTime createdDateTime,
@@ -32,7 +32,7 @@ public sealed class Subject : AggregateRoot<SubjectId>
         DateTime updatedDateTime)
     {
         return new Subject(
-            new SubjectId(Guid.NewGuid()),
+            Guid.NewGuid(),
             yearLevels,
             name,
             createdDateTime,

@@ -37,8 +37,8 @@ public class YearPlannerCorfiguration : IEntityTypeConfiguration<YearPlanner>
         });
 #pragma warning restore CS8603 // Possible null reference return.
 
-        builder.Metadata.FindNavigation(nameof(YearPlanner.TermPlans))!
-            .SetPropertyAccessMode(PropertyAccessMode.Field);
+        builder.Navigation(yp => yp.TermPlans).Metadata.SetField("_termPlans");
+        builder.Navigation(yp => yp.TermPlans).UsePropertyAccessMode(PropertyAccessMode.Field);
     }
 }
 

@@ -5,21 +5,21 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Domain.TermPlannerAggregate;
 
-public sealed class TermPlanner : AggregateRoot<TermPlannerId>
+public sealed class TermPlanner : AggregateRoot
 {
-    private readonly List<WeekPlannerId> _weekPlannerIds = new();
+    private readonly List<Guid> _weekPlannerIds = new();
     private readonly List<SchoolEvent> _schoolEvents = new();
     public int TermNumber { get; private set; }
     public DateTime TermStart { get; private set; }
     public DateTime TermEnd { get; private set; }
-    public IReadOnlyList<WeekPlannerId> WeekPlannerIds => _weekPlannerIds.AsReadOnly();
-    public IReadOnlyList<SchoolEvent> SchoolEvent => _schoolEvents.AsReadOnly();
+    public IReadOnlyList<Guid> WeekPlannerIds => _weekPlannerIds.AsReadOnly();
+    public IReadOnlyList<SchoolEvent> SchoolEvents => _schoolEvents.AsReadOnly();
     public DateTime CreatedDateTime { get; private set; }
     public DateTime UpdatedDateTime { get; private set; }
 
     private TermPlanner(
-        TermPlannerId id,
-        List<WeekPlannerId>? weekPlannerIds,
+        Guid id,
+        List<Guid>? weekPlannerIds,
         List<SchoolEvent>? schoolEvents,
         int termNumber,
         DateTime termStart,
@@ -45,7 +45,7 @@ public sealed class TermPlanner : AggregateRoot<TermPlannerId>
     }
 
     public static TermPlanner Create(
-        List<WeekPlannerId> weekPlannerIds,
+        List<Guid> weekPlannerIds,
         List<SchoolEvent>? schoolEvents,
         int termNumber,
         DateTime termStart,
@@ -54,7 +54,7 @@ public sealed class TermPlanner : AggregateRoot<TermPlannerId>
         DateTime updatedDateTime)
     {
         return new TermPlanner(
-            new TermPlannerId(Guid.NewGuid()),
+            Guid.NewGuid(),
             weekPlannerIds,
             schoolEvents,
             termNumber,
