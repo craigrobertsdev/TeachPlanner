@@ -1,6 +1,4 @@
-﻿using Domain.SubjectAggregates;
-
-namespace Application.UnitTests.TestUtils.Constants;
+﻿namespace Application.UnitTests.TestUtils.Constants;
 
 public static partial class Constants
 {

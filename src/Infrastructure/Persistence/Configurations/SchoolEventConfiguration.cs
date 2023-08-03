@@ -18,6 +18,16 @@ public class SchoolEventConfiguration : IEntityTypeConfiguration<SchoolEvent>
         builder.Property(se => se.Name)
             .HasMaxLength(100);
 
-        builder.OwnsOne(se => se.Location);
+        builder.OwnsOne(se => se.Location, lb =>
+        {
+            lb.Property(l => l.StreetNumber)
+                .HasMaxLength(30);
+
+            lb.Property(l => l.StreetName)
+                .HasMaxLength(50);
+
+            lb.Property(l => l.Suburb)
+                .HasMaxLength(50);
+        });
     }
 }

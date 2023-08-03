@@ -1,7 +1,4 @@
-﻿
-using Domain.Assessments;
-
-namespace Application.UnitTests.TestUtils.Constants;
+﻿namespace Application.UnitTests.TestUtils.Constants;
 public static partial class Constants
 {
     public static class Assessment

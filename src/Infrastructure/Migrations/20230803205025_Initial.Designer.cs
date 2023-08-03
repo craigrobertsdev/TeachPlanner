@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230802213532_Change-Relationships")]
-    partial class ChangeRelationships
+    [Migration("20230803205025_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -235,7 +235,8 @@ namespace Infrastructure.Migrations
 
                     b.Property<string>("Url")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasMaxLength(300)
+                        .HasColumnType("varchar(300)");
 
                     b.HasKey("Id");
 
@@ -269,12 +270,13 @@ namespace Infrastructure.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasMaxLength(300)
+                        .HasColumnType("varchar(300)");
 
                     b.Property<Guid?>("StrandId")
                         .HasColumnType("char(36)");
 
-                    b.Property<Guid>("SubstrandId")
+                    b.Property<Guid?>("SubstrandId")
                         .HasColumnType("char(36)");
 
                     b.Property<Guid?>("SubstrandId1")
@@ -297,7 +299,7 @@ namespace Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
-                    b.Property<Guid>("ContentDescriptorId")
+                    b.Property<Guid?>("ContentDescriptorId")
                         .HasColumnType("char(36)");
 
                     b.Property<Guid?>("ContentDescriptorId1")
@@ -305,7 +307,8 @@ namespace Infrastructure.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasMaxLength(250)
+                        .HasColumnType("varchar(250)");
 
                     b.HasKey("Id");
 
@@ -324,7 +327,8 @@ namespace Infrastructure.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
 
                     b.Property<Guid>("YearLevelId")
                         .HasColumnType("char(36)");
@@ -367,7 +371,8 @@ namespace Infrastructure.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
 
                     b.Property<Guid?>("StrandId")
                         .HasColumnType("char(36)");
@@ -390,7 +395,8 @@ namespace Infrastructure.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasMaxLength(10)
+                        .HasColumnType("varchar(10)");
 
                     b.Property<Guid>("SubjectId")
                         .HasColumnType("char(36)");
@@ -415,7 +421,13 @@ namespace Infrastructure.Migrations
                         .HasColumnType("char(36)")
                         .HasColumnName("Id");
 
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("char(36)");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
 
                     b.ToTable("teachers", (string)null);
                 });
@@ -708,15 +720,18 @@ namespace Infrastructure.Migrations
 
                             b1.Property<string>("StreetName")
                                 .IsRequired()
-                                .HasColumnType("longtext");
+                                .HasMaxLength(50)
+                                .HasColumnType("varchar(50)");
 
                             b1.Property<string>("StreetNumber")
                                 .IsRequired()
-                                .HasColumnType("longtext");
+                                .HasMaxLength(30)
+                                .HasColumnType("varchar(30)");
 
                             b1.Property<string>("Suburb")
                                 .IsRequired()
-                                .HasColumnType("longtext");
+                                .HasMaxLength(50)
+                                .HasColumnType("varchar(50)");
 
                             b1.HasKey("SchoolEventId");
 
@@ -875,8 +890,7 @@ namespace Infrastructure.Migrations
                     b.HasOne("Domain.SubjectAggregates.Substrand", null)
                         .WithMany()
                         .HasForeignKey("SubstrandId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Domain.SubjectAggregates.Substrand", null)
                         .WithMany("ContentDescriptors")
@@ -888,8 +902,7 @@ namespace Infrastructure.Migrations
                     b.HasOne("Domain.SubjectAggregates.ContentDescriptor", null)
                         .WithMany()
                         .HasForeignKey("ContentDescriptorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Domain.SubjectAggregates.ContentDescriptor", null)
                         .WithMany("Elaborations")
@@ -918,6 +931,15 @@ namespace Infrastructure.Migrations
                     b.HasOne("Domain.SubjectAggregates.Subject", null)
                         .WithMany("YearLevels")
                         .HasForeignKey("SubjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Domain.TeacherAggregate.Teacher", b =>
+                {
+                    b.HasOne("Domain.UserAggregate.User", null)
+                        .WithOne()
+                        .HasForeignKey("Domain.TeacherAggregate.Teacher", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

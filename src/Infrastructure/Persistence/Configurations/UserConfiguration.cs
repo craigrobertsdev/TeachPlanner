@@ -1,4 +1,5 @@
-﻿using Domain.UserAggregate;
+﻿using Domain.TeacherAggregate;
+using Domain.UserAggregate;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -20,5 +21,9 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder.Property(u => u.Email).HasMaxLength(255);
 
         builder.HasIndex(u => u.Email).IsUnique();
+
+        builder.HasOne<Teacher>()
+            .WithOne()
+            .HasForeignKey<Teacher>(t => t.UserId);
     }
 }

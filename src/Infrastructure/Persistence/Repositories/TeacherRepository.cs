@@ -22,6 +22,11 @@ public class TeacherRepository : ITeacherRepository
 
     public async Task<Teacher?> GetTeacherByUserId(Guid userId)
     {
+        var teachers = _context.Teachers
+            .Include(t => t.StudentIds)
+            .Include(t => t.SummativeAssessmentIds)
+            .Include(t => t.FormativeAssessmentIds);
+
         return await _context.Teachers
             .SingleOrDefaultAsync(t => t.UserId == userId);
     }

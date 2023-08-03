@@ -11,8 +11,7 @@ public sealed class Teacher : AggregateRoot
     private readonly List<Guid> _resourceIds = new();
     private readonly List<Guid> _reportIds = new();
     private readonly List<Guid> _lessonPlanIds = new();
-    private readonly Guid _userId;
-    public Guid UserId => _userId;
+    public Guid UserId;
     public IReadOnlyList<Guid> SubjectIds => _subjectIds;
     public IReadOnlyList<Guid> StudentIds => _studentIds;
     public IReadOnlyList<Guid> SummativeAssessmentIds => _summativeAssessmentIds;
@@ -25,7 +24,7 @@ public sealed class Teacher : AggregateRoot
         Guid id,
         Guid userId) : base(id)
     {
-        _userId = userId;
+        UserId = userId;
     }
 
     public static Teacher Create(Guid userId)

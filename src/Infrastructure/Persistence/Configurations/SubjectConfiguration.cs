@@ -36,6 +36,9 @@ public class YearLevelConfiguration : IEntityTypeConfiguration<YearLevel>
 
         builder.HasKey("Id");
 
+        builder.Property(yl => yl.Name)
+            .HasMaxLength(10);
+
         builder.HasMany(yl => yl.Strands)
             .WithOne()
             .IsRequired()
@@ -54,6 +57,9 @@ public class StrandConfiguration : IEntityTypeConfiguration<Strand>
         builder.Property<Guid>("Id");
 
         builder.HasKey("Id");
+
+        builder.Property(s => s.Name)
+            .HasMaxLength(50);
 
         builder.HasMany<Substrand>()
             .WithOne()
@@ -77,10 +83,12 @@ public class SubstrandConfiguration : IEntityTypeConfiguration<Substrand>
 
         builder.HasKey("Id");
 
+        builder.Property(ss => ss.Name)
+            .HasMaxLength(50);
+
         builder.HasMany<ContentDescriptor>()
             .WithOne()
             .HasForeignKey("SubstrandId")
-            .IsRequired()
             .OnDelete(DeleteBehavior.Cascade);
 
     }
@@ -96,10 +104,12 @@ public class ContentDescriptorConfiguration : IEntityTypeConfiguration<ContentDe
 
         builder.HasKey("Id");
 
+        builder.Property(cd => cd.Description)
+            .HasMaxLength(300);
+
         builder.HasMany<Elaboration>()
             .WithOne()
             .HasForeignKey("ContentDescriptorId")
-            .IsRequired()
             .OnDelete(DeleteBehavior.Cascade);
     }
 }
@@ -113,5 +123,12 @@ public class ElaborationConfiguration : IEntityTypeConfiguration<Elaboration>
         builder.Property<Guid>("Id");
 
         builder.HasKey("Id");
+
+        builder.HasOne(typeof(ContentDescriptor))
+            .WithMany()
+            .HasForeignKey("ContentDescriptorId");
+
+        builder.Property(e => e.Description)
+            .HasMaxLength(250);
     }
 }

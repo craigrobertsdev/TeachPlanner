@@ -20,6 +20,9 @@ public class ResourceConfiguration : IEntityTypeConfiguration<Resource>
         builder.Property(r => r.Name)
             .HasMaxLength(100);
 
+        builder.Property(r => r.Url)
+            .HasMaxLength(300);
+
         builder.Property(r => r.AssociatedStrands)
             .HasConversion(
                 v => string.Join(',', v),

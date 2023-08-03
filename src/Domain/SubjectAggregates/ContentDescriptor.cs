@@ -4,17 +4,17 @@ namespace Domain.SubjectAggregates;
 
 public sealed class ContentDescriptor : ValueObject
 {
-    private readonly List<Elaboration> _elaborations = new();
+    private readonly List<Elaboration>? _elaborations = new();
     public string Description { get; private set; }
-    public IReadOnlyList<Elaboration> Elaborations => _elaborations.AsReadOnly();
+    public IReadOnlyList<Elaboration>? Elaborations => _elaborations?.AsReadOnly();
 
-    private ContentDescriptor(string description, List<Elaboration> elaborations)
+    private ContentDescriptor(string description, List<Elaboration>? elaborations = null)
     {
         Description = description;
         _elaborations = elaborations;
     }
 
-    public static ContentDescriptor Create(string description, List<Elaboration> elaborations)
+    public static ContentDescriptor Create(string description, List<Elaboration>? elaborations)
     {
         return new(description, elaborations);
     }
