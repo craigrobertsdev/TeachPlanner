@@ -2,7 +2,7 @@ namespace Domain.Common.Enums;
 
 public enum YearLevelValue
 {
-    Reception = 0,
+    Foundation = 0,
     Year1 = 1,
     Year2 = 2,
     Year3 = 3,

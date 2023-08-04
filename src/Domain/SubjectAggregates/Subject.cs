@@ -13,31 +13,29 @@ public sealed class Subject : AggregateRoot
     private Subject(
         Guid id,
         List<YearLevel> yearLevels,
-        string name,
-        DateTime createdDateTime,
-        DateTime updatedDateTime
+        string name
     )
         : base(id)
     {
         _yearLevels = yearLevels;
         Name = name;
-        CreatedDateTime = createdDateTime;
-        UpdatedDateTime = updatedDateTime;
+        CreatedDateTime = DateTime.UtcNow;
+        UpdatedDateTime = DateTime.UtcNow;
     }
 
     public static Subject Create(
         string name,
-        List<YearLevel> yearLevels,
-        DateTime createdDateTime,
-        DateTime updatedDateTime)
+        List<YearLevel> yearLevels)
     {
         return new Subject(
             Guid.NewGuid(),
             yearLevels,
-            name,
-            createdDateTime,
-            updatedDateTime);
+            name);
+    }
 
+    public void AddYearLevel(YearLevel yearLevel)
+    {
+        _yearLevels.Add(yearLevel);
     }
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.

@@ -61,6 +61,16 @@ public sealed class Strand : ValueObject
         return contentDescriptors;
     }
 
+    public void AddSubstrand(Substrand substrand)
+    {
+        _substrands!.Add(substrand);
+    }
+
+    public void AddContentDescriptor(ContentDescriptor contentDescriptor)
+    {
+        _contentDescriptors!.Add(contentDescriptor);
+    }
+
     public override IEnumerable<object?> GetEqualityComponents()
     {
         yield return Name;

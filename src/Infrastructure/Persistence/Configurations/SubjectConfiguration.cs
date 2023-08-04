@@ -1,4 +1,5 @@
-﻿using Domain.SubjectAggregates;
+﻿using Domain.Common.Enums;
+using Domain.SubjectAggregates;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -36,8 +37,12 @@ public class YearLevelConfiguration : IEntityTypeConfiguration<YearLevel>
 
         builder.HasKey("Id");
 
-        builder.Property(yl => yl.Name)
-            .HasMaxLength(10);
+        builder.Ignore(yl => yl.Name);
+
+        builder.Property(yl => yl.YearLevelValue)
+            .HasConversion(
+                v => v.ToString(),
+                v => (YearLevelValue)Enum.Parse(typeof(YearLevelValue), v));
 
         builder.HasMany(yl => yl.Strands)
             .WithOne()
