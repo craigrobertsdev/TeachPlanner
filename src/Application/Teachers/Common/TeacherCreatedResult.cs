@@ -2,4 +2,4 @@
 
 namespace Application.Teachers.Common;
 
-public record TeacherCreatedResult(Teacher Teacher);
+public record TeacherCreatedResult(Guid TeacherId);

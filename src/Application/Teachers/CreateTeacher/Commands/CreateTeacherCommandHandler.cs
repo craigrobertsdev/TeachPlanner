@@ -27,7 +27,7 @@ public class CreateTeacherCommandHandler : IRequestHandler<CreateTeacherCommand,
 
         _teacherRepository.Create(teacher);
 
-        return new TeacherCreatedResult(teacher);
+        return new TeacherCreatedResult(teacher.Id);
     }
 
 }
