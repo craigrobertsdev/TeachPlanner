@@ -1,6 +1,8 @@
 ﻿using Application.Common.Interfaces.Authentication;
+using Application.Common.Interfaces.Curriculum;
 using Application.Common.Interfaces.Persistence;
 using Infrastructure.Authentication;
+using Infrastructure.Curriculum;
 using Infrastructure.Persistence;
 using Infrastructure.Persistence.DbContexts;
 using Infrastructure.Persistence.Repositories;
@@ -21,6 +23,7 @@ public static class DependencyInjection
     {
         services.AddPersistence(configuration);
         services.AddAuth(configuration);
+        services.AddCurriculum();
         return services;
     }
 
@@ -41,6 +44,7 @@ public static class DependencyInjection
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<ILessonRepository, LessonPlanRepository>();
         services.AddScoped<ITeacherRepository, TeacherRepository>();
+        services.AddScoped<ICurriculumRepository, CurriculumRepository>();
 
         return services;
     }
@@ -66,6 +70,12 @@ public static class DependencyInjection
             }
             );
 
+        return services;
+    }
+
+    private static IServiceCollection AddCurriculum(this IServiceCollection services)
+    {
+        services.AddScoped<ICurriculumParser, CurriculumParser>();
         return services;
     }
 }

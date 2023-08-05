@@ -1,26 +1,29 @@
 ﻿using Syncfusion.DocIO.DLS;
 using Syncfusion.DocIO;
 using Domain.SubjectAggregates;
+using Application.Common.Interfaces.Curriculum;
 
 namespace Infrastructure.Curriculum;
-public class CurriculumParser
+public class CurriculumParser : ICurriculumParser
 {
     private readonly List<Subject> _subjects;
     private readonly GeneralSubjectParser _generalSubjectParser;
     private readonly MathematicsParser _mathematicsParser;
+    private readonly HealthAndPEParser _healthAndPEParser;
 
     public CurriculumParser()
     {
         _subjects = new();
         _generalSubjectParser = new();
         _mathematicsParser = new();
+        _healthAndPEParser = new();
     }
 
     // Read values from each curriculum document and add appropriate information to the database if not already populated.
-    public List<Subject> GetCurriculumData()
+    public List<Subject> ParseCurriculum()
     {
         string[] filePaths = Directory.GetFiles(
-            "C:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\Curriculum");
+            "C:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\Curriculum Files");
 
         foreach (string file in filePaths)
         {
@@ -28,7 +31,7 @@ public class CurriculumParser
             string[] contentArr = LoadFile(file);
             Console.WriteLine(file);
 
-            string subjectName = file.Split("C:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\Curriculum")[1];
+            string subjectName = file.Split("C:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\Curriculum Files")[1];
 
             subjectName = subjectName.Replace("\\", "").Replace(".docx", "");
 
@@ -41,12 +44,17 @@ public class CurriculumParser
                     break;
                 }
             }
-            //currElements = contentArr.First(x => x.Equals("CURRICULUM ELEMENTS") || x.Equals("Curriculum Elements"));
+
             int index = Array.IndexOf(contentArr, currElements) + 1;
 
             if (subjectName == "Mathematics")
             {
                 var subject = _mathematicsParser.ParseMathematics(contentArr, subjectName, index);
+                _subjects.Add(subject);
+            }
+            else if (subjectName == "Health and Physical Education")
+            {
+                var subject = _healthAndPEParser.ParseHealthAndPE(contentArr, subjectName, index);
                 _subjects.Add(subject);
             }
             else

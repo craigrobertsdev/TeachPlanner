@@ -679,14 +679,14 @@ namespace Infrastructure.Migrations
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     Description = table.Column<string>(type: "varchar(250)", maxLength: 250, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    ContentDescriptorId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
+                    ContentDescriptionId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_elaborations", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_elaborations_content_descriptors_ContentDescriptorId",
-                        column: x => x.ContentDescriptorId,
+                        name: "FK_elaborations_content_descriptors_ContentDescriptionId",
+                        column: x => x.ContentDescriptionId,
                         principalTable: "content_descriptors",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -719,9 +719,9 @@ namespace Infrastructure.Migrations
                 column: "SubstrandId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_elaborations_ContentDescriptorId",
+                name: "IX_elaborations_ContentDescriptionId",
                 table: "elaborations",
-                column: "ContentDescriptorId");
+                column: "ContentDescriptionId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_formative_assessments_LessonPlanId",

@@ -56,7 +56,7 @@ namespace Infrastructure.Migrations
 
                     b.HasIndex("TeacherId");
 
-                    b.ToTable("Assessment");
+                    b.ToTable("Assessment", (string)null);
 
                     b.UseTptMappingStrategy();
                 });
@@ -256,14 +256,18 @@ namespace Infrastructure.Migrations
 
                     b.HasIndex("TeacherId");
 
-                    b.ToTable("Student");
+                    b.ToTable("Student", (string)null);
                 });
 
-            modelBuilder.Entity("Domain.SubjectAggregates.ContentDescriptor", b =>
+            modelBuilder.Entity("Domain.SubjectAggregates.ContentDescription", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
+
+                    b.Property<string>("CurriculumCode")
+                        .IsRequired()
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -296,10 +300,10 @@ namespace Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
-                    b.Property<Guid?>("ContentDescriptorId")
+                    b.Property<Guid?>("ContentDescriptionId")
                         .HasColumnType("char(36)");
 
-                    b.Property<Guid?>("ContentDescriptorId1")
+                    b.Property<Guid?>("ContentDescriptionId1")
                         .HasColumnType("char(36)");
 
                     b.Property<string>("Description")
@@ -309,9 +313,9 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ContentDescriptorId");
+                    b.HasIndex("ContentDescriptionId");
 
-                    b.HasIndex("ContentDescriptorId1");
+                    b.HasIndex("ContentDescriptionId1");
 
                     b.ToTable("elaborations", (string)null);
                 });
@@ -390,10 +394,8 @@ namespace Infrastructure.Migrations
                     b.Property<string>("AchievementStandard")
                         .HasColumnType("longtext");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(10)
-                        .HasColumnType("varchar(10)");
+                    b.Property<int?>("BandLevelValue")
+                        .HasColumnType("int");
 
                     b.Property<Guid>("SubjectId")
                         .HasColumnType("char(36)");
@@ -401,7 +403,7 @@ namespace Infrastructure.Migrations
                     b.Property<string>("YearLevelDescription")
                         .HasColumnType("longtext");
 
-                    b.Property<int>("YearLevelValue")
+                    b.Property<int?>("YearLevelValue")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -493,7 +495,7 @@ namespace Infrastructure.Migrations
                     b.HasIndex("Email")
                         .IsUnique();
 
-                    b.ToTable("Users");
+                    b.ToTable("Users", (string)null);
                 });
 
             modelBuilder.Entity("Domain.WeekPlannerAggregate.WeekPlanner", b =>
@@ -558,7 +560,7 @@ namespace Infrastructure.Migrations
 
                     b.HasIndex("ResourceId");
 
-                    b.ToTable("LessonPlanResource");
+                    b.ToTable("LessonPlanResource", (string)null);
                 });
 
             modelBuilder.Entity("LessonPlanResource1", b =>
@@ -573,7 +575,7 @@ namespace Infrastructure.Migrations
 
                     b.HasIndex("Resource1Id");
 
-                    b.ToTable("LessonPlanResource1");
+                    b.ToTable("LessonPlanResource1", (string)null);
                 });
 
             modelBuilder.Entity("SchoolEventTermPlanner", b =>
@@ -588,7 +590,7 @@ namespace Infrastructure.Migrations
 
                     b.HasIndex("TermPlannerId");
 
-                    b.ToTable("SchoolEventTermPlanner");
+                    b.ToTable("SchoolEventTermPlanner", (string)null);
                 });
 
             modelBuilder.Entity("SchoolEventWeekPlanner", b =>
@@ -603,7 +605,7 @@ namespace Infrastructure.Migrations
 
                     b.HasIndex("WeekPlannerId");
 
-                    b.ToTable("SchoolEventWeekPlanner");
+                    b.ToTable("SchoolEventWeekPlanner", (string)null);
                 });
 
             modelBuilder.Entity("SubjectTeacher", b =>
@@ -618,7 +620,7 @@ namespace Infrastructure.Migrations
 
                     b.HasIndex("TeacherId");
 
-                    b.ToTable("SubjectTeacher");
+                    b.ToTable("SubjectTeacher", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Assessments.FormativeAssessment", b =>
@@ -684,7 +686,7 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Domain.Assessments.SummativeAssessmentResult", b =>
                 {
-                    b.OwnsOne("Domain.Assessments.AssessmentGrade", "Grade", b1 =>
+                    b.OwnsOne("Domain.Assessments.SummativeAssessmentResult.Grade#Domain.Assessments.AssessmentGrade", "Grade", b1 =>
                         {
                             b1.Property<Guid>("SummativeAssessmentResultId")
                                 .HasColumnType("char(36)");
@@ -698,7 +700,7 @@ namespace Infrastructure.Migrations
 
                             b1.HasKey("SummativeAssessmentResultId");
 
-                            b1.ToTable("summative_assessment_results");
+                            b1.ToTable("summative_assessment_results", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("SummativeAssessmentResultId");
@@ -710,7 +712,7 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Domain.Common.Planner.SchoolEvent", b =>
                 {
-                    b.OwnsOne("Domain.Common.Planner.Location", "Location", b1 =>
+                    b.OwnsOne("Domain.Common.Planner.SchoolEvent.Location#Domain.Common.Planner.Location", "Location", b1 =>
                         {
                             b1.Property<Guid>("SchoolEventId")
                                 .HasColumnType("char(36)");
@@ -732,7 +734,7 @@ namespace Infrastructure.Migrations
 
                             b1.HasKey("SchoolEventId");
 
-                            b1.ToTable("school_events");
+                            b1.ToTable("school_events", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("SchoolEventId");
@@ -764,7 +766,7 @@ namespace Infrastructure.Migrations
                         .WithMany()
                         .HasForeignKey("WeekPlannerId");
 
-                    b.OwnsMany("Domain.LessonPlanAggregate.LessonComment", "Comments", b1 =>
+                    b.OwnsMany("Domain.LessonPlanAggregate.LessonPlan.Comments#Domain.LessonPlanAggregate.LessonComment", "Comments", b1 =>
                         {
                             b1.Property<Guid>("Id")
                                 .ValueGeneratedOnAdd()
@@ -825,7 +827,7 @@ namespace Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.OwnsMany("Domain.ReportAggregate.ReportComment", "ReportComments", b1 =>
+                    b.OwnsMany("Domain.ReportAggregate.Report.ReportComments#Domain.ReportAggregate.ReportComment", "ReportComments", b1 =>
                         {
                             b1.Property<Guid>("Id")
                                 .ValueGeneratedOnAdd()
@@ -877,7 +879,7 @@ namespace Infrastructure.Migrations
                         .HasForeignKey("TeacherId");
                 });
 
-            modelBuilder.Entity("Domain.SubjectAggregates.ContentDescriptor", b =>
+            modelBuilder.Entity("Domain.SubjectAggregates.ContentDescription", b =>
                 {
                     b.HasOne("Domain.SubjectAggregates.Strand", null)
                         .WithMany()
@@ -890,20 +892,20 @@ namespace Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("Domain.SubjectAggregates.Substrand", null)
-                        .WithMany("ContentDescriptors")
+                        .WithMany("ContentDescriptions")
                         .HasForeignKey("SubstrandId1");
                 });
 
             modelBuilder.Entity("Domain.SubjectAggregates.Elaboration", b =>
                 {
-                    b.HasOne("Domain.SubjectAggregates.ContentDescriptor", null)
+                    b.HasOne("Domain.SubjectAggregates.ContentDescription", null)
                         .WithMany()
-                        .HasForeignKey("ContentDescriptorId")
+                        .HasForeignKey("ContentDescriptionId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("Domain.SubjectAggregates.ContentDescriptor", null)
+                    b.HasOne("Domain.SubjectAggregates.ContentDescription", null)
                         .WithMany("Elaborations")
-                        .HasForeignKey("ContentDescriptorId1");
+                        .HasForeignKey("ContentDescriptionId1");
                 });
 
             modelBuilder.Entity("Domain.SubjectAggregates.Strand", b =>
@@ -958,7 +960,7 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Domain.YearPlannerAggregate.YearPlanner", b =>
                 {
-                    b.OwnsMany("Domain.YearPlannerAggregate.TermPlan", "TermPlans", b1 =>
+                    b.OwnsMany("Domain.YearPlannerAggregate.YearPlanner.TermPlans#Domain.YearPlannerAggregate.TermPlan", "TermPlans", b1 =>
                         {
                             b1.Property<int>("Id")
                                 .ValueGeneratedOnAdd()
@@ -1098,7 +1100,7 @@ namespace Infrastructure.Migrations
                     b.Navigation("LessonPlan");
                 });
 
-            modelBuilder.Entity("Domain.SubjectAggregates.ContentDescriptor", b =>
+            modelBuilder.Entity("Domain.SubjectAggregates.ContentDescription", b =>
                 {
                     b.Navigation("Elaborations");
                 });
@@ -1110,7 +1112,7 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Domain.SubjectAggregates.Substrand", b =>
                 {
-                    b.Navigation("ContentDescriptors");
+                    b.Navigation("ContentDescriptions");
                 });
 
             modelBuilder.Entity("Domain.SubjectAggregates.YearLevel", b =>

@@ -1,11 +1,11 @@
-﻿using Domain.Common.Enums;
+﻿using Application.Common.Extensions;
+using Domain.Common.Enums;
 using Domain.SubjectAggregates;
-using Application.Common.Extensions;
 
 namespace Infrastructure.Curriculum;
-internal class GeneralSubjectParser
+internal class HealthAndPEParser
 {
-    internal Subject ParseSubject(string[] contentArr, string subjectName, int index)
+    internal Subject ParseHealthAndPE(string[] contentArr, string subjectName, int index)
     {
         var subject = Subject.Create(subjectName, new List<YearLevel>());
 
@@ -28,9 +28,23 @@ internal class GeneralSubjectParser
 
     private YearLevel ParseYearLevel(string[] contentArr, ref int index)
     {
-        YearLevelValue yearLevelValue = contentArr[index] == "Foundation"
-            ? YearLevelValue.Foundation
-            : (YearLevelValue)Enum.Parse(typeof(YearLevelValue), contentArr[index].Replace(" ", ""));
+        BandLevelValue bandLevelValue;
+
+        if (contentArr[index] == "Foundation")
+        {
+            bandLevelValue = BandLevelValue.Foundation;
+        }
+        else
+        {
+            /*            string[] band = contentArr[index].Trim().Split('-');
+                        band = band.Select(x => x.Trim()).ToArray();
+
+                        string bandValue = string.Join("To", band);
+            */
+            bandLevelValue = (BandLevelValue)Enum.Parse(typeof(BandLevelValue), contentArr[index].Replace("-", "To").Replace(" ", ""));
+        }
+
+
 
         index += 2;
         string description = "";
@@ -61,7 +75,7 @@ internal class GeneralSubjectParser
         }
         while (!contentArr[index].StartsWith("Strand"));
 
-        var yearLevel = YearLevel.Create(new List<Strand>(), description, achievementStandard, yearLevelValue, null);
+        var yearLevel = YearLevel.Create(new List<Strand>(), description, achievementStandard, null, bandLevelValue);
 
         // continue parsing document until the next line doesn't begin with strand.
 

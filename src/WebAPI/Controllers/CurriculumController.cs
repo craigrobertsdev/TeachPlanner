@@ -1,26 +1,37 @@
-﻿using Infrastructure.Curriculum;
+﻿using Application.Curriculum.ParseCurriculum;
+using Infrastructure.Curriculum;
+using MapsterMapper;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using System.Reflection.Metadata.Ecma335;
 
 namespace WebAPI.Controllers;
 
 [Route("[controller]")]
 public class CurriculumController : ApiController
 {
+    private readonly ISender _mediator;
+    private readonly IMapper _mapper;
+
+    public CurriculumController(ISender mediator, IMapper mapper)
+    {
+        _mediator = mediator;
+        _mapper = mapper;
+    }
     [HttpGet]
     public IActionResult ListSubjects()
     {
         return Ok(Array.Empty<string>());
     }
 
-    [HttpGet("parseCurriculum")]
-    public IActionResult ParseCurriculum()
+    [HttpGet("ParseCurriculum")]
+    public async Task<IActionResult> ParseCurriculum()
     {
-        Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("Mgo+DSMBMAY9C3t2V1hhQlJAfV5AQmBIYVp/TGpJfl96cVxMZVVBJAtUQF1hSn5bdkFiX3xac3ZXRWdZ");
+        var parseCurriculumCommand = new ParseCurriculumCommand();
+        var parseCurriculumResult = await _mediator.Send(parseCurriculumCommand);
 
-        var curriculumParser = new CurriculumParser();
-
-        var subjects = curriculumParser.GetCurriculumData();
-
-        return Ok(subjects);
+        return parseCurriculumResult.Match(
+            result => Ok(result),
+            errors => Problem(errors));
     }
 }

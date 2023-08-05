@@ -41,8 +41,13 @@ public class YearLevelConfiguration : IEntityTypeConfiguration<YearLevel>
 
         builder.Property(yl => yl.YearLevelValue)
             .HasConversion(
-                v => v.ToString(),
-                v => (YearLevelValue)Enum.Parse(typeof(YearLevelValue), v));
+                v => (int?)v,
+                v => (YearLevelValue?)v);
+
+        builder.Property(yl => yl.BandLevelValue)
+            .HasConversion(
+                v => (int?)v,
+                v => (BandLevelValue?)v);
 
         builder.HasMany(yl => yl.Strands)
             .WithOne()
@@ -71,7 +76,7 @@ public class StrandConfiguration : IEntityTypeConfiguration<Strand>
             .HasForeignKey("StrandId")
             .OnDelete(DeleteBehavior.Cascade);
 
-        builder.HasMany<ContentDescriptor>()
+        builder.HasMany<ContentDescription>()
             .WithOne()
             .HasForeignKey("StrandId")
             .OnDelete(DeleteBehavior.Cascade);
@@ -91,7 +96,7 @@ public class SubstrandConfiguration : IEntityTypeConfiguration<Substrand>
         builder.Property(ss => ss.Name)
             .HasMaxLength(50);
 
-        builder.HasMany<ContentDescriptor>()
+        builder.HasMany<ContentDescription>()
             .WithOne()
             .HasForeignKey("SubstrandId")
             .OnDelete(DeleteBehavior.Cascade);
@@ -99,11 +104,11 @@ public class SubstrandConfiguration : IEntityTypeConfiguration<Substrand>
     }
 }
 
-public class ContentDescriptorConfiguration : IEntityTypeConfiguration<ContentDescriptor>
+public class ContentDescriptionConfiguration : IEntityTypeConfiguration<ContentDescription>
 {
-    public void Configure(EntityTypeBuilder<ContentDescriptor> builder)
+    public void Configure(EntityTypeBuilder<ContentDescription> builder)
     {
-        builder.ToTable("content_descriptors");
+        builder.ToTable("content_descriptions");
 
         builder.Property<Guid>("Id");
 
@@ -114,7 +119,7 @@ public class ContentDescriptorConfiguration : IEntityTypeConfiguration<ContentDe
 
         builder.HasMany<Elaboration>()
             .WithOne()
-            .HasForeignKey("ContentDescriptorId")
+            .HasForeignKey("ContentDescriptionId")
             .OnDelete(DeleteBehavior.Cascade);
     }
 }
@@ -129,9 +134,9 @@ public class ElaborationConfiguration : IEntityTypeConfiguration<Elaboration>
 
         builder.HasKey("Id");
 
-        builder.HasOne(typeof(ContentDescriptor))
+        builder.HasOne(typeof(ContentDescription))
             .WithMany()
-            .HasForeignKey("ContentDescriptorId");
+            .HasForeignKey("ContentDescriptionId");
 
         builder.Property(e => e.Description)
             .HasMaxLength(250);

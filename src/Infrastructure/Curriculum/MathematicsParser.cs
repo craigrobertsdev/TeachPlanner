@@ -23,7 +23,7 @@ internal class MathematicsParser
                 }
             }
         }
-        catch (Exception ex) { Console.WriteLine("Index: " + index); }
+        catch { Console.WriteLine("Index: " + index); }
         return subject;
     }
 
@@ -59,7 +59,7 @@ internal class MathematicsParser
             index++;
         } while (!contentArr[index].StartsWith("Strand"));
 
-        var yearLevel = YearLevel.Create(yearLevelValue, new List<Strand>(), description, achievementStandard);
+        var yearLevel = YearLevel.Create(new List<Strand>(), description, achievementStandard, yearLevelValue, null);
 
         // continue parsing document until the next line doesn't begin with strand.
 
@@ -80,91 +80,46 @@ internal class MathematicsParser
         string name = contentArr[index].Substring(8);
         index += 2;
 
-        // we know there won't be an argument error here
-        var strand = Strand.Create(name, substrands: new List<Substrand>()).AsT0;
+        // safe to unwrap as we know there won't be an argument error here
+        var strand = Strand.Create(name, contentDescriptions: new List<ContentDescription>()).AsT0;
 
-        while (contentArr[index].StartsWith("Sub-strand"))
+        while (contentArr[index].StartsWith("Content descriptions"))
         {
-            var substrand = GetSubstrand(contentArr, ref index);
-            strand.AddSubstrand(substrand);
+            index += 4;
+            var contentDescriptions = GetContentDescriptions(contentArr, ref index);
+            strand.AddContentDescriptions(contentDescriptions);
         }
 
         return strand;
     }
 
-    private Substrand GetSubstrand(string[] contentArr, ref int index)
+    private List<ContentDescription> GetContentDescriptions(string[] contentArr, ref int index)
     {
-        // remove "Sub-strand:" from name
-        var name = contentArr[index].Substring(12);
-        var substrand = Substrand.Create(name, new List<ContentDescriptor>());
+        List<ContentDescription> contentDescriptions = new();
 
-        if (contentArr[index + 1] == "Content descriptions")
-        {
-            index += 5;
-        }
-        else
-        {
-            index++;
-        }
-
-        // each time GetContentDescriptions returns, check whether the next line starts with AC9 (instead of another header) and repeat if so.
         while (contentArr[index + 1].StartsWith("AC9"))
         {
-            var contentDescriptor = GetContentDescriptors(contentArr, ref index);
-
-            substrand.AddContentDescriptor(contentDescriptor);
-        }
-
-        return substrand;
-    }
-
-    private ContentDescriptor GetContentDescriptors(string[] contentArr, ref int index)
-    {
-        var description = contentArr[index].WithFirstLetterUpper();
-        index++;
-
-        var curriculumCode = contentArr[index];
-        index++;
-
-        var contentDescriptor = ContentDescriptor.Create(description, curriculumCode, new List<Elaboration>());
-
-        while (contentArr[index].StartsWith("*"))
-        {
-            var content = contentArr[index].Substring(2);
-            var elaboration = Elaboration.Create(content);
-
-            contentDescriptor.AddElaboration(elaboration);
+            var description = contentArr[index].WithFirstLetterUpper();
             index++;
-        }
 
-        return contentDescriptor;
-    }
-    // Maths is dealt with differently as there are no substrands in the curriculum
-    /*
-     * This function will create a placeholder substrand to keep the object model consistent 
-     * Iterate over the content descriptions and add them the dummy substrand
-     * return the completed strand
-     */
-    /*    private Strand GetMathsStrand(string[] contentArr, ref int index)
-        {
-            Strand strand = new();
-            strand.Name = contentArr[index].Substring(8);
+            var curriculumCode = contentArr[index];
+            index++;
 
-            Substrand substrand = new()
+            var contentDescription = ContentDescription.Create(description, curriculumCode, new List<Elaboration>());
+
+            while (contentArr[index].StartsWith("*"))
             {
-                Strand = strand
-            };
+                var content = contentArr[index].Substring(2);
+                var elaboration = Elaboration.Create(content);
 
-            index += 6;
-
-            while (contentArr[index + 1].StartsWith("AC9"))
-            {
-                ContentDescription contentDescription = GetContentDescriptors(contentArr, ref index);
-                contentDescription.Substrand = substrand;
-                substrand.ContentDescriptions.Add(contentDescription);
+                contentDescription.AddElaboration(elaboration);
+                index++;
             }
-            strand.Substrands.Add(substrand);
-            return strand;
+
+            contentDescriptions.Add(contentDescription);
         }
-    */
+
+
+        return contentDescriptions;
+    }
 }

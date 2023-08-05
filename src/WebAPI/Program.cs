@@ -6,6 +6,8 @@ using WebAPI.Common.Errors;
 
 var builder = WebApplication.CreateBuilder(args);
 
+Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("Mgo+DSMBMAY9C3t2V1hhQlJAfV5AQmBIYVp/TGpJfl96cVxMZVVBJAtUQF1hSn5bdkFiX3xac3ZXRWdZ");
+
 builder.Services
     .AddPresentation()
     .AddApplication()

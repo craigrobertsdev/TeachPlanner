@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230803205025_Initial")]
-    partial class Initial
+    [Migration("20230805195149_Update-Curriculum-Structure")]
+    partial class UpdateCurriculumStructure
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -268,6 +268,10 @@ namespace Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
+                    b.Property<string>("CurriculumCode")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasMaxLength(300)
@@ -393,10 +397,8 @@ namespace Infrastructure.Migrations
                     b.Property<string>("AchievementStandard")
                         .HasColumnType("longtext");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(10)
-                        .HasColumnType("varchar(10)");
+                    b.Property<string>("BandLevelValue")
+                        .HasColumnType("longtext");
 
                     b.Property<Guid>("SubjectId")
                         .HasColumnType("char(36)");
@@ -404,8 +406,8 @@ namespace Infrastructure.Migrations
                     b.Property<string>("YearLevelDescription")
                         .HasColumnType("longtext");
 
-                    b.Property<int>("YearLevelValue")
-                        .HasColumnType("int");
+                    b.Property<string>("YearLevelValue")
+                        .HasColumnType("longtext");
 
                     b.HasKey("Id");
 

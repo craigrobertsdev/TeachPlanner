@@ -9,56 +9,56 @@ public sealed class Strand : ValueObject
 
     // one of these properties will be null depending on the subject
     private readonly List<Substrand>? _substrands = new();
-    private readonly List<ContentDescriptor>? _contentDescriptors = new();
+    private readonly List<ContentDescription>? _contentDescriptions = new();
 
     private Strand(
         string name,
         List<Substrand>? substrands = null,
-        List<ContentDescriptor>? contentDescriptors = null
+        List<ContentDescription>? contentDescriptions = null
     )
     {
         Name = name;
         _substrands = substrands;
-        _contentDescriptors = contentDescriptors;
+        _contentDescriptions = contentDescriptions;
     }
 
     /// <summary>
-    /// This method is used to create a Strand entity. It will return an error if both substrands and contentDescriptors are null.
+    /// This method is used to create a Strand entity. It will return an error if both substrands and contentDescriptions are null.
     /// Some subjects have substrands, others only have content descriptors.
-    /// Exactly one of substrands or contentDescriptors must be provided.
+    /// Exactly one of substrands or contentDescriptions must be provided.
     /// </summary>
     /// <param name="name"></param>
     /// <param name="substrands"></param>
-    /// <param name="contentDescriptors"></param>
+    /// <param name="contentDescriptions"></param>
     /// <returns></returns>
     public static OneOf<Strand, ArgumentException> Create(
         string name,
         List<Substrand>? substrands = null,
-        List<ContentDescriptor>? contentDescriptors = null
+        List<ContentDescription>? contentDescriptions = null
     )
     {
-        if (substrands is null && contentDescriptors is null)
+        if (substrands is null && contentDescriptions is null)
         {
             return new ArgumentException(
-                "Either substrands or contentDescriptors must be provided"
+                "Either substrands or contentDescriptions must be provided"
             );
         }
 
-        return new Strand(name, substrands, contentDescriptors);
+        return new Strand(name, substrands, contentDescriptions);
     }
 
-    public List<ContentDescriptor> GetContentDescriptors()
+    public List<ContentDescription> GetContentDescriptions()
     {
         if (_substrands is null)
         {
-            return _contentDescriptors!;
+            return _contentDescriptions!;
         }
 
-        var contentDescriptors = _substrands!
-            .SelectMany(substrand => substrand.ContentDescriptors)
+        var contentDescriptions = _substrands!
+            .SelectMany(substrand => substrand.ContentDescriptions)
             .ToList();
 
-        return contentDescriptors;
+        return contentDescriptions;
     }
 
     public void AddSubstrand(Substrand substrand)
@@ -66,16 +66,19 @@ public sealed class Strand : ValueObject
         _substrands!.Add(substrand);
     }
 
-    public void AddContentDescriptor(ContentDescriptor contentDescriptor)
+    public void AddContentDescriptions(List<ContentDescription> contentDescriptions)
     {
-        _contentDescriptors!.Add(contentDescriptor);
+        foreach (var contentDescription in contentDescriptions)
+        {
+            _contentDescriptions!.Add(contentDescription);
+        }
     }
 
     public override IEnumerable<object?> GetEqualityComponents()
     {
         yield return Name;
         yield return _substrands?.AsReadOnly();
-        yield return _contentDescriptors?.AsReadOnly();
+        yield return _contentDescriptions?.AsReadOnly();
 
     }
 
