@@ -112,7 +112,7 @@ public class ContentDescriptionConfiguration : IEntityTypeConfiguration<ContentD
         builder.HasKey("Id");
 
         builder.Property(cd => cd.Description)
-            .HasMaxLength(300);
+            .HasMaxLength(1000);
 
         builder.HasMany(cd => cd.Elaborations)
             .WithOne(el => el.ContentDescription)
@@ -134,6 +134,6 @@ public class ElaborationConfiguration : IEntityTypeConfiguration<Elaboration>
             .WithMany(cd => cd.Elaborations);
 
         builder.Property(e => e.Description)
-            .HasMaxLength(250);
+            .HasMaxLength(1000);
     }
 }

@@ -3,13 +3,20 @@
 public record CreateLessonPlanRequest(
     string SubjectId,
     string PlanningNotes,
-    List<string>? ResourceIds,
+    List<ResourceRequest>? Resources,
     List<string>? SummativeAssessmentIds,
     List<string>? FormativeAssessmentIds,
     DateTime StartTime,
     DateTime EndTime)
 {
-    public List<string> ResourceIds { get; init; } = ResourceIds ?? new();
+    public List<ResourceRequest> Resources { get; init; } = Resources ?? new();
     public List<string> SummativeAssessmentIds { get; init; } = SummativeAssessmentIds ?? new();
     public List<string> FormativeAssessmentIds { get; init; } = FormativeAssessmentIds ?? new();
 }
+
+public record ResourceRequest(
+    string Name,
+    string Url,
+    bool IsAssessment,
+    string SubjectId,
+    List<string>? AssociatedStrands);

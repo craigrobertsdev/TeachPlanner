@@ -1,4 +1,5 @@
 ﻿using Domain.LessonPlanAggregate;
+using Domain.ResourceAggregate;
 using ErrorOr;
 using MediatR;
 
@@ -8,7 +9,7 @@ public record CreateLessonPlanCommand(
     string TeacherId,
     string SubjectId,
     string PlanningNotes,
-    List<string> ResourceIds,
+    List<Resource> Resources,
     List<string> SummativeAssessmentIds,
     List<string> FormativeAssessmentIds,
     DateTime StartTime,

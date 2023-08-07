@@ -1,10 +1,11 @@
 ﻿using Domain.Common.Primatives;
+using Domain.ResourceAggregate;
 
 namespace Domain.LessonPlanAggregate;
 
 public sealed class LessonPlan : AggregateRoot
 {
-    private readonly List<Guid> _resourceIds = new();
+    private readonly List<Resource> _resources = new();
     private readonly List<Guid> _summativeAssessmentIds = new();
     private readonly List<Guid> _formativeAssessmentIds = new();
     private readonly List<LessonComment> _comments = new();
@@ -16,7 +17,7 @@ public sealed class LessonPlan : AggregateRoot
     public DateTime CreatedDateTime { get; private set; }
     public DateTime UpdatedDateTime { get; private set; }
 
-    public IReadOnlyList<Guid> ResourceIds => _resourceIds.AsReadOnly();
+    public IReadOnlyList<Resource> Resources => _resources.AsReadOnly();
     public IReadOnlyList<Guid> SummativeAssessmentIds => _summativeAssessmentIds.AsReadOnly();
     public IReadOnlyList<Guid> FormativeAssessmentIds => _formativeAssessmentIds.AsReadOnly();
     public IReadOnlyList<LessonComment> Comments => _comments.AsReadOnly();
@@ -30,7 +31,7 @@ public sealed class LessonPlan : AggregateRoot
         DateTime endTime,
         DateTime createdDateTime,
         DateTime updatedDateTime,
-        List<Guid>? resourceIds,
+        List<Resource>? resources,
         List<Guid>? summativeAssessmentIds,
         List<Guid>? formativeAssessmentIds) : base(id)
     {
@@ -41,9 +42,10 @@ public sealed class LessonPlan : AggregateRoot
         EndTime = endTime;
         CreatedDateTime = createdDateTime;
         UpdatedDateTime = updatedDateTime;
-        if (resourceIds != null)
+
+        if (resources != null)
         {
-            _resourceIds = resourceIds;
+            _resources = resources;
         }
 
         if (summativeAssessmentIds != null)
@@ -63,11 +65,11 @@ public sealed class LessonPlan : AggregateRoot
         string planningNotes,
         DateTime startTime,
         DateTime endTime,
-        List<Guid>? resourceIds,
+        List<Resource>? resources,
         List<Guid>? summativeAssessmentIds,
         List<Guid>? formativeAssessmentIds)
     {
-        return new LessonPlan(Guid.NewGuid(), teacherId, subjectId, planningNotes, startTime, endTime, DateTime.UtcNow, DateTime.UtcNow, resourceIds, summativeAssessmentIds, formativeAssessmentIds);
+        return new LessonPlan(Guid.NewGuid(), teacherId, subjectId, planningNotes, startTime, endTime, DateTime.UtcNow, DateTime.UtcNow, resources, summativeAssessmentIds, formativeAssessmentIds);
     }
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.

@@ -112,7 +112,7 @@ internal class GeneralSubjectParser
         // each time GetContentDescriptions returns, check whether the next line starts with AC9 (instead of another header) and repeat if so.
         while (contentArr[index + 1].StartsWith("AC9"))
         {
-            var contentDescription = GetContentDescriptions(contentArr, ref index);
+            var contentDescription = GetContentDescriptions(contentArr, substrand, ref index);
 
             substrand.AddContentDescription(contentDescription);
         }
@@ -120,7 +120,7 @@ internal class GeneralSubjectParser
         return substrand;
     }
 
-    private ContentDescription GetContentDescriptions(string[] contentArr, ref int index)
+    private ContentDescription GetContentDescriptions(string[] contentArr, Substrand substrand, ref int index)
     {
         var description = contentArr[index].WithFirstLetterUpper();
         index++;
@@ -128,7 +128,7 @@ internal class GeneralSubjectParser
         var curriculumCode = contentArr[index];
         index++;
 
-        var contentDescription = ContentDescription.Create(description, curriculumCode, new List<Elaboration>());
+        var contentDescription = ContentDescription.Create(description, curriculumCode, new List<Elaboration>(), substrand: substrand);
 
         while (contentArr[index].StartsWith("*"))
         {

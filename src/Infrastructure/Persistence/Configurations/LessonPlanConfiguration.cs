@@ -47,8 +47,5 @@ public class LessonPlanConfiguration : IEntityTypeConfiguration<LessonPlan>
         builder.HasMany<FormativeAssessment>()
             .WithOne()
             .HasForeignKey("LessonPlanId");
-
-        builder.HasMany<Resource>()
-            .WithMany("_lessonPlans");
     }
 }
