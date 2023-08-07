@@ -1,9 +1,9 @@
-﻿using Application.Curriculum.ParseCurriculum;
-using Infrastructure.Curriculum;
+﻿using Application.Curriculum.Commands.ParseCurriculum;
+using Application.Curriculum.Queries.ListSubjects;
+using Contracts.Curriculum;
 using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using System.Reflection.Metadata.Ecma335;
 
 namespace WebAPI.Controllers;
 
@@ -19,9 +19,13 @@ public class CurriculumController : ApiController
         _mapper = mapper;
     }
     [HttpGet]
-    public IActionResult ListSubjects()
+    public async Task<IActionResult> ListSubjects()
     {
-        return Ok(Array.Empty<string>());
+        var result = await _mediator.Send(new GetAllSubjectsQuery());
+
+        return result.Match(
+            success => Ok(_mapper.Map<GetAllSubjectsResponse>(success)),
+            errors => Problem(errors));
     }
 
     [HttpGet("ParseCurriculum")]

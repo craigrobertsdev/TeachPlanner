@@ -5,15 +5,17 @@ namespace Domain.SubjectAggregates;
 public sealed class Elaboration : ValueObject
 {
     public string Description { get; private set; }
+    public ContentDescription ContentDescription { get; private set; }
 
-    private Elaboration(string description)
+    private Elaboration(string description, ContentDescription contentDescription)
     {
         Description = description;
+        ContentDescription = contentDescription;
     }
 
-    public static Elaboration Create(string description)
+    public static Elaboration Create(string description, ContentDescription contentDescription)
     {
-        return new(description);
+        return new(description, contentDescription);
     }
 
     public override IEnumerable<object?> GetEqualityComponents()

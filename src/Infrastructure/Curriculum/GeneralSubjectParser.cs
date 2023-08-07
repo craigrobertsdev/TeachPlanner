@@ -87,18 +87,18 @@ internal class GeneralSubjectParser
 
         while (contentArr[index].StartsWith("Sub-strand"))
         {
-            var substrand = GetSubstrand(contentArr, ref index);
+            var substrand = GetSubstrand(contentArr, strand, ref index);
             strand.AddSubstrand(substrand);
         }
 
         return strand;
     }
 
-    private Substrand GetSubstrand(string[] contentArr, ref int index)
+    private Substrand GetSubstrand(string[] contentArr, Strand strand, ref int index)
     {
         // remove "Sub-strand:" from name
         var name = contentArr[index].Substring(12);
-        var substrand = Substrand.Create(name, new List<ContentDescription>());
+        var substrand = Substrand.Create(name, new List<ContentDescription>(), strand);
 
         if (contentArr[index + 1] == "Content descriptions")
         {
@@ -133,7 +133,7 @@ internal class GeneralSubjectParser
         while (contentArr[index].StartsWith("*"))
         {
             var content = contentArr[index].Substring(2);
-            var elaboration = Elaboration.Create(content);
+            var elaboration = Elaboration.Create(content, contentDescription);
 
             contentDescription.AddElaboration(elaboration);
             index++;

@@ -86,14 +86,14 @@ internal class MathematicsParser
         while (contentArr[index].StartsWith("Content descriptions"))
         {
             index += 4;
-            var contentDescriptions = GetContentDescriptions(contentArr, ref index);
+            var contentDescriptions = GetContentDescriptions(contentArr, strand, ref index);
             strand.AddContentDescriptions(contentDescriptions);
         }
 
         return strand;
     }
 
-    private List<ContentDescription> GetContentDescriptions(string[] contentArr, ref int index)
+    private List<ContentDescription> GetContentDescriptions(string[] contentArr, Strand strand, ref int index)
     {
         List<ContentDescription> contentDescriptions = new();
 
@@ -105,12 +105,12 @@ internal class MathematicsParser
             var curriculumCode = contentArr[index];
             index++;
 
-            var contentDescription = ContentDescription.Create(description, curriculumCode, new List<Elaboration>());
+            var contentDescription = ContentDescription.Create(description, curriculumCode, new List<Elaboration>(), strand: strand);
 
             while (contentArr[index].StartsWith("*"))
             {
                 var content = contentArr[index].Substring(2);
-                var elaboration = Elaboration.Create(content);
+                var elaboration = Elaboration.Create(content, contentDescription);
 
                 contentDescription.AddElaboration(elaboration);
                 index++;

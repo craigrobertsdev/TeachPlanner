@@ -49,19 +49,6 @@ public class LessonPlanConfiguration : IEntityTypeConfiguration<LessonPlan>
             .HasForeignKey("LessonPlanId");
 
         builder.HasMany<Resource>()
-            .WithMany();
-
-        /*        builder.Navigation(lp => lp.SummativeAssessmentIds).Metadata.SetField("_summativeAssessmentIds");
-                builder.Navigation(lp => lp.SummativeAssessmentIds).UsePropertyAccessMode(PropertyAccessMode.Field);
-
-                builder.Navigation(lp => lp.FormativeAssessmentIds).Metadata.SetField("_formativeAssessmentIds");
-                builder.Navigation(lp => lp.FormativeAssessmentIds).UsePropertyAccessMode(PropertyAccessMode.Field);
-
-                builder.Navigation(lp => lp.ResourceIds).Metadata.SetField("_resourceIds");
-                builder.Navigation(lp => lp.ResourceIds).UsePropertyAccessMode(PropertyAccessMode.Field);
-
-                builder.Navigation(lp => lp.Comments).Metadata.SetField("_comments");
-                builder.Navigation(lp => lp.Comments).UsePropertyAccessMode(PropertyAccessMode.Field);
-        */
+            .WithMany("_lessonPlans");
     }
 }

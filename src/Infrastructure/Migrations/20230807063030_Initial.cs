@@ -162,9 +162,8 @@ namespace Infrastructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    Name = table.Column<string>(type: "varchar(10)", maxLength: 10, nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    YearLevelValue = table.Column<int>(type: "int", nullable: false),
+                    YearLevelValue = table.Column<int>(type: "int", nullable: true),
+                    BandLevelValue = table.Column<int>(type: "int", nullable: true),
                     YearLevelDescription = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     AchievementStandard = table.Column<string>(type: "longtext", nullable: true)
@@ -350,7 +349,7 @@ namespace Infrastructure.Migrations
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     Name = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    StrandId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci")
+                    StrandId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
                 },
                 constraints: table =>
                 {
@@ -509,26 +508,28 @@ namespace Infrastructure.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "content_descriptors",
+                name: "content_descriptions",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     Description = table.Column<string>(type: "varchar(300)", maxLength: 300, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    StrandId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
+                    CurriculumCode = table.Column<string>(type: "longtext", nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     SubstrandId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
+                    StrandId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci")
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_content_descriptors", x => x.Id);
+                    table.PrimaryKey("PK_content_descriptions", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_content_descriptors_strands_StrandId",
+                        name: "FK_content_descriptions_strands_StrandId",
                         column: x => x.StrandId,
                         principalTable: "strands",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_content_descriptors_substrands_SubstrandId",
+                        name: "FK_content_descriptions_substrands_SubstrandId",
                         column: x => x.SubstrandId,
                         principalTable: "substrands",
                         principalColumn: "Id",
@@ -617,21 +618,46 @@ namespace Infrastructure.Migrations
                 name: "LessonPlanResource",
                 columns: table => new
                 {
-                    LessonPlanId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    LessonPlan1Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     ResourceId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_LessonPlanResource", x => new { x.LessonPlanId, x.ResourceId });
+                    table.PrimaryKey("PK_LessonPlanResource", x => new { x.LessonPlan1Id, x.ResourceId });
                     table.ForeignKey(
                         name: "FK_LessonPlanResource_lesson_plans_LessonPlan1Id",
-                        column: x => x.LessonPlanId,
+                        column: x => x.LessonPlan1Id,
                         principalTable: "lesson_plans",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_LessonPlanResource_resources_ResourceId",
                         column: x => x.ResourceId,
+                        principalTable: "resources",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "LessonPlanResource1",
+                columns: table => new
+                {
+                    LessonPlan2Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
+                    Resource1Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_LessonPlanResource1", x => new { x.LessonPlan2Id, x.Resource1Id });
+                    table.ForeignKey(
+                        name: "FK_LessonPlanResource1_lesson_plans_LessonPlan2Id",
+                        column: x => x.LessonPlan2Id,
+                        principalTable: "lesson_plans",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_LessonPlanResource1_resources_Resource1Id",
+                        column: x => x.Resource1Id,
                         principalTable: "resources",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -679,15 +705,15 @@ namespace Infrastructure.Migrations
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     Description = table.Column<string>(type: "varchar(250)", maxLength: 250, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    ContentDescriptionId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci"),
+                    ContentDescriptionId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_elaborations", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_elaborations_content_descriptors_ContentDescriptionId",
+                        name: "FK_elaborations_content_descriptions_ContentDescriptionId",
                         column: x => x.ContentDescriptionId,
-                        principalTable: "content_descriptors",
+                        principalTable: "content_descriptions",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 })
@@ -709,13 +735,13 @@ namespace Infrastructure.Migrations
                 column: "TeacherId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_content_descriptors_StrandId",
-                table: "content_descriptors",
+                name: "IX_content_descriptions_StrandId",
+                table: "content_descriptions",
                 column: "StrandId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_content_descriptors_SubstrandId",
-                table: "content_descriptors",
+                name: "IX_content_descriptions_SubstrandId",
+                table: "content_descriptions",
                 column: "SubstrandId");
 
             migrationBuilder.CreateIndex(
@@ -898,7 +924,7 @@ namespace Infrastructure.Migrations
                 name: "term_plans");
 
             migrationBuilder.DropTable(
-                name: "content_descriptors");
+                name: "content_descriptions");
 
             migrationBuilder.DropTable(
                 name: "reports");

@@ -9,7 +9,7 @@ public sealed class Resource : AggregateRoot
     public string Name { get; private set; }
     public string Url { get; private set; }
     public bool IsAssessment { get; private set; }
-    public IReadOnlyList<LessonPlan> LessonPlan => _lessonPlans.AsReadOnly();
+    public IReadOnlyList<LessonPlan> LessonPlans => _lessonPlans.AsReadOnly();
     public Guid SubjectId { get; private set; }
     public List<string> AssociatedStrands { get; private set; } = new();
     public DateTime CreatedDateTime { get; private set; }

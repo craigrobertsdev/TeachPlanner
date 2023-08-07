@@ -10,6 +10,8 @@ public sealed class Strand : ValueObject
     // one of these properties will be null depending on the subject
     private readonly List<Substrand>? _substrands = new();
     private readonly List<ContentDescription>? _contentDescriptions = new();
+    public IReadOnlyList<Substrand>? Substrands => _substrands?.AsReadOnly();
+    public IReadOnlyList<ContentDescription>? ContentDescriptions => _contentDescriptions?.AsReadOnly();
 
     private Strand(
         string name,

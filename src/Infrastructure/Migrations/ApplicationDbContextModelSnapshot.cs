@@ -117,7 +117,7 @@ namespace Infrastructure.Migrations
                     b.ToTable("school_events", (string)null);
                 });
 
-            modelBuilder.Entity("Domain.LessonPlanAggregate.LessonPlan", b =>
+            modelBuilder.Entity("Domain.LessonPlanAggregate.LessonPlans", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -280,18 +280,13 @@ namespace Infrastructure.Migrations
                     b.Property<Guid?>("SubstrandId")
                         .HasColumnType("char(36)");
 
-                    b.Property<Guid?>("SubstrandId1")
-                        .HasColumnType("char(36)");
-
                     b.HasKey("Id");
 
                     b.HasIndex("StrandId");
 
                     b.HasIndex("SubstrandId");
 
-                    b.HasIndex("SubstrandId1");
-
-                    b.ToTable("content_descriptors", (string)null);
+                    b.ToTable("content_descriptions", (string)null);
                 });
 
             modelBuilder.Entity("Domain.SubjectAggregates.Elaboration", b =>
@@ -300,10 +295,7 @@ namespace Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
 
-                    b.Property<Guid?>("ContentDescriptionId")
-                        .HasColumnType("char(36)");
-
-                    b.Property<Guid?>("ContentDescriptionId1")
+                    b.Property<Guid>("ContentDescriptionId")
                         .HasColumnType("char(36)");
 
                     b.Property<string>("Description")
@@ -314,8 +306,6 @@ namespace Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("ContentDescriptionId");
-
-                    b.HasIndex("ContentDescriptionId1");
 
                     b.ToTable("elaborations", (string)null);
                 });
@@ -375,7 +365,7 @@ namespace Infrastructure.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("varchar(50)");
 
-                    b.Property<Guid?>("StrandId")
+                    b.Property<Guid>("StrandId")
                         .HasColumnType("char(36)");
 
                     b.HasKey("Id");
@@ -563,21 +553,6 @@ namespace Infrastructure.Migrations
                     b.ToTable("LessonPlanResource", (string)null);
                 });
 
-            modelBuilder.Entity("LessonPlanResource1", b =>
-                {
-                    b.Property<Guid>("LessonPlan2Id")
-                        .HasColumnType("char(36)");
-
-                    b.Property<Guid>("Resource1Id")
-                        .HasColumnType("char(36)");
-
-                    b.HasKey("LessonPlan2Id", "Resource1Id");
-
-                    b.HasIndex("Resource1Id");
-
-                    b.ToTable("LessonPlanResource1", (string)null);
-                });
-
             modelBuilder.Entity("SchoolEventTermPlanner", b =>
                 {
                     b.Property<Guid>("SchoolEventsId")
@@ -744,10 +719,10 @@ namespace Infrastructure.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Domain.LessonPlanAggregate.LessonPlan", b =>
+            modelBuilder.Entity("Domain.LessonPlanAggregate.LessonPlans", b =>
                 {
                     b.HasOne("Domain.ResourceAggregate.Resource", null)
-                        .WithMany("LessonPlan")
+                        .WithMany("LessonPlans")
                         .HasForeignKey("ResourceId");
 
                     b.HasOne("Domain.SubjectAggregates.Subject", null)
@@ -766,7 +741,7 @@ namespace Infrastructure.Migrations
                         .WithMany()
                         .HasForeignKey("WeekPlannerId");
 
-                    b.OwnsMany("Domain.LessonPlanAggregate.LessonPlan.Comments#Domain.LessonPlanAggregate.LessonComment", "Comments", b1 =>
+                    b.OwnsMany("Domain.LessonPlanAggregate.LessonPlans.Comments#Domain.LessonPlanAggregate.LessonComment", "Comments", b1 =>
                         {
                             b1.Property<Guid>("Id")
                                 .ValueGeneratedOnAdd()
@@ -881,31 +856,30 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Domain.SubjectAggregates.ContentDescription", b =>
                 {
-                    b.HasOne("Domain.SubjectAggregates.Strand", null)
-                        .WithMany()
+                    b.HasOne("Domain.SubjectAggregates.Strand", "Strand")
+                        .WithMany("ContentDescriptions")
                         .HasForeignKey("StrandId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("Domain.SubjectAggregates.Substrand", null)
-                        .WithMany()
+                    b.HasOne("Domain.SubjectAggregates.Substrand", "Substrand")
+                        .WithMany("ContentDescriptions")
                         .HasForeignKey("SubstrandId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("Domain.SubjectAggregates.Substrand", null)
-                        .WithMany("ContentDescriptions")
-                        .HasForeignKey("SubstrandId1");
+                    b.Navigation("Strand");
+
+                    b.Navigation("Substrand");
                 });
 
             modelBuilder.Entity("Domain.SubjectAggregates.Elaboration", b =>
                 {
-                    b.HasOne("Domain.SubjectAggregates.ContentDescription", null)
-                        .WithMany()
-                        .HasForeignKey("ContentDescriptionId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("Domain.SubjectAggregates.ContentDescription", null)
+                    b.HasOne("Domain.SubjectAggregates.ContentDescription", "ContentDescription")
                         .WithMany("Elaborations")
-                        .HasForeignKey("ContentDescriptionId1");
+                        .HasForeignKey("ContentDescriptionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ContentDescription");
                 });
 
             modelBuilder.Entity("Domain.SubjectAggregates.Strand", b =>
@@ -919,10 +893,13 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Domain.SubjectAggregates.Substrand", b =>
                 {
-                    b.HasOne("Domain.SubjectAggregates.Strand", null)
-                        .WithMany()
+                    b.HasOne("Domain.SubjectAggregates.Strand", "Strand")
+                        .WithMany("Substrands")
                         .HasForeignKey("StrandId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Strand");
                 });
 
             modelBuilder.Entity("Domain.SubjectAggregates.YearLevel", b =>
@@ -988,7 +965,7 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("LessonPlanResource", b =>
                 {
-                    b.HasOne("Domain.LessonPlanAggregate.LessonPlan", null)
+                    b.HasOne("Domain.LessonPlanAggregate.LessonPlans", null)
                         .WithMany()
                         .HasForeignKey("LessonPlan1Id")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -997,21 +974,6 @@ namespace Infrastructure.Migrations
                     b.HasOne("Domain.ResourceAggregate.Resource", null)
                         .WithMany()
                         .HasForeignKey("ResourceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("LessonPlanResource1", b =>
-                {
-                    b.HasOne("Domain.LessonPlanAggregate.LessonPlan", null)
-                        .WithMany()
-                        .HasForeignKey("LessonPlan2Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Domain.ResourceAggregate.Resource", null)
-                        .WithMany()
-                        .HasForeignKey("Resource1Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -1069,7 +1031,7 @@ namespace Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Domain.LessonPlanAggregate.LessonPlan", null)
+                    b.HasOne("Domain.LessonPlanAggregate.LessonPlans", null)
                         .WithMany()
                         .HasForeignKey("LessonPlanId");
                 });
@@ -1082,7 +1044,7 @@ namespace Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Domain.LessonPlanAggregate.LessonPlan", null)
+                    b.HasOne("Domain.LessonPlanAggregate.LessonPlans", null)
                         .WithMany()
                         .HasForeignKey("LessonPlanId");
 
@@ -1097,12 +1059,19 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Domain.ResourceAggregate.Resource", b =>
                 {
-                    b.Navigation("LessonPlan");
+                    b.Navigation("LessonPlans");
                 });
 
             modelBuilder.Entity("Domain.SubjectAggregates.ContentDescription", b =>
                 {
                     b.Navigation("Elaborations");
+                });
+
+            modelBuilder.Entity("Domain.SubjectAggregates.Strand", b =>
+                {
+                    b.Navigation("ContentDescriptions");
+
+                    b.Navigation("Substrands");
                 });
 
             modelBuilder.Entity("Domain.SubjectAggregates.Subject", b =>

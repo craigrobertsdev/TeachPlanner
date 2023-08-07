@@ -71,14 +71,12 @@ public class StrandConfiguration : IEntityTypeConfiguration<Strand>
         builder.Property(s => s.Name)
             .HasMaxLength(50);
 
-        builder.HasMany<Substrand>()
-            .WithOne()
-            .HasForeignKey("StrandId")
+        builder.HasMany(s => s.Substrands)
+            .WithOne(ss => ss.Strand)
             .OnDelete(DeleteBehavior.Cascade);
 
-        builder.HasMany<ContentDescription>()
-            .WithOne()
-            .HasForeignKey("StrandId")
+        builder.HasMany(s => s.ContentDescriptions)
+            .WithOne(cd => cd.Strand)
             .OnDelete(DeleteBehavior.Cascade);
     }
 }
@@ -96,9 +94,8 @@ public class SubstrandConfiguration : IEntityTypeConfiguration<Substrand>
         builder.Property(ss => ss.Name)
             .HasMaxLength(50);
 
-        builder.HasMany<ContentDescription>()
-            .WithOne()
-            .HasForeignKey("SubstrandId")
+        builder.HasMany(ss => ss.ContentDescriptions)
+            .WithOne(cd => cd.Substrand)
             .OnDelete(DeleteBehavior.Cascade);
 
     }
@@ -117,9 +114,8 @@ public class ContentDescriptionConfiguration : IEntityTypeConfiguration<ContentD
         builder.Property(cd => cd.Description)
             .HasMaxLength(300);
 
-        builder.HasMany<Elaboration>()
-            .WithOne()
-            .HasForeignKey("ContentDescriptionId")
+        builder.HasMany(cd => cd.Elaborations)
+            .WithOne(el => el.ContentDescription)
             .OnDelete(DeleteBehavior.Cascade);
     }
 }
@@ -134,9 +130,8 @@ public class ElaborationConfiguration : IEntityTypeConfiguration<Elaboration>
 
         builder.HasKey("Id");
 
-        builder.HasOne(typeof(ContentDescription))
-            .WithMany()
-            .HasForeignKey("ContentDescriptionId");
+        builder.HasOne(el => el.ContentDescription)
+            .WithMany(cd => cd.Elaborations);
 
         builder.Property(e => e.Description)
             .HasMaxLength(250);

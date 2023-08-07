@@ -3,7 +3,7 @@ using Application.Common.Interfaces.Persistence;
 using ErrorOr;
 using MediatR;
 
-namespace Application.Curriculum.ParseCurriculum;
+namespace Application.Curriculum.Commands.ParseCurriculum;
 
 public class ParseCurriculumCommandHandler : IRequestHandler<ParseCurriculumCommand, ErrorOr<ParseCurriculumResult>>
 {

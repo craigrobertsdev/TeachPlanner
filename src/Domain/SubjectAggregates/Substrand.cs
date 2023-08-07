@@ -6,17 +6,19 @@ public sealed class Substrand : ValueObject
 {
     private readonly List<ContentDescription> _contentDescriptions = new();
     public string Name { get; private set; }
+    public Strand Strand { get; private set; }
     public IReadOnlyList<ContentDescription> ContentDescriptions => _contentDescriptions.AsReadOnly();
 
-    private Substrand(string name, List<ContentDescription> contentDescriptions)
+    private Substrand(string name, List<ContentDescription> contentDescriptions, Strand strand)
     {
         Name = name;
         _contentDescriptions = contentDescriptions;
+        Strand = strand;
     }
 
-    public static Substrand Create(string name, List<ContentDescription> contentDescriptions)
+    public static Substrand Create(string name, List<ContentDescription> contentDescriptions, Strand strand)
     {
-        return new(name, contentDescriptions);
+        return new(name, contentDescriptions, strand);
     }
 
     public void AddContentDescription(ContentDescription contentDescription)
