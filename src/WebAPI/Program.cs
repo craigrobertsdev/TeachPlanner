@@ -6,7 +6,8 @@ using WebAPI.Common.Errors;
 
 var builder = WebApplication.CreateBuilder(args);
 
-Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("Mgo+DSMBMAY9C3t2V1hhQlJAfV5AQmBIYVp/TGpJfl96cVxMZVVBJAtUQF1hSn5bdkFiX3xac3ZXRWdZ");
+var syncfusionLicenceKey = builder.Configuration["Syncfusion:LicenseKey"];
+Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense(syncfusionLicenceKey);
 
 builder.Services
     .AddPresentation()
@@ -17,15 +18,12 @@ builder.Services
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// override ASP.Net Core's default ProblemDetailsFactory to return custom errors
 builder.Services.AddSingleton<ProblemDetailsFactory, CustomProblemDetailsFactory>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
 
 app.UseExceptionHandler("/error");
 
@@ -33,4 +31,5 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
+
 app.Run();

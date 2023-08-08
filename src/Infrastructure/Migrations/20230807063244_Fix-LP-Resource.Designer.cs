@@ -766,7 +766,7 @@ namespace Infrastructure.Migrations
                             b1.Property<DateTime>("CreatedDateTime")
                                 .HasColumnType("datetime(6)");
 
-                            b1.Property<bool>("StruckThrough")
+                            b1.Property<bool>("StruckOut")
                                 .HasColumnType("tinyint(1)");
 
                             b1.Property<DateTime>("UpdatedDateTime")

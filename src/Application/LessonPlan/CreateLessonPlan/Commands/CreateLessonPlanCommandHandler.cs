@@ -25,6 +25,7 @@ public class CreateLessonPlanCommandHandler : IRequestHandler<CreateLessonPlanCo
             command.PlanningNotes,
             command.StartTime,
             command.EndTime,
+            command.NumberOfPeriods,
             command.Resources,
             command.SummativeAssessmentIds?.Select(assessmentId => Guid.Parse(assessmentId)).ToList(),
             command.FormativeAssessmentIds?.Select(assessmentId => Guid.Parse(assessmentId)).ToList());

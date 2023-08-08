@@ -7,14 +7,11 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<Content Remove="ClientApp\tsconfig.json" />
-	</ItemGroup>
-
-	<ItemGroup>
 		<PackageReference Include="Mapster" Version="7.3.0" />
 		<PackageReference Include="Mapster.DependencyInjection" Version="1.0.0" />
 		<PackageReference Include="MediatR" Version="12.1.1" />
 		<PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.7" />
+		<PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="7.0.9" />
 		<PackageReference Include="Microsoft.TypeScript.MSBuild" Version="5.1.5">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -27,14 +24,6 @@
 		<ProjectReference Include="..\Contracts\Contracts.csproj" />
 		<ProjectReference Include="..\Application\Application.csproj" />
 		<ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<TypeScriptCompile Include="ClientApp\tsconfig.json" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<Folder Include="ClientApp\src\Pages\" />
 	</ItemGroup>
 
 </Project>

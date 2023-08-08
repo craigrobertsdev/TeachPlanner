@@ -13,4 +13,5 @@ public record CreateLessonPlanCommand(
     List<string> SummativeAssessmentIds,
     List<string> FormativeAssessmentIds,
     DateTime StartTime,
-    DateTime EndTime) : IRequest<ErrorOr<Domain.LessonPlanAggregate.LessonPlan>>;
+    DateTime EndTime,
+    int NumberOfPeriods) : IRequest<ErrorOr<Domain.LessonPlanAggregate.LessonPlan>>;
