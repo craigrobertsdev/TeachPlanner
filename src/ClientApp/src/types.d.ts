@@ -1,3 +1,11 @@
+//#region User
+declare type User = {
+  id: string;
+  email: string;
+  token?: string;
+};
+
+//#region Planner
 declare type LessonPlan = {
   id: string;
   subject: Subject;
@@ -11,6 +19,29 @@ declare type LessonPlan = {
   lessonComments?: LessonComment[];
 };
 
+declare type WeekPlanner = {
+  lessonPlans: LessonPlan[];
+  events: SchoolEvent[];
+  weekNumber: number;
+  weekStart: Date;
+};
+
+declare type Break = {
+  startTime: Date;
+  endTime: Date;
+  name: string;
+  duty: string;
+};
+
+declare type SchoolEvent = {
+  startTime: Date;
+  endTime: Date;
+  name: string;
+  description: string;
+  location: string;
+};
+
+//#region Curriculum
 declare type Subject = {
   id: string;
   name: string;
@@ -54,6 +85,7 @@ declare type Resource = {
   link: string;
 };
 
+//#region Assessments
 declare type Assessment = {
   id: string;
   description: string;

@@ -1,6 +1,8 @@
 import React from "react";
 
-const LessonPlanner = () => {
+type LessonPlannerProps = {};
+
+const LessonPlanner = ({}: LessonPlannerProps) => {
   return (
     <div>
       <h1>Lesson Planner</h1>
