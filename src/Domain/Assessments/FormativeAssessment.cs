@@ -1,8 +1,4 @@
 ﻿using Domain.Common.Enums;
-using Domain.Common.Primatives;
-using Domain.StudentAggregate;
-using Domain.SubjectAggregates;
-using Domain.TeacherAggregate;
 
 namespace Domain.Assessments;
 

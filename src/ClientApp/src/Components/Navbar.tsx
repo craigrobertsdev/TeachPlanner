@@ -1,15 +1,39 @@
-import { NavLink } from "react-router-dom";
+import { Link } from "react-router-dom";
 
-const Navbar = () => {
+type NavbarProps = {
+  loggedIn: boolean;
+};
+
+const Navbar = ({ loggedIn }: NavbarProps) => {
+  function logout() {
+    localStorage.removeItem("token");
+    window.location.href = "/";
+  }
+
   return (
-    <div className="bg-sage flex flex-none items-center px-2 py-3">
-      <h1 className="text-darkGreen text-3xl">Teach Planner</h1>
-      <ul className="list-none">
+    <nav className="bg-sage flex flex-none items-center px-2 py-3">
+      <h1 className="text-darkGreen text-3xl pr-4 mr-4 border-r-[2px]">Teach Planner</h1>
+      <ul className="list-none flex flex-1 gap-6 text-darkGreen text-xl">
         <li>
-          <NavLink to="/">Home</NavLink>
+          <Link to="/">Home</Link>
         </li>
+        <li>
+          <Link to="/lessonplanner">Lesson Planner</Link>
+        </li>
+        <li>
+          <Link to="/weekplanner">Week Planner</Link>
+        </li>
+        {loggedIn ? (
+          <li className="ml-auto pr-6">
+            <button onClick={logout}>Logout</button>
+          </li>
+        ) : (
+          <li className="ml-auto">
+            <Link to="/login">Login</Link>
+          </li>
+        )}
       </ul>
-    </div>
+    </nav>
   );
 };
 
