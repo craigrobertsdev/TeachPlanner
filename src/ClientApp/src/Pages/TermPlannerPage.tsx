@@ -1,7 +1,7 @@
 import React from "react";
 
-const TermPlanner = () => {
+const TermPlannerPage = () => {
   return <div>Term Planner</div>;
 };
 
-export default TermPlanner;
+export default TermPlannerPage;

@@ -6,7 +6,7 @@ import {
   useMemo,
   useState,
 } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import * as userService from "../services/UserService";
 import { useLocalStorage } from "../hooks/useLocalStorage";
 
@@ -33,6 +33,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [loadingInitial, setLoadingInitial] = useState<boolean>(true);
   const { setItem, getItem } = useLocalStorage();
   const routerLocation = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (error) {
@@ -57,13 +58,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
       setUser(response);
       setItem("token", JSON.stringify(response.token));
-      console.log(response);
 
       setLoading(false);
-      location.assign("/");
+      navigate("/");
     } catch (error) {
       setError(error);
-      console.error(error);
       setLoading(false);
     }
   }
@@ -84,12 +83,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         password
       );
 
-      if (response) {
-        setUser(response);
-        setItem("token", JSON.stringify(response.token));
-      }
+      setUser(response);
+      setItem("token", JSON.stringify(response.token));
 
       setLoading(false);
+      navigate("/", { replace: true });
     } catch (error) {
       setError(error);
       setLoading(false);

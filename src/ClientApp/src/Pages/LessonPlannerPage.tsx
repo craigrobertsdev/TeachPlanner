@@ -2,7 +2,7 @@ import React from "react";
 
 type LessonPlannerProps = {};
 
-const LessonPlanner = ({}: LessonPlannerProps) => {
+const LessonPlannerPage = ({}: LessonPlannerProps) => {
   return (
     <div>
       <h1>Lesson Planner</h1>
@@ -10,4 +10,4 @@ const LessonPlanner = ({}: LessonPlannerProps) => {
   );
 };
 
-export default LessonPlanner;
+export default LessonPlannerPage;

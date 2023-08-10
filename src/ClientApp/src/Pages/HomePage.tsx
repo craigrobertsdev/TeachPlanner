@@ -3,7 +3,7 @@ import Navbar from "../components/Navbar.tsx";
 
 type HomePageProps = {};
 
-const Home = (props: HomePageProps) => {
+const HomePage = (props: HomePageProps) => {
   return (
     <div className="p-5">
       <table className="border border-darkGreen">
@@ -45,11 +45,17 @@ const Home = (props: HomePageProps) => {
         </tbody>
       </table>
 
-      <button className="bg-sage px-3 py-2 m-3 rounded-xl text-lg text-primary font-semibold">Lesson Planner</button>
-      <button className="bg-darkGreen px-3 py-2 m-3 rounded-lg text-primary font-semibold">Confirm</button>
-      <button className="bg-ceramic px-3 py-1 m-3 rounded-xl text-primary font-semibold">Cancel</button>
+      <button className="bg-sage px-3 py-2 m-3 rounded-xl text-lg text-primary font-semibold">
+        Lesson Planner
+      </button>
+      <button className="bg-darkGreen px-3 py-2 m-3 rounded-lg text-primary font-semibold">
+        Confirm
+      </button>
+      <button className="bg-ceramic px-3 py-1 m-3 rounded-xl text-primary font-semibold">
+        Cancel
+      </button>
     </div>
   );
 };
 
-export default Home;
+export default HomePage;

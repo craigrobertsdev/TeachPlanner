@@ -34,8 +34,7 @@ export async function register(
   firstName: string,
   lastName: string,
   password: string
-): Promise<User | null> {
-  const { setItem } = useLocalStorage();
+): Promise<User> {
   const response = await fetch("http://localhost:5291/api/register", {
     method: "POST",
     headers: {
@@ -44,17 +43,15 @@ export async function register(
     body: JSON.stringify({ email, firstName, lastName, password }),
   });
 
-  const data = await response.json();
-
-  const token = data.token;
-  const user = data.user;
-
-  if (token) {
-    user.token = token;
-    return user;
+  if (!response.ok) {
+    throw new Error(
+      `Http request failed with status ${response.status}: ${response.statusText}`
+    );
   }
 
-  return null;
+  const data: UserResponse = await response.json();
+
+  return data as User;
 }
 
 export function isAuthenticated(): User | null {

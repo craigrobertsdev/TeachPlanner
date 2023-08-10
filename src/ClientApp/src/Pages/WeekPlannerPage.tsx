@@ -9,7 +9,7 @@ type WeekPlannerProps = {
   events?: SchoolEvent[];
 };
 
-const WeekPlanner = () => {
+const WeekPlannerPage = () => {
   return (
     <div>
       <h1>Week Planner</h1>
@@ -17,4 +17,4 @@ const WeekPlanner = () => {
   );
 };
 
-export default WeekPlanner;
+export default WeekPlannerPage;
