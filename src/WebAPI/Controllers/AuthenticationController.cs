@@ -38,6 +38,7 @@ public class AuthenticationController : ApiController
         var authResult = await _sender.Send(command);
 
 
+
         return authResult.Match(
             authResult => Ok(_mapper.Map<AuthenticationResponse>(authResult)),
             errors => Problem(errors));

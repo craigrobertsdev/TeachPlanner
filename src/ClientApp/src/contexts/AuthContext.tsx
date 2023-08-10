@@ -7,7 +7,7 @@ import {
   useState,
 } from "react";
 import { useLocation } from "react-router-dom";
-import * as userService from "../assets/services/UserService";
+import * as userService from "../services/UserService";
 import { useLocalStorage } from "../hooks/useLocalStorage";
 
 type AuthContextType = {
@@ -32,13 +32,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState<boolean>(false);
   const [loadingInitial, setLoadingInitial] = useState<boolean>(true);
   const { setItem, getItem } = useLocalStorage();
-  const location = useLocation();
+  const routerLocation = useLocation();
 
   useEffect(() => {
     if (error) {
       setError(undefined);
     }
-  }, [location.pathname]);
+  }, [routerLocation.pathname]);
 
   useEffect(() => {
     const user = getItem("user");
@@ -55,13 +55,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
       const response = await userService.login(email, password);
 
-      if (response) {
-        setUser(response);
-      }
+      setUser(response);
+      setItem("token", JSON.stringify(response.token));
+      console.log(response);
 
       setLoading(false);
+      location.assign("/");
     } catch (error) {
       setError(error);
+      console.error(error);
       setLoading(false);
     }
   }
@@ -84,6 +86,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
       if (response) {
         setUser(response);
+        setItem("token", JSON.stringify(response.token));
       }
 
       setLoading(false);

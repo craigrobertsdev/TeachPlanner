@@ -1,16 +1,16 @@
-import { useLocalStorage } from "../../hooks/useLocalStorage";
+import { useLocalStorage } from "../hooks/useLocalStorage";
+import { baseUrl } from "../utils/constants";
 
 type UserResponse = {
-  user: User;
+  id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
   token: string;
 };
 
-export async function login(
-  email: string,
-  password: string
-): Promise<User | null> {
-  const { setItem } = useLocalStorage();
-  const response = await fetch("http://localhost:5291/api/login", {
+export async function login(email: string, password: string): Promise<User> {
+  const response = await fetch(baseUrl + "auth/login", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -18,18 +18,15 @@ export async function login(
     body: JSON.stringify({ email, password }),
   });
 
-  const data: UserResponse = await response.json();
-
-  const token = data.token;
-  const user = data.user;
-
-  if (token) {
-    user.token = token;
-    setItem("token", JSON.stringify(token));
-    return user;
+  if (!response.ok) {
+    throw new Error(
+      `Http request failed with status ${response.status}: ${response.statusText}`
+    );
   }
 
-  return null;
+  const data: UserResponse = await response.json();
+
+  return data as User;
 }
 
 export async function register(
@@ -54,7 +51,6 @@ export async function register(
 
   if (token) {
     user.token = token;
-    setItem("token", JSON.stringify(token));
     return user;
   }
 

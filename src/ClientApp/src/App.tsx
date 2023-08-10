@@ -13,11 +13,11 @@ import Login from "./pages/Login.tsx";
 import useAuth from "./contexts/AuthContext.tsx";
 
 function App() {
-  const { user, loading, error, login, register, logout } = useAuth();
+  const { user, loading, error } = useAuth();
   return (
     <>
       <Navbar
-        loggedIn={true} /* TODO - implement authentication in global state */
+        loggedIn={user} /* TODO - implement authentication in global state */
       />
       <div className="flex-auto items-center justify-center text-darkGreen">
         <Routes>
