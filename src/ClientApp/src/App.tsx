@@ -18,23 +18,13 @@ import TermPlannerPage from "./pages/TermPlannerPage.tsx";
 import YearPlannerPage from "./pages/YearPlannerPage.tsx";
 import AuthLayout from "./components/AuthLayout.tsx";
 import HomeLayout from "./components/HomeLayout.tsx";
+import { useLocalStorage } from "./hooks/useLocalStorage.ts";
 
-const getUserData = () =>
-  new Promise((resolve) => {
-    setTimeout(() => {
-      const user = localStorage.getItem("user");
-      resolve(user);
-    }, 1000);
+function getUserData() {
+  return new Promise((resolve) => {
+    resolve(localStorage.getItem("user"));
   });
-
-// for error testing
-// const getUserData = () =>
-//   new Promise((resolve, reject) => {
-//     setTimeout(() => {
-//       const user = localStorage.getItem("token");
-//       reject("Error");
-//     }, 3000);
-//   });
+}
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
@@ -47,7 +37,18 @@ export const router = createBrowserRouter(
       </Route>
 
       <Route path="/teacher" element={<ProtectedLayout />}>
-        <Route path="lesson-planner" element={<LessonPlannerPage />} />
+        <Route
+          path="lesson-planner"
+          element={
+            <LessonPlannerPage
+              dayPlans={[] as DayPlan[]}
+              lessonLength={30}
+              numBreaks={2}
+              numLessons={7}
+              weekNumber={1}
+            />
+          }
+        />
         {/* <Route path="/weekplanner" element={<WeekPlanner />} /> */}
         <Route path="term-planner" element={<TermPlannerPage />} />
         <Route path="year-planner" element={<YearPlannerPage />} />

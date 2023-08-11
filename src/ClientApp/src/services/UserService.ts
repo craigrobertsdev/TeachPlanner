@@ -10,7 +10,7 @@ type UserResponse = {
 };
 
 export async function login(email: string, password: string): Promise<User> {
-  const response = await fetch(baseUrl + "auth/login", {
+  const response = await fetch(`${baseUrl}/auth/login`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -35,7 +35,7 @@ export async function register(
   lastName: string,
   password: string
 ): Promise<User> {
-  const response = await fetch("http://localhost:5291/api/register", {
+  const response = await fetch(`${baseUrl}/auth/register`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -54,12 +54,11 @@ export async function register(
   return data as User;
 }
 
-export function isAuthenticated(): User | null {
-  const { getItem } = useLocalStorage();
-  const user = getItem("user");
-  if (!user) {
-    return null;
-  }
+// export function isAuthenticated(): User | null {
+//   const user = getUser("user");
+//   if (!user) {
+//     return null;
+//   }
 
-  return JSON.parse(user);
-}
+//   return JSON.parse(user);
+// }

@@ -10,7 +10,7 @@ declare type User = {
 //#region Planner
 declare type LessonPlan = {
   id: string;
-  subject: Subject;
+  subject: PlannerSubject;
   planningNotes: string;
   startTime: Date;
   endTime: Date;
@@ -19,6 +19,12 @@ declare type LessonPlan = {
   summativeAssessments?: SummativeAssessment[];
   formativeAssessments?: FormativeAssessment[];
   lessonComments?: LessonComment[];
+};
+
+declare type DayPlan = {
+  lessonPlans: LessonPlan[];
+  events: SchoolEvent[];
+  date: Date;
 };
 
 declare type WeekPlanner = {
@@ -41,6 +47,10 @@ declare type SchoolEvent = {
   name: string;
   description: string;
   location: string;
+};
+
+declare type PlannerSubject = {
+  name: string;
 };
 
 //#region Curriculum
