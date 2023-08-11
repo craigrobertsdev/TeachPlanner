@@ -1,40 +1,60 @@
-import Navbar from "./components/Navbar.tsx";
-import Footer from "./components/Footer.tsx";
-import { Route, Routes } from "react-router-dom";
+import {
+  BrowserRouter,
+  Route,
+  RouterProvider,
+  Routes,
+  createBrowserRouter,
+  createRoutesFromElements,
+  defer,
+} from "react-router-dom";
 import HomePage from "./pages/HomePage.tsx";
+import LoginPage from "./pages/LoginPage.tsx";
+import ProtectedLayout from "./components/ProtectedLayout.tsx";
 import ErrorPage from "./pages/ErrorPage.tsx";
-import WeekPlannerPage from "./pages/WeekPlannerPage.tsx";
-import TermPlannerPage from "./pages/TermPlannerPage.tsx";
-import YearPlannerPage from "./pages/YearPlanner.tsx";
 import LessonPlannerPage from "./pages/LessonPlannerPage.tsx";
 import ReportsPage from "./pages/ReportsPage.tsx";
 import ResourcesPage from "./pages/ResourcesPage.tsx";
-import LoginPage from "./pages/LoginPage.tsx";
-import useAuth from "./contexts/AuthContext.tsx";
+import TermPlannerPage from "./pages/TermPlannerPage.tsx";
+import YearPlannerPage from "./pages/YearPlannerPage.tsx";
+import AuthLayout from "./components/AuthLayout.tsx";
+import HomeLayout from "./components/HomeLayout.tsx";
 
-function App() {
-  const { user, loading, error } = useAuth();
-  return (
-    <>
-      <Navbar
-        loggedIn={user} /* TODO - implement authentication in global state */
-      />
-      <div className="flex-auto items-center justify-center text-darkGreen">
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/lessonplanner" element={<LessonPlannerPage />} />
-          {/* <Route path="/weekplanner" element={<WeekPlanner />} /> */}
-          <Route path="/termplanner" element={<TermPlannerPage />} />
-          <Route path="/yearplanner" element={<YearPlannerPage />} />
-          <Route path="/resources" element={<ResourcesPage />} />
-          <Route path="/reports" element={<ReportsPage />} />
-          <Route path="*" element={<ErrorPage />} />
-        </Routes>
-      </div>
-      <Footer />
-    </>
-  );
-}
+const getUserData = () =>
+  new Promise((resolve) => {
+    setTimeout(() => {
+      const user = localStorage.getItem("user");
+      resolve(user);
+    }, 1000);
+  });
 
-export default App;
+// for error testing
+// const getUserData = () =>
+//   new Promise((resolve, reject) => {
+//     setTimeout(() => {
+//       const user = localStorage.getItem("token");
+//       reject("Error");
+//     }, 3000);
+//   });
+
+export const router = createBrowserRouter(
+  createRoutesFromElements(
+    <Route
+      element={<AuthLayout />}
+      loader={() => defer({ userPromise: getUserData() })}>
+      <Route element={<HomeLayout />}>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/login" element={<LoginPage />} />
+      </Route>
+
+      <Route path="/teacher" element={<ProtectedLayout />}>
+        <Route path="lesson-planner" element={<LessonPlannerPage />} />
+        {/* <Route path="/weekplanner" element={<WeekPlanner />} /> */}
+        <Route path="term-planner" element={<TermPlannerPage />} />
+        <Route path="year-planner" element={<YearPlannerPage />} />
+        <Route path="resources" element={<ResourcesPage />} />
+        <Route path="reports" element={<ReportsPage />} />
+      </Route>
+      <Route path="*" element={<ErrorPage />} />
+    </Route>
+  )
+);

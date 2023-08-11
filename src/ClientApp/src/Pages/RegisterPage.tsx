@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import useAuth from "../contexts/AuthContext";
 
-function Register() {
+function RegisterPage() {
   const { loading, error, register } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -32,8 +32,34 @@ function Register() {
   return (
     <form onSubmit={onSubmit}>
       <h2>Register</h2>
+      <label htmlFor="email">Email</label>
+      <input type="text" name="email" value={email} onChange={onEmailChange} />
+      <label htmlFor="firstName">First Name</label>
+      <input
+        type="text"
+        name="firstName"
+        value={firstName}
+        onChange={onFirstNameChange}
+      />
+      <label htmlFor="lastName">Last Name</label>
+      <input
+        type="text"
+        name="lastName"
+        value={lastName}
+        onChange={onLastNameChange}
+      />
+      <label htmlFor="password">Password</label>
+      <input
+        type="password"
+        name="password"
+        value={password}
+        onChange={onPasswordChange}
+      />
+      <button disabled={loading} type="submit">
+        Register
+      </button>
     </form>
   );
 }
 
-export default Register;
+export default RegisterPage;

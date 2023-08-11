@@ -1,14 +1,10 @@
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import useAuth from "../contexts/AuthContext";
 
-type NavbarProps = {
-  user: User | null;
-};
-
-const Navbar = ({ user }: NavbarProps) => {
-  function logout() {
-    localStorage.removeItem("token");
-    window.location.href = "/";
-  }
+const Navbar = () => {
+  const navigate = useNavigate();
+  const { user, logout } = useAuth();
 
   return (
     <nav className="bg-sage flex flex-none items-center px-2 py-3">
@@ -20,20 +16,14 @@ const Navbar = ({ user }: NavbarProps) => {
           <Link to="/">Home</Link>
         </li>
         <li>
-          <Link to="/lessonplanner">Lesson Planner</Link>
+          <Link to="/lesson-planner">Lesson Planner</Link>
         </li>
         <li>
-          <Link to="/weekplanner">Week Planner</Link>
+          <Link to="/week-planner">Week Planner</Link>
         </li>
-        {user ? (
-          <li className="ml-auto pr-6">
-            <button onClick={logout}>Logout</button>
-          </li>
-        ) : (
-          <li className="ml-auto">
-            <Link to="/login">Login</Link>
-          </li>
-        )}
+        <li className="ml-auto pr-6">
+          <button onClick={logout}>Logout</button>
+        </li>
       </ul>
     </nav>
   );
