@@ -1,8 +1,5 @@
 import {
-  BrowserRouter,
   Route,
-  RouterProvider,
-  Routes,
   createBrowserRouter,
   createRoutesFromElements,
   defer,
@@ -16,15 +13,8 @@ import ReportsPage from "./pages/ReportsPage.tsx";
 import ResourcesPage from "./pages/ResourcesPage.tsx";
 import TermPlannerPage from "./pages/TermPlannerPage.tsx";
 import YearPlannerPage from "./pages/YearPlannerPage.tsx";
-import AuthLayout from "./components/AuthLayout.tsx";
+import AuthLayout, { getUserData } from "./components/AuthLayout.tsx";
 import HomeLayout from "./components/HomeLayout.tsx";
-import { useLocalStorage } from "./hooks/useLocalStorage.ts";
-
-function getUserData() {
-  return new Promise((resolve) => {
-    resolve(localStorage.getItem("user"));
-  });
-}
 
 export const router = createBrowserRouter(
   createRoutesFromElements(

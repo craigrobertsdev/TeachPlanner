@@ -4,7 +4,7 @@ declare type User = {
   firstName: string;
   lastName: string;
   email: string;
-  token?: string;
+  token: string;
 };
 
 //#region Planner
@@ -12,9 +12,9 @@ declare type LessonPlan = {
   id: string;
   subject: PlannerSubject;
   planningNotes: string;
-  startTime: Date;
-  endTime: Date;
+  date: Date;
   numberOfPeriods: number;
+  periodNumber: number;
   resources?: Resource[];
   summativeAssessments?: SummativeAssessment[];
   formativeAssessments?: FormativeAssessment[];
@@ -22,9 +22,12 @@ declare type LessonPlan = {
 };
 
 declare type DayPlan = {
+  startTime: Date;
+  endTime: Date;
+  numberOfPeriods: number;
   lessonPlans: LessonPlan[];
   events: SchoolEvent[];
-  date: Date;
+  breaks: Break[];
 };
 
 declare type WeekPlanner = {
@@ -37,6 +40,7 @@ declare type WeekPlanner = {
 declare type Break = {
   startTime: Date;
   endTime: Date;
+  periodNumber: number;
   name: string;
   duty: string;
 };
@@ -47,6 +51,8 @@ declare type SchoolEvent = {
   name: string;
   description: string;
   location: string;
+  numberOfPeriods: number;
+  periodNumber: number;
 };
 
 declare type PlannerSubject = {
@@ -105,14 +111,14 @@ declare type Assessment = {
   subjectName: string;
   dateConducted: Date;
 } & (
-  | {
+    | {
       type: "summative";
       planningNotes?: string;
       dateScheduled: Date;
       grade: number | string;
     }
-  | {
+    | {
       type: "formative";
       comments: string;
     }
-);
+  );

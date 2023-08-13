@@ -1,4 +1,3 @@
-import React from "react";
 import useAuth from "../contexts/AuthContext";
 import { Navigate, Outlet } from "react-router-dom";
 import Navbar from "./Navbar";
@@ -8,8 +7,9 @@ function ProtectedLayout() {
   const { user } = useAuth();
 
   if (!user) {
-    return <Navigate to="/login" />;
+    return <Navigate to="/login" replace={true} />;
   }
+
   return (
     <>
       <Navbar />
