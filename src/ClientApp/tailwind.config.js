@@ -10,12 +10,12 @@ export default {
         peach: "#DD8E75",
         ceramic: "#B6594C",
       },
-    },
-    height: {
-      screen: "100dvh",
-    },
-    minHeight: {
-      screen: "100dvh",
+      height: {
+        screen: "100dvh",
+      },
+      minHeight: {
+        screen: "100dvh",
+      },
     },
   },
   safelist: [
@@ -50,6 +50,8 @@ export default {
     "row-end-12",
     "row-span-1",
     "row-span-2",
-  ],
+    {
+      pattern: /grid-rows-[^\s]+/
+    }],
   plugins: ["prettier-plugin-tailwindcss"],
 };

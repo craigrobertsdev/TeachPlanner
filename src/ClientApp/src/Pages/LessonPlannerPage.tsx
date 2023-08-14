@@ -10,7 +10,7 @@ import AfterSchoolCalendarEntry from "../components/planner/AfterSchoolCalendarE
 
 const LessonPlannerPage = ({ numLessons, numBreaks, lessonLength, weekNumber, dayPlans }: LessonPlannerProps) => {
   const { user } = useAuth();
-
+  const [gridRows, setGridRows] = useState<string>("");
   //#region seed data
   // TODO: get these values from the database
   numLessons = 6;
@@ -21,6 +21,50 @@ const LessonPlannerPage = ({ numLessons, numBreaks, lessonLength, weekNumber, da
   const [calendarEntryLists, setCalendarEntryLists] = useState<CalendarEntry[][]>([]);
   const numRows = numLessons + numBreaks + 2; // +2 for header row and after school
   //#endregion
+
+  useEffect(() => {
+    let rows = "0.5fr "; // week and day header row
+    let entries: CalendarEntry[] = dayPlans[0].lessonPlans;
+    entries = entries.concat(dayPlans[0].breaks);
+
+    if (dayPlans[0].events.length) {
+      entries = entries.concat(dayPlans[0].events[0]);
+    }
+
+    const sortedEntries = sortEntries(entries);
+
+    for (let i = 0; i < sortedEntries.length; i++) {
+      const entry = sortedEntries[i];
+      if (isLessonPlan(entry) || isSchoolEvent(entry)) {
+        rows += `repeat(${entry.numberOfPeriods}, minmax(0, 1fr))`;
+      } else {
+        rows += "0.5fr";
+      }
+
+      if (i === sortedEntries.length - 1) {
+        rows += " 0.5fr"; // after school row
+      } else {
+        rows += " ";
+      }
+    }
+
+    setGridRows(rows);
+  }, []);
+
+  function sortEntries(entries: CalendarEntry[]): CalendarEntry[] {
+
+    const sortedEntries = entries.sort((a, b) => {
+      if (a.periodNumber < b.periodNumber) {
+        return -1;
+      } else if (a.periodNumber > b.periodNumber) {
+        return 1;
+      } else {
+        return 0;
+      }
+    });
+
+    return sortedEntries;
+  }
 
   function renderCalendarEntries(dayPlans: DayPlan[]): React.ReactNode[][] {
     const renderedCalenderEntriesList = dayPlans.map((dayPlan, idx) => {
@@ -61,32 +105,41 @@ const LessonPlannerPage = ({ numLessons, numBreaks, lessonLength, weekNumber, da
       }
 
       renderedCalendarEntries.push(
-        <AfterSchoolCalendarEntry key={uuidv1()} columnIndex={idx} rowIndex={numRows} afterSchoolActivity="Crossing duty" />
+        <AfterSchoolCalendarEntry key={uuidv1()} rowIndex={numRows} afterSchoolActivity="Crossing duty" />
       )
 
       return renderedCalendarEntries;
     });
 
+
     return renderedCalenderEntriesList;
   }
 
+  function isLessonPlan(entry: CalendarEntry): entry is LessonPlan {
+    return (entry as LessonPlan).subject !== undefined;
+  }
+
+  function isSchoolEvent(entry: CalendarEntry): entry is SchoolEvent {
+    return (entry as SchoolEvent).location !== undefined;
+  }
+
   return (
-    <>
-      <h1 className="text-4xl text-center p-3 mb-3">Hi {user!.firstName}!</h1>
-      <div className={`grid grid-cols-6 grid-rows-${numRows} border-l border-t border-darkGreen m-3`}>
-        <div className="row-start-1 col-start-1 border-r border-b border-darkGreen">Week {weekNumber}</div>
-        <div className="row-start-2 col-start-1 border-r border-b border-darkGreen">Lesson 1</div>
-        <div className="row-start-3 col-start-1 border-r border-b border-darkGreen">Lesson 2</div>
-        <div className="row-start-4 col-start-1 border-r border-b border-darkGreen">Break 1</div>
-        <div className="row-start-5 col-start-1 border-r border-b border-darkGreen">Lesson 3</div>
-        <div className="row-start-6 col-start-1 border-r border-b border-darkGreen">Lesson 4</div>
-        <div className="row-start-[7] col-start-1 border-r border-b border-darkGreen">Break 2</div>
-        <div className="row-start-[8] col-start-1 border-r border-b border-darkGreen">Lesson 5</div>
-        <div className="row-start-[9] col-start-1 border-r border-b border-darkGreen">Lesson 6</div>
-        <div className="row-start-[10] col-start-1 border-r border-b border-darkGreen">After School</div>
+    <div className="flex flex-col h-full">
+      <h1 className="text-4xl text-center p-3">Hi {user!.firstName}!</h1>
+      <div style={{ gridTemplateRows: gridRows }} className={`grid grid-cols-6 border-l border-t border-darkGreen m-3 flex-grow`}>
+        <div className="row-start-1 col-start-1 border-r border-b border-darkGreen text-lg font-bold">Week {weekNumber}</div>
+        <div className="row-start-2 col-start-1 border-r border-b border-darkGreen text-lg">Lesson 1</div>
+        <div className="row-start-3 col-start-1 border-r border-b border-darkGreen text-lg">Lesson 2</div>
+        <div className="row-start-4 col-start-1 border-r border-b border-darkGreen h-12 text-lg">Break 1</div>
+        <div className="row-start-5 col-start-1 border-r border-b border-darkGreen text-lg">Lesson 3</div>
+        <div className="row-start-6 col-start-1 border-r border-b border-darkGreen text-lg">Lesson 4</div>
+        <div className="row-start-[7] col-start-1 border-r border-b border-darkGreen h-12 text-lg">Break 2</div>
+        <div className="row-start-[8] col-start-1 border-r border-b border-darkGreen text-lg">Lesson 5</div>
+        <div className="row-start-[9] col-start-1 border-r border-b border-darkGreen text-lg">Lesson 6</div>
+        <div className="row-start-[10] col-start-1 border-r border-b border-darkGreen h-12 text-lg">After School</div>
         {renderCalendarEntries(dayPlans)}
       </div>
-    </>
+    </div>
   );
 };
 
