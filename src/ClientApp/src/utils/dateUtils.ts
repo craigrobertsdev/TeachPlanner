@@ -11,4 +11,13 @@ function getDayName(date: Date): string {
   return days[date.getDay()];
 }
 
-export { getDayName };
+function getCalendarTime(date: Date): string {
+  const hours = date.getHours();
+  const minutes = date.getMinutes();
+  const hoursString = hours > 12 ? `${hours - 12}` : `${hours}`;
+  const minutesString = minutes < 10 ? `0${minutes}` : `${minutes}`;
+  const ampm = hours > 12 ? "pm" : "am";
+  return `${hoursString}:${minutesString}${ampm}`;
+}
+
+export { getDayName, getCalendarTime };

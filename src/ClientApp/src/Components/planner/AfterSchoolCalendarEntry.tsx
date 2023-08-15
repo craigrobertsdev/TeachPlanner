@@ -10,7 +10,7 @@ export default function AfterSchoolCalendarEntry({ rowIndex, afterSchoolActivity
     gridRowStart: rowIndex,
   }
   return (
-    <div style={style} className="border-r border-b border-darkGreen h-12">
+    <div style={style} className="border-r border-b border-darkGreen">
       {afterSchoolActivity ? afterSchoolActivity : " "}
     </div>
   )

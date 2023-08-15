@@ -11,7 +11,7 @@ export default function BreakCalendarEntry({ lessonBreak, columnIndex }: BreakCa
     gridRowStart: lessonBreak.periodNumber + 1,
   }
   return (
-    <div style={style} className={`col-start-${columnIndex + 2} col-span-1 border-r border-b border-darkGreen h-12`}>
+    <div style={style} className={`col-start-${columnIndex + 2} col-span-1 border-r border-b border-darkGreen`}>
       <p>{lessonBreak.duty ? lessonBreak.duty : " "}</p>
     </div>
   );
