@@ -1,17 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import useAuth from "../contexts/AuthContext";
 import { dayPlansSeed, dayPlanPatternSeed } from "../seed/lessonPlannerSeed";
-import { getCalendarTime, getDayName } from "../utils/dateUtils";
+import { getCalendarDate, getCalendarTime, getDayName } from "../utils/dateUtils";
 import { v1 as uuidv1 } from "uuid";
 import LessonPlanCalendarEntry from "../components/planner/LessonPlanCalendarEntry";
 import BreakCalendarEntry from "../components/planner/BreakCalendarEntry";
 import EventCalendarEntry from "../components/planner/EventCalendarEntry";
 import AfterSchoolCalendarEntry from "../components/planner/AfterSchoolCalendarEntry";
+import LessonHeader from "../components/planner/LessonHeader";
+import BreakHeader from "../components/planner/BreakHeader";
 
 const LessonPlannerPage = ({ numLessons, numBreaks, lessonLength, weekNumber, dayPlans, dayPlanPattern }: LessonPlannerProps) => {
   const { user } = useAuth();
   const [gridRows, setGridRows] = useState<string>("");
-  const [sortedCalendarEntries, setSortedCalendarEntries] = useState<CalendarEntry[][]>([]);
+  const [selectedLessonEntryIndex, setSelectedLessonEntryIndex] = useState("");
 
   //#region seed data
   // TODO: get these values from the database
@@ -25,30 +27,9 @@ const LessonPlannerPage = ({ numLessons, numBreaks, lessonLength, weekNumber, da
   //#endregion
 
   useEffect(() => {
-    const sortedCalendarEntries = sortCalendarEntries(dayPlans)
-    setSortedCalendarEntries(sortedCalendarEntries);
+    const sortedCalendarEntries = sortCalendarEntries(dayPlans);
 
-    let rows = "0.5fr "; // week and day header row
-    let entries = sortedCalendarEntries[0];
-
-    for (let i = 0; i < entries.length; i++) {
-      const entry = entries[i];
-      if (isLessonPlan(entry) || isSchoolEvent(entry)) {
-        for (let j = 0; j < entry.numberOfPeriods; j++) {
-          rows += "minmax(0, 1fr) ";
-        }
-      } else {
-        rows += "0.5fr";
-      }
-
-      if (i === entries.length - 1) {
-        rows += " 0.5fr"; // after school row
-      } else {
-        rows += " ";
-      }
-    }
-
-    setGridRows(rows);
+    setGridDimensions(sortedCalendarEntries);
   }, []);
 
   function sortCalendarEntries(dayPlans: DayPlan[]): CalendarEntry[][] {
@@ -74,6 +55,30 @@ const LessonPlannerPage = ({ numLessons, numBreaks, lessonLength, weekNumber, da
     return entries;
   }
 
+  function setGridDimensions(sortedCalendarEntries: CalendarEntry[][]): void {
+    let rows = "0.5fr "; // week and day header row
+    let entries = sortedCalendarEntries[0];
+
+    for (let i = 0; i < entries.length; i++) {
+      const entry = entries[i];
+      if (isLessonPlan(entry) || isSchoolEvent(entry)) {
+        for (let j = 0; j < entry.numberOfPeriods; j++) {
+          rows += "fit-content(max-content) ";
+        }
+      } else {
+        rows += "0.3fr";
+      }
+
+      if (i === entries.length - 1) {
+        rows += " 0.3fr"; // after school row
+      } else {
+        rows += " ";
+      }
+    }
+
+    setGridRows(rows);
+  }
+
   function renderCalendarHeaders(dayPlans: DayPlan[]): React.ReactNode[] {
     const renderedCalendarHeaders = [] as React.ReactNode[];
     const numberOfLessons = dayPlans[0].lessonPlans.reduce((acc, curr) => acc + curr.numberOfPeriods, 0);
@@ -83,55 +88,78 @@ const LessonPlannerPage = ({ numLessons, numBreaks, lessonLength, weekNumber, da
     let breakNumber = 1;
 
     renderedCalendarHeaders.push(
-      <div key={`calendarHeader1`} className="row-start-1 col-start-1 border-r border-b border-darkGreen text-center text-lg font-bold">Week {weekNumber}</div>
-    )
+      <div
+        key={`calendarHeader1`}
+        className="row-start-1 col-start-1 flex items-center justify-center border-r-2 border-b-2 border-darkGreen text-center text-lg font-bold">
+        Week {weekNumber}
+      </div>
+    );
 
     for (let i = 0; i < iterations; i++) {
       if (dayPlanPattern.pattern[i].type === "LessonPlan") {
         renderedCalendarHeaders.push(
-          <div key={`lessonHeader${lessonNumber}`} className={`row-start-[${i + 2}] col-start-1 border-r border-b border-darkGreen text-center text-lg`}>
-            <h3>Lesson {lessonNumber}</h3>
-            <p>{getCalendarTime(dayPlanPattern.pattern[i].startTime)} - {getCalendarTime(dayPlanPattern.pattern[i].endTime)}</p>
-          </div>
-        )
+          <LessonHeader
+            key={`lessonHeader${lessonNumber}`}
+            lessonNumber={lessonNumber}
+            rowIndex={i + 2}
+            startTime={getCalendarTime(dayPlanPattern.pattern[i].startTime)}
+            endTime={getCalendarTime(dayPlanPattern.pattern[i].endTime)}
+          />
+        );
 
         lessonNumber++;
       } else if (dayPlanPattern.pattern[i].type === "Break") {
         renderedCalendarHeaders.push(
-          <div key={`breakHeader${breakNumber}`} className={`row-start-[${i + 2}] col-start-1 border-r border-b border-darkGreen text-center text-lg`}>
-            <h3>Break {breakNumber}</h3>
-            <p>{getCalendarTime(dayPlanPattern.pattern[i].startTime)} - {getCalendarTime(dayPlanPattern.pattern[i].endTime)}</p>
-          </div>
-        )
+          <BreakHeader
+            key={`breakHeader${breakNumber}`}
+            breakNumber={breakNumber}
+            rowIndex={i + 2}
+            startTime={getCalendarTime(dayPlanPattern.pattern[i].startTime)}
+            endTime={getCalendarTime(dayPlanPattern.pattern[i].endTime)}
+          />
+        );
         breakNumber++;
       }
     }
 
     renderedCalendarHeaders.push(
-      <div key={`afterSchoolHeader`} className="row-start-[10] col-start-1 border-r border-b border-darkGreen text-center text-lg">After School</div>
-    )
+      <div
+        key={`afterSchoolHeader`}
+        className="row-start-[10] col-start-1 flex items-center justify-center font-semibold border-r-2 border-b-2 border-darkGreen text-center text-lg">
+        After School
+      </div>
+    );
 
     return renderedCalendarHeaders;
   }
 
-  function renderCalendarEntries(dayPlans: DayPlan[]): React.ReactNode[][] {
-    const renderedCalenderEntriesList = dayPlans.map((dayPlan, idx) => {
-      const renderedCalendarEntries = [] as React.ReactNode[];
+  function renderDayPlans(dayPlans: DayPlan[]): React.ReactNode[][] {
+    const renderedDayPlansList = dayPlans.map((dayPlan, idx) => {
+      const renderedDayPlans = [] as React.ReactNode[];
 
       let lessonPlanPos = 0;
       let breakPos = 0;
       let schoolEventPos = 0;
 
-      renderedCalendarEntries.push(
-        <div key={uuidv1()} className="row-start-1 border-r border-b border-darkGreen">
-          {getDayName(dayPlan.endTime)}
+      renderedDayPlans.push(
+        <div key={uuidv1()} className="row-start-1 border-r-2 border-b-2 border-darkGreen">
+          <p className="text-center">{getDayName(dayPlan.startTime)}</p>
+          <p className="text-center">{getCalendarDate(dayPlan.startTime)}</p>
         </div>
-      )
+      );
 
       for (let i = 0; i < numRows - 2; i++) {
-
         if (lessonPlanPos < dayPlan.lessonPlans.length && dayPlan.lessonPlans[lessonPlanPos].periodNumber === i + 1) {
-          renderedCalendarEntries.push(<LessonPlanCalendarEntry key={uuidv1()} lessonPlan={dayPlan.lessonPlans[lessonPlanPos]} columnIndex={idx} />);
+          const index = `${idx}-${i + 2}`;
+          renderedDayPlans.push(
+            <LessonPlanCalendarEntry
+              key={uuidv1()}
+              lessonPlan={dayPlan.lessonPlans[lessonPlanPos]}
+              columnIndex={idx}
+              selectLessonEntry={(e: React.MouseEvent<HTMLDivElement, MouseEvent>) => handleLessonPlanEntryClicked(e, index)}
+              isSelected={selectedLessonEntryIndex === index}
+            />
+          );
 
           if (dayPlan.lessonPlans[lessonPlanPos].numberOfPeriods !== 1) {
             i += dayPlan.lessonPlans[lessonPlanPos].numberOfPeriods - 1;
@@ -139,7 +167,9 @@ const LessonPlannerPage = ({ numLessons, numBreaks, lessonLength, weekNumber, da
 
           lessonPlanPos++;
         } else if (dayPlan.events.length && dayPlan.events[schoolEventPos].periodNumber === i + 1) {
-          renderedCalendarEntries.push(<EventCalendarEntry key={uuidv1()} schoolEvent={dayPlan.events[schoolEventPos]} columnIndex={idx} rowIndex={i + 2} />);
+          renderedDayPlans.push(
+            <EventCalendarEntry key={uuidv1()} schoolEvent={dayPlan.events[schoolEventPos]} columnIndex={idx} rowIndex={i + 2} />
+          );
 
           if (dayPlan.events[schoolEventPos].numberOfPeriods !== 1) {
             i += dayPlan.events[schoolEventPos].numberOfPeriods - 1;
@@ -147,20 +177,17 @@ const LessonPlannerPage = ({ numLessons, numBreaks, lessonLength, weekNumber, da
 
           schoolEventPos++;
         } else if (breakPos < dayPlan.breaks.length) {
-          renderedCalendarEntries.push(<BreakCalendarEntry key={uuidv1()} lessonBreak={dayPlan.breaks[breakPos]} columnIndex={idx} rowIndex={i + 2} />);
+          renderedDayPlans.push(<BreakCalendarEntry key={uuidv1()} lessonBreak={dayPlan.breaks[breakPos]} columnIndex={idx} rowIndex={i + 2} />);
           breakPos++;
         }
       }
 
-      renderedCalendarEntries.push(
-        <AfterSchoolCalendarEntry key={uuidv1()} rowIndex={numRows} afterSchoolActivity="Crossing duty" />
-      )
+      renderedDayPlans.push(<AfterSchoolCalendarEntry key={uuidv1()} rowIndex={numRows} afterSchoolActivity="Crossing duty" />);
 
-      return renderedCalendarEntries;
+      return renderedDayPlans;
     });
 
-
-    return renderedCalenderEntriesList;
+    return renderedDayPlansList;
   }
 
   function isLessonPlan(entry: CalendarEntry): entry is LessonPlan {
@@ -175,13 +202,18 @@ const LessonPlannerPage = ({ numLessons, numBreaks, lessonLength, weekNumber, da
     return !isLessonPlan(entry) && !isSchoolEvent(entry);
   }
 
+  function handleLessonPlanEntryClicked(e: React.MouseEvent<HTMLDivElement, MouseEvent>, index: string) {
+    index === selectedLessonEntryIndex ? setSelectedLessonEntryIndex("") : setSelectedLessonEntryIndex(index);
+  }
 
   return (
     <div className="flex flex-col h-full">
       <h1 className="text-4xl text-center p-3">Hi {user!.firstName}!</h1>
-      <div style={{ gridAutoRows: gridRows }} className={`grid grid-cols-[minmax(7rem,_0.5fr),_repeat(5,_1fr)] border-l border-t border-darkGreen m-3 flex-grow`}>
+      <div
+        style={{ gridAutoRows: gridRows }}
+        className={`grid grid-cols-[minmax(7rem,_0.5fr),_repeat(5,_1fr)] border-l-2 border-t-2 border-darkGreen m-3 flex-grow`}>
         {renderCalendarHeaders(dayPlans)}
-        {renderCalendarEntries(dayPlans)}
+        {renderDayPlans(dayPlans)}
       </div>
     </div>
   );

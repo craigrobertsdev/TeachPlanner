@@ -40,13 +40,23 @@ export const dayPlanPatternSeed: DayPlanPattern = {
       endTime: new Date(2023, 8, 7, 15, 10, 0),
       type: "LessonPlan",
     },
-  ]
+  ],
 };
 
 const lessonPlanSeed = [
   {
     numberOfPeriods: 2,
-    planningNotes: "This is a test",
+    planningNotes: ["Exploring rounding to the nearest 10 and 100"],
+    resources: [
+      {
+        name: "Rounding to the nearest 10 and 100",
+        url: "https://www.youtube.com/watch?v=9zXqjxu6J6g",
+      },
+      {
+        name: "Quadratics",
+        url: "https://www.youtube.com/watch?v=9zXqjxu6J6g",
+      },
+    ] as Resource[],
     subject: {
       name: "Maths",
     } as PlannerSubject,
@@ -57,7 +67,20 @@ const lessonPlanSeed = [
   } as LessonPlan,
   {
     numberOfPeriods: 2,
-    planningNotes: "This is a test",
+    planningNotes: [
+      "Spelling warm up, then reading comprehension",
+      "Work on narratives",
+      "Spelling warm up, then reading comprehension",
+      "Work on narratives",
+      "Spelling warm up, then reading comprehension",
+      "Work on narratives",
+    ],
+    resources: [
+      {
+        name: "Prose Fiction",
+        url: "https://www.youtube.com/watch?v=9zXqjxu6J6g",
+      },
+    ] as Resource[],
     subject: {
       name: "English",
     } as PlannerSubject,
@@ -68,7 +91,7 @@ const lessonPlanSeed = [
   } as LessonPlan,
   {
     numberOfPeriods: 1,
-    planningNotes: "This is a test",
+    planningNotes: ["This is a test"],
     subject: {
       name: "Health",
     } as PlannerSubject,
@@ -79,7 +102,7 @@ const lessonPlanSeed = [
   } as LessonPlan,
   {
     numberOfPeriods: 1,
-    planningNotes: "This is a test",
+    planningNotes: ["This is a test"],
     subject: {
       name: "NIT",
     } as PlannerSubject,

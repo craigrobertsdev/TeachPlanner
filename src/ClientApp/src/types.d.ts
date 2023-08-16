@@ -10,18 +10,18 @@ declare type User = {
 //#region Planner
 declare type DayPlanPattern = {
   pattern: CalendarHeader[];
-}
+};
 
 declare type CalendarHeader = {
   startTime: Date;
   endTime: Date;
   type: "LessonPlan" | "Break";
-}
+};
 
 declare type LessonPlan = {
   id: string;
   subject: PlannerSubject;
-  planningNotes: string;
+  planningNotes: string[];
   startTime: Date;
   endTime: Date;
   numberOfPeriods: number;
@@ -74,7 +74,7 @@ declare type PlannerPeriod = {
   type: "lesson" | "break" | "afterschool";
   startTime: Date;
   endTime: Date;
-}
+};
 
 //#region Curriculum
 declare type Subject = {
@@ -116,8 +116,9 @@ declare type Elaboration = {
 
 declare type Resource = {
   id: string;
+  name: string;
   description: string;
-  link: string;
+  url: string;
 };
 
 //#region Assessments
@@ -128,14 +129,14 @@ declare type Assessment = {
   subjectName: string;
   dateConducted: Date;
 } & (
-    | {
+  | {
       type: "summative";
       planningNotes?: string;
       dateScheduled: Date;
       grade: number | string;
     }
-    | {
+  | {
       type: "formative";
       comments: string;
     }
-  );
+);

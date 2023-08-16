@@ -1,6 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ["./index.html", "./src/**/*.{js,jsx,ts,tsx}"],
+  plugins: ["prettier-plugin-tailwindcss"],
   theme: {
     extend: {
       colors: {
@@ -9,6 +10,11 @@ export default {
         darkGreen: "#37514D",
         peach: "#DD8E75",
         ceramic: "#B6594C",
+        // hover
+        primaryHover: "#E0D8D0",
+
+        // focus
+        primaryFocus: "#9E9790",
       },
       height: {
         screen: "100dvh",
@@ -16,6 +22,9 @@ export default {
       minHeight: {
         screen: "100dvh",
       },
+    },
+    fontFamily: {
+      theme: ["'Nunito Sans'", "sans-serif"],
     },
   },
   safelist: [
@@ -51,7 +60,8 @@ export default {
     "row-span-1",
     "row-span-2",
     {
-      pattern: /grid-rows-[^\s]+/
-    }],
+      pattern: /grid-rows-[^\s]+/,
+    },
+  ],
   plugins: ["prettier-plugin-tailwindcss"],
 };

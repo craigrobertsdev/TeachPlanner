@@ -13,7 +13,7 @@ function ProtectedLayout() {
   return (
     <>
       <Navbar />
-      <div className="flex-auto items-center justify-center">
+      <div className="flex-auto items-center justify-center bg-inherit">
         <Outlet />
       </div>
       <Footer />

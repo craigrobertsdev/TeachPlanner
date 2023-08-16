@@ -1,9 +1,4 @@
-import {
-  Route,
-  createBrowserRouter,
-  createRoutesFromElements,
-  defer,
-} from "react-router-dom";
+import { Route, createBrowserRouter, createRoutesFromElements, defer } from "react-router-dom";
 import HomePage from "./pages/HomePage.tsx";
 import LoginPage from "./pages/LoginPage.tsx";
 import ProtectedLayout from "./components/ProtectedLayout.tsx";
@@ -18,9 +13,7 @@ import HomeLayout from "./components/HomeLayout.tsx";
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
-    <Route
-      element={<AuthLayout />}
-      loader={() => defer({ userPromise: getUserData() })}>
+    <Route element={<AuthLayout />} loader={() => defer({ userPromise: getUserData() })}>
       <Route element={<HomeLayout />}>
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
@@ -32,6 +25,7 @@ export const router = createBrowserRouter(
           element={
             <LessonPlannerPage
               dayPlans={[] as DayPlan[]}
+              dayPlanPattern={{} as DayPlanPattern}
               lessonLength={30}
               numBreaks={2}
               numLessons={7}
