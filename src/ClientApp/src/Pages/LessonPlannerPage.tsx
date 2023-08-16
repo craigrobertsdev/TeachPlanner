@@ -13,7 +13,7 @@ import BreakHeader from "../components/planner/BreakHeader";
 const LessonPlannerPage = ({ numLessons, numBreaks, lessonLength, weekNumber, dayPlans, dayPlanPattern }: LessonPlannerProps) => {
   const { user } = useAuth();
   const [gridRows, setGridRows] = useState<string>("");
-  const [selectedLessonEntryIndex, setSelectedLessonEntryIndex] = useState("");
+  const [selectedLessonEntryIndex, setSelectedLessonEntryIndex] = useState<GridCellLocation>({ row: -1, column: -1 });
 
   //#region seed data
   // TODO: get these values from the database
@@ -134,7 +134,7 @@ const LessonPlannerPage = ({ numLessons, numBreaks, lessonLength, weekNumber, da
   }
 
   function renderDayPlans(dayPlans: DayPlan[]): React.ReactNode[][] {
-    const renderedDayPlansList = dayPlans.map((dayPlan, idx) => {
+    const renderedDayPlansList = dayPlans.map((dayPlan, colIdx) => {
       const renderedDayPlans = [] as React.ReactNode[];
 
       let lessonPlanPos = 0;
@@ -150,14 +150,16 @@ const LessonPlannerPage = ({ numLessons, numBreaks, lessonLength, weekNumber, da
 
       for (let i = 0; i < numRows - 2; i++) {
         if (lessonPlanPos < dayPlan.lessonPlans.length && dayPlan.lessonPlans[lessonPlanPos].periodNumber === i + 1) {
-          const index = `${idx}-${i + 2}`;
+          const rowIdx = i;
           renderedDayPlans.push(
             <LessonPlanCalendarEntry
               key={uuidv1()}
               lessonPlan={dayPlan.lessonPlans[lessonPlanPos]}
-              columnIndex={idx}
-              selectLessonEntry={(e: React.MouseEvent<HTMLDivElement, MouseEvent>) => handleLessonPlanEntryClicked(e, index)}
-              isSelected={selectedLessonEntryIndex === index}
+              columnIndex={colIdx}
+              selectLessonEntry={(e: React.MouseEvent<HTMLDivElement, MouseEvent>) =>
+                handleLessonPlanEntryClicked(e, { row: rowIdx, column: colIdx })
+              }
+              isSelected={selectedLessonEntryIndex.row === rowIdx && selectedLessonEntryIndex.column === colIdx}
             />
           );
 
@@ -168,7 +170,7 @@ const LessonPlannerPage = ({ numLessons, numBreaks, lessonLength, weekNumber, da
           lessonPlanPos++;
         } else if (dayPlan.events.length && dayPlan.events[schoolEventPos].periodNumber === i + 1) {
           renderedDayPlans.push(
-            <EventCalendarEntry key={uuidv1()} schoolEvent={dayPlan.events[schoolEventPos]} columnIndex={idx} rowIndex={i + 2} />
+            <EventCalendarEntry key={uuidv1()} schoolEvent={dayPlan.events[schoolEventPos]} columnIndex={colIdx} rowIndex={i + 2} />
           );
 
           if (dayPlan.events[schoolEventPos].numberOfPeriods !== 1) {
@@ -177,7 +179,7 @@ const LessonPlannerPage = ({ numLessons, numBreaks, lessonLength, weekNumber, da
 
           schoolEventPos++;
         } else if (breakPos < dayPlan.breaks.length) {
-          renderedDayPlans.push(<BreakCalendarEntry key={uuidv1()} lessonBreak={dayPlan.breaks[breakPos]} columnIndex={idx} rowIndex={i + 2} />);
+          renderedDayPlans.push(<BreakCalendarEntry key={uuidv1()} lessonBreak={dayPlan.breaks[breakPos]} columnIndex={colIdx} rowIndex={i + 2} />);
           breakPos++;
         }
       }
@@ -202,9 +204,13 @@ const LessonPlannerPage = ({ numLessons, numBreaks, lessonLength, weekNumber, da
     return !isLessonPlan(entry) && !isSchoolEvent(entry);
   }
 
-  function handleLessonPlanEntryClicked(e: React.MouseEvent<HTMLDivElement, MouseEvent>, index: string) {
-    index === selectedLessonEntryIndex ? setSelectedLessonEntryIndex("") : setSelectedLessonEntryIndex(index);
+  function handleLessonPlanEntryClicked(e: React.MouseEvent<HTMLDivElement, MouseEvent>, cell: GridCellLocation) {
+    cell.column === selectedLessonEntryIndex.column && cell.row === selectedLessonEntryIndex.row
+      ? setSelectedLessonEntryIndex({ row: -1, column: -1 })
+      : setSelectedLessonEntryIndex(cell);
   }
+
+  function handleEditLessonPlan(index: number) {}
 
   return (
     <div className="flex flex-col h-full">
@@ -239,4 +245,9 @@ type DayPlanData = {
   nextLesson: LessonPlan | null;
   nextBreak: Break | null;
   nextSchoolEvent: SchoolEvent | null;
+};
+
+type GridCellLocation = {
+  row: number;
+  column: number;
 };
