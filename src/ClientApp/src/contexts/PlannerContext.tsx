@@ -1,15 +1,23 @@
-import { createContext, useState } from "react";
+import { createContext, useContext, useState, ReactNode } from "react";
 
 type PlannerContextType = {
   currentWeekPlanner: WeekPlanner;
+  dayPlanPattern: DayPlanPattern;
 };
 
-const PlannerContext = createContext<PlannerContextType>(
-  {} as PlannerContextType
-);
+type PlannerProviderProps = {
+  children: ReactNode;
+};
 
-export function PlannerProvider({ children }: { children: React.ReactNode }) {
-  const [currentWeekPlanner, setCurrentWeekPlanner] = useState<WeekPlanner>(
-    {} as WeekPlanner
-  );
+const PlannerContext = createContext<PlannerContextType>({} as PlannerContextType);
+
+export function PlannerProvider({ children }: PlannerProviderProps) {
+  const [currentWeekPlanner, setCurrentWeekPlanner] = useState<WeekPlanner>({} as WeekPlanner);
+  const [dayPlanPattern, setDayPlanPattern] = useState<DayPlanPattern>({} as DayPlanPattern);
+
+  return <PlannerContext.Provider value={{ currentWeekPlanner, dayPlanPattern }}>{children}</PlannerContext.Provider>;
+}
+
+export function usePlannerContext() {
+  return useContext(PlannerContext);
 }

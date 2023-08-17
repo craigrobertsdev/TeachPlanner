@@ -1,19 +1,21 @@
 import React, { useEffect, useRef, useState } from "react";
-import useAuth from "../contexts/AuthContext";
-import { dayPlansSeed, dayPlanPatternSeed } from "../seed/lessonPlannerSeed";
-import { getCalendarDate, getCalendarTime, getDayName } from "../utils/dateUtils";
+import useAuth from "../../contexts/AuthContext";
+import { dayPlansSeed, dayPlanPatternSeed } from "../../seed/lessonPlannerSeed";
+import { getCalendarDate, getCalendarTime, getDayName } from "../../utils/dateUtils";
 import { v1 as uuidv1 } from "uuid";
-import LessonPlanCalendarEntry from "../components/planner/LessonPlanCalendarEntry";
-import BreakCalendarEntry from "../components/planner/BreakCalendarEntry";
-import EventCalendarEntry from "../components/planner/EventCalendarEntry";
-import AfterSchoolCalendarEntry from "../components/planner/AfterSchoolCalendarEntry";
-import LessonHeader from "../components/planner/LessonHeader";
-import BreakHeader from "../components/planner/BreakHeader";
+import LessonPlanCalendarEntry from "../../components/planner/LessonPlanCalendarEntry";
+import BreakCalendarEntry from "../../components/planner/BreakCalendarEntry";
+import EventCalendarEntry from "../../components/planner/EventCalendarEntry";
+import AfterSchoolCalendarEntry from "../../components/planner/AfterSchoolCalendarEntry";
+import LessonHeader from "../../components/planner/LessonHeader";
+import BreakHeader from "../../components/planner/BreakHeader";
+import { useNavigate } from "react-router-dom";
 
 const LessonPlannerPage = ({ numLessons, numBreaks, lessonLength, weekNumber, dayPlans, dayPlanPattern }: LessonPlannerProps) => {
   const { user } = useAuth();
   const [gridRows, setGridRows] = useState<string>("");
   const [selectedLessonEntryIndex, setSelectedLessonEntryIndex] = useState<GridCellLocation>({ row: -1, column: -1 });
+  const navigate = useNavigate();
 
   //#region seed data
   // TODO: get these values from the database
@@ -150,7 +152,7 @@ const LessonPlannerPage = ({ numLessons, numBreaks, lessonLength, weekNumber, da
 
       for (let i = 0; i < numRows - 2; i++) {
         if (lessonPlanPos < dayPlan.lessonPlans.length && dayPlan.lessonPlans[lessonPlanPos].periodNumber === i + 1) {
-          const rowIdx = i;
+          const rowIdx = lessonPlanPos;
           renderedDayPlans.push(
             <LessonPlanCalendarEntry
               key={uuidv1()}
@@ -160,6 +162,7 @@ const LessonPlannerPage = ({ numLessons, numBreaks, lessonLength, weekNumber, da
                 handleLessonPlanEntryClicked(e, { row: rowIdx, column: colIdx })
               }
               isSelected={selectedLessonEntryIndex.row === rowIdx && selectedLessonEntryIndex.column === colIdx}
+              editLessonPlan={(e) => handleEditLessonPlan(e, { row: rowIdx, column: colIdx })}
             />
           );
 
@@ -210,7 +213,10 @@ const LessonPlannerPage = ({ numLessons, numBreaks, lessonLength, weekNumber, da
       : setSelectedLessonEntryIndex(cell);
   }
 
-  function handleEditLessonPlan(index: number) {}
+  function handleEditLessonPlan(e: React.MouseEvent<HTMLButtonElement, MouseEvent>, cell: GridCellLocation) {
+    const lessonPlan = dayPlans[cell.column].lessonPlans[cell.row];
+    navigate(`/teacher/lesson-plans/${lessonPlan.id}`);
+  }
 
   return (
     <div className="flex flex-col h-full">

@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { v1 as uuidv1 } from "uuid";
 
 type LessonPlanCalendarEntryProps = {
@@ -6,9 +5,16 @@ type LessonPlanCalendarEntryProps = {
   columnIndex: number;
   selectLessonEntry: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
   isSelected: boolean;
+  editLessonPlan: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
 };
 
-export default function LessonPlanCalendarEntry({ lessonPlan, columnIndex, selectLessonEntry, isSelected }: LessonPlanCalendarEntryProps) {
+export default function LessonPlanCalendarEntry({
+  lessonPlan,
+  columnIndex,
+  selectLessonEntry,
+  isSelected,
+  editLessonPlan,
+}: LessonPlanCalendarEntryProps) {
   const style = {
     gridRowStart: lessonPlan.periodNumber + 1,
     gridRowEnd: lessonPlan.periodNumber + lessonPlan.numberOfPeriods + 1,
@@ -16,8 +22,6 @@ export default function LessonPlanCalendarEntry({ lessonPlan, columnIndex, selec
   };
 
   const selectedClassNames = "bg-primaryFocus";
-
-  function openLessonEditor(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {}
 
   return (
     <div
@@ -29,7 +33,7 @@ export default function LessonPlanCalendarEntry({ lessonPlan, columnIndex, selec
       <div className="flex mb-2 justify-between items-center">
         <p className="text-lg font-semibold">{lessonPlan.subject.name}</p>
         {isSelected && (
-          <button className="text-sm font-semibold text-center text-primary bg-darkGreen px-2 py-1 rounded-md" onClick={openLessonEditor}>
+          <button className="text-sm font-semibold text-center text-primary bg-darkGreen px-2 py-1 rounded-md" onClick={editLessonPlan}>
             Edit
           </button>
         )}

@@ -60,7 +60,22 @@ export default {
     "row-span-1",
     "row-span-2",
     {
+      pattern: /(bg|text|border)-(sage)/,
+    },
+    {
       pattern: /grid-rows-[^\s]+/,
+    },
+    {
+      pattern: /(mt|mb|mr|ml|my|mx|px|py|pt|pb|pl|pr)-[0-9]+/,
+    },
+    {
+      pattern: /flex-.*/,
+    },
+    {
+      pattern: /(bottom|right|top|left)-[0-9]+/,
+    },
+    {
+      pattern: /(w|h)-[0-9]+/,
     },
   ],
   plugins: ["prettier-plugin-tailwindcss"],

@@ -2,6 +2,7 @@ import useAuth from "../contexts/AuthContext";
 import { Navigate, Outlet } from "react-router-dom";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
+import { PlannerProvider } from "../contexts/PlannerContext";
 
 function ProtectedLayout() {
   const { user } = useAuth();
@@ -11,13 +12,13 @@ function ProtectedLayout() {
   }
 
   return (
-    <>
+    <PlannerProvider>
       <Navbar />
       <div className="flex-auto items-center justify-center bg-inherit">
         <Outlet />
       </div>
       <Footer />
-    </>
+    </PlannerProvider>
   );
 }
 

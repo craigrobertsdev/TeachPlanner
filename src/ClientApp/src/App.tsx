@@ -3,13 +3,16 @@ import HomePage from "./pages/HomePage.tsx";
 import LoginPage from "./pages/LoginPage.tsx";
 import ProtectedLayout from "./components/ProtectedLayout.tsx";
 import ErrorPage from "./pages/ErrorPage.tsx";
-import LessonPlannerPage from "./pages/LessonPlannerPage.tsx";
+import LessonPlannerPage from "./pages/planner/LessonPlannerPage.tsx";
 import ReportsPage from "./pages/ReportsPage.tsx";
 import ResourcesPage from "./pages/ResourcesPage.tsx";
-import TermPlannerPage from "./pages/TermPlannerPage.tsx";
-import YearPlannerPage from "./pages/YearPlannerPage.tsx";
+import TermPlannerPage from "./pages/planner/TermPlannerPage.tsx";
+import YearPlannerPage from "./pages/planner/YearPlannerPage.tsx";
 import AuthLayout, { getUserData } from "./components/AuthLayout.tsx";
 import HomeLayout from "./components/HomeLayout.tsx";
+import EditLessonPlanPage, { lessonPlanLoader } from "./pages/planner/EditLessonPlanPage.tsx";
+import { PlannerProvider } from "./contexts/PlannerContext.tsx";
+import LessonPlansPage from "./pages/planner/LessonPlansPage.tsx";
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
@@ -33,6 +36,10 @@ export const router = createBrowserRouter(
             />
           }
         />
+        <Route path="lesson-plans">
+          <Route element={<LessonPlansPage />} index />
+          <Route path=":lessonPlanId" element={<EditLessonPlanPage />} loader={lessonPlanLoader} />
+        </Route>
         {/* <Route path="/weekplanner" element={<WeekPlanner />} /> */}
         <Route path="term-planner" element={<TermPlannerPage />} />
         <Route path="year-planner" element={<YearPlannerPage />} />
