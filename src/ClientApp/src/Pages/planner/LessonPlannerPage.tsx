@@ -12,7 +12,7 @@ import BreakHeader from "../../components/planner/BreakHeader";
 import { useNavigate } from "react-router-dom";
 
 const LessonPlannerPage = ({ numLessons, numBreaks, lessonLength, weekNumber, dayPlans, dayPlanPattern }: LessonPlannerProps) => {
-  const { user } = useAuth();
+  const { teacher } = useAuth();
   const [gridRows, setGridRows] = useState<string>("");
   const [selectedLessonEntryIndex, setSelectedLessonEntryIndex] = useState<GridCellLocation>({ row: -1, column: -1 });
   const navigate = useNavigate();
@@ -220,7 +220,7 @@ const LessonPlannerPage = ({ numLessons, numBreaks, lessonLength, weekNumber, da
 
   return (
     <div className="flex flex-col h-full">
-      <h1 className="text-4xl text-center p-3">Hi {user!.firstName}!</h1>
+      <h1 className="text-4xl text-center p-3">Hi {teacher!.firstName}!</h1>
       <div
         style={{ gridAutoRows: gridRows }}
         className={`grid grid-cols-[minmax(7rem,_0.5fr),_repeat(5,_1fr)] border-l-2 border-t-2 border-darkGreen m-3 flex-grow`}>

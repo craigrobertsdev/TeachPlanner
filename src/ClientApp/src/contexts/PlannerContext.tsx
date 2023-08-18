@@ -18,15 +18,15 @@ export function PlannerProvider({ children }: PlannerProviderProps) {
   const [currentWeekPlanner, setCurrentWeekPlanner] = useState<WeekPlanner>({} as WeekPlanner);
   const [dayPlanPattern, setDayPlanPattern] = useState<DayPlanPattern>({} as DayPlanPattern);
   const [subjects, setSubjects] = useState<Subject[]>([]);
-  const { user } = useAuth();
+  const { teacher } = useAuth();
 
   useEffect(() => {
-    fetch(`${baseUrl}/${user!.id}/lesson-planner`, {
+    fetch(`${baseUrl}/${teacher!.id}/lesson-planner`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ teacherId: user!.id }),
+      body: JSON.stringify({ teacherId: teacher!.id }),
     })
       .then((response) => response.json())
       .then((data) => {

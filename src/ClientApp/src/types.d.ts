@@ -1,10 +1,12 @@
-//#region User
-declare type User = {
+//#region Teacher
+declare type Teacher = {
   id: string;
   firstName: string;
   lastName: string;
   email: string;
   token: string;
+  subjectsTaught: Subject[];
+  yearLevelsTaught: SubjectYearLevel[];
 };
 
 //#region Planner

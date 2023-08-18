@@ -1,10 +1,10 @@
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import useAuth from "../contexts/AuthContext";
+import useAuth from "../../contexts/AuthContext";
 
 const Navbar = () => {
   const navigate = useNavigate();
-  const { user, logout } = useAuth();
+  const { teacher, logout } = useAuth();
 
   return (
     <nav className="bg-sage flex flex-none items-center px-2 py-3">
