@@ -1,5 +1,7 @@
-﻿using Application.LessonPlan.CreateLessonPlan.Commands;
-using Contracts.Plannner;
+﻿using Application.LessonPlans.CreateLessonPlan.Commands;
+using Application.LessonPlans.Queries.GetLessonPlans;
+using Contracts.Plannner.CreateLessonPlan;
+using Contracts.Plannner.GetLessonPlans;
 using Domain.LessonPlanAggregate;
 using Mapster;
 
@@ -21,5 +23,8 @@ public class LessonPlanMapping : IRegister
         // not mapping comments here as this list will be null at the time of lesson creation
         config
             .NewConfig<LessonPlan, CreateLessonPlanResponse>();
+
+        config
+            .NewConfig<GetLessonPlansRequest, GetLessonPlansQuery>();
     }
 }

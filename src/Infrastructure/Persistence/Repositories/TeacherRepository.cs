@@ -20,12 +20,13 @@ public class TeacherRepository : ITeacherRepository
         await _context.SaveChangesAsync();
     }
 
-    public Task<Teacher?> GetTeacherByEmail(string email)
+    public Task<Teacher?> GetTeacherByEmailAsync(string email)
     {
-        return _context.Teachers.FirstOrDefaultAsync(t => t.Email == email);
+        var teacher = _context.Teachers.FirstOrDefaultAsync(t => t.Email == email);
+        return teacher;
     }
 
-    public Task<Teacher?> GetTeacherById(Guid id)
+    public Task<Teacher?> GetTeacherByIdAsync(Guid id)
     {
         return _context.Teachers.FirstOrDefaultAsync(t => t.Id == id);
     }

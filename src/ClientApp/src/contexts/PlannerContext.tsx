@@ -21,7 +21,7 @@ export function PlannerProvider({ children }: PlannerProviderProps) {
   const { user } = useAuth();
 
   useEffect(() => {
-    fetch(`${baseUrl}/api/planner`, {
+    fetch(`${baseUrl}/${user!.id}/lesson-planner`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -30,8 +30,8 @@ export function PlannerProvider({ children }: PlannerProviderProps) {
     })
       .then((response) => response.json())
       .then((data) => {
-        setCurrentWeekPlanner(data.currentWeekPlanner);
-        setDayPlanPattern(data.dayPlanPattern);
+        // setCurrentWeekPlanner(data.currentWeekPlanner);
+        // setDayPlanPattern(data.dayPlanPattern);
         setSubjects(data.subjects);
       })
       .catch((error) => {

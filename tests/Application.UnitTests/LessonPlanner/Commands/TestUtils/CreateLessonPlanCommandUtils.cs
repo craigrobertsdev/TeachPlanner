@@ -1,4 +1,4 @@
-﻿using Application.LessonPlan.CreateLessonPlan.Commands;
+﻿using Application.LessonPlans.CreateLessonPlan.Commands;
 using Application.UnitTests.TestUtils.Constants;
 using Domain.ResourceAggregate;
 

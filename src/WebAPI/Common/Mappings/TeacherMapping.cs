@@ -11,7 +11,7 @@ public class TeacherMapping : IRegister
     {
         config
             .NewConfig<CreateTeacherRequest, CreateTeacherCommand>()
-            .Map(dest => dest.UserId, src => src.UserId);
+            .Map(dest => dest.TeacherId, src => src.TeacherId);
 
         config
             .NewConfig<TeacherCreatedResult, CreateTeacherResponse>();

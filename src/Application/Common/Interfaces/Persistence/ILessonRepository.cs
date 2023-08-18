@@ -1,6 +1,9 @@
-﻿namespace Application.Common.Interfaces.Persistence;
+﻿using Domain.LessonPlanAggregate;
+
+namespace Application.Common.Interfaces.Persistence;
 
 public interface ILessonRepository
 {
-    Task Create(Domain.LessonPlanAggregate.LessonPlan lesson);
+    Task Create(LessonPlan lesson);
+    Task<List<LessonPlan>?> GetLessonsByTeacherIdAsync(Guid teacherId);
 }

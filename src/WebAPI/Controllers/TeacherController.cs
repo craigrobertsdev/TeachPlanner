@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers;
 
+[Route("[controller]")]
 public class TeacherController : ApiController
 {
     private readonly ISender _mediator;
@@ -22,7 +23,6 @@ public class TeacherController : ApiController
         _mapper = mapper;
     }
 
-    [Route("[controller]")]
 
     [HttpGet]
     public async Task<IActionResult> GetPlannerData(string teacherId)
@@ -36,6 +36,7 @@ public class TeacherController : ApiController
             errors => Problem(errors));
     }
 
+    [HttpPost]
     public async Task<IActionResult> CreateTeacher(CreateTeacherRequest request)
     {
         var command = _mapper.Map<CreateTeacherCommand>(request);

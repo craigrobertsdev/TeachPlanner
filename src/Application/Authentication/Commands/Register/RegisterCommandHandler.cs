@@ -25,7 +25,7 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, ErrorOr<A
 #pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
     public async Task<ErrorOr<AuthenticationResult>> Handle(RegisterCommand command, CancellationToken cancellationToken)
     {
-        if (_teacherRepository.GetTeacherByEmail(command.Email) != null)
+        if (await _teacherRepository.GetTeacherByEmailAsync(command.Email) != null)
         {
             return Errors.Authentication.DuplicateEmail;
         }

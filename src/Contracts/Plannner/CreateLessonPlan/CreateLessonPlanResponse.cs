@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Contracts.Plannner;
+﻿namespace Contracts.Plannner.CreateLessonPlan;
 
 public record CreateLessonPlanResponse(
     string Id,

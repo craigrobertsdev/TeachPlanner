@@ -22,7 +22,11 @@ function EditLessonPlanPage() {
       <h1 className="text-xl font-semibold ">Edit Lesson Plan</h1>
       <form className="flex flex-col p-2 justify-center items-center">
         <p>Subject: </p>
-        <select className="mb-2">{}</select>
+        <select className="mb-2 flex-grow">
+          {subjects.map((subject) => (
+            <option key={subject.id}>{subject.name}</option>
+          ))}
+        </select>
         <p>Start Time: {getCalendarTime(lessonPlan.startTime)}</p>
         <p>End Time: {getCalendarTime(lessonPlan.endTime)}</p>
         <p>Period Number: {lessonPlan.periodNumber}</p>

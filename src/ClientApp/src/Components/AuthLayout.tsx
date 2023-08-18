@@ -13,9 +13,7 @@ function AuthLayout() {
       <Await
         resolve={userPromise}
         errorElement={<Alert severity="error">Something went wrong!</Alert>}
-        children={(user) => (
-          <AuthProvider userData={user}>{outlet}</AuthProvider>
-        )}
+        children={(user: User) => <AuthProvider userData={user}>{outlet}</AuthProvider>}
       />
     </Suspense>
   );

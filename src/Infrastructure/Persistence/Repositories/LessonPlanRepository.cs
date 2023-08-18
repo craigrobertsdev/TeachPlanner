@@ -1,6 +1,7 @@
 ﻿using Application.Common.Interfaces.Persistence;
 using Domain.LessonPlanAggregate;
 using Infrastructure.Persistence.DbContexts;
+using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Persistence.Repositories;
 
@@ -17,5 +18,10 @@ public class LessonPlanRepository : ILessonRepository
     {
         _context.Add(lessonPlan);
         await _context.SaveChangesAsync();
+    }
+
+    public async Task<List<LessonPlan>?> GetLessonsByTeacherIdAsync(Guid teacherId)
+    {
+        return await _context.LessonPlans.Where(lessonPlan => lessonPlan.TeacherId == teacherId).ToListAsync();
     }
 }

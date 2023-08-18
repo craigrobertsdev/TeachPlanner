@@ -1,14 +1,11 @@
 ﻿using Application.Common.Interfaces.Persistence;
-using Domain.Assessments;
-using Domain.ResourceAggregate;
-using Domain.SubjectAggregates;
-using Domain.TeacherAggregate;
+using Domain.LessonPlanAggregate;
 using ErrorOr;
 using MediatR;
 
-namespace Application.LessonPlan.CreateLessonPlan.Commands;
+namespace Application.LessonPlans.CreateLessonPlan.Commands;
 
-public class CreateLessonPlanCommandHandler : IRequestHandler<CreateLessonPlanCommand, ErrorOr<Domain.LessonPlanAggregate.LessonPlan>>
+public class CreateLessonPlanCommandHandler : IRequestHandler<CreateLessonPlanCommand, ErrorOr<LessonPlan>>
 {
     private readonly ILessonRepository _lessonRepository;
 
@@ -17,9 +14,9 @@ public class CreateLessonPlanCommandHandler : IRequestHandler<CreateLessonPlanCo
         _lessonRepository = lessonRepository;
     }
 
-    public async Task<ErrorOr<Domain.LessonPlanAggregate.LessonPlan>> Handle(CreateLessonPlanCommand command, CancellationToken cancellationToken)
+    public async Task<ErrorOr<LessonPlan>> Handle(CreateLessonPlanCommand command, CancellationToken cancellationToken)
     {
-        var lesson = Domain.LessonPlanAggregate.LessonPlan.Create(
+        var lesson = LessonPlan.Create(
             Guid.NewGuid(),
             Guid.NewGuid(),
             command.PlanningNotes,

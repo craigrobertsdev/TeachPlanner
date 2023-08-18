@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { v1 as uuidv1 } from "uuid";
 
 type LessonPlanCalendarEntryProps = {
@@ -15,13 +16,23 @@ export default function LessonPlanCalendarEntry({
   isSelected,
   editLessonPlan,
 }: LessonPlanCalendarEntryProps) {
+  const selectedClassNames = "bg-primaryFocus";
+  const [isHovering, setIsHovering] = useState<boolean>(false);
+
   const style = {
     gridRowStart: lessonPlan.periodNumber + 1,
     gridRowEnd: lessonPlan.periodNumber + lessonPlan.numberOfPeriods + 1,
     rowSpan: lessonPlan.numberOfPeriods,
+    boxShadow: isHovering ? "-1px -1px 0 2px darkGreen" : "",
   };
 
-  const selectedClassNames = "bg-primaryFocus";
+  function handleMouseEnter() {
+    setIsHovering(true);
+  }
+
+  function handleMouseLeave() {
+    setIsHovering(false);
+  }
 
   return (
     <div
@@ -29,10 +40,12 @@ export default function LessonPlanCalendarEntry({
       className={`col-start-${columnIndex + 2} col-end-${columnIndex + 2} border-r-2 border-b-2 border-darkGreen flex flex-col p-2 select-none ${
         isSelected ? selectedClassNames : " "
       }`}
-      onClick={selectLessonEntry}>
+      onClick={selectLessonEntry}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}>
       <div className="flex mb-2 justify-between items-center">
         <p className="text-lg font-semibold">{lessonPlan.subject.name}</p>
-        {isSelected && (
+        {(isSelected || isHovering) && (
           <button className="text-sm font-semibold text-center text-primary bg-darkGreen px-2 py-1 rounded-md" onClick={editLessonPlan}>
             Edit
           </button>

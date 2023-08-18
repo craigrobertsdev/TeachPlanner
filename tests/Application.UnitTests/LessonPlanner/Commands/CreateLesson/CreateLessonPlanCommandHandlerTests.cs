@@ -1,5 +1,5 @@
 ﻿using Application.Common.Interfaces.Persistence;
-using Application.LessonPlan.CreateLessonPlan.Commands;
+using Application.LessonPlans.CreateLessonPlan.Commands;
 using Application.UnitTests.LessonPlanner.Commands.TestUtils;
 using FluentAssertions;
 using Moq;

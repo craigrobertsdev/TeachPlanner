@@ -1,5 +1,7 @@
-﻿using Application.LessonPlan.CreateLessonPlan.Commands;
-using Contracts.Plannner;
+﻿using Application.LessonPlans.CreateLessonPlan.Commands;
+using Application.LessonPlans.Queries.GetLessonPlans;
+using Contracts.Plannner.CreateLessonPlan;
+using Contracts.Plannner.GetLessonPlans;
 using FluentValidation;
 using MapsterMapper;
 using MediatR;
@@ -7,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace WebAPI.Controllers;
 
-[Route("teacher/{teacherId}/lessonplanner")]
+[Route("teacher/{teacherId}/lesson-planner")]
 public class LessonPlannerController : ApiController
 {
     private readonly ISender _mediator;
@@ -19,6 +21,18 @@ public class LessonPlannerController : ApiController
         _mediator = sender;
         _createLessonPlanValidator = createLessonPlanValidator;
         _mapper = mapper;
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> GetLessonPlans(GetLessonPlansRequest request)
+    {
+        var query = _mapper.Map<GetLessonPlansQuery>(request);
+
+        var lessonPlans = await _mediator.Send(query);
+
+        return lessonPlans.Match(
+                       lessonPlans => Ok(lessonPlans),
+                                  errors => Problem(errors));
     }
 
     [HttpPost]
