@@ -1,4 +1,5 @@
-﻿using Application.Teachers.Common;
+﻿using Application.Planner.Queries.GetPlannerData;
+using Application.Teachers.Common;
 using Application.Teachers.CreateTeacher.Commands;
 using Contracts.Teacher;
 using FluentValidation;
@@ -22,6 +23,19 @@ public class TeacherController : ApiController
     }
 
     [Route("[controller]")]
+
+    [HttpGet]
+    public async Task<IActionResult> GetPlannerData(string teacherId)
+    {
+        var query = new GetPlannerDataQuery(teacherId);
+
+        var lessonPlans = await _mediator.Send(query);
+
+        return lessonPlans.Match(
+            lessonPlans => Ok(lessonPlans),
+            errors => Problem(errors));
+    }
+
     public async Task<IActionResult> CreateTeacher(CreateTeacherRequest request)
     {
         var command = _mapper.Map<CreateTeacherCommand>(request);

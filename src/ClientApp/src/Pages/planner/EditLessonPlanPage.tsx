@@ -1,12 +1,12 @@
 import { useLoaderData } from "react-router-dom";
-import { getCalendarTime } from "../../utils/dateUtils";
+import { getCalendarDate, getCalendarTime } from "../../utils/dateUtils";
 import { usePlannerContext } from "../../contexts/PlannerContext";
 import { useState } from "react";
 import Button from "../../components/common/Button";
 
 function EditLessonPlanPage() {
   const lessonPlan = useLoaderData() as LessonPlan;
-  // const { lessonPlanTemplate } = usePlannerContext();
+  const { dayPlanPattern, subjects } = usePlannerContext();
   const [planningNotes, setPlanningNotes] = useState<string>(lessonPlan.planningNotes.join("\n\n"));
 
   function handlePlanningNotesChange(event: React.ChangeEvent<HTMLTextAreaElement>) {
@@ -21,17 +21,21 @@ function EditLessonPlanPage() {
     <div className="text-darkGreen">
       <h1 className="text-xl font-semibold ">Edit Lesson Plan</h1>
       <form className="flex flex-col p-2 justify-center items-center">
-        <p>Subject: {lessonPlan.subject.name}</p>
+        <p>Subject: </p>
+        <select className="mb-2">{}</select>
         <p>Start Time: {getCalendarTime(lessonPlan.startTime)}</p>
         <p>End Time: {getCalendarTime(lessonPlan.endTime)}</p>
         <p>Period Number: {lessonPlan.periodNumber}</p>
-        <textarea value={planningNotes} onChange={handlePlanningNotesChange}></textarea>
-        <Button variant="submit" onClick={handleUpdateLesson}>
-          Update Lesson Plan
-        </Button>
-        <Button variant="cancel" onClick={handleDeleteLesson}>
-          Delete Lesson Plan
-        </Button>
+        <p>Date: {getCalendarDate(lessonPlan.startTime)}</p>
+        <textarea className="mb-2" value={planningNotes} onChange={handlePlanningNotesChange}></textarea>
+        <div className="flex gap-2">
+          <Button variant="submit" onClick={handleUpdateLesson}>
+            Update Lesson Plan
+          </Button>
+          <Button variant="cancel" onClick={handleDeleteLesson}>
+            Delete Lesson Plan
+          </Button>
+        </div>
       </form>
     </div>
   );

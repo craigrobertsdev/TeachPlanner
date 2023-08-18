@@ -18,12 +18,12 @@ public class CreateTeacherCommandHandler : IRequestHandler<CreateTeacherCommand,
 
     public async Task<ErrorOr<TeacherCreatedResult>> Handle(CreateTeacherCommand command, CancellationToken cancellationToken)
     {
-        if (await _teacherRepository.GetTeacherByUserId(command.UserId) is not null)
+        if (await _teacherRepository.GetTeacherById(command.UserId) is not null)
         {
-            return Errors.Teacher.DuplicateUserId;
+            return Errors.Authentication.DuplicateId;
         }
 
-        var teacher = Teacher.Create(command.UserId);
+        var teacher = Teacher.Create(command.FirstName, command.LastName, command.Email, command.Password);
 
         _teacherRepository.Create(teacher);
 

@@ -1,7 +1,7 @@
-﻿using Domain.UserAggregate;
+﻿using Domain.TeacherAggregate;
 
 namespace Application.Common.Interfaces.Authentication;
 public interface IJwtTokenGenerator
 {
-    string GenerateToken(User user);
+    string GenerateToken(Teacher teacher);
 }

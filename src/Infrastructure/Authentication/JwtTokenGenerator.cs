@@ -1,5 +1,5 @@
 ﻿using Application.Common.Interfaces.Authentication;
-using Domain.UserAggregate;
+using Domain.TeacherAggregate;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -16,7 +16,7 @@ public class JwtTokenGenerator : IJwtTokenGenerator
         _jwtSettings = jwtSettings;
     }
 
-    public string GenerateToken(User user)
+    public string GenerateToken(Teacher teacher)
     {
         var signingCredentials = new SigningCredentials(
             new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.Secret)),
@@ -25,9 +25,9 @@ public class JwtTokenGenerator : IJwtTokenGenerator
 
         var claims = new[]
         {
-            new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()!),
-            new Claim(JwtRegisteredClaimNames.GivenName, user.FirstName),
-            new Claim(JwtRegisteredClaimNames.FamilyName, user.LastName),
+            new Claim(JwtRegisteredClaimNames.Sub, teacher.Id.ToString()!),
+            new Claim(JwtRegisteredClaimNames.GivenName, teacher.FirstName),
+            new Claim(JwtRegisteredClaimNames.FamilyName, teacher.LastName),
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
         };
 

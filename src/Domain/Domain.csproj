@@ -7,12 +7,6 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-	  <Compile Remove="UserAggregate\Entities\**" />
-	  <EmbeddedResource Remove="UserAggregate\Entities\**" />
-	  <None Remove="UserAggregate\Entities\**" />
-	</ItemGroup>
-
-	<ItemGroup>
 		<PackageReference Include="ErrorOr" Version="1.2.1" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.7" />
 		<PackageReference Include="OneOf" Version="3.0.255" />

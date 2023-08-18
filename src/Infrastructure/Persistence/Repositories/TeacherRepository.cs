@@ -20,7 +20,17 @@ public class TeacherRepository : ITeacherRepository
         await _context.SaveChangesAsync();
     }
 
-    public async Task<Teacher?> GetTeacherByUserId(Guid userId)
+    public Task<Teacher?> GetTeacherByEmail(string email)
+    {
+        return _context.Teachers.FirstOrDefaultAsync(t => t.Email == email);
+    }
+
+    public Task<Teacher?> GetTeacherById(Guid id)
+    {
+        return _context.Teachers.FirstOrDefaultAsync(t => t.Id == id);
+    }
+
+    public async Task<Teacher?> GetTeacherByUserId(Guid id)
     {
         var teachers = _context.Teachers
             .Include(t => t.StudentIds)
@@ -28,6 +38,6 @@ public class TeacherRepository : ITeacherRepository
             .Include(t => t.FormativeAssessmentIds);
 
         return await _context.Teachers
-            .SingleOrDefaultAsync(t => t.UserId == userId);
+            .SingleOrDefaultAsync(t => t.Id == id);
     }
 }

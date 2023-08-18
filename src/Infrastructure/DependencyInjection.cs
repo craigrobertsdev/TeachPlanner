@@ -11,7 +11,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
@@ -41,7 +40,6 @@ public static class DependencyInjection
             .EnableDetailedErrors());
 
 
-        services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<ILessonRepository, LessonPlanRepository>();
         services.AddScoped<ITeacherRepository, TeacherRepository>();
         services.AddScoped<ICurriculumRepository, CurriculumRepository>();

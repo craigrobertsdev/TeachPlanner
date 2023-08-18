@@ -4,37 +4,40 @@ using Application.Common.Interfaces.Persistence;
 using Application.Common.Errors;
 using ErrorOr;
 using MediatR;
-using Domain.UserAggregate;
+using Domain.TeacherAggregate;
 
 namespace Application.Authentication.Queries.Login;
 
 public class LoginQueryHandler : IRequestHandler<LoginQuery, ErrorOr<AuthenticationResult>>
 {
-    private readonly IUserRepository _userRepository;
+    private readonly ITeacherRepository _teacherRepository;
     private readonly IJwtTokenGenerator _jwtTokenGenerator;
 
-    public LoginQueryHandler(IJwtTokenGenerator jwtTokenGenerator, IUserRepository userRepository)
+    public LoginQueryHandler(IJwtTokenGenerator jwtTokenGenerator, ITeacherRepository teacherRepository)
     {
         _jwtTokenGenerator = jwtTokenGenerator;
-        _userRepository = userRepository;
+        _teacherRepository = teacherRepository;
     }
 
 #pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
     public async Task<ErrorOr<AuthenticationResult>> Handle(LoginQuery request, CancellationToken cancellationToken)
     {
-        if (_userRepository.GetUserByEmail(request.Email) is not User user)
+        var teacher = await _teacherRepository.GetTeacherByEmail(request.Email);
+
+        if (teacher == null)
         {
             return Errors.Authentication.InvalidCredentials;
         }
 
-        if (user.Password != request.Password)
+        // TODO - Hash password
+        if (teacher.Password != request.Password)
         {
             return Errors.Authentication.InvalidCredentials;
         }
 
-        var token = _jwtTokenGenerator.GenerateToken(user);
+        var token = _jwtTokenGenerator.GenerateToken(teacher);
 
-        return new AuthenticationResult(user, token);
+        return new AuthenticationResult(teacher, token);
 
     }
 }

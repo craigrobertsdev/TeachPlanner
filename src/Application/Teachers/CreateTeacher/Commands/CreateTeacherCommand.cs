@@ -4,4 +4,9 @@ using Application.Teachers.Common;
 
 namespace Application.Teachers.CreateTeacher.Commands;
 
-public record CreateTeacherCommand(Guid UserId) : IRequest<ErrorOr<TeacherCreatedResult>>;
+public record CreateTeacherCommand(
+  Guid UserId,
+  string FirstName, 
+  string LastName,
+  string Email,
+  string Password) : IRequest<ErrorOr<TeacherCreatedResult>>;

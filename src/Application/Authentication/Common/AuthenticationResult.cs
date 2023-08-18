@@ -1,6 +1,6 @@
-﻿using Domain.UserAggregate;
+﻿using Domain.TeacherAggregate;
 
 namespace Application.Authentication.Common;
 
-public record AuthenticationResult(User User, string Token);
+public record AuthenticationResult(Teacher Teacher, string Token);
 

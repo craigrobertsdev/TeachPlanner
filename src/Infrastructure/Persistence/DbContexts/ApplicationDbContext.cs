@@ -6,7 +6,6 @@ using Domain.SubjectAggregates;
 using Domain.TeacherAggregate;
 using Domain.TermPlannerAggregate;
 using Domain.WeekPlannerAggregate;
-using Domain.UserAggregate;
 using Domain.YearPlannerAggregate;
 using Microsoft.EntityFrameworkCore;
 
@@ -24,7 +23,6 @@ public class ApplicationDbContext : DbContext
 
     public DbSet<Subject> Subjects { get; set; } = null!;
     public DbSet<Resource> Resources { get; set; } = null!;
-    public DbSet<User> Users { get; set; } = null!;
     public DbSet<Teacher> Teachers { get; set; } = null!;
     public DbSet<SummativeAssessment> SummativeAssessments { get; set; } = null!;
     public DbSet<FormativeAssessment> FormativeAssessments { get; set; } = null!;

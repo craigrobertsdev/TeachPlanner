@@ -1,10 +1,9 @@
 ﻿using Domain.TeacherAggregate;
-using Domain.UserAggregate;
 
 namespace Application.Common.Interfaces.Persistence;
 public interface ITeacherRepository
 {
     void Create(Teacher teacher);
-
-    Task<Teacher?> GetTeacherByUserId(Guid userId);
+    Task<Teacher?> GetTeacherByEmail(string email);
+    Task<Teacher?> GetTeacherById(Guid userId);
 }
