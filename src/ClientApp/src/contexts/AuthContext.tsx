@@ -23,7 +23,6 @@ export function AuthProvider({ children, teacherData }: AuthProviderProps) {
   const [teacher, setTeacher] = useLocalStorage<Teacher | null>("teacher", teacherData);
   const [error, setError] = useState<any>();
   const [loading, setLoading] = useState<boolean>(false);
-  const [loadingInitial, setLoadingInitial] = useState<boolean>(true);
   const routerLocation = useLocation();
   const navigate = useNavigate();
 

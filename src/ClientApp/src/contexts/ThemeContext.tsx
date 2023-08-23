@@ -1,7 +1,9 @@
-import { ReactNode, createContext, useContext, useEffect, useState } from "react";
+import { ReactNode, createContext, useContext, useEffect, useMemo, useState } from "react";
 
 type ThemeContextType = {
-  subjectColors: SubjectColors;
+  cancelModalOpen: boolean;
+  setCancelModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  dialogOpenStyle: string[];
 };
 
 type ThemeProviderProps = {
@@ -15,19 +17,10 @@ type SubjectColors = {
 const ThemeContext = createContext<ThemeContextType>({} as ThemeContextType);
 
 export function ThemeProvider({ children }: ThemeProviderProps) {
-  const [subjectColors, setSubjectColors] = useState<SubjectColors>({});
-  useEffect(() => {
-    const colors = {
-      maths: "#FCCF03",
-      english: "#85D42A",
-      hass: "2AD48D",
-      health: "AD3BFF",
-    } as SubjectColors;
+  const [cancelModalOpen, setCancelModalOpen] = useState<boolean>(false);
+  const [dialogOpenStyle, setDialogOpenStyle] = useState<string[]>(["filter", "blur-xs", "opacity-50", "pointer-events-none"]);
 
-    setSubjectColors(colors);
-  }, []);
-
-  return <ThemeContext.Provider value={{ subjectColors: subjectColors }}>{children}</ThemeContext.Provider>;
+  return <ThemeContext.Provider value={{ cancelModalOpen, setCancelModalOpen, dialogOpenStyle }}>{children}</ThemeContext.Provider>;
 }
 
 export default ThemeProvider;

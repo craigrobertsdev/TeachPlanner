@@ -38,4 +38,14 @@ public class CurriculumController : ApiController
             result => Ok(result),
             errors => Problem(errors));
     }
+
+    [HttpGet("content-descriptions")]
+    public async Task<IActionResult> GetContentDescriptions()
+    {
+        // var result = await _mediator.Send(new GetContentDescriptionsQuery());
+        // return result.Match(
+        //     success => Ok(_mapper.Map<GetContentDescriptionsResponse>(success)),
+        //     errors => Problem(errors));
+        return Ok();
+    }
 }

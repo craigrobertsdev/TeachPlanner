@@ -25,8 +25,8 @@ export function PlannerProvider({ children }: PlannerProviderProps) {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${teacher!.token}`,
       },
-      body: JSON.stringify({ teacherId: teacher!.id }),
     })
       .then((response) => response.json())
       .then((data) => {

@@ -6,7 +6,6 @@ declare type Teacher = {
   email: string;
   token: string;
   subjectsTaught: Subject[];
-  yearLevelsTaught: SubjectYearLevel[];
 };
 
 //#region Planner
@@ -29,9 +28,9 @@ declare type LessonPlan = {
   numberOfPeriods: number;
   periodNumber: number;
   resources?: Resource[];
-  summativeAssessments?: SummativeAssessment[];
-  formativeAssessments?: FormativeAssessment[];
+  assessments?: Assessment[];
   lessonComments?: LessonComment[];
+  targetContentDescriptions?: ContentDescription[];
 };
 
 declare type DayPlan = {
@@ -67,6 +66,8 @@ declare type SchoolEvent = {
   numberOfPeriods: number;
   periodNumber: number;
 };
+
+declare type CalendarEntry = LessonPlan | Break | SchoolEvent;
 
 declare type PlannerSubject = {
   name: string;
@@ -126,9 +127,11 @@ declare type Resource = {
 //#region Assessments
 declare type Assessment = {
   id: string;
+  name: string;
   description: string;
   student: Student;
   subjectName: string;
+  url: string;
   dateConducted: Date;
 } & (
   | {

@@ -10,6 +10,7 @@ import AfterSchoolCalendarEntry from "../../components/planner/AfterSchoolCalend
 import LessonHeader from "../../components/planner/LessonHeader";
 import BreakHeader from "../../components/planner/BreakHeader";
 import { useNavigate } from "react-router-dom";
+import { isLessonPlan, isSchoolEvent } from "../../utils/typeGuards";
 
 const LessonPlannerPage = ({ numLessons, numBreaks, lessonLength, weekNumber, dayPlans, dayPlanPattern }: LessonPlannerProps) => {
   const { teacher } = useAuth();
@@ -195,18 +196,6 @@ const LessonPlannerPage = ({ numLessons, numBreaks, lessonLength, weekNumber, da
     return renderedDayPlansList;
   }
 
-  function isLessonPlan(entry: CalendarEntry): entry is LessonPlan {
-    return (entry as LessonPlan).subject !== undefined;
-  }
-
-  function isSchoolEvent(entry: CalendarEntry): entry is SchoolEvent {
-    return (entry as SchoolEvent).location !== undefined;
-  }
-
-  function isBreak(entry: CalendarEntry): entry is Break {
-    return !isLessonPlan(entry) && !isSchoolEvent(entry);
-  }
-
   function handleLessonPlanEntryClicked(e: React.MouseEvent<HTMLDivElement, MouseEvent>, cell: GridCellLocation) {
     cell.column === selectedLessonEntryIndex.column && cell.row === selectedLessonEntryIndex.row
       ? setSelectedLessonEntryIndex({ row: -1, column: -1 })
@@ -241,8 +230,6 @@ type LessonPlannerProps = {
   dayPlans: DayPlan[];
   dayPlanPattern: DayPlanPattern;
 };
-
-type CalendarEntry = LessonPlan | Break | SchoolEvent;
 
 type DayPlanData = {
   lessonPlanPos: number;
