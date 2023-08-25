@@ -19,7 +19,7 @@ function ContentDescriptionSearchBox({ setAddingContentDescription, subjects, se
   const [currentSubject, setCurrentSubject] = useState<Subject | null>(null);
   const [currentYearLevel, setCurrentYearLevel] = useState<SubjectYearLevel | null>(null);
   const [currentTopic, setCurrentTopic] = useState<Strand | Substrand | null>(null);
-  const [selectedContentDescriptions, setSelectedContentDescriptions] = useState<string[]>([]);
+  const [selectedContentDescriptions, setSelectedContentDescriptions] = useState<ContentDescription[]>([]);
   const { teacher } = useAuth();
 
   useEffect(() => {
@@ -123,11 +123,11 @@ function ContentDescriptionSearchBox({ setAddingContentDescription, subjects, se
     return contentDescriptions;
   }
 
-  function isSelectedContentDescription(contentDescription: string): boolean {
+  function isSelectedContentDescription(contentDescription: ContentDescription): boolean {
     return selectedContentDescriptions.includes(contentDescription);
   }
 
-  function handleContentDescriptionClick(contentDescription: string): void {
+  function handleContentDescriptionClick(contentDescription: ContentDescription): void {
     if (selectedContentDescriptions.includes(contentDescription)) {
       setSelectedContentDescriptions(selectedContentDescriptions.filter((cd) => cd !== contentDescription));
     } else {
@@ -204,7 +204,7 @@ function ContentDescriptionSearchBox({ setAddingContentDescription, subjects, se
                       className={`border border-darkGreen hover:bg-sageHover ${
                         isSelectedContentDescription(contentDescription.description) && "bg-sageFocus"
                       } select-none`}
-                      onClick={() => handleContentDescriptionClick(contentDescription.description)}>
+                      onClick={() => handleContentDescriptionClick(contentDescription)}>
                       {contentDescription.description}
                     </li>
                   ))}
