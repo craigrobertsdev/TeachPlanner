@@ -5,17 +5,10 @@ import ContentDescriptionSearchBox from "../../components/planner/ContentDescrip
 const TermPlannerPage = () => {
   const [subjectsForTerm, setSubjectsForTerm] = useState<Subject[]>([]);
   const [addingContentDescription, setAddingContentDescription] = useState<boolean>(true);
-  const [currentSubject, setCurrentSubject] = useState<Subject | null>(null);
-  const [currentYearLevel, setCurrentYearLevel] = useState<SubjectYearLevel | null>(null);
-  const [currentTopic, setCurrentTopic] = useState<Strand | Substrand | null>(null);
   const [subjectData, setSubjectData] = useState<Subject[] | null>(null);
 
   function handleAddContentDescription() {
     setAddingContentDescription(true);
-  }
-
-  function handleChangeContentDescriptions(contentDescriptions: string[]) {
-    currentSubject;
   }
 
   return (

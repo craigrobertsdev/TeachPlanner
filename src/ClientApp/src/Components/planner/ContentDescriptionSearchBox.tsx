@@ -13,14 +13,19 @@ type ContentDescriptionSearchBoxProps = {
   setSubjectsForTerm: React.Dispatch<React.SetStateAction<Subject[]>>;
 };
 
+type Topic = Strand | Substrand;
+
 // this function needs to work out the yearlevel, topic and content descriptions to add to the termplanner
 function ContentDescriptionSearchBox({ setAddingContentDescription, subjects, setSubjectData }: ContentDescriptionSearchBoxProps) {
   const [termSubjects, setTermSubjects] = useState<Subject[]>([]);
   const [currentSubject, setCurrentSubject] = useState<Subject | null>(null);
   const [currentYearLevel, setCurrentYearLevel] = useState<SubjectYearLevel | null>(null);
-  const [currentTopic, setCurrentTopic] = useState<Strand | Substrand | null>(null);
+  const [currentTopic, setCurrentTopic] = useState<Topic | null>(null);
   const [selectedContentDescriptions, setSelectedContentDescriptions] = useState<ContentDescription[]>([]);
+  const [topics, setTopics] = useState<Topic[] | null>(null);
+  const [contentDescriptions, setContentDescriptions] = useState<ContentDescription[] | null>(null);
   const { teacher } = useAuth();
+  const [dummyState, setDummyState] = useState<boolean>(false);
 
   useEffect(() => {
     if (subjects === null) {
@@ -40,6 +45,19 @@ function ContentDescriptionSearchBox({ setAddingContentDescription, subjects, se
       fetchSubjects();
     }
   }, []);
+
+  useEffect(() => {
+    if (!currentYearLevel) {
+      return;
+    }
+    const topic: Topic = currentYearLevel.strands?.length! > 0 ? currentYearLevel.strands![0] : currentYearLevel.substrands![0];
+    setCurrentTopic(topic);
+  }, [currentSubject]);
+
+  useEffect(() => {
+    setTopics(getTopics());
+    setContentDescriptions(getContentDescriptions());
+  }, [currentYearLevel, currentTopic]);
 
   function handleCloseSearchBox(): void {
     setAddingContentDescription(false);
@@ -78,16 +96,16 @@ function ContentDescriptionSearchBox({ setAddingContentDescription, subjects, se
     setCurrentYearLevel(subject?.yearLevels.find((yl) => yl.name === yearLevel) as SubjectYearLevel);
   }
 
-  function getTopics(): string[] {
-    if (!currentYearLevel) {
+  function getTopics(): Topic[] {
+    if (!currentYearLevel || !currentYearLevel) {
       return [];
     }
 
-    const topics: string[] = [];
+    const topics: Topic[] = [];
     if (currentYearLevel.strands) {
-      currentYearLevel.strands.forEach((strand) => topics.push(strand.name));
+      currentYearLevel.strands.forEach((strand) => topics.push(strand));
     } else {
-      currentYearLevel.substrands!.forEach((substrand) => topics.push(substrand.name));
+      currentYearLevel.substrands?.forEach((substrand) => topics.push(substrand));
     }
 
     return topics;
@@ -106,7 +124,7 @@ function ContentDescriptionSearchBox({ setAddingContentDescription, subjects, se
   }
 
   function getContentDescriptions(): ContentDescription[] {
-    if (!currentTopic) {
+    if (!currentSubject || !currentYearLevel || !currentTopic) {
       return [];
     }
 
@@ -124,20 +142,33 @@ function ContentDescriptionSearchBox({ setAddingContentDescription, subjects, se
   }
 
   function isSelectedContentDescription(contentDescription: ContentDescription): boolean {
-    return selectedContentDescriptions.includes(contentDescription);
+    for (const cd of selectedContentDescriptions) {
+      if (cd.curriculumCode === contentDescription.curriculumCode) {
+        return true;
+      }
+    }
+
+    return false;
   }
 
   function handleContentDescriptionClick(contentDescription: ContentDescription): void {
-    if (selectedContentDescriptions.includes(contentDescription)) {
-      setSelectedContentDescriptions(selectedContentDescriptions.filter((cd) => cd !== contentDescription));
-    } else {
-      setSelectedContentDescriptions([...selectedContentDescriptions, contentDescription]);
+    if (selectedContentDescriptions.length === 0) {
+      setSelectedContentDescriptions([contentDescription]);
+      return;
+    }
+
+    for (const cd of selectedContentDescriptions) {
+      if (cd.curriculumCode === contentDescription.curriculumCode) {
+        setSelectedContentDescriptions(selectedContentDescriptions.filter((cd) => cd.curriculumCode !== contentDescription.curriculumCode));
+      } else {
+        setSelectedContentDescriptions([...selectedContentDescriptions, contentDescription]);
+      }
     }
   }
 
   function handleAddContentDescriptions(): void {}
 
-  function isStrand(topic: Strand | Substrand): topic is Strand {
+  function isStrand(topic: Topic): topic is Strand {
     return (topic as Strand).substrands !== undefined;
   }
 
@@ -158,6 +189,7 @@ function ContentDescriptionSearchBox({ setAddingContentDescription, subjects, se
               <label>Subjects</label>
               <Dropdown
                 options={subjects.map((subject) => subject.name)}
+                defaultValue={currentSubject?.name}
                 onChange={handleSubjectChange}
                 placeholder="Choose a subject"
                 isSearchable={true}
@@ -167,6 +199,7 @@ function ContentDescriptionSearchBox({ setAddingContentDescription, subjects, se
               <label>Year Levels</label>
               <Dropdown
                 options={getYearLevels()}
+                defaultValue={currentYearLevel?.name}
                 onChange={handleYearLevelChange}
                 placeholder="Select a year level"
                 disabled={currentSubject === null}
@@ -180,12 +213,12 @@ function ContentDescriptionSearchBox({ setAddingContentDescription, subjects, se
               <div className="border border-darkGreen">
                 {currentYearLevel && (
                   <ul className="">
-                    {getTopics().map((topic) => (
+                    {topics?.map((topic) => (
                       <li
-                        key={topic}
-                        className={`border border-darkGreen hover:bg-sageHover ${topic === currentTopic?.name && "bg-sageFocus"} select-none`}
-                        onClick={() => handleTopicChange(topic)}>
-                        {topic}
+                        key={topic.id}
+                        className={`border border-darkGreen hover:bg-sageHover ${topic.name === currentTopic?.name && "bg-sageFocus"} select-none`}
+                        onClick={() => handleTopicChange(topic.name)}>
+                        {topic.name}
                       </li>
                     ))}
                   </ul>
@@ -198,11 +231,11 @@ function ContentDescriptionSearchBox({ setAddingContentDescription, subjects, se
               <h3>Content Descriptions</h3>
               <div className="border border-darkGreen">
                 <ul className="">
-                  {getContentDescriptions().map((contentDescription) => (
+                  {contentDescriptions?.map((contentDescription) => (
                     <li
                       key={contentDescription.id}
                       className={`border border-darkGreen hover:bg-sageHover ${
-                        isSelectedContentDescription(contentDescription.description) && "bg-sageFocus"
+                        isSelectedContentDescription(contentDescription) && "bg-sageFocus"
                       } select-none`}
                       onClick={() => handleContentDescriptionClick(contentDescription)}>
                       {contentDescription.description}
@@ -222,3 +255,21 @@ function ContentDescriptionSearchBox({ setAddingContentDescription, subjects, se
 }
 
 export default ContentDescriptionSearchBox;
+
+// copied from https://plainenglish.io/blog/deep-clone-an-object-and-preserve-its-type-with-typescript-d488c35e5574#summary
+function deepCopy<T>(source: T): T {
+  return Array.isArray(source)
+    ? source.map((item) => deepCopy(item))
+    : source instanceof Date
+    ? new Date(source.getTime())
+    : source && typeof source === "object"
+    ? Object.getOwnPropertyNames(source).reduce(
+        (o, prop) => {
+          Object.defineProperty(o, prop, Object.getOwnPropertyDescriptor(source, prop)!);
+          o[prop] = deepCopy((source as { [key: string]: any })[prop]);
+          return o;
+        },
+        Object.create(Object.getPrototypeOf(source))
+      )
+    : (source as T);
+}

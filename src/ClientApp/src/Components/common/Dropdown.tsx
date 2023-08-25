@@ -2,12 +2,13 @@ import { useEffect, useRef, useState } from "react";
 import { isStringArray } from "../../utils/typeGuards";
 
 type DropdownProps<T extends string | string[] | undefined> = {
-  multiSelect?: boolean;
-  isSearchable?: boolean;
   options: string[];
   placeholder: string;
-  styles?: string;
   onChange: (value: T) => void;
+  defaultValue?: string;
+  multiSelect?: boolean;
+  styles?: string;
+  isSearchable?: boolean;
   disabled?: boolean;
 };
 
@@ -20,6 +21,7 @@ function Dropdown<T extends string | string[] | undefined>({
   placeholder,
   styles,
   options,
+  defaultValue,
   onChange,
   disabled,
 }: DropdownProps<T>) {
@@ -59,7 +61,7 @@ function Dropdown<T extends string | string[] | undefined>({
 
   function getDisplay() {
     if (!selectedValue || selectedValue.length === 0) {
-      return placeholder;
+      return defaultValue ? defaultValue : placeholder;
     }
 
     if (isStringArray(selectedValue)) {

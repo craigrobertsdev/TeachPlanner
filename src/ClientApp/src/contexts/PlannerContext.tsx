@@ -21,22 +21,22 @@ export function PlannerProvider({ children }: PlannerProviderProps) {
   const { teacher } = useAuth();
 
   useEffect(() => {
-    fetch(`${baseUrl}/${teacher!.id}/lesson-planner`, {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${teacher!.token}`,
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        // setCurrentWeekPlanner(data.currentWeekPlanner);
-        // setDayPlanPattern(data.dayPlanPattern);
-        setSubjects(data.subjects);
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
+    // fetch(`${baseUrl}/${teacher!.id}/lesson-planner`, {
+    //   method: "GET",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //     Authorization: `Bearer ${teacher!.token}`,
+    //   },
+    // })
+    //   .then((response) => response.json())
+    //   .then((data) => {
+    //     // setCurrentWeekPlanner(data.currentWeekPlanner);
+    //     // setDayPlanPattern(data.dayPlanPattern);
+    //     setSubjects(data.subjects);
+    //   })
+    //   .catch((error) => {
+    //     console.error("Error:", error);
+    //   });
   }, []);
 
   return <PlannerContext.Provider value={{ currentWeekPlanner, dayPlanPattern, subjects }}>{children}</PlannerContext.Provider>;
