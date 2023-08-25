@@ -35,7 +35,7 @@ public class SubjectMapping : IRegister
             .Map(dest => dest.Elaborations, src => src.Elaborations.Select(elaboration => elaboration).ToList());
 
         config
-            .NewConfig<GetAllSubjectsResult, GetAllSubjectsResponse>()
+            .NewConfig<GetSubjectsResult, GetSubjectsResponse>()
             .Map(dest => dest.Subjects, src => src.Subjects.Select(subject => subject.Adapt<SubjectResponse>()).ToList());
     }
 }

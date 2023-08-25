@@ -1,56 +1,21 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Button from "../../components/common/Button";
 import ContentDescriptionSearchBox from "../../components/planner/ContentDescriptionSearchBox";
-import { baseUrl } from "../../utils/constants";
-import Dropdown from "../../components/common/Dropdown";
 
 const TermPlannerPage = () => {
+  const [subjectsForTerm, setSubjectsForTerm] = useState<Subject[]>([]);
   const [addingContentDescription, setAddingContentDescription] = useState<boolean>(true);
-  const [currentSubject, setCurrentSubject] = useState<string>("");
-  const [subjects, setSubjects] = useState<Subject[]>([]);
-
-  useEffect(() => {
-    setSubjects([
-      {
-        id: "1",
-        name: "Mathematics",
-      } as Subject,
-      {
-        id: "2",
-        name: "English",
-      } as Subject,
-      {
-        id: "3",
-        name: "Science",
-      } as Subject,
-    ]);
-  }, []);
-
-  useEffect(() => {
-    console.log(currentSubject);
-  }, [currentSubject]);
-
-  useEffect(() => {
-    const fetchContentDescriptions = async () => {
-      const response = await fetch(`${baseUrl}/curriculum/content-descriptions`, {
-        body: JSON.stringify({
-          elaborations: false,
-        }),
-      });
-      const data = await response.json();
-
-      setSubjects(data);
-    };
-
-    fetchContentDescriptions();
-  }, []);
+  const [currentSubject, setCurrentSubject] = useState<Subject | null>(null);
+  const [currentYearLevel, setCurrentYearLevel] = useState<SubjectYearLevel | null>(null);
+  const [currentTopic, setCurrentTopic] = useState<Strand | Substrand | null>(null);
+  const [subjectData, setSubjectData] = useState<Subject[] | null>(null);
 
   function handleAddContentDescription() {
     setAddingContentDescription(true);
   }
 
-  function handleSubjectChange(value: string | string[] | undefined) {
-    setCurrentSubject(value as string);
+  function handleChangeContentDescriptions(contentDescriptions: string[]) {
+    currentSubject;
   }
 
   return (
@@ -67,15 +32,13 @@ const TermPlannerPage = () => {
       </div>
       {/* Content description search box */}
       {addingContentDescription && (
-        <ContentDescriptionSearchBox subjects={subjects} setSubjects={setSubjects} setAddingContentDescription={setAddingContentDescription} />
+        <ContentDescriptionSearchBox
+          setAddingContentDescription={setAddingContentDescription}
+          subjects={subjectData}
+          setSubjectData={setSubjectData}
+          setSubjectsForTerm={setSubjectsForTerm}
+        />
       )}
-      <Dropdown
-        placeholder="Choose subject"
-        options={subjects.map((subject) => subject.name)}
-        onChange={handleSubjectChange}
-        isSearchable={true}
-        multiSelect={true}
-      />
     </div>
   );
 };

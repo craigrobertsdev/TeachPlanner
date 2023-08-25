@@ -1,22 +1,35 @@
 import { useEffect, useRef, useState } from "react";
 import { isStringArray } from "../../utils/typeGuards";
 
-type DropdownProps = {
+type DropdownProps<T extends string | string[] | undefined> = {
   multiSelect?: boolean;
   isSearchable?: boolean;
   options: string[];
   placeholder: string;
   styles?: string;
-  onChange: (value: string | string[] | undefined) => void;
+  onChange: (value: T) => void;
+  disabled?: boolean;
 };
 
-function Dropdown({ multiSelect = false, isSearchable = false, placeholder, styles, options, onChange }: DropdownProps) {
+type AcceptsStringArray = (arg: string[]) => void;
+type AcceptsString = (arg: string) => void;
+
+function Dropdown<T extends string | string[] | undefined>({
+  multiSelect = false,
+  isSearchable = false,
+  placeholder,
+  styles,
+  options,
+  onChange,
+  disabled,
+}: DropdownProps<T>) {
   const [showMenu, setShowMenu] = useState<boolean>(false);
   const [selectedValue, setSelectedValue] = useState<string | string[]>(multiSelect ? [] : "");
   const [searchValue, setSearchValue] = useState<string>("");
   const searchRef = useRef<HTMLInputElement>(null);
   const inputRef = useRef<HTMLDivElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
+  const disabledStyle = "bg-gray-300 cursor-not-allowed";
 
   useEffect(() => {
     setSearchValue("");
@@ -78,11 +91,11 @@ function Dropdown({ multiSelect = false, isSearchable = false, placeholder, styl
     const newValue = removeOption(option);
     if (isStringArray(selectedValue) && newValue) {
       setSelectedValue(newValue);
+      (onChange as AcceptsStringArray)(newValue);
     } else if (isStringArray(selectedValue)) {
       setSelectedValue([]);
+      (onChange as AcceptsStringArray)([]);
     }
-
-    onChange(newValue);
   }
 
   function onItemClick(option: string) {
@@ -93,12 +106,13 @@ function Dropdown({ multiSelect = false, isSearchable = false, placeholder, styl
       } else {
         newValue = [...selectedValue, option];
       }
+      (onChange as AcceptsStringArray)(newValue);
     } else {
       newValue = option;
+      (onChange as AcceptsString)(option);
     }
 
     setSelectedValue(newValue);
-    onChange(newValue);
   }
 
   function isSelected(option: string) {
@@ -126,7 +140,7 @@ function Dropdown({ multiSelect = false, isSearchable = false, placeholder, styl
   }
 
   return (
-    <div className={`border border-darkGreen relative text-left rounded-md ${styles}`}>
+    <div className={`border border-darkGreen relative text-left rounded-md ${styles} ${disabled && disabledStyle}`}>
       <div ref={inputRef} onClick={handleInputSelect} className="flex justify-between items-center select-none px-2 py-1">
         <div className="flex flex-wrap gap-1 max-w-full">{getDisplay()}</div>
         <div>

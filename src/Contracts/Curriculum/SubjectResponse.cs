@@ -25,7 +25,7 @@ public record SubstrandResponse(
 public record ContentDescriptionResponse(
     string Description,
     string CurriculumCode,
-    List<ElaborationResponse> Elaborations);
+    List<ElaborationResponse>? Elaborations);
 
 public record ElaborationResponse(
     string Description);

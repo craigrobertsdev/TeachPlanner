@@ -5,5 +5,6 @@ public interface ICurriculumRepository
 {
     Task SaveCurriculum(List<Subject> subjects);
 
-    Task<List<Subject>> GetAllSubjects();
+    Task<List<Subject>> GetSubjects();
+    Task<List<Subject>> GetSubjectsWithoutElaborations();
 }

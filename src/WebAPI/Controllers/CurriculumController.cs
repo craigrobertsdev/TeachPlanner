@@ -19,12 +19,12 @@ public class CurriculumController : ApiController
         _mapper = mapper;
     }
     [HttpGet]
-    public async Task<IActionResult> ListSubjects()
+    public async Task<IActionResult> GetSubjects([FromQuery] bool elaborations = true)
     {
-        var result = await _mediator.Send(new GetAllSubjectsQuery());
+        var result = await _mediator.Send(new GetSubjectsQuery(elaborations));
 
         return result.Match(
-            success => Ok(_mapper.Map<GetAllSubjectsResponse>(success)),
+            success => Ok(_mapper.Map<GetSubjectsResponse>(success)),
             errors => Problem(errors));
     }
 
@@ -37,15 +37,5 @@ public class CurriculumController : ApiController
         return parseCurriculumResult.Match(
             result => Ok(result),
             errors => Problem(errors));
-    }
-
-    [HttpGet("content-descriptions")]
-    public async Task<IActionResult> GetContentDescriptions()
-    {
-        // var result = await _mediator.Send(new GetContentDescriptionsQuery());
-        // return result.Match(
-        //     success => Ok(_mapper.Map<GetContentDescriptionsResponse>(success)),
-        //     errors => Problem(errors));
-        return Ok();
     }
 }

@@ -13,7 +13,7 @@ public class CurriculumRepository : ICurriculumRepository
         _context = context;
     }
 
-    public Task<List<Subject>> GetAllSubjects()
+    public Task<List<Subject>> GetSubjects()
     {
         var subjects = _context.Subjects
             .Include(s => s.YearLevels)
@@ -36,6 +36,28 @@ public class CurriculumRepository : ICurriculumRepository
 
         return Task.FromResult(subjects);
 
+    }
+
+    public Task<List<Subject>> GetSubjectsWithoutElaborations()
+    {
+        var subjects = _context.Subjects
+            .Include(s => s.YearLevels)
+            .ThenInclude(yl => yl.Strands)
+            .ThenInclude(s => s.Substrands!)
+            .ThenInclude(s => s.ContentDescriptions)
+            .Where(s => s.Name != "Mathematics")
+            .ToList();
+
+        var maths = _context.Subjects
+            .Include(s => s.YearLevels)
+            .ThenInclude(yl => yl.Strands)
+            .ThenInclude(s => s.ContentDescriptions!)
+            .Where(s => s.Name == "Mathematics")
+            .ToList();
+
+        subjects.AddRange(maths);
+
+        return Task.FromResult(subjects);
     }
 
     public Task SaveCurriculum(List<Subject> subjects)

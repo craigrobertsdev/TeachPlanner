@@ -19,6 +19,7 @@ export default {
         ceramicHover: "#A84F42",
         // focus
         primaryFocus: "#9E9790",
+        sageFocus: "#6D9EA2",
 
         // disabled
         primaryDisabled: "#F2EDE9",

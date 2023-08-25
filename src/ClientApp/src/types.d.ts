@@ -8,6 +8,13 @@ declare type Teacher = {
   subjectsTaught: Subject[];
 };
 
+//#region Student
+declare type Student = {
+  id: string;
+  firstName: string;
+  lastName: string;
+};
+
 //#region Planner
 declare type DayPlanPattern = {
   pattern: CalendarHeader[];
@@ -67,6 +74,12 @@ declare type SchoolEvent = {
   periodNumber: number;
 };
 
+declare type LessonComment = {
+  id: string;
+  content: string;
+  date: Date;
+};
+
 declare type CalendarEntry = LessonPlan | Break | SchoolEvent;
 
 declare type PlannerSubject = {
@@ -89,7 +102,8 @@ declare type Subject = {
 declare type SubjectYearLevel = {
   id: string;
   name: string;
-  strands: Strand[];
+  strands?: Strand[];
+  substrands?: Substrand[];
 };
 
 declare type Strand = {
