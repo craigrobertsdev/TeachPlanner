@@ -18,9 +18,9 @@ type Topic = Strand | Substrand;
 
 // this function needs to work out the yearlevel, topic and content descriptions to add to the termplanner
 function ContentDescriptionSearchBox({ setAddingContentDescription, subjects, setSubjectData }: ContentDescriptionSearchBoxProps) {
-  const [termSubjects, setTermSubjects] = useState<Subject[]>([]);
+  const [termSubjects, setTermSubjects] = useState<Subject[]>([]); // this is the array of subjects that will be added to the termplanner
   const [currentSubjectId, setCurrentSubjectId] = useState<string | undefined>(undefined);
-  const [currentYearLevelId, setCurrentYearLevelId] = useState<string | undefined>(undefined);
+  const [currentYearLevelName, setCurrentYearLevelName] = useState<string | undefined>(undefined);
   const [currentTopicName, setCurrentTopicName] = useState<string | undefined>(undefined);
   const [selectedContentDescriptionIds, setSelectedContentDescriptionIds] = useState<string[]>([]);
   let currentSubject: Subject | undefined = subjects?.find((subject) => subject.id === currentSubjectId);
@@ -29,6 +29,10 @@ function ContentDescriptionSearchBox({ setAddingContentDescription, subjects, se
   const topics: Topic[] | undefined = getTopics();
   const contentDescriptions: ContentDescription[] | undefined = getContentDescriptions();
   const { teacher } = useAuth();
+
+  useEffect(() => {
+    console.log("rendered");
+  });
 
   useEffect(() => {
     if (subjects === undefined) {
@@ -54,7 +58,8 @@ function ContentDescriptionSearchBox({ setAddingContentDescription, subjects, se
 
   function getCurrentYearLevel(): SubjectYearLevel | undefined {
     const subject = subjects?.find((subject) => subject.id === currentSubjectId);
-    return subject?.yearLevels.find((yl) => yl.id === currentYearLevelId);
+    console.log("Setting currentYearLevel to: ", subject?.yearLevels.find((yl) => yl.name === currentYearLevelName));
+    return subject?.yearLevels.find((yl) => yl.name === currentYearLevelName);
   }
 
   function getCurrentTopic(): Topic | undefined {
@@ -98,45 +103,50 @@ function ContentDescriptionSearchBox({ setAddingContentDescription, subjects, se
     return subject ? subject.yearLevels.map((yearLevel) => yearLevel.name) : [];
   }
 
-  function handleYearLevelChange(yearLevel: string): void {
+  function handleYearLevelChange(yearLevelName: string): void {
     const subject = subjects?.find((subject) => subject.name === currentSubject!.name);
-
-    setCurrentYearLevelId(subject?.yearLevels.find((yl) => yl.name === yearLevel)?.id);
+    const yearLevel = subject?.yearLevels.find((yl) => yl.name === yearLevelName);
+    setCurrentYearLevelName(yearLevel?.name);
   }
 
   function getTopics(): Topic[] {
-    if (!currentYearLevel || !currentYearLevel) {
+    if (!currentYearLevelName || !currentYearLevelName) {
       return [];
     }
 
+    const currentYearLevel = getCurrentYearLevel();
+
     const topics: Topic[] = [];
-    if (currentYearLevel.strands) {
-      currentYearLevel.strands.forEach((strand) => topics.push(strand));
+    if (currentYearLevel!.strands) {
+      currentYearLevel!.strands.forEach((strand) => topics.push(strand));
     } else {
-      currentYearLevel.substrands?.forEach((substrand) => topics.push(substrand));
+      currentYearLevel!.substrands?.forEach((substrand) => topics.push(substrand));
     }
 
     return topics;
   }
 
   function handleTopicChange(topicDescription: string): void {
-    if (!currentYearLevel || !topicDescription) {
+    if (!currentYearLevelName || !topicDescription) {
       return;
     }
 
-    const topic = currentYearLevel.strands
-      ? currentYearLevel.strands.find((strand) => strand.name === topicDescription)!
-      : currentYearLevel.substrands!.find((substrand) => substrand.name === topicDescription)!;
+    const currentYearLevel = getCurrentYearLevel();
+
+    const topic = currentYearLevel!.strands
+      ? currentYearLevel!.strands.find((strand) => strand.name === topicDescription)!
+      : currentYearLevel!.substrands!.find((substrand) => substrand.name === topicDescription)!;
 
     setCurrentTopicName(topic.name);
   }
 
   function getContentDescriptions(): ContentDescription[] {
-    if (!currentSubject || !currentYearLevel || !currentTopic) {
+    if (!currentSubject || !currentYearLevelName || !currentTopic) {
       return [];
     }
 
     const contentDescriptions: ContentDescription[] = [];
+    // const currentTopic = getCurrentTopic();
 
     if (isStrand(currentTopic)) {
       currentTopic.substrands?.forEach((substrand) => {
@@ -151,7 +161,7 @@ function ContentDescriptionSearchBox({ setAddingContentDescription, subjects, se
 
   function isSelectedContentDescription(contentDescription: ContentDescription): boolean {
     for (const cd of selectedContentDescriptionIds) {
-      if (cd === contentDescription.id) {
+      if (cd === contentDescription.curriculumCode) {
         return true;
       }
     }
@@ -161,15 +171,15 @@ function ContentDescriptionSearchBox({ setAddingContentDescription, subjects, se
 
   function handleContentDescriptionClick(contentDescription: ContentDescription): void {
     if (selectedContentDescriptionIds.length === 0) {
-      setSelectedContentDescriptionIds([contentDescription.id]);
+      setSelectedContentDescriptionIds([contentDescription.curriculumCode]);
       return;
     }
 
     for (const cd of selectedContentDescriptionIds) {
-      if (cd === contentDescription.id) {
-        setSelectedContentDescriptionIds(selectedContentDescriptionIds.filter((cd) => cd !== contentDescription.id));
+      if (cd === contentDescription.curriculumCode) {
+        setSelectedContentDescriptionIds(selectedContentDescriptionIds.filter((cd) => cd !== contentDescription.curriculumCode));
       } else {
-        setSelectedContentDescriptionIds([...selectedContentDescriptionIds, contentDescription.id]);
+        setSelectedContentDescriptionIds([...selectedContentDescriptionIds, contentDescription.curriculumCode]);
       }
     }
   }
@@ -247,7 +257,7 @@ function ContentDescriptionSearchBox({ setAddingContentDescription, subjects, se
               <ul className="overflow-scroll">
                 {contentDescriptions?.map((contentDescription) => (
                   <li
-                    key={contentDescription.id}
+                    key={contentDescription.curriculumCode}
                     className={`border border-darkGreen hover:bg-sageHover p-2 ${
                       isSelectedContentDescription(contentDescription) && "bg-sageFocus"
                     } select-none`}

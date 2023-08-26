@@ -118,14 +118,12 @@ declare type Substrand = {
 };
 
 declare type ContentDescription = {
-  id: string;
   description: string;
   curriculumCode: string;
   elaborations: string[];
 };
 
 declare type Elaboration = {
-  id: string;
   description: string;
 };
 
