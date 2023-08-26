@@ -107,14 +107,12 @@ declare type SubjectYearLevel = {
 };
 
 declare type Strand = {
-  id: string;
   name: string;
   substrands?: Substrand[];
   contentDescriptions?: ContentDescription[];
 };
 
 declare type Substrand = {
-  id: string;
   name: string;
   contentDescriptions?: ContentDescription[];
 };

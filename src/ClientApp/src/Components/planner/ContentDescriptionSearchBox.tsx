@@ -5,11 +5,12 @@ import { useEffect, useState } from "react";
 import Dropdown from "../common/Dropdown";
 import { baseUrl } from "../../utils/constants";
 import useAuth from "../../contexts/AuthContext";
+import { v1 as uuidv1 } from "uuid";
 
 type ContentDescriptionSearchBoxProps = {
   setAddingContentDescription: React.Dispatch<React.SetStateAction<boolean>>;
-  subjects: Subject[] | null;
-  setSubjectData: React.Dispatch<React.SetStateAction<Subject[] | null>>;
+  subjects: Subject[] | undefined;
+  setSubjectData: React.Dispatch<React.SetStateAction<Subject[] | undefined>>;
   setSubjectsForTerm: React.Dispatch<React.SetStateAction<Subject[]>>;
 };
 
@@ -18,66 +19,73 @@ type Topic = Strand | Substrand;
 // this function needs to work out the yearlevel, topic and content descriptions to add to the termplanner
 function ContentDescriptionSearchBox({ setAddingContentDescription, subjects, setSubjectData }: ContentDescriptionSearchBoxProps) {
   const [termSubjects, setTermSubjects] = useState<Subject[]>([]);
-  const [currentSubject, setCurrentSubject] = useState<Subject | null>(null);
-  const [currentYearLevel, setCurrentYearLevel] = useState<SubjectYearLevel | null>(null);
-  const [currentTopic, setCurrentTopic] = useState<Topic | null>(null);
-  const [selectedContentDescriptions, setSelectedContentDescriptions] = useState<ContentDescription[]>([]);
-  const [topics, setTopics] = useState<Topic[] | null>(null);
-  const [contentDescriptions, setContentDescriptions] = useState<ContentDescription[] | null>(null);
+  const [currentSubjectId, setCurrentSubjectId] = useState<string | undefined>(undefined);
+  const [currentYearLevelId, setCurrentYearLevelId] = useState<string | undefined>(undefined);
+  const [currentTopicName, setCurrentTopicName] = useState<string | undefined>(undefined);
+  const [selectedContentDescriptionIds, setSelectedContentDescriptionIds] = useState<string[]>([]);
+  let currentSubject: Subject | undefined = subjects?.find((subject) => subject.id === currentSubjectId);
+  const currentYearLevel: SubjectYearLevel | undefined = getCurrentYearLevel();
+  const currentTopic: Topic | undefined = getCurrentTopic();
+  const topics: Topic[] | undefined = getTopics();
+  const contentDescriptions: ContentDescription[] | undefined = getContentDescriptions();
   const { teacher } = useAuth();
-  const [dummyState, setDummyState] = useState<boolean>(false);
 
   useEffect(() => {
-    if (subjects === null) {
-      const fetchSubjects = async () => {
-        const response = await fetch(`${baseUrl}/curriculum?elaborations=false`, {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${teacher!.token}`,
-          },
+    if (subjects === undefined) {
+      const controller = new AbortController();
+
+      fetch(`${baseUrl}/curriculum?elaborations=false`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${teacher!.token}`,
+        },
+        signal: controller.signal,
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          setSubjectData(data.subjects);
+          currentSubject = data.subjects[0];
         });
-        const data = await response.json();
 
-        setSubjectData(data.subjects);
-        setCurrentSubject(data.subjects[0]);
-      };
-
-      fetchSubjects();
+      return () => controller.abort();
     }
+    return; // to suppress compiler warning about all paths not returning
   }, []);
 
-  useEffect(() => {
+  function getCurrentYearLevel(): SubjectYearLevel | undefined {
+    const subject = subjects?.find((subject) => subject.id === currentSubjectId);
+    return subject?.yearLevels.find((yl) => yl.id === currentYearLevelId);
+  }
+
+  function getCurrentTopic(): Topic | undefined {
     if (!currentYearLevel) {
       return;
     }
-    const topic: Topic = currentYearLevel.strands?.length! > 0 ? currentYearLevel.strands![0] : currentYearLevel.substrands![0];
-    setCurrentTopic(topic);
-  }, [currentSubject]);
 
-  useEffect(() => {
-    setTopics(getTopics());
-    setContentDescriptions(getContentDescriptions());
-  }, [currentYearLevel, currentTopic]);
-
-  function handleCloseSearchBox(): void {
-    setAddingContentDescription(false);
+    if (currentYearLevel.strands?.length! > 0) {
+      return currentTopicName ? currentYearLevel.strands?.find((strand) => strand.name === currentTopicName) : currentYearLevel.strands![0];
+    } else {
+      return currentTopicName
+        ? currentYearLevel.substrands?.find((substrand) => substrand.name === currentTopicName)
+        : currentYearLevel.substrands![0];
+    }
   }
 
+  // should check whether the clicked subject is already in the termSubjects array
+  // if so, set the current subject to that subject
+  // if not, add the subject to the termSubjects array and set the current subject to that subject
   function handleSubjectChange(subjectName: string): void {
     termSubjects.forEach((subject) => {
       if (subject.name === subjectName) {
-        setCurrentSubject(subject);
+        setCurrentSubjectId(subject.id);
         return;
       }
     });
 
-    const newSubject = {
-      name: subjectName,
-      yearLevels: [] as SubjectYearLevel[],
-    } as Subject;
+    const subject = subjects?.find((subject) => subject.name === subjectName)!;
 
-    setTermSubjects([...termSubjects, newSubject]);
-    setCurrentSubject(newSubject);
+    setTermSubjects([...termSubjects, subject]);
+    setCurrentSubjectId(subject.id);
   }
 
   function getYearLevels(): string[] {
@@ -85,15 +93,15 @@ function ContentDescriptionSearchBox({ setAddingContentDescription, subjects, se
       return [];
     }
 
-    const subject = subjects?.find((subject) => subject.name === currentSubject.name)!;
+    const subject = subjects?.find((subject) => subject.name === currentSubject!.name);
 
-    return subject.yearLevels.map((yearLevel) => yearLevel.name);
+    return subject ? subject.yearLevels.map((yearLevel) => yearLevel.name) : [];
   }
 
   function handleYearLevelChange(yearLevel: string): void {
     const subject = subjects?.find((subject) => subject.name === currentSubject!.name);
 
-    setCurrentYearLevel(subject?.yearLevels.find((yl) => yl.name === yearLevel) as SubjectYearLevel);
+    setCurrentYearLevelId(subject?.yearLevels.find((yl) => yl.name === yearLevel)?.id);
   }
 
   function getTopics(): Topic[] {
@@ -120,7 +128,7 @@ function ContentDescriptionSearchBox({ setAddingContentDescription, subjects, se
       ? currentYearLevel.strands.find((strand) => strand.name === topicDescription)!
       : currentYearLevel.substrands!.find((substrand) => substrand.name === topicDescription)!;
 
-    setCurrentTopic(topic);
+    setCurrentTopicName(topic.name);
   }
 
   function getContentDescriptions(): ContentDescription[] {
@@ -142,8 +150,8 @@ function ContentDescriptionSearchBox({ setAddingContentDescription, subjects, se
   }
 
   function isSelectedContentDescription(contentDescription: ContentDescription): boolean {
-    for (const cd of selectedContentDescriptions) {
-      if (cd.curriculumCode === contentDescription.curriculumCode) {
+    for (const cd of selectedContentDescriptionIds) {
+      if (cd === contentDescription.id) {
         return true;
       }
     }
@@ -152,105 +160,110 @@ function ContentDescriptionSearchBox({ setAddingContentDescription, subjects, se
   }
 
   function handleContentDescriptionClick(contentDescription: ContentDescription): void {
-    if (selectedContentDescriptions.length === 0) {
-      setSelectedContentDescriptions([contentDescription]);
+    if (selectedContentDescriptionIds.length === 0) {
+      setSelectedContentDescriptionIds([contentDescription.id]);
       return;
     }
 
-    for (const cd of selectedContentDescriptions) {
-      if (cd.curriculumCode === contentDescription.curriculumCode) {
-        setSelectedContentDescriptions(selectedContentDescriptions.filter((cd) => cd.curriculumCode !== contentDescription.curriculumCode));
+    for (const cd of selectedContentDescriptionIds) {
+      if (cd === contentDescription.id) {
+        setSelectedContentDescriptionIds(selectedContentDescriptionIds.filter((cd) => cd !== contentDescription.id));
       } else {
-        setSelectedContentDescriptions([...selectedContentDescriptions, contentDescription]);
+        setSelectedContentDescriptionIds([...selectedContentDescriptionIds, contentDescription.id]);
       }
     }
   }
 
   function handleAddContentDescriptions(): void {}
 
+  function handleCloseSearchBox(): void {
+    setAddingContentDescription(false);
+  }
+
+  //#region type guards
   function isStrand(topic: Topic): topic is Strand {
     return (topic as Strand).substrands !== undefined;
   }
+  //#endregion
 
   return (
-    <div className="flex flex-col z-10 flex-grow border border-darkGreen max-w-4xl">
-      <div className="flex justify-between p-1">
-        <h1 className="text-lg font-semibold">Add Content Description</h1>
-        <Button variant="add" classList="mb-2" onClick={handleCloseSearchBox}>
+    <dialog className="flex flex-col z-10 flex-grow border border-darkGreen w-[60vw] top-6 h-[75vh] px-2 bg-slate-300">
+      <div className="justify-center w-full p-1">
+        <h1 className="text-lg text-center font-semibold">Add Content Descriptions</h1>
+        <Button variant="close" classList="absolute top-1 right-1" onClick={handleCloseSearchBox}>
           <FontAwesomeIcon icon={faXmark} />
         </Button>
       </div>
-      {subjects === null ? (
+      {subjects === undefined ? (
         <div>Loading...</div>
       ) : (
         <>
-          <div className="flex">
-            <div>
-              <label>Subjects</label>
-              <Dropdown
-                options={subjects.map((subject) => subject.name)}
-                defaultValue={currentSubject?.name}
-                onChange={handleSubjectChange}
-                placeholder="Choose a subject"
-                isSearchable={true}
-              />
-            </div>
-            <div>
-              <label>Year Levels</label>
-              <Dropdown
-                options={getYearLevels()}
-                defaultValue={currentYearLevel?.name}
-                onChange={handleYearLevelChange}
-                placeholder="Select a year level"
-                disabled={currentSubject === null}
-              />
-            </div>
-          </div>
-          <div className="flex gap-3 ">
-            {/* List of topics for each subject */}
-            <div className="w-1/5">
-              <h3>Topics</h3>
-              <div className="border border-darkGreen">
-                {currentYearLevel && (
-                  <ul className="">
-                    {topics?.map((topic) => (
-                      <li
-                        key={topic.id}
-                        className={`border border-darkGreen hover:bg-sageHover ${topic.name === currentTopic?.name && "bg-sageFocus"} select-none`}
-                        onClick={() => handleTopicChange(topic.name)}>
-                        {topic.name}
-                      </li>
-                    ))}
-                  </ul>
-                )}
+          <div className="grid grid-cols-2 mb-3">
+            <div className="flex flex-col items-center">
+              <div className="text-left">
+                <label className="block mb-1 font-semibold">Subjects</label>
+                <Dropdown
+                  options={subjects.map((subject) => subject.name)}
+                  defaultValue={currentSubject?.name}
+                  onChange={handleSubjectChange}
+                  placeholder="Choose a subject"
+                />
               </div>
             </div>
-
-            {/* List of content descriptions for each topic */}
-            <div className="w-4/5">
-              <h3>Content Descriptions</h3>
-              <div className="border border-darkGreen">
+            <div className="flex flex-col items-center">
+              <div className="text-left">
+                <label className="block mb-1 font-semibold">Year Levels</label>
+                <Dropdown
+                  options={getYearLevels()}
+                  defaultValue={currentYearLevel?.name}
+                  onChange={handleYearLevelChange}
+                  placeholder="Select a year level"
+                  disabled={currentSubject === undefined}
+                />
+              </div>
+            </div>
+          </div>
+          <div className="flex gap-3 overflow-hidden mb-2">
+            {/* List of topics for each subject */}
+            <div className="w-1/5 h-full">
+              <h5 className="text-lg text-center">Topics</h5>
+              {currentYearLevel && (
                 <ul className="">
-                  {contentDescriptions?.map((contentDescription) => (
+                  {topics?.map((topic) => (
                     <li
-                      key={contentDescription.id}
-                      className={`border border-darkGreen hover:bg-sageHover ${
-                        isSelectedContentDescription(contentDescription) && "bg-sageFocus"
-                      } select-none`}
-                      onClick={() => handleContentDescriptionClick(contentDescription)}>
-                      {contentDescription.description}
+                      key={topic.name}
+                      className={`border border-darkGreen hover:bg-sageHover p-2 ${topic.name === currentTopic?.name && "bg-sageFocus"} select-none`}
+                      onClick={() => handleTopicChange(topic.name)}>
+                      {topic.name}
                     </li>
                   ))}
                 </ul>
-              </div>
+              )}
+            </div>
+
+            {/* List of content descriptions for each topic */}
+            <div className="w-4/5 flex flex-col">
+              <h5 className="text-lg text-center">Content Descriptions</h5>
+              <ul className="overflow-scroll">
+                {contentDescriptions?.map((contentDescription) => (
+                  <li
+                    key={contentDescription.id}
+                    className={`border border-darkGreen hover:bg-sageHover p-2 ${
+                      isSelectedContentDescription(contentDescription) && "bg-sageFocus"
+                    } select-none`}
+                    onClick={() => handleContentDescriptionClick(contentDescription)}>
+                    {contentDescription.description}
+                  </li>
+                ))}
+              </ul>
             </div>
           </div>
-          <Button variant="add" classList="self-end mb-2" onClick={handleAddContentDescriptions}>
+          <Button variant="add" classList="self-end mt-auto mb-2 mr-2" onClick={handleAddContentDescriptions}>
             Add Content Descriptions
           </Button>
         </>
       )}
-    </div>
+    </dialog>
   );
 }
 

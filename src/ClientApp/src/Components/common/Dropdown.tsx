@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { CSSProperties, useEffect, useRef, useState } from "react";
 import { isStringArray } from "../../utils/typeGuards";
 
 type DropdownProps<T extends string | string[] | undefined> = {
@@ -7,7 +7,7 @@ type DropdownProps<T extends string | string[] | undefined> = {
   onChange: (value: T) => void;
   defaultValue?: string;
   multiSelect?: boolean;
-  styles?: string;
+  styles?: CSSProperties;
   isSearchable?: boolean;
   disabled?: boolean;
 };
@@ -55,11 +55,11 @@ function Dropdown<T extends string | string[] | undefined>({
     return () => window.removeEventListener("click", handler);
   });
 
-  function handleInputSelect() {
+  function handleInputSelect(): void {
     setShowMenu(!showMenu);
   }
 
-  function getDisplay() {
+  function getDisplay(): string | JSX.Element {
     if (!selectedValue || selectedValue.length === 0) {
       return defaultValue ? defaultValue : placeholder;
     }
@@ -82,13 +82,14 @@ function Dropdown<T extends string | string[] | undefined>({
     return selectedValue;
   }
 
-  function removeOption(option: string) {
+  function removeOption(option: string): string[] | undefined {
     if (isStringArray(selectedValue)) {
       return selectedValue.filter((value) => value !== option);
     }
+    return;
   }
 
-  function onTagRemove(event: React.MouseEvent, option: string) {
+  function onTagRemove(event: React.MouseEvent, option: string): void {
     event.stopPropagation();
     const newValue = removeOption(option);
     if (isStringArray(selectedValue) && newValue) {
@@ -100,7 +101,7 @@ function Dropdown<T extends string | string[] | undefined>({
     }
   }
 
-  function onItemClick(option: string) {
+  function onItemClick(option: string): void {
     let newValue: string | string[];
     if (isStringArray(selectedValue)) {
       if (selectedValue.findIndex((o) => o === option) >= 0) {
@@ -117,7 +118,7 @@ function Dropdown<T extends string | string[] | undefined>({
     setSelectedValue(newValue);
   }
 
-  function isSelected(option: string) {
+  function isSelected(option: string): boolean {
     if (isStringArray(selectedValue)) {
       return selectedValue.filter((o) => o === option).length > 0;
     }
@@ -129,11 +130,11 @@ function Dropdown<T extends string | string[] | undefined>({
     return selectedValue === option;
   }
 
-  function onSearch(event: React.ChangeEvent<HTMLInputElement>) {
+  function onSearch(event: React.ChangeEvent<HTMLInputElement>): void {
     setSearchValue(event.target.value);
   }
 
-  function getOptions() {
+  function getOptions(): string[] {
     if (!searchValue) {
       return options;
     }
@@ -142,15 +143,18 @@ function Dropdown<T extends string | string[] | undefined>({
   }
 
   return (
-    <div className={`border border-darkGreen relative text-left rounded-md ${styles} ${disabled && disabledStyle}`}>
-      <div ref={inputRef} onClick={handleInputSelect} className="flex justify-between items-center select-none px-2 py-1">
+    <div
+      className={`border border-darkGreen relative text-left rounded-md min-w-[9rem] bg-primaryHover ${styles ? styles : ""} ${
+        disabled ? disabledStyle : ""
+      }`}>
+      <div ref={inputRef} onClick={handleInputSelect} className="flex justify-between items-center select-none w-full px-2 py-1">
         <div className="flex flex-wrap gap-1 max-w-full">{getDisplay()}</div>
         <div>
           <Icon />
         </div>
       </div>
       {showMenu && (
-        <div ref={menuRef} className="absolute w-full z-50 border border-darkGreen translate-y-1 overflow-auto max-h-36 rounded-md">
+        <div ref={menuRef} className="absolute z-50 border border-darkGreen translate-y-1 overflow-auto bg-primaryHover w-max max-h-48 rounded-md">
           {isSearchable && (
             <div>
               <input onChange={onSearch} value={searchValue} ref={searchRef} className="w-full box-border p-2 border border-darkGreen rounded-t-md" />

@@ -28,7 +28,7 @@ function ProtectedLayout() {
   return (
     <PlannerProvider>
       <Navbar />
-      <main ref={layoutRef} className={`flex flex-auto justify-center bg-inherit ${cancelModalOpen ? dialogOpenStyle : ""}`}>
+      <main ref={layoutRef} className={`flex flex-auto justify-center bg-inherit relative ${cancelModalOpen ? dialogOpenStyle : ""}`}>
         <Outlet />
       </main>
       <Footer />

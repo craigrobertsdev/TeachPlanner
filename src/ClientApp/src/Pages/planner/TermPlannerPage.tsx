@@ -5,7 +5,7 @@ import ContentDescriptionSearchBox from "../../components/planner/ContentDescrip
 const TermPlannerPage = () => {
   const [subjectsForTerm, setSubjectsForTerm] = useState<Subject[]>([]);
   const [addingContentDescription, setAddingContentDescription] = useState<boolean>(true);
-  const [subjectData, setSubjectData] = useState<Subject[] | null>(null);
+  const [subjectData, setSubjectData] = useState<Subject[] | undefined>(undefined);
 
   function handleAddContentDescription() {
     setAddingContentDescription(true);
