@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 import Dropdown from "../common/Dropdown";
 import { baseUrl } from "../../utils/constants";
 import useAuth from "../../contexts/AuthContext";
-import { v1 as uuidv1 } from "uuid";
 
 type ContentDescriptionSearchBoxProps = {
   setAddingContentDescription: React.Dispatch<React.SetStateAction<boolean>>;
@@ -16,6 +15,17 @@ type ContentDescriptionSearchBoxProps = {
 
 type Topic = Strand | Substrand;
 
+type YearLevelBandNames = {
+  foundation: "Foundation";
+  years1To2: "Years1To2";
+  years3To4: "Years3To4";
+  years5To6: "Years5To6";
+};
+
+type YearLevelBand = SubjectYearLevel & {
+  bandLevelValue: YearLevelBandNames[keyof YearLevelBandNames];
+};
+
 // this function needs to work out the yearlevel, topic and content descriptions to add to the termplanner
 function ContentDescriptionSearchBox({ setAddingContentDescription, subjects, setSubjectData }: ContentDescriptionSearchBoxProps) {
   const [termSubjects, setTermSubjects] = useState<Subject[]>([]); // this is the array of subjects that will be added to the termplanner
@@ -23,16 +33,12 @@ function ContentDescriptionSearchBox({ setAddingContentDescription, subjects, se
   const [currentYearLevelName, setCurrentYearLevelName] = useState<string | undefined>(undefined);
   const [currentTopicName, setCurrentTopicName] = useState<string | undefined>(undefined);
   const [selectedContentDescriptionIds, setSelectedContentDescriptionIds] = useState<string[]>([]);
-  let currentSubject: Subject | undefined = subjects?.find((subject) => subject.id === currentSubjectId);
-  const currentYearLevel: SubjectYearLevel | undefined = getCurrentYearLevel();
+  const currentSubject: Subject | undefined = subjects?.find((subject) => subject.id === currentSubjectId);
+  let currentYearLevel: SubjectYearLevel | YearLevelBand | undefined = getCurrentYearLevel();
   const currentTopic: Topic | undefined = getCurrentTopic();
   const topics: Topic[] | undefined = getTopics();
   const contentDescriptions: ContentDescription[] | undefined = getContentDescriptions();
   const { teacher } = useAuth();
-
-  useEffect(() => {
-    console.log("rendered");
-  });
 
   useEffect(() => {
     if (subjects === undefined) {
@@ -48,7 +54,6 @@ function ContentDescriptionSearchBox({ setAddingContentDescription, subjects, se
         .then((response) => response.json())
         .then((data) => {
           setSubjectData(data.subjects);
-          currentSubject = data.subjects[0];
         });
 
       return () => controller.abort();
@@ -56,13 +61,21 @@ function ContentDescriptionSearchBox({ setAddingContentDescription, subjects, se
     return; // to suppress compiler warning about all paths not returning
   }, []);
 
-  function getCurrentYearLevel(): SubjectYearLevel | undefined {
-    const subject = subjects?.find((subject) => subject.id === currentSubjectId);
-    console.log("Setting currentYearLevel to: ", subject?.yearLevels.find((yl) => yl.name === currentYearLevelName));
-    return subject?.yearLevels.find((yl) => yl.name === currentYearLevelName);
+  // this function is called whenever the subject is being changed
+  // needs to check whether the subject has individual year levels or bands of year levels,
+  // and return the appropriate year level or band based on previous selections
+  function getCurrentYearLevel(): SubjectYearLevel | YearLevelBand | undefined {
+    if (!subjects) {
+      return undefined;
+    }
+
+    const subject = subjects.find((subject) => subject.id === currentSubjectId);
+
+    return subject ? subject.yearLevels.find((yl) => yl.name === currentYearLevelName) : undefined;
   }
 
   function getCurrentTopic(): Topic | undefined {
+    console.log(currentTopicName);
     if (!currentYearLevel) {
       return;
     }
@@ -89,8 +102,28 @@ function ContentDescriptionSearchBox({ setAddingContentDescription, subjects, se
 
     const subject = subjects?.find((subject) => subject.name === subjectName)!;
 
+    // if subject is Health and PE, then it has band levels. Need to get the bandLevelValue for the selected band level
+    // also need to set the current year level to the band level equivalent
+    // needs to set the current topic to the first one
+
+    // if we're moving from a subject with band levels to a subject with year levels
+    if (isBandLevel(currentYearLevel) && isBandLevelArray(subject.yearLevels)) {
+      const yearLevelName = determineYearLevel(termSubjects);
+      setCurrentYearLevelName(yearLevelName);
+    }
+
+    // if we're moving from a subject with year levels to a subject with band levels
+    if (!isBandLevel(currentYearLevel) && isBandLevelArray(subject.yearLevels)) {
+      const currentYearLevelNumber = currentYearLevelName?.split(" ")[1];
+      if (currentYearLevelNumber) {
+        const bandLevel = subject.yearLevels.find((yl) => yl.bandLevelValue.match(currentYearLevelNumber));
+        setCurrentYearLevelName(bandLevel?.name);
+      }
+    }
+
     setTermSubjects([...termSubjects, subject]);
     setCurrentSubjectId(subject.id);
+    setCurrentTopicName((prev) => getCurrentTopic()?.name);
   }
 
   function getYearLevels(): string[] {
@@ -110,11 +143,15 @@ function ContentDescriptionSearchBox({ setAddingContentDescription, subjects, se
   }
 
   function getTopics(): Topic[] {
-    if (!currentYearLevelName || !currentYearLevelName) {
+    if (!currentYearLevelName) {
       return [];
     }
 
     const currentYearLevel = getCurrentYearLevel();
+
+    if (!currentYearLevel) {
+      return [];
+    }
 
     const topics: Topic[] = [];
     if (currentYearLevel!.strands) {
@@ -131,8 +168,6 @@ function ContentDescriptionSearchBox({ setAddingContentDescription, subjects, se
       return;
     }
 
-    const currentYearLevel = getCurrentYearLevel();
-
     const topic = currentYearLevel!.strands
       ? currentYearLevel!.strands.find((strand) => strand.name === topicDescription)!
       : currentYearLevel!.substrands!.find((substrand) => substrand.name === topicDescription)!;
@@ -146,8 +181,6 @@ function ContentDescriptionSearchBox({ setAddingContentDescription, subjects, se
     }
 
     const contentDescriptions: ContentDescription[] = [];
-    // const currentTopic = getCurrentTopic();
-
     if (isStrand(currentTopic)) {
       currentTopic.substrands?.forEach((substrand) => {
         substrand.contentDescriptions?.forEach((contentDescription) => contentDescriptions.push(contentDescription));
@@ -190,9 +223,71 @@ function ContentDescriptionSearchBox({ setAddingContentDescription, subjects, se
     setAddingContentDescription(false);
   }
 
+  // called only when the previous subject has YearLevelBands as year levels and the new subject has SubjectYearLevels
+  function determineYearLevel(subjects: Subject[]): string {
+    const yearLevelNameCounts = {
+      Foundation: 0,
+      "Year 1": 0,
+      "Year 2": 0,
+      "Year 3": 0,
+      "Year 4": 0,
+      "Year 5": 0,
+      "Year 6": 0,
+    };
+
+    for (const subject of subjects) {
+      for (const yl of subject.yearLevels) {
+        switch (yl.name) {
+          case "Foundation":
+            yearLevelNameCounts["Foundation"]++;
+            break;
+          case "Year 1":
+            yearLevelNameCounts["Year 1"]++;
+            break;
+          case "Year 2":
+            yearLevelNameCounts["Year 2"]++;
+            break;
+          case "Year 3":
+            yearLevelNameCounts["Year 3"]++;
+            break;
+          case "Year 4":
+            yearLevelNameCounts["Year 4"]++;
+            break;
+          case "Year 5":
+            yearLevelNameCounts["Year 5"]++;
+            break;
+          case "Year 6":
+            yearLevelNameCounts["Year 6"]++;
+            break;
+          default:
+            break;
+        }
+      }
+    }
+
+    const arr = Object.values(yearLevelNameCounts);
+    const maxIndex = arr.indexOf(Math.max(...arr));
+
+    return Object.keys(yearLevelNameCounts)[maxIndex];
+  }
+
   //#region type guards
   function isStrand(topic: Topic): topic is Strand {
     return (topic as Strand).substrands !== undefined;
+  }
+
+  function isBandLevel(yearLevel: unknown): yearLevel is YearLevelBand {
+    if (yearLevel === undefined) {
+      return false;
+    }
+    return (yearLevel as YearLevelBand).bandLevelValue !== undefined;
+  }
+
+  function isBandLevelArray(yearLevels: unknown): yearLevels is YearLevelBand[] {
+    if (yearLevels === undefined) {
+      return false;
+    }
+    return Array.isArray(yearLevels) && (yearLevels as YearLevelBand[]).every((yl) => yl.bandLevelValue !== undefined);
   }
   //#endregion
 
@@ -208,8 +303,8 @@ function ContentDescriptionSearchBox({ setAddingContentDescription, subjects, se
         <div>Loading...</div>
       ) : (
         <>
-          <div className="grid grid-cols-2 mb-3">
-            <div className="flex flex-col items-center">
+          <div className="grid grid-cols-2 gap-5 mb-3">
+            <div className="flex flex-col items-start">
               <div className="text-left">
                 <label className="block mb-1 font-semibold">Subjects</label>
                 <Dropdown
@@ -220,7 +315,7 @@ function ContentDescriptionSearchBox({ setAddingContentDescription, subjects, se
                 />
               </div>
             </div>
-            <div className="flex flex-col items-center">
+            <div className="flex flex-col items-start m-auto">
               <div className="text-left">
                 <label className="block mb-1 font-semibold">Year Levels</label>
                 <Dropdown
