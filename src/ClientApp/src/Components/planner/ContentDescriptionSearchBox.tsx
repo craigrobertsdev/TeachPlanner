@@ -5,8 +5,10 @@ import { useEffect, useState } from "react";
 import Dropdown from "../common/Dropdown";
 import { baseUrl } from "../../utils/constants";
 import useAuth from "../../contexts/AuthContext";
-import { create } from "@mui/material/styles/createTransitions";
 
+// TODO: fix the the year level dropdown name not updating when moving from year level to band level
+// TODO: fix the year level not changing at all when moving from band level to year level
+// TODO: implement function to add content descriptions to the term planner
 type ContentDescriptionSearchBoxProps = {
   setAddingContentDescription: React.Dispatch<React.SetStateAction<boolean>>;
   subjects: Subject[] | undefined;
@@ -167,13 +169,13 @@ function ContentDescriptionSearchBox({ setAddingContentDescription, subjects, se
     // needs to set the current topic to the first one
 
     // if we're moving from a subject with band levels to a subject with year levels
-    if (isBandLevel(currentYearLevel) && isBandLevelArray(subject.yearLevels)) {
+    if (isBandLevel(currentYearLevel) && !isBandLevelArray(subject.yearLevels)) {
       const yearLevelName = determineYearLevel(subjectName, currentYearLevel.name);
       newSubjectStates.currentYearLevel = yearLevelName;
     } else if (!isBandLevel(currentYearLevel) && isBandLevelArray(subject.yearLevels)) {
       // if we're moving from a subject with year levels to a subject with band levels
       const currentYearLevelNumber = subjectStates.currentYearLevel.split(" ")[1];
-      const bandLevel = determineBandLevel(subjectStates.currentYearLevel);
+      const bandLevel = determineBandLevel(currentYearLevelNumber);
       newSubjectStates.currentYearLevel = bandLevel;
     }
 
@@ -272,7 +274,7 @@ function ContentDescriptionSearchBox({ setAddingContentDescription, subjects, se
 
   function handleContentDescriptionClick(contentDescription: ContentDescription): void {
     if (selectedContentDescriptionIds.length === 0) {
-      const newSubjectStates = {
+      setSubjectStates({
         ...subjectStates,
         [currentSubject!.name]: {
           ...subjectStates[currentSubject!.name],
@@ -283,8 +285,7 @@ function ContentDescriptionSearchBox({ setAddingContentDescription, subjects, se
             return ylcd;
           }),
         },
-      } as SubjectStateTable;
-      setSubjectStates(newSubjectStates);
+      });
     }
 
     // for (const cd of selectedContentDescriptionIds) {
@@ -337,12 +338,12 @@ function ContentDescriptionSearchBox({ setAddingContentDescription, subjects, se
     return `Year ${yearLevelNumber}`;
   }
 
-  function determineBandLevel(yearLevelName: string): string {
-    if (yearLevelName === "Foundation") {
+  function determineBandLevel(yearLevelName: string | undefined): string {
+    if (yearLevelName === undefined) {
       return "Foundation";
     }
 
-    return +yearLevelName % 2 === 0 ? `Years${+yearLevelName - 1}To${yearLevelName}` : `Years${yearLevelName}To${+yearLevelName + 1}`;
+    return +yearLevelName % 2 === 0 ? `Years ${+yearLevelName - 1} To ${+yearLevelName}` : `Years ${+yearLevelName} To ${+yearLevelName + 1}`;
   }
 
   //#region type guards
