@@ -47,6 +47,9 @@ function ContentDescriptionSearchBox({ setAddingContentDescription, subjects, se
   const currentSubject = getCurrentSubject();
   const currentYearLevel = getCurrentYearLevel();
   const currentTopic = getCurrentTopic();
+  const selectedContentDescriptionIds = getSelectedContentDescriptionIds();
+  const topics = getTopics();
+  const contentDescriptions = getContentDescriptions();
 
   useEffect(() => {
     if (subjects === undefined) {
@@ -140,6 +143,17 @@ function ContentDescriptionSearchBox({ setAddingContentDescription, subjects, se
     }
   }
 
+  function getSelectedContentDescriptionIds(currentSubjectName?: string): string[] {
+    if (!currentSubject) {
+      return [];
+    }
+
+    if (currentSubjectName) {
+      return subjectStates[currentSubjectName].selectedContentDescriptionIds.map((ylcd) => ylcd[1]).flat();
+    } else {
+      return subjectStates[currentSubject!.name].selectedContentDescriptionIds.map((ylcd) => ylcd[1]).flat();
+    }
+  }
   // should check whether the clicked subject is already in the termSubjects array
   // if so, set the current subject to that subject
   // if not, add the subject to the termSubjects array and set the current subject to that subject
@@ -164,7 +178,10 @@ function ContentDescriptionSearchBox({ setAddingContentDescription, subjects, se
     }
 
     for (const key in newSubjectStates) {
-      newSubjectStates[key].isCurrentSubject = false;
+      // only iterate over the subject names. this will need to grow if we add more properties to the SubjectStateTable
+      if (key !== "currentYearLevel") {
+        newSubjectStates[key].isCurrentSubject = false;
+      }
     }
 
     newSubjectStates[subjectName].isCurrentSubject = true;
@@ -239,8 +256,11 @@ function ContentDescriptionSearchBox({ setAddingContentDescription, subjects, se
     // find the current subject in state
     // find the contentdescriptions for that subject in the current year level
     // check if the contentdescription is in the array of selected content descriptions
-    const ylcdArrays = subjectStates[currentSubject!.name].selectedContentDescriptionIds;
-    const selectedContentDescriptionIds = ylcds.find((ylcd) => ylcd[0] === currentYearLevel!.name)![1];
+    const selectedContentDescriptionIds = getSelectedContentDescriptionIds(currentSubject!.name);
+    if (selectedContentDescriptionIds === undefined) {
+      return false;
+    }
+
     for (const cd of selectedContentDescriptionIds) {
       if (cd === contentDescription.curriculumCode) {
         return true;
@@ -252,16 +272,48 @@ function ContentDescriptionSearchBox({ setAddingContentDescription, subjects, se
 
   function handleContentDescriptionClick(contentDescription: ContentDescription): void {
     if (selectedContentDescriptionIds.length === 0) {
-      setSelectedContentDescriptionIds([contentDescription.curriculumCode]);
-      return;
+      const newSubjectStates = {
+        ...subjectStates,
+        [currentSubject!.name]: {
+          ...subjectStates[currentSubject!.name],
+          selectedContentDescriptionIds: subjectStates[currentSubject!.name].selectedContentDescriptionIds.map((ylcd) => {
+            if (ylcd[0] === currentYearLevel!.name) {
+              return [ylcd[0], [...ylcd[1], contentDescription.curriculumCode]];
+            }
+            return ylcd;
+          }),
+        },
+      } as SubjectStateTable;
+      setSubjectStates(newSubjectStates);
     }
 
-    for (const cd of selectedContentDescriptionIds) {
-      if (cd === contentDescription.curriculumCode) {
-        setSelectedContentDescriptionIds(selectedContentDescriptionIds.filter((cd) => cd !== contentDescription.curriculumCode));
-      } else {
-        setSelectedContentDescriptionIds([...selectedContentDescriptionIds, contentDescription.curriculumCode]);
-      }
+    // for (const cd of selectedContentDescriptionIds) {
+    if (selectedContentDescriptionIds.includes(contentDescription.curriculumCode)) {
+      setSubjectStates({
+        ...subjectStates,
+        [currentSubject!.name]: {
+          ...subjectStates[currentSubject!.name],
+          selectedContentDescriptionIds: subjectStates[currentSubject!.name].selectedContentDescriptionIds.map((ylcd) => {
+            if (ylcd[0] === currentYearLevel!.name) {
+              return [ylcd[0], ylcd[1].filter((cd) => cd !== contentDescription.curriculumCode)];
+            }
+            return ylcd;
+          }),
+        },
+      });
+    } else {
+      setSubjectStates({
+        ...subjectStates,
+        [currentSubject!.name]: {
+          ...subjectStates[currentSubject!.name],
+          selectedContentDescriptionIds: subjectStates[currentSubject!.name].selectedContentDescriptionIds.map((ylcd) => {
+            if (ylcd[0] === currentYearLevel!.name) {
+              return [ylcd[0], [...ylcd[1], contentDescription.curriculumCode]];
+            }
+            return ylcd;
+          }),
+        },
+      });
     }
   }
 
@@ -309,7 +361,7 @@ function ContentDescriptionSearchBox({ setAddingContentDescription, subjects, se
     if (yearLevels === undefined) {
       return false;
     }
-    return Array.isArray(yearLevels) && (yearLevels as YearLevelBand[]).every((yl) => yl.bandLevelValue !== undefined);
+    return Array.isArray(yearLevels) && (yearLevels as YearLevelBand[]).every((yl) => yl.bandLevelValue !== undefined && yl.bandLevelValue !== null);
   }
   //#endregion
 
