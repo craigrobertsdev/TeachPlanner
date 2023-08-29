@@ -60,11 +60,14 @@ function Dropdown<T extends string | string[] | undefined>({
   }
 
   function getDisplay(): string | JSX.Element {
-    if (!selectedValue || selectedValue.length === 0) {
+    if (typeof selectedValue === "string") {
       return defaultValue ? defaultValue : placeholder;
     }
 
     if (isStringArray(selectedValue)) {
+      if (selectedValue.length === 0) {
+        return defaultValue ? defaultValue : placeholder;
+      }
       return (
         <div className="flex flex-wrap gap-1">
           {selectedValue.map((value) => (

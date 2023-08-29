@@ -2,6 +2,7 @@ import { useState } from "react";
 import Button from "../../components/common/Button";
 import ContentDescriptionSearchBox from "../../components/planner/ContentDescriptionSearchBox";
 
+// TODO: work out why an error occurs when reopening the search box after closing it
 const TermPlannerPage = () => {
   const [subjectsForTerm, setSubjectsForTerm] = useState<Subject[]>([]);
   const [addingContentDescription, setAddingContentDescription] = useState<boolean>(true);
