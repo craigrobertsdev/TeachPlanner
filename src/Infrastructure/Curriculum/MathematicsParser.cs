@@ -77,7 +77,7 @@ internal class MathematicsParser
     private Strand GetStrand(string[] contentArr, ref int index)
     {
         // remove "Strand:" from name
-        string name = contentArr[index].Substring(8);
+        string name = contentArr[index].Substring(8).TrimEnd();
         index += 2;
 
         // safe to unwrap as we know there won't be an argument error here
@@ -99,17 +99,17 @@ internal class MathematicsParser
 
         while (contentArr[index + 1].StartsWith("AC9"))
         {
-            var description = contentArr[index].WithFirstLetterUpper();
+            var description = contentArr[index].WithFirstLetterUpper().TrimEnd();
             index++;
 
-            var curriculumCode = contentArr[index];
+            var curriculumCode = contentArr[index].TrimEnd();
             index++;
 
             var contentDescription = ContentDescription.Create(description, curriculumCode, new List<Elaboration>(), strand: strand);
 
             while (contentArr[index].StartsWith("*"))
             {
-                var content = contentArr[index].Substring(2);
+                var content = contentArr[index].Substring(2).TrimEnd();
                 var elaboration = Elaboration.Create(content, contentDescription);
 
                 contentDescription.AddElaboration(elaboration);

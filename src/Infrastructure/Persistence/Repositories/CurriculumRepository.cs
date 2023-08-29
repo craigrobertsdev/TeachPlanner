@@ -62,6 +62,10 @@ public class CurriculumRepository : ICurriculumRepository
 
     public Task SaveCurriculum(List<Subject> subjects)
     {
+        // clear existing subjects
+        _context.Subjects.RemoveRange(_context.Subjects);
+        _context.SaveChanges()
+        // add new subjects
         foreach (var subject in subjects)
         {
             _context.Subjects.Add(subject);

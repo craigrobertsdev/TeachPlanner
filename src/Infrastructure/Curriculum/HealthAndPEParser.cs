@@ -36,11 +36,6 @@ internal class HealthAndPEParser
         }
         else
         {
-            /*            string[] band = contentArr[index].Trim().Split('-');
-                        band = band.Select(x => x.Trim()).ToArray();
-
-                        string bandValue = string.Join("To", band);
-            */
             bandLevelValue = (BandLevelValue)Enum.Parse(typeof(BandLevelValue), contentArr[index].Replace("-", "To").Replace(" ", ""));
         }
 
@@ -93,7 +88,7 @@ internal class HealthAndPEParser
     private Strand GetStrand(string[] contentArr, ref int index)
     {
         // remove "Strand:" from name
-        string name = contentArr[index].Substring(8);
+        string name = contentArr[index].Substring(8).TrimEnd();
         index += 2;
 
         // we know there won't be an argument error here
@@ -111,7 +106,7 @@ internal class HealthAndPEParser
     private Substrand GetSubstrand(string[] contentArr, Strand strand, ref int index)
     {
         // remove "Sub-strand:" from name
-        var name = contentArr[index].Substring(12);
+        var name = contentArr[index].Substring(12).TrimEnd();
         var substrand = Substrand.Create(name, new List<ContentDescription>(), strand: strand);
 
         if (contentArr[index + 1] == "Content descriptions")
@@ -136,17 +131,17 @@ internal class HealthAndPEParser
 
     private ContentDescription GetContentDescriptions(string[] contentArr, Substrand substrand, ref int index)
     {
-        var description = contentArr[index].WithFirstLetterUpper();
+        var description = contentArr[index].WithFirstLetterUpper().TrimEnd();
         index++;
 
-        var curriculumCode = contentArr[index];
+        var curriculumCode = contentArr[index].TrimEnd();
         index++;
 
         var contentDescription = ContentDescription.Create(description, curriculumCode, new List<Elaboration>(), substrand: substrand);
 
         while (contentArr[index].StartsWith("*"))
         {
-            var content = contentArr[index].Substring(2);
+            var content = contentArr[index].Substring(2).TrimEnd();
             var elaboration = Elaboration.Create(content, contentDescription);
 
             contentDescription.AddElaboration(elaboration);
