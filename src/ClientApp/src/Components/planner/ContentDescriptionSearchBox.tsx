@@ -6,8 +6,6 @@ import Dropdown from "../common/Dropdown";
 import { baseUrl } from "../../utils/constants";
 import useAuth from "../../contexts/AuthContext";
 
-// TODO: fix the the year level dropdown name not updating when moving from year level to band level
-// TODO: fix the year level not changing at all when moving from band level to year level
 // TODO: implement function to add content descriptions to the term planner
 type ContentDescriptionSearchBoxProps = {
   setAddingContentDescription: React.Dispatch<React.SetStateAction<boolean>>;
@@ -335,7 +333,7 @@ function ContentDescriptionSearchBox({ setAddingContentDescription, subjects, se
     const yearLevel = subject.selectedContentDescriptionIds.find((yl) => yl[1].length === maxCount)!;
 
     const yearLevelNumber = yearLevel[0].split(" ")[1];
-    return `Year ${yearLevelNumber}`;
+    return maxCount > 0 ? `Year ${yearLevelNumber}` : `Year ${yearLevelName.split(" ")[1]}`; // if there are no content descriptions selected, return the lower of the 2 year levels in the band
   }
 
   function determineBandLevel(yearLevelName: string | undefined): string {
