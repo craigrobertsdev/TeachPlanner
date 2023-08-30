@@ -101,8 +101,7 @@ declare type Subject = {
 
 declare type SubjectYearLevel = {
   name: string;
-  strands?: Strand[];
-  substrands?: Substrand[];
+  strands: Strand[];
 };
 
 declare type Strand = {
