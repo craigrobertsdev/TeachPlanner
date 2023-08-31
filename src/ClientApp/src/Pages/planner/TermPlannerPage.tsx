@@ -1,16 +1,30 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "../../components/common/Button";
 import ContentDescriptionSearchBox from "../../components/planner/ContentDescriptionSearchBox";
+import CurriculumService from "../../services/CurriculumService";
+import useAuth from "../../contexts/AuthContext";
 
 // TODO: work out why an error occurs when reopening the search box after closing it
 const TermPlannerPage = () => {
   const [subjectsForTerm, setSubjectsForTerm] = useState<Subject[]>([]);
-  const [addingContentDescription, setAddingContentDescription] = useState<boolean>(true);
+  const [addingContentDescriptions, setAddingContentDescriptions] = useState<boolean>(false);
   const [subjectData, setSubjectData] = useState<Subject[] | undefined>(undefined);
+  const [year, setYear] = useState<number>(new Date().getFullYear());
+  const { teacher } = useAuth();
 
-  function handleAddContentDescription() {
-    setAddingContentDescription(true);
+  useEffect(() => {
+    const getSubjects = async () => {
+      const data = CurriculumService.getTermPlannerSubjects({ year }, teacher!);
+    };
+  }, []);
+
+  async function handleAddContentDescription() {
+    setAddingContentDescriptions(true);
   }
+
+  useEffect(() => {
+    console.log(subjectsForTerm);
+  }, [subjectsForTerm]);
 
   return (
     <div>
@@ -25,12 +39,13 @@ const TermPlannerPage = () => {
         </div>
       </div>
       {/* Content description search box */}
-      {addingContentDescription && (
+      {addingContentDescriptions && (
         <ContentDescriptionSearchBox
-          setAddingContentDescription={setAddingContentDescription}
+          setAddingContentDescription={setAddingContentDescriptions}
           subjects={subjectData}
           setSubjectData={setSubjectData}
-          setSubjectsForTerm={setSubjectsForTerm}
+          termSubjects={subjectsForTerm}
+          setTermSubjects={setSubjectsForTerm}
         />
       )}
     </div>

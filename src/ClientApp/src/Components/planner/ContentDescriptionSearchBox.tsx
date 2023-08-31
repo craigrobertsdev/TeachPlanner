@@ -3,15 +3,15 @@ import Button from "../common/Button";
 import { faXmark } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
 import Dropdown from "../common/Dropdown";
-import { baseUrl } from "../../utils/constants";
 import useAuth from "../../contexts/AuthContext";
+import curriculumService from "../../services/CurriculumService";
 
-// TODO: implement function to add content descriptions to the term planner
 type ContentDescriptionSearchBoxProps = {
   setAddingContentDescription: React.Dispatch<React.SetStateAction<boolean>>;
   subjects: Subject[] | undefined;
   setSubjectData: React.Dispatch<React.SetStateAction<Subject[] | undefined>>;
-  setSubjectsForTerm: React.Dispatch<React.SetStateAction<Subject[]>>;
+  termSubjects: Subject[];
+  setTermSubjects: React.Dispatch<React.SetStateAction<Subject[]>>;
 };
 
 type YearLevelBandNames = {
@@ -39,10 +39,11 @@ type SubjectStateTable = {
 
 // this function needs to work out the yearlevel, strand and content descriptions to add to the termplanner
 function ContentDescriptionSearchBox({
-  setAddingContentDescription,
+  setAddingContentDescription: setAddingContentDescriptions,
   subjects,
   setSubjectData,
-  setSubjectsForTerm,
+  termSubjects,
+  setTermSubjects,
 }: ContentDescriptionSearchBoxProps) {
   const [subjectStates, setSubjectStates] = useState<SubjectStateTable>({} as SubjectStateTable);
   const { teacher } = useAuth();
@@ -57,22 +58,20 @@ function ContentDescriptionSearchBox({
     if (subjects === undefined) {
       const controller = new AbortController();
 
-      fetch(`${baseUrl}/curriculum?elaborations=false`, {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${teacher!.token}`,
-        },
-        signal: controller.signal,
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          setSubjectData(data.subjects);
-          setInitialSubjectStates(data.subjects);
-        });
+      const fetchSubjects = async () => {
+        const data = await curriculumService.getSubjectData({ elaborations: false }, teacher!, controller);
+
+        setSubjectData(data.subjects);
+        setInitialSubjectStates(data.subjects);
+      };
+
+      fetchSubjects();
 
       return () => controller.abort();
+    } else {
+      setInitialSubjectStates(subjects);
+      return; // to suppress compiler warning about all paths not returning
     }
-    return; // to suppress compiler warning about all paths not returning
   }, []);
 
   function setInitialSubjectStates(subjects: Subject[]) {
@@ -89,7 +88,35 @@ function ContentDescriptionSearchBox({
 
     subjectStateTable.currentYearLevel = subjects[0].yearLevels[0].name;
 
-    setSubjectStates(subjectStateTable);
+    populateTermSubjects(termSubjects, subjectStateTable);
+  }
+
+  function populateTermSubjects(termSubjects: Subject[], subjectStates: SubjectStateTable) {
+    // for each content description in termSubjects, add it to subjectStates
+    if (Object.keys(subjectStates).length === 0) {
+      return;
+    }
+
+    for (const subject of termSubjects) {
+      const subjectState = subjectStates[subject.name];
+      for (const yearLevel of subject.yearLevels) {
+        for (const strand of yearLevel.strands) {
+          if (strand.substrands && strand.substrands.length > 0) {
+            for (const substrand of strand.substrands) {
+              for (const cd of substrand.contentDescriptions!) {
+                subjectState.selectedContentDescriptionIds.find((ylcd) => ylcd[0] === yearLevel.name)![1].push(cd.curriculumCode);
+              }
+            }
+          } else {
+            for (const cd of strand.contentDescriptions!) {
+              subjectState.selectedContentDescriptionIds.find((ylcd) => ylcd[0] === yearLevel.name)![1].push(cd.curriculumCode);
+            }
+          }
+        }
+      }
+    }
+
+    setSubjectStates(subjectStates);
   }
 
   function createContentDescriptionIdsArray(yearLevels: SubjectYearLevel[] | YearLevelBand[]): [string, string[]][] {
@@ -102,7 +129,11 @@ function ContentDescriptionSearchBox({
     return contentDescriptionIds;
   }
 
-  function getCurrentSubject(): Subject | undefined {
+  function getCurrentSubject() {
+    if (!subjects || !Object.keys(subjectStates).length) {
+      return undefined;
+    }
+
     for (const key in subjectStates) {
       if (subjectStates[key].isCurrentSubject) {
         return subjects?.find((subject) => subject.name === key);
@@ -115,20 +146,20 @@ function ContentDescriptionSearchBox({
   // this function is called whenever the subject is being changed
   // needs to check whether the subject has individual year levels or bands of year levels,
   // and return the appropriate year level or band based on previous selections
-  function getCurrentYearLevel(): SubjectYearLevel | YearLevelBand | undefined {
-    if (!subjects) {
+  function getCurrentYearLevel(): YearLevelBand | SubjectYearLevel | undefined {
+    if (!subjects || !Object.keys(subjectStates).length) {
       return undefined;
     }
 
     const subjectName = Object.keys(subjectStates).find((subjectName) => subjectStates[subjectName].isCurrentSubject)!;
 
-    const subject = subjects.find((subject) => subject.name === subjectName)!;
-    const yearLevel = subject.yearLevels.find((yearLevel) => yearLevel.name === subjectStates.currentYearLevel);
+    const subject = subjects.find((subject) => subject.name === subjectName);
+    const yearLevel = subject?.yearLevels.find((yearLevel) => yearLevel.name === subjectStates.currentYearLevel);
 
     return isBandLevel(yearLevel) ? (yearLevel as YearLevelBand) : (yearLevel as SubjectYearLevel);
   }
 
-  function getCurrentStrand(): Strand | undefined {
+  function getCurrentStrand() {
     if (!currentYearLevel) {
       return;
     }
@@ -138,7 +169,7 @@ function ContentDescriptionSearchBox({
     return currentStrandName ? currentYearLevel.strands.find((strand) => strand.name === currentStrandName) : currentYearLevel.strands[0];
   }
 
-  function getSelectedContentDescriptionIds(currentSubjectName?: string): string[] {
+  function getSelectedContentDescriptionIds(currentSubjectName?: string) {
     if (!currentSubject) {
       return [];
     }
@@ -152,7 +183,7 @@ function ContentDescriptionSearchBox({
   // should check whether the clicked subject is already in the termSubjects array
   // if so, set the current subject to that subject
   // if not, add the subject to the termSubjects array and set the current subject to that subject
-  function handleSubjectChange(subjectName: string): void {
+  function handleSubjectChange(subjectName: string) {
     const subject = subjects?.find((subject) => subject.name === subjectName)!;
 
     const newSubjectStates = deepCopy(subjectStates);
@@ -183,7 +214,7 @@ function ContentDescriptionSearchBox({
     setSubjectStates(newSubjectStates);
   }
 
-  function getYearLevels(): string[] {
+  function getYearLevels() {
     if (!currentSubject) {
       return [];
     }
@@ -193,14 +224,14 @@ function ContentDescriptionSearchBox({
     return subject ? subject.yearLevels.map((yearLevel) => yearLevel.name) : [];
   }
 
-  function handleYearLevelChange(yearLevelName: string): void {
+  function handleYearLevelChange(yearLevelName: string) {
     const newSubjectStates = deepCopy(subjectStates);
     newSubjectStates.currentYearLevel = yearLevelName;
 
     setSubjectStates(newSubjectStates);
   }
 
-  function getStrands(): Strand[] {
+  function getStrands() {
     if (!currentYearLevel) {
       return [];
     }
@@ -213,7 +244,7 @@ function ContentDescriptionSearchBox({
     return strands;
   }
 
-  function handleStrandChange(strandName: string): void {
+  function handleStrandChange(strandName: string) {
     if (!currentYearLevel || !strandName) {
       return;
     }
@@ -226,7 +257,7 @@ function ContentDescriptionSearchBox({
     setSubjectStates(newSubjectStates);
   }
 
-  function getContentDescriptions(): ContentDescription[] {
+  function getContentDescriptions() {
     if (!currentSubject || !currentYearLevel || !currentStrand) {
       return [];
     }
@@ -243,7 +274,7 @@ function ContentDescriptionSearchBox({
     return contentDescriptions;
   }
 
-  function isSelectedContentDescription(contentDescription: ContentDescription): boolean {
+  function isSelectedContentDescription(contentDescription: ContentDescription) {
     // find the current subject in state
     // find the contentdescriptions for that subject in the current year level
     // check if the contentdescription is in the array of selected content descriptions
@@ -261,7 +292,7 @@ function ContentDescriptionSearchBox({
     return false;
   }
 
-  function handleContentDescriptionClick(contentDescription: ContentDescription): void {
+  function handleContentDescriptionClick(contentDescription: ContentDescription) {
     if (selectedContentDescriptionIds.length === 0) {
       setSubjectStates({
         ...subjectStates,
@@ -309,9 +340,7 @@ function ContentDescriptionSearchBox({
 
   // this will build the list of subjects to add to the term planner
   // will return an array of subjects with the relevant year level, strand and content descriptions
-  // TODO: work out why subjects with substrands are having their contentdescriptions added as null
-  // TODO: work out why subjects with yearLevelbands aren't having their contentdescriptions added
-  function handleAddContentDescriptions(): void {
+  async function handleAddContentDescriptions() {
     const termSubjects: Subject[] = [];
 
     for (const subjectName in subjectStates) {
@@ -421,17 +450,19 @@ function ContentDescriptionSearchBox({
       }
       termSubjects.push(subjectToAdd);
     }
-    console.log(JSON.stringify(termSubjects, null, 2));
-    setSubjectsForTerm(termSubjects);
+
+    await curriculumService.saveTermSubjects(termSubjects);
+    setTermSubjects(termSubjects);
+    setAddingContentDescriptions(false);
   }
 
-  function handleCloseSearchBox(): void {
-    setAddingContentDescription(false);
+  function handleCloseSearchBox() {
+    setAddingContentDescriptions(false);
   }
 
   // called only when the previous subject has YearLevelBands as year levels and the new subject has SubjectYearLevels
   // tries to work out the most likely year level to select based on the number of content descriptions selected
-  function determineYearLevel(subjectName: string, yearLevelName: string): string {
+  function determineYearLevel(subjectName: string, yearLevelName: string) {
     if (yearLevelName === "Foundation") {
       return "Foundation";
     }
@@ -449,7 +480,7 @@ function ContentDescriptionSearchBox({
     return `Year ${yearLevelNumber}`; // if there are no content descriptions selected, return the lower of the 2 year levels in the band
   }
 
-  function determineBandLevel(yearLevelName: string | undefined): string {
+  function determineBandLevel(yearLevelName: string | undefined) {
     if (yearLevelName === undefined) {
       return "Foundation";
     }

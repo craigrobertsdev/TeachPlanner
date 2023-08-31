@@ -157,7 +157,9 @@ function Dropdown<T extends string | string[] | undefined>({
         </div>
       </div>
       {showMenu && (
-        <div ref={menuRef} className="absolute z-50 border border-darkGreen translate-y-1 overflow-auto bg-primaryHover w-max max-h-48 rounded-md">
+        <div
+          ref={menuRef}
+          className="absolute z-50 border border-darkGreen translate-y-1 overflow-auto bg-primaryHover w-max max-h-48 select-none rounded-md">
           {isSearchable && (
             <div>
               <input onChange={onSearch} value={searchValue} ref={searchRef} className="w-full box-border p-2 border border-darkGreen rounded-t-md" />
