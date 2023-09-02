@@ -1,4 +1,4 @@
-# Planning and Assessment System
+# Teach Planner - A digital planner for classroom teachers
 
 ## Table of Contents
 
