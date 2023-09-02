@@ -1,4 +1,4 @@
-﻿namespace Contracts.Plannner.CreateLessonPlan;
+﻿namespace TeachPlanner.Contracts.Plannner.CreateLessonPlan;
 
 public record CreateLessonPlanResponse(
     string Id,

@@ -1,8 +1,8 @@
-﻿using Application.Common.Extensions;
-using Domain.Common.Enums;
-using Domain.SubjectAggregates;
+﻿using TeachPlanner.Application.Common.Extensions;
+using TeachPlanner.Domain.Common.Enums;
+using TeachPlanner.Domain.Subjects;
 
-namespace Infrastructure.Curriculum;
+namespace TeachPlanner.Infrastructure.Curriculum;
 internal class HealthAndPEParser
 {
     internal Subject ParseHealthAndPE(string[] contentArr, string subjectName, int index)

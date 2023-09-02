@@ -1,9 +1,9 @@
 ﻿using Syncfusion.DocIO.DLS;
 using Syncfusion.DocIO;
-using Domain.SubjectAggregates;
-using Application.Common.Interfaces.Curriculum;
+using TeachPlanner.Application.Common.Interfaces.Curriculum;
+using TeachPlanner.Domain.Subjects;
 
-namespace Infrastructure.Curriculum;
+namespace TeachPlanner.Infrastructure.Curriculum;
 public class CurriculumParser : ICurriculumParser
 {
     private readonly List<Subject> _subjects;

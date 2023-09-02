@@ -1,6 +1,6 @@
-﻿using Domain.TeacherAggregate;
+﻿using TeachPlanner.Domain.Teacher;
 
-namespace Application.Authentication.Common;
+namespace TeachPlanner.Application.Authentication.Common;
 
 public record AuthenticationResult(Teacher Teacher, string Token);
 

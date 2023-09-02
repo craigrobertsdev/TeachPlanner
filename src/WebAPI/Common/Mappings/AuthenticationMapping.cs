@@ -1,10 +1,10 @@
-﻿using Application.Authentication.Commands.Register;
-using Application.Authentication.Common;
-using Application.Authentication.Queries.Login;
-using Mapster;
-using Contracts.Authentication;
+﻿using Mapster;
+using TeachPlanner.Application.Authentication.Queries.Login;
+using TeachPlanner.Contracts.Authentication;
+using TeachPlanner.Application.Authentication.Common;
+using TeachPlanner.Application.Authentication.Commands.Register;
 
-namespace WebAPI.Common.Mappings;
+namespace TeachPlanner.Api.Common.Mappings;
 
 public class AuthenticationMapping : IRegister
 {

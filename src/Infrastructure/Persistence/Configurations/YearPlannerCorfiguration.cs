@@ -1,13 +1,13 @@
-﻿using Domain.SubjectAggregates;
-using Domain.YearPlannerAggregate;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System.Text.Json;
+using TeachPlanner.Domain.Subjects;
+using TeachPlanner.Domain.TermPlanner;
 
-namespace Infrastructure.Persistence.Configurations;
-public class YearPlannerCorfiguration : IEntityTypeConfiguration<YearPlanner>
+namespace TeachPlanner.Infrastructure.Persistence.Configurations;
+public class YearPlannerCorfiguration : IEntityTypeConfiguration<TermPlanner>
 {
-    public void Configure(EntityTypeBuilder<YearPlanner> builder)
+    public void Configure(EntityTypeBuilder<TermPlanner> builder)
     {
         builder.ToTable("year_planner");
 

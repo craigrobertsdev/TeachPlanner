@@ -1,7 +1,7 @@
-﻿using Application.Common.Interfaces.Persistence;
-using FluentValidation;
+﻿using FluentValidation;
+using TeachPlanner.Application.Common.Interfaces.Persistence;
 
-namespace Application.Authentication.Commands.Register;
+namespace TeachPlanner.Application.Authentication.Commands.Register;
 
 public class RegisterCommandValidator : AbstractValidator<RegisterCommand>
 {

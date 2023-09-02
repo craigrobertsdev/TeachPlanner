@@ -1,6 +1,6 @@
-﻿using Domain.Common.Primatives;
+﻿using TeachPlanner.Domain.Common.Primatives;
 
-namespace Domain.Assessments;
+namespace TeachPlanner.Domain.Assessments;
 
 public class SummativeAssessmentResult : ValueObject
 {

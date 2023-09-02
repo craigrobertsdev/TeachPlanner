@@ -1,11 +1,11 @@
-﻿using Application.LessonPlans.CreateLessonPlan.Commands;
-using Application.LessonPlans.Queries.GetLessonPlans;
-using Contracts.Plannner.CreateLessonPlan;
-using Contracts.Plannner.GetLessonPlans;
-using Domain.LessonPlanAggregate;
-using Mapster;
+﻿using Mapster;
+using TeachPlanner.Application.LessonPlans.CreateLessonPlan.Commands;
+using TeachPlanner.Application.LessonPlans.Queries.GetLessonPlans;
+using TeachPlanner.Contracts.Plannner.CreateLessonPlan;
+using TeachPlanner.Contracts.Plannner.GetLessonPlans;
+using TeachPlanner.Domain.LessonPlans;
 
-namespace WebAPI.Common.Mappings;
+namespace TeachPlanner.Api.Common.Mappings;
 
 public class LessonPlanMapping : IRegister
 {

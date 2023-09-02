@@ -1,3 +1,3 @@
-﻿namespace Application.Curriculum.Commands.ParseCurriculum;
+﻿namespace TeachPlanner.Application.Curriculum.Commands.ParseCurriculum;
 
 public record ParseCurriculumResult();

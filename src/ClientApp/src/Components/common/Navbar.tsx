@@ -1,9 +1,8 @@
 import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
 import useAuth from "../../contexts/AuthContext";
 
 const Navbar = () => {
-  const navigate = useNavigate();
+  // TODO: add highlighting to current page
   const { teacher, logout } = useAuth();
 
   return (

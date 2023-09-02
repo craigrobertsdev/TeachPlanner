@@ -1,8 +1,8 @@
 ﻿using ErrorOr;
 using MediatR;
-using Application.Teachers.Common;
+using TeachPlanner.Application.Teachers.Common;
 
-namespace Application.Teachers.CreateTeacher.Commands;
+namespace TeachPlanner.Application.Teachers.CreateTeacher.Commands;
 
 public record CreateTeacherCommand(
   Guid TeacherId,

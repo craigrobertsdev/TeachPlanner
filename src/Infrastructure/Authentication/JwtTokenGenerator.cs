@@ -1,11 +1,11 @@
-﻿using Application.Common.Interfaces.Authentication;
-using Domain.TeacherAggregate;
-using Microsoft.IdentityModel.Tokens;
+﻿using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using TeachPlanner.Application.Common.Interfaces.Authentication;
+using TeachPlanner.Domain.Teacher;
 
-namespace Infrastructure.Authentication;
+namespace TeachPlanner.Infrastructure.Authentication;
 
 public class JwtTokenGenerator : IJwtTokenGenerator
 {

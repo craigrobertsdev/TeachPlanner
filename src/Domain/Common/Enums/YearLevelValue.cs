@@ -1,4 +1,4 @@
-namespace Domain.Common.Enums;
+namespace TeachPlanner.Domain.Common.Enums;
 
 public enum YearLevelValue
 {

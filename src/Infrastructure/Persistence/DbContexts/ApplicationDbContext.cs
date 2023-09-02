@@ -1,15 +1,15 @@
-﻿using Domain.Assessments;
-using Domain.LessonPlanAggregate;
-using Domain.ReportAggregate;
-using Domain.ResourceAggregate;
-using Domain.SubjectAggregates;
-using Domain.TeacherAggregate;
-using Domain.TermPlannerAggregate;
-using Domain.WeekPlannerAggregate;
-using Domain.YearPlannerAggregate;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using TeachPlanner.Domain.Assessments;
+using TeachPlanner.Domain.Calendar;
+using TeachPlanner.Domain.LessonPlans;
+using TeachPlanner.Domain.Reports;
+using TeachPlanner.Domain.Resources;
+using TeachPlanner.Domain.Subjects;
+using TeachPlanner.Domain.Teacher;
+using TeachPlanner.Domain.TermPlanner;
+using TeachPlanner.Domain.WeekPlanner;
 
-namespace Infrastructure.Persistence.DbContexts;
+namespace TeachPlanner.Infrastructure.Persistence.DbContexts;
 
 public class ApplicationDbContext : DbContext
 {
@@ -29,8 +29,8 @@ public class ApplicationDbContext : DbContext
     public DbSet<Report> Reports { get; set; } = null!;
     public DbSet<LessonPlan> LessonPlans { get; set; } = null!;
     public DbSet<WeekPlanner> WeekPlanners { get; set; } = null!;
-    public DbSet<TermPlanner> TermPlanners { get; set; } = null!;
-    public DbSet<YearPlanner> YearPlanners { get; set; } = null!;
+    public DbSet<Calendar> TermPlanners { get; set; } = null!;
+    public DbSet<TermPlanner> YearPlanners { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

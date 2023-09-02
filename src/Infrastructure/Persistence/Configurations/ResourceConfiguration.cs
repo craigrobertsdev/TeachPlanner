@@ -1,10 +1,9 @@
-﻿using Domain.LessonPlanAggregate;
-using Domain.ResourceAggregate;
-using Domain.SubjectAggregates;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using TeachPlanner.Domain.Resources;
+using TeachPlanner.Domain.Subjects;
 
-namespace Infrastructure.Persistence.Configurations;
+namespace TeachPlanner.Infrastructure.Persistence.Configurations;
 
 public class ResourceConfiguration : IEntityTypeConfiguration<Resource>
 {

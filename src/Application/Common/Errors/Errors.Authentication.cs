@@ -1,6 +1,6 @@
 ﻿using ErrorOr;
 
-namespace Application.Common.Errors;
+namespace TeachPlanner.Application.Common.Errors;
 
 public static partial class Errors
 {

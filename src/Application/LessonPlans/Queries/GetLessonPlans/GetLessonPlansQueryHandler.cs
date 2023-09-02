@@ -1,10 +1,10 @@
-﻿using Application.Common.Interfaces.Persistence;
-using Domain.LessonPlanAggregate;
-using ErrorOr;
+﻿using ErrorOr;
 using MediatR;
-using Application.Common.Errors;
+using TeachPlanner.Application.Common.Errors;
+using TeachPlanner.Application.Common.Interfaces.Persistence;
+using TeachPlanner.Domain.LessonPlans;
 
-namespace Application.LessonPlans.Queries.GetLessonPlans;
+namespace TeachPlanner.Application.LessonPlans.Queries.GetLessonPlans;
 public class GetLessonPlansQueryHandler : IRequestHandler<GetLessonPlansQuery, ErrorOr<List<LessonPlan>>>
 {
     private readonly ITeacherRepository _teacherRepository;

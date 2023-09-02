@@ -1,20 +1,20 @@
-﻿using Application.Common.Interfaces.Authentication;
-using Application.Common.Interfaces.Curriculum;
-using Application.Common.Interfaces.Persistence;
-using Infrastructure.Authentication;
-using Infrastructure.Curriculum;
-using Infrastructure.Persistence;
-using Infrastructure.Persistence.DbContexts;
-using Infrastructure.Persistence.Repositories;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using TeachPlanner.Application.Common.Interfaces.Authentication;
+using TeachPlanner.Application.Common.Interfaces.Curriculum;
+using TeachPlanner.Application.Common.Interfaces.Persistence;
+using TeachPlanner.Infrastructure.Authentication;
+using TeachPlanner.Infrastructure.Curriculum;
+using TeachPlanner.Infrastructure.Persistence;
+using TeachPlanner.Infrastructure.Persistence.DbContexts;
+using TeachPlanner.Infrastructure.Persistence.Repositories;
 
-namespace Infrastructure;
+namespace TeachPlanner.Infrastructure;
 
 public static class DependencyInjection
 {

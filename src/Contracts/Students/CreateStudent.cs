@@ -1,6 +1,6 @@
-﻿using Domain.SubjectAggregates;
+﻿using TeachPlanner.Domain.Subjects;
 
-namespace Contracts.Students;
+namespace TeachPlanner.Contracts.Students;
 public record CreateStudentRequest(
     string Name,
     YearLevel YearLevel);

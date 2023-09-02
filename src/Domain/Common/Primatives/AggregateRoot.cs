@@ -1,4 +1,4 @@
-﻿namespace Domain.Common.Primatives;
+﻿namespace TeachPlanner.Domain.Common.Primatives;
 
 public abstract class AggregateRoot : Entity
 {

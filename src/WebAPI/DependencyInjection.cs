@@ -1,6 +1,6 @@
-﻿using WebAPI.Common.Mappings;
+﻿using TeachPlanner.Api.Common.Mappings;
 
-namespace WebAPI;
+namespace TeachPlanner.Api;
 
 public static class DependencyInjection
 {

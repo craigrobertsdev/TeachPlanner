@@ -5,30 +5,26 @@ import { useEffect, useState } from "react";
 import Dropdown from "../common/Dropdown";
 import useAuth from "../../contexts/AuthContext";
 import curriculumService from "../../services/CurriculumService";
+import { isBandLevel } from "../../utils/typeGuards";
 
 type ContentDescriptionSearchBoxProps = {
   setAddingContentDescription: React.Dispatch<React.SetStateAction<boolean>>;
   subjects: Subject[] | undefined;
   setSubjectData: React.Dispatch<React.SetStateAction<Subject[] | undefined>>;
-  termSubjects: Subject[];
-  setTermSubjects: React.Dispatch<React.SetStateAction<Subject[]>>;
+  termSubjects?: Subject[];
+  termNumber: number;
+  setTermSubjects: React.Dispatch<React.SetStateAction<Term[]>>;
 };
 
-type YearLevelBandNames = {
-  foundation: "Foundation";
-  years1To2: "Years1To2";
-  years3To4: "Years3To4";
-  years5To6: "Years5To6";
-};
-
-type YearLevelBand = SubjectYearLevel & {
-  bandLevelValue: YearLevelBandNames[keyof YearLevelBandNames];
+type ContentDescriptionWithTerms = {
+  curriculumCode: string;
+  termNumbers: number[];
 };
 
 type SubjectState = {
   currentStrand: string;
   isCurrentSubject: boolean;
-  selectedContentDescriptionIds: [string, string[]][]; // first string is the year level name, second string array is the array of content description ids
+  selectedContentDescriptionIds: [string, ContentDescriptionWithTerms[]][]; // first string is the year level name, second string array is the array of content description ids
 };
 
 type SubjectStateTable = {
@@ -43,6 +39,7 @@ function ContentDescriptionSearchBox({
   subjects,
   setSubjectData,
   termSubjects,
+  termNumber,
   setTermSubjects,
 }: ContentDescriptionSearchBoxProps) {
   const [subjectStates, setSubjectStates] = useState<SubjectStateTable>({} as SubjectStateTable);
@@ -59,10 +56,14 @@ function ContentDescriptionSearchBox({
       const controller = new AbortController();
 
       const fetchSubjects = async () => {
-        const data = await curriculumService.getSubjectData({ elaborations: false }, teacher!, controller);
+        try {
+          const data = await curriculumService.getSubjects({ elaborations: false }, teacher!, controller);
 
-        setSubjectData(data.subjects);
-        setInitialSubjectStates(data.subjects);
+          setSubjectData(data.subjects);
+          setInitialSubjectStates(data.subjects);
+        } catch (error) {
+          console.log(error);
+        }
       };
 
       fetchSubjects();
@@ -88,39 +89,46 @@ function ContentDescriptionSearchBox({
 
     subjectStateTable.currentYearLevel = subjects[0].yearLevels[0].name;
 
-    populateTermSubjects(termSubjects, subjectStateTable);
+    populateTermSubjects(subjectStateTable, termSubjects);
   }
 
-  function populateTermSubjects(termSubjects: Subject[], subjectStates: SubjectStateTable) {
+  function populateTermSubjects(subjectStates: SubjectStateTable, termSubjects?: Subject[]) {
     // for each content description in termSubjects, add it to subjectStates
     if (Object.keys(subjectStates).length === 0) {
       return;
     }
 
-    for (const subject of termSubjects) {
-      const subjectState = subjectStates[subject.name];
-      for (const yearLevel of subject.yearLevels) {
-        for (const strand of yearLevel.strands) {
-          if (strand.substrands && strand.substrands.length > 0) {
-            for (const substrand of strand.substrands) {
-              for (const cd of substrand.contentDescriptions!) {
-                subjectState.selectedContentDescriptionIds.find((ylcd) => ylcd[0] === yearLevel.name)![1].push(cd.curriculumCode);
+    if (termSubjects && termSubjects.length > 0) {
+      for (const subject of termSubjects) {
+        const subjectState = subjectStates[subject.name];
+        for (const yearLevel of subject.yearLevels) {
+          for (const strand of yearLevel.strands) {
+            if (strand.substrands && strand.substrands.length > 0) {
+              for (const substrand of strand.substrands) {
+                for (const cd of substrand.contentDescriptions!) {
+                  subjectState.selectedContentDescriptionIds
+                    .find((ylcd) => ylcd[0] === yearLevel.name)![1]
+                    .push({ curriculumCode: cd.curriculumCode, termNumbers: [] });
+                }
               }
-            }
-          } else {
-            for (const cd of strand.contentDescriptions!) {
-              subjectState.selectedContentDescriptionIds.find((ylcd) => ylcd[0] === yearLevel.name)![1].push(cd.curriculumCode);
+            } else {
+              for (const cd of strand.contentDescriptions!) {
+                subjectState.selectedContentDescriptionIds
+                  .find((ylcd) => ylcd[0] === yearLevel.name)![1]
+                  .push({ curriculumCode: cd.curriculumCode, termNumbers: [] });
+              }
             }
           }
         }
       }
     }
 
+    // TODO: set a flag on each contentDescription to indicate whether it's been selected or not in another term
     setSubjectStates(subjectStates);
   }
 
-  function createContentDescriptionIdsArray(yearLevels: SubjectYearLevel[] | YearLevelBand[]): [string, string[]][] {
-    const contentDescriptionIds: [string, string[]][] = [];
+  function createContentDescriptionIdsArray(yearLevels: SubjectYearLevel[] | YearLevelBand[]): [string, ContentDescriptionWithTerms[]][] {
+    const contentDescriptionIds: [string, ContentDescriptionWithTerms[]][] = [];
 
     yearLevels.forEach((yearLevel) => {
       contentDescriptionIds.push([yearLevel.name, []]);
@@ -284,7 +292,7 @@ function ContentDescriptionSearchBox({
     }
 
     for (const cd of selectedContentDescriptionIds) {
-      if (cd === contentDescription.curriculumCode) {
+      if (cd.curriculumCode === contentDescription.curriculumCode) {
         return true;
       }
     }
@@ -300,7 +308,7 @@ function ContentDescriptionSearchBox({
           ...subjectStates[currentSubject!.name],
           selectedContentDescriptionIds: subjectStates[currentSubject!.name].selectedContentDescriptionIds.map((ylcd) => {
             if (ylcd[0] === currentYearLevel!.name) {
-              return [ylcd[0], [...ylcd[1], contentDescription.curriculumCode]];
+              return [ylcd[0], [...ylcd[1], { curriculumCode: contentDescription.curriculumCode, termNumbers: [termNumber] }]];
             }
             return ylcd;
           }),
@@ -308,15 +316,14 @@ function ContentDescriptionSearchBox({
       });
     }
 
-    // for (const cd of selectedContentDescriptionIds) {
-    if (selectedContentDescriptionIds.includes(contentDescription.curriculumCode)) {
+    if (selectedContentDescriptionIds.some((cd) => cd.curriculumCode === contentDescription.curriculumCode)) {
       setSubjectStates({
         ...subjectStates,
         [currentSubject!.name]: {
           ...subjectStates[currentSubject!.name],
           selectedContentDescriptionIds: subjectStates[currentSubject!.name].selectedContentDescriptionIds.map((ylcd) => {
             if (ylcd[0] === currentYearLevel!.name) {
-              return [ylcd[0], ylcd[1].filter((cd) => cd !== contentDescription.curriculumCode)];
+              return [ylcd[0], ylcd[1].filter((cd) => cd.curriculumCode !== contentDescription.curriculumCode)];
             }
             return ylcd;
           }),
@@ -329,7 +336,10 @@ function ContentDescriptionSearchBox({
           ...subjectStates[currentSubject!.name],
           selectedContentDescriptionIds: subjectStates[currentSubject!.name].selectedContentDescriptionIds.map((ylcd) => {
             if (ylcd[0] === currentYearLevel!.name) {
-              return [ylcd[0], [...ylcd[1], contentDescription.curriculumCode]];
+              return [
+                ylcd[0],
+                [...ylcd[1], { curriculumCode: contentDescription.curriculumCode, termNumbers: [termNumber] } as ContentDescriptionWithTerms],
+              ];
             }
             return ylcd;
           }),
@@ -341,7 +351,24 @@ function ContentDescriptionSearchBox({
   // this will build the list of subjects to add to the term planner
   // will return an array of subjects with the relevant year level, strand and content descriptions
   async function handleAddContentDescriptions() {
-    const termSubjects: Subject[] = [];
+    const termSubjects: Term[] = [
+      {
+        termNumber: 1,
+        subjects: [],
+      },
+      {
+        termNumber: 2,
+        subjects: [],
+      },
+      {
+        termNumber: 3,
+        subjects: [],
+      },
+      {
+        termNumber: 4,
+        subjects: [],
+      },
+    ];
 
     for (const subjectName in subjectStates) {
       if (subjectName === "currentYearLevel") {
@@ -378,12 +405,12 @@ function ContentDescriptionSearchBox({
         };
 
         // for every content description in the array, find the strand and add it to the year level
-        for (const contentDescriptionId of ylcd[1]) {
+        for (const contentDescription of ylcd[1]) {
           const strand = yearLevel.strands.find((s) => {
             if (s.substrands && s.substrands.length > 0) {
-              return s.substrands.find((ss) => ss.contentDescriptions?.find((cd) => cd.curriculumCode === contentDescriptionId));
+              return s.substrands.find((ss) => ss.contentDescriptions?.find((cd) => cd.curriculumCode === contentDescription.curriculumCode));
             } else {
-              return s.contentDescriptions?.find((cd) => cd.curriculumCode === contentDescriptionId);
+              return s.contentDescriptions?.find((cd) => cd.curriculumCode === contentDescription.curriculumCode);
             }
           });
 
@@ -402,7 +429,7 @@ function ContentDescriptionSearchBox({
             // find the substrand that contains the content description and add it to the strand
             for (const substrand of strand.substrands) {
               // if this substrand has any content descriptions that match the content description id, add it to the strand
-              const cdToAdd = substrand.contentDescriptions?.find((cd) => cd.curriculumCode === contentDescriptionId);
+              const cdToAdd = substrand.contentDescriptions?.find((cd) => cd.curriculumCode === contentDescription.curriculumCode);
               if (cdToAdd) {
                 // check if the substrand already exists in the strand
                 // if not, create the substrand and add the content description to it
@@ -432,7 +459,7 @@ function ContentDescriptionSearchBox({
             };
 
             for (const cd of strand.contentDescriptions!) {
-              if (cd.curriculumCode === contentDescriptionId) {
+              if (cd.curriculumCode === contentDescription.curriculumCode) {
                 strandToAdd.contentDescriptions!.push(cd);
               }
             }
@@ -448,7 +475,7 @@ function ContentDescriptionSearchBox({
 
         subjectToAdd.yearLevels.push(yearLevelToAdd);
       }
-      termSubjects.push(subjectToAdd);
+      termSubjects[termNumber - 1].subjects = [...termSubjects[termNumber - 1].subjects, subjectToAdd];
     }
 
     await curriculumService.saveTermSubjects(termSubjects);
@@ -488,14 +515,12 @@ function ContentDescriptionSearchBox({
     return +yearLevelName % 2 === 0 ? `Years ${+yearLevelName - 1} To ${+yearLevelName}` : `Years ${+yearLevelName} To ${+yearLevelName + 1}`;
   }
 
-  //#region type guards
-  function isBandLevel(yearLevel: unknown): yearLevel is YearLevelBand {
-    if (yearLevel === undefined) {
-      return false;
-    }
-    return (yearLevel as YearLevelBand).bandLevelValue !== undefined && (yearLevel as YearLevelBand).bandLevelValue !== null;
+  function getContentDescriptionTerms(contentDescription: ContentDescription) {
+    // const ylcd = subjectStates[currentSubject!.name].selectedContentDescriptionIds.find((ylcd) => ylcd[1].includes(contentDescription.curriculumCode))!;
+    // return ylcd[1].find((cd) => (cd === contentDescription.curriculumCode)).terms.;
   }
 
+  //#region type guards
   function isBandLevelArray(yearLevels: unknown): yearLevels is YearLevelBand[] {
     if (yearLevels === undefined) {
       return false;
@@ -505,9 +530,9 @@ function ContentDescriptionSearchBox({
   //#endregion
 
   return (
-    <dialog className="flex flex-col z-10 flex-grow border border-darkGreen w-[60vw] top-6 h-[75vh] px-2 bg-slate-300">
+    <div className="fixed top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] flex flex-col z-10 flex-grow border border-darkGreen w-[60vw] h-[75vh] px-2 bg-slate-300">
       <div className="justify-center w-full p-1">
-        <h1 className="text-lg text-center font-semibold">Add Content Descriptions</h1>
+        <h1 className="text-lg text-center font-semibold">Add Content Descriptions for Term {termNumber}</h1>
         <Button variant="close" classList="absolute top-1 right-1" onClick={handleCloseSearchBox}>
           <FontAwesomeIcon icon={faXmark} />
         </Button>
@@ -568,11 +593,14 @@ function ContentDescriptionSearchBox({
                 {contentDescriptions?.map((contentDescription) => (
                   <li
                     key={contentDescription.curriculumCode}
-                    className={`border border-darkGreen hover:bg-sageHover p-2 ${
+                    className={`relative border border-darkGreen hover:bg-sageHover p-2 ${
                       isSelectedContentDescription(contentDescription) && "bg-sageFocus"
                     } select-none`}
                     onClick={() => handleContentDescriptionClick(contentDescription)}>
                     {contentDescription.description}
+                    {/* {isSelectedContentDescription(contentDescription) && (
+                      <span className="absolute right-2 ml-2 text-sm text-darkGreen">{getContentDescriptionTerms(contentDescription)}</span>
+                    )} */}
                   </li>
                 ))}
               </ul>
@@ -583,7 +611,7 @@ function ContentDescriptionSearchBox({
           </Button>
         </>
       )}
-    </dialog>
+    </div>
   );
 }
 

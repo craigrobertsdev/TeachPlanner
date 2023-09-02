@@ -1,12 +1,12 @@
-﻿using Application.Authentication.Common;
-using Application.Common.Interfaces.Authentication;
-using Application.Common.Interfaces.Persistence;
-using Application.Common.Errors;
+﻿using TeachPlanner.Application.Common.Errors;
 using ErrorOr;
 using MediatR;
-using Domain.TeacherAggregate;
+using TeachPlanner.Application.Common.Interfaces.Persistence;
+using TeachPlanner.Application.Authentication.Common;
+using TeachPlanner.Application.Common.Interfaces.Authentication;
+using TeachPlanner.Domain.Teacher;
 
-namespace Application.Authentication.Commands.Register;
+namespace TeachPlanner.Application.Authentication.Commands.Register;
 
 public class RegisterCommandHandler : IRequestHandler<RegisterCommand, ErrorOr<AuthenticationResult>>
 {

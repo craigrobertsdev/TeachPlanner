@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace Application.Teachers.CreateTeacher.Commands;
+namespace TeachPlanner.Application.Teachers.CreateTeacher.Commands;
 
 public class CreateTeacherCommandValidator : AbstractValidator<CreateTeacherCommand>
 {

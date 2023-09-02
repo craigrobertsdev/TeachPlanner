@@ -1,13 +1,13 @@
-﻿using Application.Planner.Queries.GetPlannerData;
-using Application.Teachers.Common;
-using Application.Teachers.CreateTeacher.Commands;
-using Contracts.Teacher;
+﻿using TeachPlanner.Application.Planner.Queries.GetPlannerData;
 using FluentValidation;
 using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using TeachPlanner.Application.Teachers.Common;
+using TeachPlanner.Application.Teachers.CreateTeacher.Commands;
+using TeachPlanner.Contracts.Teacher;
 
-namespace WebAPI.Controllers;
+namespace TeachPlanner.Api.Controllers;
 
 [Route("[controller]")]
 public class TeacherController : ApiController

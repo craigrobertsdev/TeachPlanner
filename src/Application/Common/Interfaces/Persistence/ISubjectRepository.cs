@@ -1,4 +1,4 @@
-﻿namespace Application.Common.Interfaces.Persistence;
+﻿namespace TeachPlanner.Application.Common.Interfaces.Persistence;
 
 public interface ISubjectRepository
 {

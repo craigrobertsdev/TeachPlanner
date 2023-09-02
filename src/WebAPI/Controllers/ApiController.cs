@@ -2,9 +2,9 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
-using WebAPI.Common.Http;
+using TeachPlanner.Api.Common.Http;
 
-namespace WebAPI.Controllers;
+namespace TeachPlanner.Api.Controllers;
 
 [ApiController]
 [Authorize]

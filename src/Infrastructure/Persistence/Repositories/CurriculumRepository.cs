@@ -1,9 +1,9 @@
-﻿using Application.Common.Interfaces.Persistence;
-using Domain.SubjectAggregates;
-using Infrastructure.Persistence.DbContexts;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using TeachPlanner.Application.Common.Interfaces.Persistence;
+using TeachPlanner.Domain.Subjects;
+using TeachPlanner.Infrastructure.Persistence.DbContexts;
 
-namespace Infrastructure.Persistence.Repositories;
+namespace TeachPlanner.Infrastructure.Persistence.Repositories;
 public class CurriculumRepository : ICurriculumRepository
 {
     private readonly ApplicationDbContext _context;
@@ -13,32 +13,40 @@ public class CurriculumRepository : ICurriculumRepository
         _context = context;
     }
 
-    public Task<List<Subject>> GetSubjects()
+    public Task<List<Subject>> GetSubjects(List<Guid>? subjectsTaught)
     {
-        var subjects = _context.Subjects
+        var query = _context.Subjects
             .Include(s => s.YearLevels)
             .ThenInclude(yl => yl.Strands)
             .ThenInclude(s => s.Substrands!)
             .ThenInclude(s => s.ContentDescriptions)
             .ThenInclude(cd => cd.Elaborations)
-            .Where(s => s.Name != "Mathematics")
-            .ToList();
+            .Where(s => s.Name != "Mathematics");
 
-        var maths = _context.Subjects
+
+        var mathsQuery = _context.Subjects
             .Include(s => s.YearLevels)
             .ThenInclude(yl => yl.Strands)
             .ThenInclude(s => s.ContentDescriptions!)
             .ThenInclude(cd => cd.Elaborations)
-            .Where(s => s.Name == "Mathematics")
-            .ToList();
+            .Where(s => s.Name == "Mathematics");
 
-        subjects.AddRange(maths);
+        if (subjectsTaught != null && subjectsTaught.Count > 0)
+        {
+            query = query.Where(s => subjectsTaught.Contains(s.Id));
+            mathsQuery = mathsQuery.Where(s => subjectsTaught.Contains(s.Id));
+        }
+
+        var subjects = query.ToList();
+        var maths = mathsQuery.Single();
+
+        subjects.Add(maths);
 
         return Task.FromResult(subjects);
 
     }
 
-    public Task<List<Subject>> GetSubjectsWithoutElaborations()
+    public Task<List<Subject>> GetSubjectsWithoutElaborations(List<Guid>? subjectsTaught)
     {
         var subjects = _context.Subjects
             .Include(s => s.YearLevels)

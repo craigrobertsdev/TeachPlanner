@@ -1,8 +1,8 @@
-using Application;
-using Infrastructure;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
-using WebAPI;
-using WebAPI.Common.Errors;
+using TeachPlanner.Api;
+using TeachPlanner.Api.Common.Errors;
+using TeachPlanner.Application;
+using TeachPlanner.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,6 +27,7 @@ var app = builder.Build();
 
 app.UseExceptionHandler("/error");
 
+app.UseDeveloperExceptionPage();
 // enable cors
 app.UseCors(builder => builder
     .AllowAnyOrigin()

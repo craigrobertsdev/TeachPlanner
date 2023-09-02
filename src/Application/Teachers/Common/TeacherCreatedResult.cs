@@ -1,5 +1,3 @@
-﻿using Domain.TeacherAggregate;
-
-namespace Application.Teachers.Common;
+﻿namespace TeachPlanner.Application.Teachers.Common;
 
 public record TeacherCreatedResult(Guid TeacherId);

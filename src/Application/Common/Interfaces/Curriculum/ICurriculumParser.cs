@@ -1,6 +1,6 @@
-﻿using Domain.SubjectAggregates;
+﻿using TeachPlanner.Domain.Subjects;
 
-namespace Application.Common.Interfaces.Curriculum;
+namespace TeachPlanner.Application.Common.Interfaces.Curriculum;
 public interface ICurriculumParser
 {
     List<Subject> ParseCurriculum();

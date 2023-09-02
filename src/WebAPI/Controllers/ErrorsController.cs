@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 
-namespace WebAPI.Controllers;
+namespace TeachPlanner.Api.Controllers;
 
 public class ErrorsController : ControllerBase
 {

@@ -104,6 +104,17 @@ declare type SubjectYearLevel = {
   strands: Strand[];
 };
 
+type YearLevelBandNames = {
+  foundation: "Foundation";
+  years1To2: "Years1To2";
+  years3To4: "Years3To4";
+  years5To6: "Years5To6";
+};
+
+declare type YearLevelBand = SubjectYearLevel & {
+  bandLevelValue: YearLevelBandNames[keyof YearLevelBandNames];
+};
+
 declare type Strand = {
   name: string;
   substrands?: Substrand[];
@@ -153,3 +164,9 @@ declare type Assessment = {
       comments: string;
     }
 );
+
+//#region TermPlanner
+declare type Term = {
+  termNumber: number;
+  subjects: Subject[];
+};

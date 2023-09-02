@@ -1,4 +1,4 @@
-﻿namespace Infrastructure.Authentication;
+﻿namespace TeachPlanner.Infrastructure.Authentication;
 
 public class JwtSettings
 {

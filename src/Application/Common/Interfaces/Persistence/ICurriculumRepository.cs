@@ -1,10 +1,10 @@
-﻿using Domain.SubjectAggregates;
+﻿using TeachPlanner.Domain.Subjects;
 
-namespace Application.Common.Interfaces.Persistence;
+namespace TeachPlanner.Application.Common.Interfaces.Persistence;
 public interface ICurriculumRepository
 {
     Task SaveCurriculum(List<Subject> subjects);
 
-    Task<List<Subject>> GetSubjects();
-    Task<List<Subject>> GetSubjectsWithoutElaborations();
+    Task<List<Subject>> GetSubjects(List<Guid>? subjectsTaught);
+    Task<List<Subject>> GetSubjectsWithoutElaborations(List<Guid>? subjectsTaught);
 }

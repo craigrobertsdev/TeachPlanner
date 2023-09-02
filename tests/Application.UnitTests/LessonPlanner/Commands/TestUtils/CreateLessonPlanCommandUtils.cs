@@ -1,6 +1,6 @@
-﻿using Application.LessonPlans.CreateLessonPlan.Commands;
-using Application.UnitTests.TestUtils.Constants;
-using Domain.ResourceAggregate;
+﻿using Application.UnitTests.TestUtils.Constants;
+using TeachPlanner.Application.LessonPlans.CreateLessonPlan.Commands;
+using TeachPlanner.Domain.Resources;
 
 namespace Application.UnitTests.LessonPlanner.Commands.TestUtils;
 

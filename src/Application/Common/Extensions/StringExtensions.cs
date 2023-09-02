@@ -1,4 +1,4 @@
-﻿namespace Application.Common.Extensions;
+﻿namespace TeachPlanner.Application.Common.Extensions;
 
 public static class StringExtensions
 {

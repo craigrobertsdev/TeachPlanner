@@ -1,4 +1,4 @@
-﻿namespace Infrastructure.Persistence;
+﻿namespace TeachPlanner.Infrastructure.Persistence;
 
 public class DbContextSettings
 {

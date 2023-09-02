@@ -1,11 +1,11 @@
-﻿using Application.Curriculum.Commands.ParseCurriculum;
-using Application.Curriculum.Queries.ListSubjects;
-using Contracts.Curriculum;
+﻿using TeachPlanner.Application.Curriculum.Commands.ParseCurriculum;
+using TeachPlanner.Application.Curriculum.Queries.GetSubjects;
 using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using TeachPlanner.Contracts.Curriculum;
 
-namespace WebAPI.Controllers;
+namespace TeachPlanner.Api.Controllers;
 
 [Route("[controller]")]
 public class CurriculumController : ApiController
@@ -18,10 +18,11 @@ public class CurriculumController : ApiController
         _mediator = mediator;
         _mapper = mapper;
     }
+
     [HttpGet]
-    public async Task<IActionResult> GetSubjects([FromQuery] bool elaborations = true)
+    public async Task<IActionResult> GetSubjects(string teacherId, bool elaborations = true, bool taughtSubjectsOnly = false)
     {
-        var result = await _mediator.Send(new GetSubjectsQuery(elaborations));
+        var result = await _mediator.Send(new GetSubjectsQuery(Guid.Parse(teacherId), elaborations, taughtSubjectsOnly));
 
         return result.Match(
             success => Ok(_mapper.Map<GetSubjectsResponse>(success)),

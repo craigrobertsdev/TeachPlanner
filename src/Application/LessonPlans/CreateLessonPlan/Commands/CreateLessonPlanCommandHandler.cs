@@ -1,9 +1,9 @@
-﻿using Application.Common.Interfaces.Persistence;
-using Domain.LessonPlanAggregate;
-using ErrorOr;
+﻿using ErrorOr;
 using MediatR;
+using TeachPlanner.Application.Common.Interfaces.Persistence;
+using TeachPlanner.Domain.LessonPlans;
 
-namespace Application.LessonPlans.CreateLessonPlan.Commands;
+namespace TeachPlanner.Application.LessonPlans.CreateLessonPlan.Commands;
 
 public class CreateLessonPlanCommandHandler : IRequestHandler<CreateLessonPlanCommand, ErrorOr<LessonPlan>>
 {

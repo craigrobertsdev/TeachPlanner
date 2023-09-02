@@ -1,3 +1,3 @@
-namespace Contracts.Curriculum.Subjects;
+namespace TeachPlanner.Contracts.Curriculum.Subjects;
 
 public record GetSubjectsRequest();

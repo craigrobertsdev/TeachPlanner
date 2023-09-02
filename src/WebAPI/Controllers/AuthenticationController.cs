@@ -2,13 +2,13 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MapsterMapper;
-using Application.Authentication.Commands.Register;
-using Application.Common.Errors;
-using Contracts.Authentication;
+using TeachPlanner.Application.Common.Errors;
 using FluentValidation;
-using Application.Authentication.Queries.Login;
+using TeachPlanner.Application.Authentication.Queries.Login;
+using TeachPlanner.Contracts.Authentication;
+using TeachPlanner.Application.Authentication.Commands.Register;
 
-namespace WebAPI.Controllers;
+namespace TeachPlanner.Api.Controllers;
 
 [Route("auth")]
 [AllowAnonymous]

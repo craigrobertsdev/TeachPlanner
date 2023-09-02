@@ -1,6 +1,6 @@
-﻿using Domain.LessonPlanAggregate;
+﻿using TeachPlanner.Domain.LessonPlans;
 
-namespace Application.Common.Interfaces.Persistence;
+namespace TeachPlanner.Application.Common.Interfaces.Persistence;
 
 public interface ILessonRepository
 {

@@ -3,6 +3,7 @@ import { baseUrl } from "../utils/constants";
 type CurriculumVariables = {
   elaborations?: boolean;
   year?: number;
+  taughtSubjectsOnly?: boolean;
 };
 
 type SubjectResponse = {
@@ -10,14 +11,19 @@ type SubjectResponse = {
 };
 
 class CurriculumService {
-  async getSubjectData({ elaborations = false }: CurriculumVariables, teacher: Teacher, controller: AbortController) {
-    const response = await fetch(`${baseUrl}/curriculum?elaborations=${elaborations}`, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${teacher!.token}`,
-      },
-      signal: controller.signal,
-    });
+  async getSubjects({ elaborations = false, taughtSubjectsOnly = false }: CurriculumVariables, teacher: Teacher, controller: AbortController) {
+    const request = new Request(
+      `${baseUrl}/curriculum/teacherId=${teacher.id}&curriculum?elaborations=${elaborations}&taughtSubjectsOnly=${taughtSubjectsOnly}`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${teacher!.token}`,
+        },
+        signal: controller.signal,
+      }
+    );
+
+    const response = await fetch(request);
 
     const data = await response.json();
 
@@ -37,7 +43,9 @@ class CurriculumService {
     return data as SubjectResponse;
   }
 
-  async saveTermSubjects(subjects: Subject[]) {}
+  async saveTermSubjects(subjects: Term[]) {
+    return subjects;
+  }
 }
 
 export default new CurriculumService();

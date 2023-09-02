@@ -1,3 +1,3 @@
-﻿namespace Contracts.Plannner.GetLessonPlans;
+﻿namespace TeachPlanner.Contracts.Plannner.GetLessonPlans;
 
-public record GetLessonPlansRequest(Guid teacherId);
+public record GetLessonPlansRequest(Guid TeacherId);

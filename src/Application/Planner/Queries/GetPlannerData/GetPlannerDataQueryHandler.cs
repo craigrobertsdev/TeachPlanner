@@ -1,8 +1,8 @@
-using Application.Common.Interfaces.Persistence;
 using ErrorOr;
 using MediatR;
+using TeachPlanner.Application.Common.Interfaces.Persistence;
 
-namespace Application.Planner.Queries.GetPlannerData;
+namespace TeachPlanner.Application.Planner.Queries.GetPlannerData;
 
 public class GetPlannerDataQueryHandler //: IRequestHandler<GetPlannerDataQuery, ErrorOr<GetPlannerDataResult>>
 {

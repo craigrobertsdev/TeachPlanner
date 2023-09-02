@@ -1,9 +1,9 @@
-﻿using Application.Curriculum.Queries.ListSubjects;
-using Contracts.Curriculum;
-using Domain.SubjectAggregates;
-using Mapster;
+﻿using Mapster;
+using TeachPlanner.Application.Curriculum.Queries.GetSubjects;
+using TeachPlanner.Contracts.Curriculum;
+using TeachPlanner.Domain.Subjects;
 
-namespace WebAPI.Common.Mappings;
+namespace TeachPlanner.Api.Common.Mappings;
 
 public class SubjectMapping : IRegister
 {

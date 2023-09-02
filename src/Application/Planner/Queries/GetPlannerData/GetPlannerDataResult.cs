@@ -1,7 +1,7 @@
-using Domain.SubjectAggregates;
-using Domain.WeekPlannerAggregate;
+using TeachPlanner.Domain.Subjects;
+using TeachPlanner.Domain.WeekPlanner;
 
-namespace Application.Planner.Queries.GetPlannerData;
+namespace TeachPlanner.Application.Planner.Queries.GetPlannerData;
 
 public record GetPlannerDataResult(
   WeekPlanner WeekPlanner,

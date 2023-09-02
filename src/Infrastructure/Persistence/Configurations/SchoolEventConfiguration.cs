@@ -1,8 +1,8 @@
-﻿using Domain.Common.Planner;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using TeachPlanner.Domain.Common.Planner;
 
-namespace Infrastructure.Persistence.Configurations;
+namespace TeachPlanner.Infrastructure.Persistence.Configurations;
 
 public class SchoolEventConfiguration : IEntityTypeConfiguration<SchoolEvent>
 {

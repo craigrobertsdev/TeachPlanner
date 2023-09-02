@@ -1,4 +1,4 @@
-﻿namespace Contracts.Authentication;
+﻿namespace TeachPlanner.Contracts.Authentication;
 
 public record AuthenticationResponse(
     Guid Id,

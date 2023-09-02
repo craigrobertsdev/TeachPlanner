@@ -1,6 +1,6 @@
-﻿using Domain.Common.Primatives;
+﻿using TeachPlanner.Domain.Common.Primatives;
 
-namespace Domain.Common.Planner;
+namespace TeachPlanner.Domain.Common.Planner;
 
 public class SchoolEvent : Entity
 {

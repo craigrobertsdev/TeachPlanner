@@ -1,9 +1,9 @@
-﻿using Application.Common.Interfaces.Persistence;
-using Domain.LessonPlanAggregate;
-using Infrastructure.Persistence.DbContexts;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using TeachPlanner.Application.Common.Interfaces.Persistence;
+using TeachPlanner.Domain.LessonPlans;
+using TeachPlanner.Infrastructure.Persistence.DbContexts;
 
-namespace Infrastructure.Persistence.Repositories;
+namespace TeachPlanner.Infrastructure.Persistence.Repositories;
 
 public class LessonPlanRepository : ILessonRepository
 {

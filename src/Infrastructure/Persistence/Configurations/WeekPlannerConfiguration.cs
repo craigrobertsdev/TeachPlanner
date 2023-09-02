@@ -1,10 +1,10 @@
-﻿using Domain.LessonPlanAggregate;
-using Domain.TeacherAggregate;
-using Domain.WeekPlannerAggregate;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using TeachPlanner.Domain.LessonPlans;
+using TeachPlanner.Domain.Teacher;
+using TeachPlanner.Domain.WeekPlanner;
 
-namespace Infrastructure.Persistence.Configurations;
+namespace TeachPlanner.Infrastructure.Persistence.Configurations;
 
 public class WeekPlannerConfiguration : IEntityTypeConfiguration<WeekPlanner>
 {

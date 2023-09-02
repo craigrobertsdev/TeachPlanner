@@ -1,12 +1,11 @@
-﻿using Application.Authentication.Common;
-using Application.Common.Interfaces.Authentication;
-using Application.Common.Interfaces.Persistence;
-using Application.Common.Errors;
+﻿using TeachPlanner.Application.Common.Errors;
 using ErrorOr;
 using MediatR;
-using Domain.TeacherAggregate;
+using TeachPlanner.Application.Common.Interfaces.Persistence;
+using TeachPlanner.Application.Authentication.Common;
+using TeachPlanner.Application.Common.Interfaces.Authentication;
 
-namespace Application.Authentication.Queries.Login;
+namespace TeachPlanner.Application.Authentication.Queries.Login;
 
 public class LoginQueryHandler : IRequestHandler<LoginQuery, ErrorOr<AuthenticationResult>>
 {

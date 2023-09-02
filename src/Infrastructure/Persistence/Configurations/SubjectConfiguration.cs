@@ -1,9 +1,9 @@
-﻿using Domain.Common.Enums;
-using Domain.SubjectAggregates;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using TeachPlanner.Domain.Common.Enums;
+using TeachPlanner.Domain.Subjects;
 
-namespace Infrastructure.Persistence.Configurations;
+namespace TeachPlanner.Infrastructure.Persistence.Configurations;
 
 public class SubjectConfiguration : IEntityTypeConfiguration<Subject>
 {

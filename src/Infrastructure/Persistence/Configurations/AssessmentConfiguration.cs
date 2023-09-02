@@ -1,11 +1,11 @@
-﻿using Domain.Assessments;
-using Domain.StudentAggregate;
-using Domain.SubjectAggregates;
-using Domain.TeacherAggregate;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using TeachPlanner.Domain.Assessments;
+using TeachPlanner.Domain.Student;
+using TeachPlanner.Domain.Subjects;
+using TeachPlanner.Domain.Teacher;
 
-namespace Infrastructure.Persistence.Configurations;
+namespace TeachPlanner.Infrastructure.Persistence.Configurations;
 
 internal class AssessmentConfiguration : IEntityTypeConfiguration<Assessment>
 {

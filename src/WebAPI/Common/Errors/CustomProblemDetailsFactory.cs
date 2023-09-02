@@ -4,9 +4,9 @@ using Microsoft.Extensions.Options;
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using ErrorOr;
-using WebAPI.Common.Http;
+using TeachPlanner.Api.Common.Http;
 
-namespace WebAPI.Common.Errors;
+namespace TeachPlanner.Api.Common.Errors;
 
 public class CustomProblemDetailsFactory : ProblemDetailsFactory
 {

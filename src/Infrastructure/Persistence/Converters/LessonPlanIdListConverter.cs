@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using System.Text.Json;
 
-namespace Infrastructure.Persistence.Converters;
+namespace TeachPlanner.Infrastructure.Persistence.Converters;
 
 public class LessonPlanIdListConverter : ValueConverter<List<Guid>, string>
 {

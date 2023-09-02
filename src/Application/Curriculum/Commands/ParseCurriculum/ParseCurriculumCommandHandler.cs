@@ -1,9 +1,9 @@
-﻿using Application.Common.Interfaces.Curriculum;
-using Application.Common.Interfaces.Persistence;
-using ErrorOr;
+﻿using ErrorOr;
 using MediatR;
+using TeachPlanner.Application.Common.Interfaces.Curriculum;
+using TeachPlanner.Application.Common.Interfaces.Persistence;
 
-namespace Application.Curriculum.Commands.ParseCurriculum;
+namespace TeachPlanner.Application.Curriculum.Commands.ParseCurriculum;
 
 public class ParseCurriculumCommandHandler : IRequestHandler<ParseCurriculumCommand, ErrorOr<ParseCurriculumResult>>
 {

@@ -1,4 +1,4 @@
-﻿namespace Contracts.Curriculum;
+﻿namespace TeachPlanner.Contracts.Curriculum;
 
 public record SubjectResponse(
     Guid Id,

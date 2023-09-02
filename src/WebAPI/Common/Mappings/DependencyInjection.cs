@@ -2,7 +2,7 @@
 using MapsterMapper;
 using System.Reflection;
 
-namespace WebAPI.Common.Mappings;
+namespace TeachPlanner.Api.Common.Mappings;
 
 public static class DependencyInjection
 {

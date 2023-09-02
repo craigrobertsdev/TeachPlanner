@@ -1,10 +1,11 @@
-﻿using Application.LessonPlans.CreateLessonPlan.Commands;
+﻿using TeachPlanner.Application.LessonPlans.CreateLessonPlan.Commands;
+using TeachPlanner.Domain.LessonPlans;
 
 namespace Application.UnitTests.LessonPlanner.Commands.TestUtils.Extensions;
 
 public static partial class LessonPlanExtensions
 {
-    public static void ValidateCreatedFrom(this Domain.LessonPlanAggregate.LessonPlan lessonPlan, CreateLessonPlanCommand command)
+    public static void ValidateCreatedFrom(this LessonPlan lessonPlan, CreateLessonPlanCommand command)
     {
 
     }

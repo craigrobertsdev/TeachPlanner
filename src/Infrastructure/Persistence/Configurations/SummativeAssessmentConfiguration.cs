@@ -1,11 +1,8 @@
-﻿using Domain.Assessments;
-using Domain.StudentAggregate;
-using Domain.SubjectAggregates;
-using Domain.TeacherAggregate;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using TeachPlanner.Domain.Assessments;
 
-namespace Infrastructure.Persistence.Configurations;
+namespace TeachPlanner.Infrastructure.Persistence.Configurations;
 public class SummativeAssessmentConfiguration : IEntityTypeConfiguration<SummativeAssessment>
 {
     public void Configure(EntityTypeBuilder<SummativeAssessment> builder)

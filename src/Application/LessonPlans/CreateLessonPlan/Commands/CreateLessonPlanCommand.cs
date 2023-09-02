@@ -1,9 +1,9 @@
-﻿using Domain.LessonPlanAggregate;
-using Domain.ResourceAggregate;
-using ErrorOr;
+﻿using ErrorOr;
 using MediatR;
+using TeachPlanner.Domain.LessonPlans;
+using TeachPlanner.Domain.Resources;
 
-namespace Application.LessonPlans.CreateLessonPlan.Commands;
+namespace TeachPlanner.Application.LessonPlans.CreateLessonPlan.Commands;
 
 public record CreateLessonPlanCommand(
     string TeacherId,

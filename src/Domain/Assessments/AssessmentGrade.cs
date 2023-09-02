@@ -1,8 +1,8 @@
-﻿using Domain.Common.Enums;
-using Domain.Common.Primatives;
-using OneOf;
+﻿using OneOf;
+using TeachPlanner.Domain.Common.Enums;
+using TeachPlanner.Domain.Common.Primatives;
 
-namespace Domain.Assessments;
+namespace TeachPlanner.Domain.Assessments;
 
 public class AssessmentGrade : ValueObject
 {

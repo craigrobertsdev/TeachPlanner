@@ -1,6 +1,6 @@
-﻿using Domain.LessonPlanAggregate;
+﻿using TeachPlanner.Domain.LessonPlans;
 
-namespace Application.LessonPlans.Queries.GetLessonPlans;
+namespace TeachPlanner.Application.LessonPlans.Queries.GetLessonPlans;
 
 public record GetLessonPlansResponse(
     List<LessonPlan> LessonPlans

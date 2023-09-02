@@ -1,4 +1,4 @@
-﻿namespace WebAPI.Common.Http;
+﻿namespace TeachPlanner.Api.Common.Http;
 
 public static class HttpContextItemKeys
 {

@@ -1,12 +1,8 @@
-﻿using Domain.Assessments;
-using Domain.LessonPlanAggregate;
-using Domain.StudentAggregate;
-using Domain.SubjectAggregates;
-using Domain.TeacherAggregate;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using TeachPlanner.Domain.Assessments;
 
-namespace Infrastructure.Persistence.Configurations;
+namespace TeachPlanner.Infrastructure.Persistence.Configurations;
 public class FormativeAssessmentConfiguration : IEntityTypeConfiguration<FormativeAssessment>
 {
     public void Configure(EntityTypeBuilder<FormativeAssessment> builder)

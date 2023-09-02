@@ -1,10 +1,10 @@
-﻿using Application.Common.Behaviours;
-using FluentValidation;
+﻿using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
+using TeachPlanner.Application.Common.Behaviours;
 
-namespace Application;
+namespace TeachPlanner.Application;
 
 public static class DependencyInjection
 {

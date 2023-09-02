@@ -1,11 +1,11 @@
-﻿using Domain.Assessments;
-using Domain.ReportAggregate;
-using Domain.StudentAggregate;
-using Domain.TeacherAggregate;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using TeachPlanner.Domain.Assessments;
+using TeachPlanner.Domain.Reports;
+using TeachPlanner.Domain.Student;
+using TeachPlanner.Domain.Teacher;
 
-namespace Infrastructure.Persistence.Configurations;
+namespace TeachPlanner.Infrastructure.Persistence.Configurations;
 
 public class StudentConfiguration : IEntityTypeConfiguration<Student>
 {

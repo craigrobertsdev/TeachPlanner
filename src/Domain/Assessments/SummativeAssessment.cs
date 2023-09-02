@@ -1,6 +1,6 @@
-﻿using Domain.Common.Enums;
+﻿using TeachPlanner.Domain.Common.Enums;
 
-namespace Domain.Assessments;
+namespace TeachPlanner.Domain.Assessments;
 
 public class SummativeAssessment : Assessment
 {

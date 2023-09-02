@@ -1,9 +1,9 @@
-﻿using Application.Teachers.Common;
-using Application.Teachers.CreateTeacher.Commands;
-using Contracts.Teacher;
-using Mapster;
+﻿using Mapster;
+using TeachPlanner.Application.Teachers.Common;
+using TeachPlanner.Application.Teachers.CreateTeacher.Commands;
+using TeachPlanner.Contracts.Teacher;
 
-namespace WebAPI.Common.Mappings;
+namespace TeachPlanner.Api.Common.Mappings;
 
 public class TeacherMapping : IRegister
 {

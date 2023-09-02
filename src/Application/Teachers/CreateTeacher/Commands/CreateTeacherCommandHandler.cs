@@ -1,11 +1,11 @@
-﻿using Application.Common.Interfaces.Persistence;
-using Application.Teachers.Common;
-using Application.Common.Errors;
-using Domain.TeacherAggregate;
+﻿using TeachPlanner.Application.Common.Errors;
 using ErrorOr;
 using MediatR;
+using TeachPlanner.Application.Common.Interfaces.Persistence;
+using TeachPlanner.Application.Teachers.Common;
+using TeachPlanner.Domain.Teacher;
 
-namespace Application.Teachers.CreateTeacher.Commands;
+namespace TeachPlanner.Application.Teachers.CreateTeacher.Commands;
 
 public class CreateTeacherCommandHandler : IRequestHandler<CreateTeacherCommand, ErrorOr<TeacherCreatedResult>>
 {

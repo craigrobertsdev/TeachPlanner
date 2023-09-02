@@ -1,13 +1,12 @@
-﻿using Domain.Common.Planner;
-using Domain.TermPlannerAggregate;
-using Domain.WeekPlannerAggregate;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using TeachPlanner.Domain.Calendar;
+using TeachPlanner.Domain.WeekPlanner;
 
-namespace Infrastructure.Persistence.Configurations;
-public class TermPlannerConfiguration : IEntityTypeConfiguration<TermPlanner>
+namespace TeachPlanner.Infrastructure.Persistence.Configurations;
+public class TermPlannerConfiguration : IEntityTypeConfiguration<Calendar>
 {
-    public void Configure(EntityTypeBuilder<TermPlanner> builder)
+    public void Configure(EntityTypeBuilder<Calendar> builder)
     {
         builder.ToTable("term_planner");
 

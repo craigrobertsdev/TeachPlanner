@@ -1,13 +1,13 @@
-﻿using Application.LessonPlans.CreateLessonPlan.Commands;
-using Application.LessonPlans.Queries.GetLessonPlans;
-using Contracts.Plannner.CreateLessonPlan;
-using Contracts.Plannner.GetLessonPlans;
-using FluentValidation;
+﻿using FluentValidation;
 using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using TeachPlanner.Application.LessonPlans.CreateLessonPlan.Commands;
+using TeachPlanner.Application.LessonPlans.Queries.GetLessonPlans;
+using TeachPlanner.Contracts.Plannner.CreateLessonPlan;
+using TeachPlanner.Contracts.Plannner.GetLessonPlans;
 
-namespace WebAPI.Controllers;
+namespace TeachPlanner.Api.Controllers;
 
 [Route("teacher/{teacherId}/lesson-planner")]
 public class LessonPlannerController : ApiController

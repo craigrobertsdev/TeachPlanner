@@ -1,7 +1,7 @@
-﻿using Domain.Common.Enums;
-using Domain.Common.Primatives;
+﻿using TeachPlanner.Domain.Common.Enums;
+using TeachPlanner.Domain.Common.Primatives;
 
-namespace Domain.Assessments;
+namespace TeachPlanner.Domain.Assessments;
 
 public abstract class Assessment : AggregateRoot
 {
