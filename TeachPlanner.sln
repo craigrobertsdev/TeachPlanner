@@ -5,21 +5,21 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{C8351487-90F8-4B15-88EF-FD6BE9AD55BC}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeachPlanner.Application", "src\Application\TeachPlanner.Application.csproj", "{AE228A49-9181-4EE5-A59E-8F72DA90B741}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeachPlanner.Application", "src\TeachPlanner.Application\TeachPlanner.Application.csproj", "{AE228A49-9181-4EE5-A59E-8F72DA90B741}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeachPlanner.Domain", "src\Domain\TeachPlanner.Domain.csproj", "{63B584A3-AA8F-4C64-A1B7-D37892427501}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeachPlanner.Domain", "src\TeachPlanner.Domain\TeachPlanner.Domain.csproj", "{63B584A3-AA8F-4C64-A1B7-D37892427501}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeachPlanner.Infrastructure", "src\Infrastructure\TeachPlanner.Infrastructure.csproj", "{0480B43C-88E1-4A87-BD50-B3D90BDCBE1C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeachPlanner.Infrastructure", "src\TeachPlanner.Infrastructure\TeachPlanner.Infrastructure.csproj", "{0480B43C-88E1-4A87-BD50-B3D90BDCBE1C}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeachPlanner.Api", "src\WebAPI\TeachPlanner.Api.csproj", "{3A24EB4D-B547-4A81-9160-D2682CE56267}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeachPlanner.Api", "src\TeachPlanner.WebAPI\TeachPlanner.Api.csproj", "{3A24EB4D-B547-4A81-9160-D2682CE56267}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeachPlanner.Contracts", "src\Contracts\TeachPlanner.Contracts.csproj", "{1A37ECDF-6311-4282-B21F-C7AF0C377473}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeachPlanner.Contracts", "src\TeachPlanner.Contracts\TeachPlanner.Contracts.csproj", "{1A37ECDF-6311-4282-B21F-C7AF0C377473}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{3DD1FB48-BC0E-4880-8B5B-45E89E600270}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application.UnitTests", "tests\Application.UnitTests\Application.UnitTests.csproj", "{BC035DE6-639A-4BB4-A3A7-94CCA1B8031B}"
 EndProject
-Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "ClientApp", "src\ClientApp\ClientApp.esproj", "{D6F3782B-386E-4884-AD7C-01EF8D3F28DA}"
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "ClientApp", "src\TeachPlanner.ClientApp\ClientApp.esproj", "{D6F3782B-386E-4884-AD7C-01EF8D3F28DA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
