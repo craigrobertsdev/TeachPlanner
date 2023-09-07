@@ -6,7 +6,7 @@ public interface ITeacherRepository
 {
     void Create(Teacher teacher);
     Task<Teacher?> GetTeacherByEmailAsync(string email);
-    Task<Teacher?> GetTeacherByIdAsync(Guid userId);
+    Task<Teacher?> GetTeacherById(Guid userId);
     Task<List<Subject>?> GetSubjectsTaughtByTeacher(Guid teacherId, bool? elaborations);
     Task<List<Subject>?> SetSubjectsTaughtByTeacher(Guid teacherId, List<string> subjectNames);
 }

@@ -58,8 +58,6 @@ public class TeacherController : ApiController
     {
         var command = new SetSubjectsTaughtCommand(Guid.Parse(request.TeacherId), request.SubjectNames);
 
-
-
         var result = await _mediator.Send(command);
 
         return result.Match(

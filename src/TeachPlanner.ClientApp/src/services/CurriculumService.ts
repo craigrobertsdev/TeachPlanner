@@ -16,7 +16,6 @@ class CurriculumService {
       `${baseUrl}/curriculum/?teacherId=${teacher.id}&elaborations=${elaborations}&taughtSubjectsOnly=${taughtSubjectsOnly}`,
       {
         headers: {
-          "Content-Type": "application/json",
           Authorization: `Bearer ${teacher!.token}`,
         },
         signal: controller.signal,

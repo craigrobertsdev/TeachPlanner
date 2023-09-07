@@ -49,7 +49,7 @@ public sealed class Teacher : AggregateRoot
     {
         foreach (var subject in subjects)
         {
-            if (_subjectsTaught.Find(s => s.Id == subject.Id) != null)
+            if (_subjectsTaught.Find(s => s.Id == subject.Id) == null)
             {
                 _subjectsTaught.Add(subject);
             }

@@ -18,7 +18,7 @@ public class GetLessonPlansQueryHandler : IRequestHandler<GetLessonPlansQuery, E
 
     public async Task<ErrorOr<List<LessonPlan>?>> Handle(GetLessonPlansQuery request, CancellationToken cancellationToken)
     {
-        var teacher = await _teacherRepository.GetTeacherByIdAsync(request.TeacherId);
+        var teacher = await _teacherRepository.GetTeacherById(request.TeacherId);
 
         if (teacher is null)
         {

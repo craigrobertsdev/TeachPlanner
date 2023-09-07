@@ -1,6 +1,6 @@
 ﻿using ErrorOr;
-using TeachPlanner.Application.Common.Errors;
 using MediatR;
+using TeachPlanner.Application.Common.Errors;
 using TeachPlanner.Application.Common.Interfaces.Persistence;
 
 namespace TeachPlanner.Application.Teachers.Commands.SetSubjectsTaught;
@@ -15,14 +15,23 @@ public class SetSubjectsTaughtCommandHandler : IRequestHandler<SetSubjectsTaught
 
     public async Task<ErrorOr<SetSubjectsTaughtResult>> Handle(SetSubjectsTaughtCommand request, CancellationToken cancellationToken)
     {
-        var getSubjects = await _teacherRepository.GetSubjectsTaughtByTeacher(request.TeacherId, elaborations: null);
-        var subjects = await _teacherRepository.SetSubjectsTaughtByTeacher(request.TeacherId, request.SubjectNames);
-
-        if (subjects == null)
+        //var getSubjects = await _teacherRepository.GetSubjectsTaughtByTeacher(request.TeacherId, elaborations: null);
+        try
         {
-            return Errors.Teacher.TeacherNotFound;
+            var subjects = await _teacherRepository.SetSubjectsTaughtByTeacher(request.TeacherId, request.SubjectNames);
+
+            if (subjects == null)
+            {
+                return Errors.Teacher.TeacherNotFound;
+            }
+
+            return new SetSubjectsTaughtResult(subjects);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            return Errors.Teacher.TeacherHasNoSubjects;
         }
 
-        return new SetSubjectsTaughtResult(subjects);
     }
 }

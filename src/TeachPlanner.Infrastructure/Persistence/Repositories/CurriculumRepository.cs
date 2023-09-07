@@ -13,23 +13,45 @@ public class CurriculumRepository : ICurriculumRepository
         _context = context;
     }
 
-    public Task<List<Subject>> GetSubjects(List<Guid>? subjectsTaught)
+    public Task<List<Subject>> GetSubjects(bool elaborations, List<Guid>? subjectsTaught = null)
     {
-        var query = _context.Subjects
-            .Include(s => s.YearLevels)
-            .ThenInclude(yl => yl.Strands)
-            .ThenInclude(s => s.Substrands!)
-            .ThenInclude(s => s.ContentDescriptions)
-            .ThenInclude(cd => cd.Elaborations)
-            .Where(s => s.Name != "Mathematics");
+        IQueryable<Subject> query;
+        IQueryable<Subject> mathsQuery;
+
+        if (elaborations == true)
+        {
+            query = _context.Subjects
+                .Include(s => s.YearLevels)
+                .ThenInclude(yl => yl.Strands)
+                .ThenInclude(s => s.Substrands!)
+                .ThenInclude(s => s.ContentDescriptions)
+                .ThenInclude(cd => cd.Elaborations)
+                .Where(s => s.Name != "Mathematics");
 
 
-        var mathsQuery = _context.Subjects
-            .Include(s => s.YearLevels)
-            .ThenInclude(yl => yl.Strands)
-            .ThenInclude(s => s.ContentDescriptions!)
-            .ThenInclude(cd => cd.Elaborations)
-            .Where(s => s.Name == "Mathematics");
+            mathsQuery = _context.Subjects
+                .Include(s => s.YearLevels)
+                .ThenInclude(yl => yl.Strands)
+                .ThenInclude(s => s.ContentDescriptions!)
+                .ThenInclude(cd => cd.Elaborations)
+                .Where(s => s.Name == "Mathematics");
+        }
+        else
+        {
+            query = _context.Subjects
+                .Include(s => s.YearLevels)
+                .ThenInclude(yl => yl.Strands)
+                .ThenInclude(s => s.Substrands!)
+                .ThenInclude(s => s.ContentDescriptions)
+                .Where(s => s.Name != "Mathematics");
+
+
+            mathsQuery = _context.Subjects
+                .Include(s => s.YearLevels)
+                .ThenInclude(yl => yl.Strands)
+                .ThenInclude(s => s.ContentDescriptions!)
+                .Where(s => s.Name == "Mathematics");
+        }
 
         if (subjectsTaught != null && subjectsTaught.Count > 0)
         {
@@ -38,34 +60,15 @@ public class CurriculumRepository : ICurriculumRepository
         }
 
         var subjects = query.ToList();
-        var maths = mathsQuery.Single();
+        var maths = mathsQuery.SingleOrDefault();
 
-        subjects.Add(maths);
-
-        return Task.FromResult(subjects);
-
-    }
-
-    public Task<List<Subject>> GetSubjectsWithoutElaborations(List<Guid>? subjectsTaught)
-    {
-        var subjects = _context.Subjects
-            .Include(s => s.YearLevels)
-            .ThenInclude(yl => yl.Strands)
-            .ThenInclude(s => s.Substrands!)
-            .ThenInclude(s => s.ContentDescriptions)
-            .Where(s => s.Name != "Mathematics")
-            .ToList();
-
-        var maths = _context.Subjects
-            .Include(s => s.YearLevels)
-            .ThenInclude(yl => yl.Strands)
-            .ThenInclude(s => s.ContentDescriptions!)
-            .Where(s => s.Name == "Mathematics")
-            .ToList();
-
-        subjects.AddRange(maths);
+        if (maths != null)
+        {
+            subjects.Add(maths);
+        }
 
         return Task.FromResult(subjects);
+
     }
 
     public Task SaveCurriculum(List<Subject> subjects)
@@ -81,6 +84,4 @@ public class CurriculumRepository : ICurriculumRepository
 
         return _context.SaveChangesAsync();
     }
-
-
 }

@@ -13,6 +13,7 @@ import HomeLayout from "./components/layouts/HomeLayout.tsx";
 import EditLessonPlanPage, { lessonPlanLoader } from "./pages/planner/EditLessonPlanPage.tsx";
 import LessonPlansPage from "./pages/planner/LessonPlansPage.tsx";
 import SettingsPage from "./pages/SettingsPage.tsx";
+import RegisterPage from "./pages/RegisterPage.tsx";
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
@@ -20,6 +21,7 @@ export const router = createBrowserRouter(
       <Route element={<HomeLayout />}>
         <Route path="/" element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
       </Route>
 
       <Route path="/teacher" element={<ProtectedLayout />}>

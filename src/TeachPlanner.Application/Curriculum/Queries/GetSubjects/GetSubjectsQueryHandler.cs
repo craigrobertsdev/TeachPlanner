@@ -16,13 +16,31 @@ public class GetSubjectsQueryHandler : IRequestHandler<GetSubjectsQuery, ErrorOr
     }
     public async Task<ErrorOr<GetSubjectsResult>> Handle(GetSubjectsQuery request, CancellationToken cancellationToken)
     {
-        var subjectsTaught = await _teacherRepository.GetSubjectsTaughtByTeacher(request.TeacherId, request.Elaborations);
+        var teacher = await _teacherRepository.GetTeacherById(request.TeacherId);
 
-        if (subjectsTaught == null)
+        if (teacher == null)
         {
             return Errors.Teacher.TeacherNotFound;
         }
 
-        return new GetSubjectsResult(subjectsTaught);
+        try
+        {
+            var subjects = request.TaughtSubjectsOnly ?
+                await _teacherRepository.GetSubjectsTaughtByTeacher(teacher.Id, request.Elaborations)
+                : await _curriculumRepository.GetSubjects(request.Elaborations);
+
+            if (subjects == null)
+            {
+                return Errors.Teacher.TeacherHasNoSubjects;
+            }
+
+            return new GetSubjectsResult(subjects);
+
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            return Errors.Teacher.TeacherHasNoSubjects;
+        }
     }
 }

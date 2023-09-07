@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
+using TeachPlanner.Application.Common.Errors;
 using TeachPlanner.Application.Common.Interfaces.Persistence;
 using TeachPlanner.Domain.Subjects;
 using TeachPlanner.Domain.Teachers;
@@ -24,6 +26,7 @@ public class TeacherRepository : ITeacherRepository
     public async Task<List<Subject>?> GetSubjectsTaughtByTeacher(Guid teacherId, bool? elaborations)
     {
         var teacher = await _context.Teachers
+            .Include(t => t.SubjectsTaught)
             .SingleOrDefaultAsync(t => t.Id == teacherId);
 
         if (teacher == null)
@@ -31,8 +34,10 @@ public class TeacherRepository : ITeacherRepository
             return null;
         }
 
+        var teacherSubjectIds = teacher.SubjectsTaught.Select(s => s.Id).ToList();
+
         var subjectQuery = _context.Subjects
-            .Where(s => teacher.SubjectsTaught.ToList().Contains(s))
+            .Where(s => teacherSubjectIds.Contains(s.Id))
             .Where(s => s.Name != "Mathematics")
             .Include(s => s.YearLevels)
             .ThenInclude(yl => yl.Strands)
@@ -40,7 +45,7 @@ public class TeacherRepository : ITeacherRepository
             .ThenInclude(ss => ss.ContentDescriptions);
 
         var mathsQuery = _context.Subjects
-            .Where(s => teacher.SubjectsTaught.ToList().Contains(s))
+            .Where(s => teacherSubjectIds.Contains(s.Id))
             .Where(s => s.Name == "Mathematics")
             .Include(s => s.YearLevels)
             .ThenInclude(yl => yl.Strands)
@@ -53,7 +58,7 @@ public class TeacherRepository : ITeacherRepository
         }
 
         var subjects = subjectQuery.ToList();
-        var maths = mathsQuery.Single();
+        var maths = mathsQuery.SingleOrDefault();
 
         if (maths != null)
         {
@@ -72,7 +77,7 @@ public class TeacherRepository : ITeacherRepository
         var subjects = _context.Subjects.Where(s => subjectNames.Contains(s.Name)).ToList();
 
         var teacher = _context.Teachers.FirstOrDefault(t => t.Id == teacherId);
-
+        
         if (teacher == null)
         {
             return null;
@@ -91,7 +96,7 @@ public class TeacherRepository : ITeacherRepository
         return teacher;
     }
 
-    public Task<Teacher?> GetTeacherByIdAsync(Guid id)
+    public Task<Teacher?> GetTeacherById(Guid id)
     {
         return _context.Teachers.FirstOrDefaultAsync(t => t.Id == id);
     }

@@ -23,7 +23,7 @@ public class CurriculumParser : ICurriculumParser
     public List<Subject> ParseCurriculum()
     {
         string[] filePaths = Directory.GetFiles(
-            "C:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\Curriculum Files");
+            "C:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\TeachPlanner.Curriculum Files");
 
         foreach (string file in filePaths)
         {
@@ -31,7 +31,7 @@ public class CurriculumParser : ICurriculumParser
             string[] contentArr = LoadFile(file);
             Console.WriteLine(file);
 
-            string subjectName = file.Split("C:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\Curriculum Files")[1];
+            string subjectName = file.Split("C:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\TeachPlanner.Curriculum Files")[1];
 
             subjectName = subjectName.Replace("\\", "").Replace(".docx", "");
 
