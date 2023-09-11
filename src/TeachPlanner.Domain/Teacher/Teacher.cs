@@ -6,6 +6,7 @@ using TeachPlanner.Domain.Resources;
 using TeachPlanner.Domain.Subjects;
 using TeachPlanner.Domain.Students;
 using TeachPlanner.Domain.WeekPlanners;
+using TeachPlanner.Domain.Common.Enums;
 
 namespace TeachPlanner.Domain.Teachers;
 

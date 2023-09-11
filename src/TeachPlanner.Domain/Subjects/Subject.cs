@@ -4,6 +4,7 @@ namespace TeachPlanner.Domain.Subjects;
 
 public sealed class Subject : AggregateRoot
 {
+    private readonly bool _isCurriculumSubject = false;
     private readonly List<YearLevel> _yearLevels = new();
     public string Name { get; private set; }
     public IReadOnlyList<YearLevel> YearLevels => _yearLevels.AsReadOnly();

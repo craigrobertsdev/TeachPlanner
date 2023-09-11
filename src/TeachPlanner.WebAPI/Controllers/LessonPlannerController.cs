@@ -2,10 +2,10 @@
 using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using TeachPlanner.Application.LessonPlans.CreateLessonPlan.Commands;
-using TeachPlanner.Application.LessonPlans.Queries.GetLessonPlans;
-using TeachPlanner.Contracts.Plannner.CreateLessonPlan;
-using TeachPlanner.Contracts.Plannner.GetLessonPlans;
+using TeachPlanner.Application.LessonPlanners.CreateLessonPlan.Commands;
+using TeachPlanner.Application.LessonPlanners.Queries.GetLessonPlans;
+using TeachPlanner.Contracts.LessonPlannner.CreateLessonPlan;
+using TeachPlanner.Contracts.LessonPlannner.GetLessonPlans;
 
 namespace TeachPlanner.Api.Controllers;
 
@@ -27,12 +27,10 @@ public class LessonPlannerController : ApiController
     public async Task<IActionResult> GetLessonPlans(GetLessonPlansRequest request)
     {
         var query = _mapper.Map<GetLessonPlansQuery>(request);
-
         var lessonPlans = await _mediator.Send(query);
 
-        return lessonPlans.Match(
-            lessonPlans => Ok(lessonPlans),
-            errors => Problem(errors));
+        return Ok(lessonPlans);
+
     }
 
     [HttpPost]
@@ -44,9 +42,7 @@ public class LessonPlannerController : ApiController
 
         var createLessonPlanResult = await _mediator.Send(command);
 
-        return createLessonPlanResult.Match(
-            lessonPlanResult => Ok(lessonPlanResult),
-            errors => Problem(errors));
+        return Ok(createLessonPlanResult);
     }
 
 }

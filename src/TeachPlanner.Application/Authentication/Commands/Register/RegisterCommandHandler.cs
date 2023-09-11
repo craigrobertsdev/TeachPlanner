@@ -1,5 +1,4 @@
 ﻿using TeachPlanner.Application.Common.Errors;
-using ErrorOr;
 using MediatR;
 using TeachPlanner.Application.Common.Interfaces.Persistence;
 using TeachPlanner.Application.Authentication.Common;
@@ -8,7 +7,7 @@ using TeachPlanner.Domain.Teachers;
 
 namespace TeachPlanner.Application.Authentication.Commands.Register;
 
-public class RegisterCommandHandler : IRequestHandler<RegisterCommand, ErrorOr<AuthenticationResult>>
+public class RegisterCommandHandler : IRequestHandler<RegisterCommand, AuthenticationResult>
 {
     private readonly IJwtTokenGenerator _jwtTokenGenerator;
     private readonly ITeacherRepository _teacherRepository;
@@ -22,12 +21,11 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, ErrorOr<A
         _teacherRepository = teacherRepository;
     }
 
-#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
-    public async Task<ErrorOr<AuthenticationResult>> Handle(RegisterCommand command, CancellationToken cancellationToken)
+    public async Task<AuthenticationResult> Handle(RegisterCommand command, CancellationToken cancellationToken)
     {
         if (await _teacherRepository.GetTeacherByEmailAsync(command.Email) != null)
         {
-            return Errors.Authentication.DuplicateEmail;
+            throw new DuplicateEmailException();
         }
 
         var teacher = Teacher.Create(
@@ -42,5 +40,4 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, ErrorOr<A
 
         return new AuthenticationResult(teacher, token);
     }
-
 }

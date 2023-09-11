@@ -37,11 +37,7 @@ public class AuthenticationController : ApiController
 
         var authResult = await _sender.Send(command);
 
-
-
-        return authResult.Match(
-            authResult => Ok(_mapper.Map<AuthenticationResponse>(authResult)),
-            errors => Problem(errors));
+        return Ok(authResult);
     }
 
     [HttpPost("login")]
@@ -52,16 +48,6 @@ public class AuthenticationController : ApiController
 
         var authenticationResult = await _sender.Send(query);
 
-        if (authenticationResult.IsError && authenticationResult.FirstError == Errors.Authentication.InvalidCredentials)
-        {
-            return Problem(
-                statusCode: StatusCodes.Status401Unauthorized,
-                title: authenticationResult.FirstError.Description);
-
-        }
-
-        return authenticationResult.Match(
-            authResult => Ok(_mapper.Map<AuthenticationResponse>(authResult)),
-            errors => Problem(errors));
+        return Ok(authenticationResult);
     }
 }

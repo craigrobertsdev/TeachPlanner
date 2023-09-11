@@ -5,20 +5,23 @@ namespace TeachPlanner.Domain.TermPlanner;
 public sealed class TermPlanner : AggregateRoot
 {
     private readonly List<TermPlan> _termPlans = new();
-    public YearLevelValue YearLevel { get; private set; }
+    public int CalendarYear { get; private set; }
+    public List<YearLevelValue> YearLevels { get; private set; }
     public IReadOnlyList<TermPlan> TermPlans => _termPlans.AsReadOnly();
 
-    private TermPlanner(Guid id, YearLevelValue yearLevel, List<TermPlan> termPlans) : base(id)
+    private TermPlanner(Guid id, int calendarYear, List<YearLevelValue> yearLevels, List<TermPlan> termPlans) : base(id)
     {
-        YearLevel = yearLevel;
+        CalendarYear = calendarYear;
+        YearLevels = yearLevels;
         _termPlans = termPlans;
     }
 
-    public static TermPlanner Create(YearLevelValue yearLevel, List<TermPlan> termPlans)
+    public static TermPlanner Create(int calendarYear, List<YearLevelValue> yearLevels, List<TermPlan> termPlans)
     {
         return new TermPlanner(
             Guid.NewGuid(),
-            yearLevel,
+            calendarYear,
+            yearLevels,
             termPlans);
     }
 

@@ -1,8 +1,8 @@
 ﻿using Mapster;
-using TeachPlanner.Application.LessonPlans.CreateLessonPlan.Commands;
-using TeachPlanner.Application.LessonPlans.Queries.GetLessonPlans;
-using TeachPlanner.Contracts.Plannner.CreateLessonPlan;
-using TeachPlanner.Contracts.Plannner.GetLessonPlans;
+using TeachPlanner.Application.LessonPlanners.CreateLessonPlan.Commands;
+using TeachPlanner.Application.LessonPlanners.Queries.GetLessonPlans;
+using TeachPlanner.Contracts.LessonPlannner.CreateLessonPlan;
+using TeachPlanner.Contracts.LessonPlannner.GetLessonPlans;
 using TeachPlanner.Domain.LessonPlans;
 
 namespace TeachPlanner.Api.Common.Mappings;

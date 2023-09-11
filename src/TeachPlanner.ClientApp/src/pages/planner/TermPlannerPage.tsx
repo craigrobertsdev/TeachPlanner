@@ -13,16 +13,13 @@ const TermPlannerPage = () => {
   const [currentTerm, setCurrentTerm] = useState<number>(getCurrentTerm());
   const { teacher } = useAuth();
 
-  //#region Dummy data
-
-  //#endregion
-
   useEffect(() => {
     const getSubjectsTaught = async () => {
       const abortController = new AbortController();
       try {
         const response = await curriculumService.getSubjects({ taughtSubjectsOnly: true }, teacher!, abortController);
         setSubjectData(response.subjects);
+        setInitialTerms(response.subjects);
       } catch (error) {
         console.log(error);
       }
@@ -30,10 +27,31 @@ const TermPlannerPage = () => {
 
     getSubjectsTaught();
   }, []);
+
+  function setInitialTerms(subjects: Subject[]) {
+    const initialTerms: Term[] = [];
+
+    for (let i = 0; i < 4; i++) {
+      initialTerms.push({ termNumber: i + 1, subjects: subjects });
+    }
+
+    setTerms(initialTerms);
+  }
+
   function getCurrentTerm() {
     // current term to be obtained from the server
     return 1;
   }
+
+  useEffect(() => {
+    if (subjectData) {
+      terms.forEach((term) => {
+        term.subjects = [...subjectData];
+      });
+    }
+
+    setTerms([...terms]);
+  }, [subjectData]);
 
   // TODO: this useEffect needs to update some list of contentDescriptions that are available to add to the term planner,
   useEffect(() => {}, [terms]);
@@ -43,23 +61,23 @@ const TermPlannerPage = () => {
     setAddingContentDescriptions(true);
   }
 
-  useEffect(() => {
-    if (terms !== undefined && terms.length > 0) {
-      const newTerms = [...terms];
-      const termWithMostSubjects = terms[terms.findIndex((term) => term.subjects.length === Math.max(...terms.map((term) => term.subjects.length)))];
+  // useEffect(() => {
+  //   if (terms !== undefined && terms.length > 0) {
+  //     const newTerms = [...terms];
+  //     const termWithMostSubjects = terms[terms.findIndex((term) => term.subjects.length === Math.max(...terms.map((term) => term.subjects.length)))];
 
-      newTerms.forEach((term) => {
-        if (term.termNumber !== termWithMostSubjects.termNumber && term.subjects.length !== termWithMostSubjects.subjects.length) {
-          termWithMostSubjects.subjects.forEach((subject) => {
-            if (!term.subjects.includes(subject)) {
-              term.subjects.push({ name: subject.name, yearLevels: [] as SubjectYearLevel[] } as Subject);
-            }
-          });
-        }
-      });
-      setTerms(newTerms);
-    }
-  }, [addingContentDescriptions]);
+  //     newTerms.forEach((term) => {
+  //       if (term.termNumber !== termWithMostSubjects.termNumber && term.subjects.length !== termWithMostSubjects.subjects.length) {
+  //         termWithMostSubjects.subjects.forEach((subject) => {
+  //           if (!term.subjects.includes(subject)) {
+  //             term.subjects.push({ name: subject.name, yearLevels: [] as SubjectYearLevel[] } as Subject);
+  //           }
+  //         });
+  //       }
+  //     });
+  //     setTerms(newTerms);
+  //   }
+  // }, [addingContentDescriptions]);
 
   return (
     <div className="flex flex-col flex-grow">

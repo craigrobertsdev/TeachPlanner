@@ -3,7 +3,6 @@ import { ReactNode, createContext, useContext, useEffect, useMemo, useState } fr
 type ThemeContextType = {
   cancelModalOpen: boolean;
   setCancelModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  dialogOpenStyle: string[];
 };
 
 type ThemeProviderProps = {
@@ -18,9 +17,8 @@ const ThemeContext = createContext<ThemeContextType>({} as ThemeContextType);
 
 export function ThemeProvider({ children }: ThemeProviderProps) {
   const [cancelModalOpen, setCancelModalOpen] = useState<boolean>(false);
-  const [dialogOpenStyle, setDialogOpenStyle] = useState<string[]>(["filter", "blur-xs", "opacity-50", "pointer-events-none"]);
 
-  return <ThemeContext.Provider value={{ cancelModalOpen, setCancelModalOpen, dialogOpenStyle }}>{children}</ThemeContext.Provider>;
+  return <ThemeContext.Provider value={{ cancelModalOpen, setCancelModalOpen }}>{children}</ThemeContext.Provider>;
 }
 
 export default ThemeProvider;

@@ -1,6 +1,5 @@
-﻿using ErrorOr;
-using MediatR;
+﻿using MediatR;
 
 namespace TeachPlanner.Application.Curriculum.Commands.ParseCurriculum;
 
-public record ParseCurriculumCommand() : IRequest<ErrorOr<ParseCurriculumResult>>;
+public record ParseCurriculumCommand() : IRequest<ParseCurriculumResult>;

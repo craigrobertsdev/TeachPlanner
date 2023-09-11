@@ -1,10 +1,9 @@
-﻿using ErrorOr;
-using MediatR;
+﻿using MediatR;
 using TeachPlanner.Application.Common.Errors;
 using TeachPlanner.Application.Common.Interfaces.Persistence;
 
 namespace TeachPlanner.Application.Teachers.Commands.SetSubjectsTaught;
-public class SetSubjectsTaughtCommandHandler : IRequestHandler<SetSubjectsTaughtCommand, ErrorOr<SetSubjectsTaughtResult>>
+public class SetSubjectsTaughtCommandHandler : IRequestHandler<SetSubjectsTaughtCommand, SetSubjectsTaughtResult>
 {
     private readonly ITeacherRepository _teacherRepository;
 
@@ -13,25 +12,22 @@ public class SetSubjectsTaughtCommandHandler : IRequestHandler<SetSubjectsTaught
         _teacherRepository = teacherRepository;
     }
 
-    public async Task<ErrorOr<SetSubjectsTaughtResult>> Handle(SetSubjectsTaughtCommand request, CancellationToken cancellationToken)
+    public async Task<SetSubjectsTaughtResult> Handle(SetSubjectsTaughtCommand request, CancellationToken cancellationToken)
     {
-        //var getSubjects = await _teacherRepository.GetSubjectsTaughtByTeacher(request.TeacherId, elaborations: null);
-        try
-        {
-            var subjects = await _teacherRepository.SetSubjectsTaughtByTeacher(request.TeacherId, request.SubjectNames);
+        var teacher = await _teacherRepository.GetTeacherById(request.TeacherId);
 
-            if (subjects == null)
-            {
-                return Errors.Teacher.TeacherNotFound;
-            }
-
-            return new SetSubjectsTaughtResult(subjects);
-        }
-        catch (Exception e)
+        if (teacher == null)
         {
-            Console.WriteLine(e);
-            return Errors.Teacher.TeacherHasNoSubjects;
+            throw new TeacherNotFoundException();
         }
 
+        var subjects = await _teacherRepository.SetSubjectsTaughtByTeacher(request.TeacherId, request.SubjectNames);
+
+        if (subjects == null)
+        {
+            throw new TeacherNotFoundException();
+        }
+
+        return new SetSubjectsTaughtResult(subjects);
     }
 }

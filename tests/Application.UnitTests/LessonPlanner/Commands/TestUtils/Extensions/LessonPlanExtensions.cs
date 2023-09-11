@@ -1,4 +1,4 @@
-﻿using TeachPlanner.Application.LessonPlans.CreateLessonPlan.Commands;
+﻿using TeachPlanner.Application.LessonPlanners.CreateLessonPlan.Commands;
 using TeachPlanner.Domain.LessonPlans;
 
 namespace Application.UnitTests.LessonPlanner.Commands.TestUtils.Extensions;

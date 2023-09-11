@@ -1,5 +1,4 @@
 ﻿using TeachPlanner.Application.Common.Errors;
-using ErrorOr;
 using MediatR;
 using TeachPlanner.Application.Common.Interfaces.Persistence;
 using TeachPlanner.Application.Authentication.Common;
@@ -7,7 +6,7 @@ using TeachPlanner.Application.Common.Interfaces.Authentication;
 
 namespace TeachPlanner.Application.Authentication.Queries.Login;
 
-public class LoginQueryHandler : IRequestHandler<LoginQuery, ErrorOr<AuthenticationResult>>
+public class LoginQueryHandler : IRequestHandler<LoginQuery, AuthenticationResult>
 {
     private readonly ITeacherRepository _teacherRepository;
     private readonly IJwtTokenGenerator _jwtTokenGenerator;
@@ -19,19 +18,19 @@ public class LoginQueryHandler : IRequestHandler<LoginQuery, ErrorOr<Authenticat
     }
 
 #pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
-    public async Task<ErrorOr<AuthenticationResult>> Handle(LoginQuery request, CancellationToken cancellationToken)
+    public async Task<AuthenticationResult> Handle(LoginQuery request, CancellationToken cancellationToken)
     {
         var teacher = await _teacherRepository.GetTeacherByEmailAsync(request.Email);
 
         if (teacher == null)
         {
-            return Errors.Authentication.InvalidCredentials;
+            throw new InvalidCredentialsException();
         }
 
         // TODO - Hash password
         if (teacher.Password != request.Password)
         {
-            return Errors.Authentication.InvalidCredentials;
+            throw new InvalidCredentialsException();
         }
 
         var token = _jwtTokenGenerator.GenerateToken(teacher);

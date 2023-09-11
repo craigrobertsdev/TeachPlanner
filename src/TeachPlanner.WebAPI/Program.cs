@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc.Infrastructure;
-using TeachPlanner.Api;
 using TeachPlanner.Api.Common.Errors;
+using TeachPlanner.Api.Extensions;
+using TeachPlanner.Api.Middleware;
 using TeachPlanner.Application;
 using TeachPlanner.Infrastructure;
 
@@ -18,14 +19,12 @@ builder.Services
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// override ASP.Net Core's default ProblemDetailsFactory to return custom errors
-builder.Services.AddSingleton<ProblemDetailsFactory, CustomProblemDetailsFactory>();
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 
-app.UseExceptionHandler("/error");
+//app.UseExceptionHandler("/error");
+app.UseMiddleware<ErrorHandlingMiddleware>();
 
 // enable cors
 app.UseCors(builder => builder

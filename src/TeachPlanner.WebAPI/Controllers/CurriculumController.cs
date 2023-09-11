@@ -24,9 +24,7 @@ public class CurriculumController : ApiController
     {
         var result = await _mediator.Send(new GetSubjectsQuery(Guid.Parse(teacherId), elaborations, taughtSubjectsOnly));
 
-        return result.Match(
-            success => Ok(_mapper.Map<GetSubjectsResponse>(success)),
-            errors => Problem(errors));
+        return Ok(_mapper.Map<GetSubjectsResponse>(result));
     }
 
     [HttpGet("ParseCurriculum")]
@@ -35,8 +33,6 @@ public class CurriculumController : ApiController
         var parseCurriculumCommand = new ParseCurriculumCommand();
         var parseCurriculumResult = await _mediator.Send(parseCurriculumCommand);
 
-        return parseCurriculumResult.Match(
-            result => Ok(result),
-            errors => Problem(errors));
+        return Ok(parseCurriculumResult);
     }
 }

@@ -181,7 +181,7 @@ namespace TeachPlanner.Infrastructure.Migrations
                     b.ToTable("calendar", (string)null);
                 });
 
-            modelBuilder.Entity("TeachPlanner.Domain.Common.Planner.SchoolEvent", b =>
+            modelBuilder.Entity("TeachPlanner.Domain.Common.LessonPlanner.SchoolEvent", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -213,7 +213,7 @@ namespace TeachPlanner.Infrastructure.Migrations
                     b.ToTable("school_events", (string)null);
                 });
 
-            modelBuilder.Entity("TeachPlanner.Domain.LessonPlans.LessonPlan", b =>
+            modelBuilder.Entity("TeachPlanner.Domain.LessonPlanners.LessonPlan", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -650,7 +650,7 @@ namespace TeachPlanner.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TeachPlanner.Domain.Common.Planner.SchoolEvent", null)
+                    b.HasOne("TeachPlanner.Domain.Common.LessonPlanner.SchoolEvent", null)
                         .WithMany()
                         .HasForeignKey("SchoolEventsId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -659,7 +659,7 @@ namespace TeachPlanner.Infrastructure.Migrations
 
             modelBuilder.Entity("LessonPlanResource", b =>
                 {
-                    b.HasOne("TeachPlanner.Domain.LessonPlans.LessonPlan", null)
+                    b.HasOne("TeachPlanner.Domain.LessonPlanners.LessonPlan", null)
                         .WithMany()
                         .HasForeignKey("LessonPlansId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -674,7 +674,7 @@ namespace TeachPlanner.Infrastructure.Migrations
 
             modelBuilder.Entity("SchoolEventWeekPlanner", b =>
                 {
-                    b.HasOne("TeachPlanner.Domain.Common.Planner.SchoolEvent", null)
+                    b.HasOne("TeachPlanner.Domain.Common.LessonPlanner.SchoolEvent", null)
                         .WithMany()
                         .HasForeignKey("SchoolEventsId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -744,9 +744,9 @@ namespace TeachPlanner.Infrastructure.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("TeachPlanner.Domain.Common.Planner.SchoolEvent", b =>
+            modelBuilder.Entity("TeachPlanner.Domain.Common.LessonPlanner.SchoolEvent", b =>
                 {
-                    b.OwnsOne("TeachPlanner.Domain.Common.Planner.Location", "Location", b1 =>
+                    b.OwnsOne("TeachPlanner.Domain.Common.LessonPlanner.Location", "Location", b1 =>
                         {
                             b1.Property<Guid>("SchoolEventId")
                                 .HasColumnType("char(36)");
@@ -778,7 +778,7 @@ namespace TeachPlanner.Infrastructure.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("TeachPlanner.Domain.LessonPlans.LessonPlan", b =>
+            modelBuilder.Entity("TeachPlanner.Domain.LessonPlanners.LessonPlan", b =>
                 {
                     b.HasOne("TeachPlanner.Domain.Subjects.Subject", null)
                         .WithMany()
@@ -787,16 +787,16 @@ namespace TeachPlanner.Infrastructure.Migrations
                         .IsRequired();
 
                     b.HasOne("TeachPlanner.Domain.Teachers.Teacher", null)
-                        .WithMany("LessonPlans")
+                        .WithMany("LessonPlanners")
                         .HasForeignKey("TeacherId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("TeachPlanner.Domain.WeekPlanners.WeekPlanner", null)
-                        .WithMany("LessonPlans")
+                        .WithMany("LessonPlanners")
                         .HasForeignKey("WeekPlannerId");
 
-                    b.OwnsMany("TeachPlanner.Domain.LessonPlans.LessonComment", "Comments", b1 =>
+                    b.OwnsMany("TeachPlanner.Domain.LessonPlanners.LessonComment", "Comments", b1 =>
                         {
                             b1.Property<Guid>("Id")
                                 .ValueGeneratedOnAdd()
@@ -1015,7 +1015,7 @@ namespace TeachPlanner.Infrastructure.Migrations
 
             modelBuilder.Entity("TeachPlanner.Domain.Assessments.FormativeAssessment", b =>
                 {
-                    b.HasOne("TeachPlanner.Domain.LessonPlans.LessonPlan", null)
+                    b.HasOne("TeachPlanner.Domain.LessonPlanners.LessonPlan", null)
                         .WithMany("FormativeAssessments")
                         .HasForeignKey("LessonPlanId");
 
@@ -1028,7 +1028,7 @@ namespace TeachPlanner.Infrastructure.Migrations
 
             modelBuilder.Entity("TeachPlanner.Domain.Assessments.SummativeAssessment", b =>
                 {
-                    b.HasOne("TeachPlanner.Domain.LessonPlans.LessonPlan", null)
+                    b.HasOne("TeachPlanner.Domain.LessonPlanners.LessonPlan", null)
                         .WithMany("SummativeAssessments")
                         .HasForeignKey("LessonPlanId");
 
@@ -1052,7 +1052,7 @@ namespace TeachPlanner.Infrastructure.Migrations
                     b.Navigation("WeekPlanners");
                 });
 
-            modelBuilder.Entity("TeachPlanner.Domain.LessonPlans.LessonPlan", b =>
+            modelBuilder.Entity("TeachPlanner.Domain.LessonPlanners.LessonPlan", b =>
                 {
                     b.Navigation("FormativeAssessments");
 
@@ -1097,7 +1097,7 @@ namespace TeachPlanner.Infrastructure.Migrations
                 {
                     b.Navigation("FormativeAssessments");
 
-                    b.Navigation("LessonPlans");
+                    b.Navigation("LessonPlanners");
 
                     b.Navigation("Reports");
 
@@ -1112,7 +1112,7 @@ namespace TeachPlanner.Infrastructure.Migrations
 
             modelBuilder.Entity("TeachPlanner.Domain.WeekPlanners.WeekPlanner", b =>
                 {
-                    b.Navigation("LessonPlans");
+                    b.Navigation("LessonPlanners");
                 });
 #pragma warning restore 612, 618
         }

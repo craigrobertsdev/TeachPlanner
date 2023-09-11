@@ -2,26 +2,32 @@
 using TeachPlanner.Domain.Subjects;
 
 namespace TeachPlanner.Domain.TermPlanner;
-public sealed class TermPlan : ValueObject
+public sealed class TermPlan : Entity
 {
-    private readonly Dictionary<Guid, List<Strand>> _subjects = new();
-    public IReadOnlyDictionary<Guid, List<Strand>> Subjects => _subjects.AsReadOnly();
+    private readonly List<Subject> _subjects = new();
+    public IReadOnlyList<Subject> Subjects => _subjects.AsReadOnly();
 
-    private TermPlan(
-        Dictionary<Guid, List<Strand>> subjects)
+    private TermPlan(Guid id, List<Subject> subjects) : base(id)
     {
         _subjects = subjects;
     }
 
-    public static TermPlan Create(Dictionary<Guid, List<Strand>> subjects)
+    public void AddSubjects(List<Subject> subjects)
     {
-        return new TermPlan(subjects);
+        foreach (var subject in subjects)
+        {
+            if (_subjects.Find(s => s.Id == subject.Id) == null)
+            {
+                _subjects.Add(subject);
+            }
+        }
     }
 
-    public override IEnumerable<object?> GetEqualityComponents()
+    public static TermPlan Create(List<Subject> subjects)
     {
-        yield return Subjects;
+        return new TermPlan(Guid.NewGuid(), subjects);
     }
+
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
     private TermPlan() { }

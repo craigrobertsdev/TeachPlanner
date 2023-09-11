@@ -1,5 +1,4 @@
-﻿using TeachPlanner.Application.Planner.Queries.GetPlannerData;
-using FluentValidation;
+﻿using FluentValidation;
 using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -8,6 +7,7 @@ using TeachPlanner.Contracts.Teacher;
 using TeachPlanner.Application.Teachers.Commands.CreateTeacher;
 using TeachPlanner.Application.Teachers.Commands.SetSubjectsTaught;
 using TeachPlanner.Contracts.Teacher.SetSubjectsTaught;
+using TeachPlanner.Application.WeekPlanners.Queries.GetPlannerData;
 
 namespace TeachPlanner.Api.Controllers;
 
@@ -33,23 +33,7 @@ public class TeacherController : ApiController
 
         var lessonPlans = await _mediator.Send(query);
 
-        return lessonPlans.Match(
-            lessonPlans => Ok(lessonPlans),
-            errors => Problem(errors));
-    }
-
-    [HttpPost]
-    public async Task<IActionResult> CreateTeacher(CreateTeacherRequest request)
-    {
-        var command = _mapper.Map<CreateTeacherCommand>(request);
-
-        var validationResult = _validator.Validate(command);
-
-        var createdTeacherResult = await _mediator.Send(command);
-
-        return createdTeacherResult.Match(
-            createdTeacherResult => Ok(_mapper.Map<TeacherCreatedResult>(createdTeacherResult)),
-            errors => Problem(errors));
+        return Ok(lessonPlans);
     }
 
     [HttpPost]
@@ -60,8 +44,6 @@ public class TeacherController : ApiController
 
         var result = await _mediator.Send(command);
 
-        return result.Match(
-            result => Ok(result),
-            errors => Problem(errors));
+        return Ok(result);
     }
 }

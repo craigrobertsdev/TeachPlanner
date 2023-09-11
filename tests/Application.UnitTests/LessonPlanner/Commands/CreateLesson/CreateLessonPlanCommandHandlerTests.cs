@@ -1,5 +1,5 @@
 ﻿using TeachPlanner.Application.Common.Interfaces.Persistence;
-using TeachPlanner.Application.LessonPlans.CreateLessonPlan.Commands;
+using TeachPlanner.Application.LessonPlanners.CreateLessonPlan.Commands;
 using Application.UnitTests.LessonPlanner.Commands.TestUtils;
 using FluentAssertions;
 using Moq;
