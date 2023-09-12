@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MapsterMapper;
-using TeachPlanner.Application.Common.Errors;
+using TeachPlanner.Application.Common.Exceptions;
 using FluentValidation;
 using TeachPlanner.Application.Authentication.Queries.Login;
 using TeachPlanner.Contracts.Authentication;
@@ -10,7 +10,7 @@ using TeachPlanner.Application.Authentication.Commands.Register;
 
 namespace TeachPlanner.Api.Controllers;
 
-[Route("auth")]
+[Route("api/auth")]
 [AllowAnonymous]
 public class AuthenticationController : ApiController
 {

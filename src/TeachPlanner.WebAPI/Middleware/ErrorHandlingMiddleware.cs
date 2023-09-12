@@ -1,6 +1,6 @@
 ﻿using System.Net;
 using TeachPlanner.Api.Common.Errors;
-using TeachPlanner.Application.Common.Errors;
+using TeachPlanner.Domain.Common.Exceptions;
 
 namespace TeachPlanner.Api.Middleware;
 

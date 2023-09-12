@@ -7,7 +7,7 @@ using TeachPlanner.Contracts.Curriculum;
 
 namespace TeachPlanner.Api.Controllers;
 
-[Route("[controller]")]
+[Route("api/[controller]")]
 public class CurriculumController : ApiController
 {
     private readonly ISender _mediator;

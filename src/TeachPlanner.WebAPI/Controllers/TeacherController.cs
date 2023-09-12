@@ -2,8 +2,6 @@
 using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using TeachPlanner.Application.Teachers.Common;
-using TeachPlanner.Contracts.Teacher;
 using TeachPlanner.Application.Teachers.Commands.CreateTeacher;
 using TeachPlanner.Application.Teachers.Commands.SetSubjectsTaught;
 using TeachPlanner.Contracts.Teacher.SetSubjectsTaught;
@@ -11,7 +9,7 @@ using TeachPlanner.Application.WeekPlanners.Queries.GetPlannerData;
 
 namespace TeachPlanner.Api.Controllers;
 
-[Route("[controller]")]
+[Route("api/[controller]")]
 public class TeacherController : ApiController
 {
     private readonly ISender _mediator;
@@ -27,6 +25,7 @@ public class TeacherController : ApiController
 
 
     [HttpGet]
+    [Route("{teacherId}/planner")]
     public async Task<IActionResult> GetPlannerData(string teacherId)
     {
         var query = new GetPlannerDataQuery(teacherId);
@@ -37,10 +36,10 @@ public class TeacherController : ApiController
     }
 
     [HttpPost]
-    [Route("subjects")]
-    public async Task<IActionResult> SetSubjectsTaught(SetSubjectsTaughtRequest request)
+    [Route("{teacherId}/subjects")]
+    public async Task<IActionResult> SetSubjectsTaught(string teacherId, SetSubjectsTaughtRequest request)
     {
-        var command = new SetSubjectsTaughtCommand(Guid.Parse(request.TeacherId), request.SubjectNames);
+        var command = new SetSubjectsTaughtCommand(Guid.Parse(teacherId), request.SubjectNames);
 
         var result = await _mediator.Send(command);
 

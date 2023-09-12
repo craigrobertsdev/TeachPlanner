@@ -9,7 +9,7 @@ using TeachPlanner.Contracts.LessonPlannner.GetLessonPlans;
 
 namespace TeachPlanner.Api.Controllers;
 
-[Route("teacher/{teacherId}/lesson-planner")]
+[Route("api/teacher/{teacherId}/lesson-planner")]
 public class LessonPlannerController : ApiController
 {
     private readonly ISender _mediator;

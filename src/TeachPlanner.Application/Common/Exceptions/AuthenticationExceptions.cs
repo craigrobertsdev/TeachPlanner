@@ -1,4 +1,6 @@
-﻿namespace TeachPlanner.Application.Common.Errors;
+﻿using TeachPlanner.Domain.Common.Exceptions;
+
+namespace TeachPlanner.Application.Common.Exceptions;
 
 public class InvalidCredentialsException : BaseException
 {

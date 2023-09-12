@@ -12,6 +12,7 @@ type TeacherResponse = {
 type SubjectsTaughtResponse = {
   subjectsTaught: Subject[];
 };
+
 class TeacherService {
   async login(email: string, password: string) {
     const response = await fetch(`${baseUrl}/auth/login`, {
@@ -52,13 +53,13 @@ class TeacherService {
   async setSubjectsTaught(teacher: Teacher, subjectNames: string[]) {
     try {
       console.log(JSON.stringify({ teacherId: teacher.id, subjectNames }));
-      const request = new Request(`${baseUrl}/teacher/subjects`, {
+      const request = new Request(`${baseUrl}/teacher/${teacher.id}/subjects`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${teacher!.token}`,
         },
-        body: JSON.stringify({ teacherId: teacher.id, subjectNames }),
+        body: JSON.stringify({ subjectNames }),
       });
 
       const response = await fetch(request);

@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using TeachPlanner.Application.Common.Errors;
+using TeachPlanner.Application.Common.Exceptions;
 using TeachPlanner.Application.Common.Interfaces.Persistence;
 using TeachPlanner.Domain.LessonPlans;
 

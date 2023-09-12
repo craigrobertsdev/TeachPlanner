@@ -1,4 +1,4 @@
-﻿namespace TeachPlanner.Application.Common.Errors;
+﻿namespace TeachPlanner.Domain.Common.Exceptions;
 public class BaseException : Exception
 {
     public int StatusCode { get; set; }

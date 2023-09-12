@@ -1,4 +1,6 @@
-﻿namespace TeachPlanner.Application.Common.Errors;
+﻿using TeachPlanner.Domain.Common.Exceptions;
+
+namespace TeachPlanner.Application.Common.Exceptions;
 public class TeacherNotFoundException : BaseException
 {
     public TeacherNotFoundException() : base("No teacher found with those details", 404)

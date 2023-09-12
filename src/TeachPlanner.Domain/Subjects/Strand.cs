@@ -1,4 +1,5 @@
 using OneOf;
+using TeachPlanner.Domain.Common.Exceptions;
 using TeachPlanner.Domain.Common.Primatives;
 
 namespace TeachPlanner.Domain.Subjects;
@@ -41,9 +42,7 @@ public sealed class Strand : ValueObject
     {
         if (substrands is null && contentDescriptions is null)
         {
-            return new ArgumentException(
-                "Either substrands or contentDescriptions must be provided"
-            );
+            throw new StrandCreationException();
         }
 
         return new Strand(name, substrands, contentDescriptions);
