@@ -34,7 +34,7 @@ public sealed class Strand : ValueObject
     /// <param name="substrands"></param>
     /// <param name="contentDescriptions"></param>
     /// <returns></returns>
-    public static OneOf<Strand, ArgumentException> Create(
+    public static Strand Create(
         string name,
         List<Substrand>? substrands = null,
         List<ContentDescription>? contentDescriptions = null

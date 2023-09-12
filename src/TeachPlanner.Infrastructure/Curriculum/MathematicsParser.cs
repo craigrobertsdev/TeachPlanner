@@ -80,8 +80,7 @@ internal class MathematicsParser
         string name = contentArr[index].Substring(8).TrimEnd();
         index += 2;
 
-        // safe to unwrap as we know there won't be an argument error here
-        var strand = Strand.Create(name, contentDescriptions: new List<ContentDescription>()).AsT0;
+        var strand = Strand.Create(name, contentDescriptions: new List<ContentDescription>());
 
         while (contentArr[index].StartsWith("Content descriptions"))
         {

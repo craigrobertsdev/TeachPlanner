@@ -91,8 +91,7 @@ internal class HealthAndPEParser
         string name = contentArr[index].Substring(8).TrimEnd();
         index += 2;
 
-        // we know there won't be an argument error here
-        var strand = Strand.Create(name, substrands: new List<Substrand>()).AsT0;
+        var strand = Strand.Create(name, substrands: new List<Substrand>());
 
         while (contentArr[index].StartsWith("Sub-strand"))
         {

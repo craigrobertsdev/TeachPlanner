@@ -1,31 +1,27 @@
 ﻿using TeachPlanner.Domain.Common.Primatives;
-using TeachPlanner.Domain.Subjects;
 
 namespace TeachPlanner.Domain.TermPlanner;
 public sealed class TermPlan : Entity
 {
-    private readonly List<Subject> _subjects = new();
-    public IReadOnlyList<Subject> Subjects => _subjects.AsReadOnly();
+    private readonly List<string> _curriculumCodes = new();
+    public IReadOnlyList<string> CurriulumCodes => _curriculumCodes.AsReadOnly();
 
-    private TermPlan(Guid id, List<Subject> subjects) : base(id)
+    private TermPlan(Guid id, List<string> curriculumCodes) : base(id)
     {
-        _subjects = subjects;
+        _curriculumCodes = curriculumCodes;
     }
 
-    public void AddSubjects(List<Subject> subjects)
+    public void AddCurriculumCode(string curriculumCode)
     {
-        foreach (var subject in subjects)
+        if (!_curriculumCodes.Contains(curriculumCode))
         {
-            if (_subjects.Find(s => s.Id == subject.Id) == null)
-            {
-                _subjects.Add(subject);
-            }
+            _curriculumCodes.Add(curriculumCode);
         }
     }
 
-    public static TermPlan Create(List<Subject> subjects)
+    public static TermPlan Create(List<string> curriculumCodes)
     {
-        return new TermPlan(Guid.NewGuid(), subjects);
+        return new TermPlan(Guid.NewGuid(), curriculumCodes);
     }
 
 
