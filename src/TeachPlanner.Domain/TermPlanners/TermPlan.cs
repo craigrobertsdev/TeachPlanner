@@ -1,6 +1,6 @@
 ﻿using TeachPlanner.Domain.Common.Primatives;
 
-namespace TeachPlanner.Domain.TermPlanner;
+namespace TeachPlanner.Domain.TermPlanners;
 public sealed class TermPlan : Entity
 {
     private readonly List<string> _curriculumCodes = new();

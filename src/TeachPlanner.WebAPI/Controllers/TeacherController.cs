@@ -26,18 +26,18 @@ public class TeacherController : ApiController
 
     [HttpGet]
     [Route("{teacherId}/planner")]
-    public async Task<IActionResult> GetPlannerData(string teacherId)
+    public async Task<IActionResult> GetLessonPlannerData(string teacherId, CancellationToken cancellationToken)
     {
         var query = new GetPlannerDataQuery(teacherId);
 
-        var lessonPlans = await _mediator.Send(query);
+        var lessonPlans = await _mediator.Send(query, cancellationToken);
 
         return Ok(lessonPlans);
     }
 
     [HttpPost]
     [Route("{teacherId}/subjects")]
-    public async Task<IActionResult> SetSubjectsTaught(string teacherId, SetSubjectsTaughtRequest request)
+    public async Task<IActionResult> SetSubjectsTaught(string teacherId, SetSubjectsTaughtRequest request, CancellationToken cancellationToken)
     {
         var command = new SetSubjectsTaughtCommand(Guid.Parse(teacherId), request.SubjectNames);
 

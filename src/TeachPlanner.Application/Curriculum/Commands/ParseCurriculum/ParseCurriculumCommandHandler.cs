@@ -18,7 +18,7 @@ public class ParseCurriculumCommandHandler : IRequestHandler<ParseCurriculumComm
     {
         var subjects = _curriculumParser.ParseCurriculum();
 
-        await _curriculumRepository.SaveCurriculum(subjects);
+        await _curriculumRepository.SaveCurriculum(subjects, cancellationToken);
 
         return new ParseCurriculumResult();
     }

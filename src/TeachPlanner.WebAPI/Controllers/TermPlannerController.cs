@@ -25,7 +25,7 @@ public class TermPlannerController : ApiController
 
     [HttpGet]
     public async Task<IActionResult> GetTermPlanner(
-        GetTermPlannerRequest request, ISender sender)
+        GetTermPlannerRequest request, ISender sender, CancellationToken cancellationToken)
     {
         var command = new GetTermPlannerQuery(Guid.Parse(request.TeacherId), Guid.Parse(request.TermPlannerId));
 
@@ -36,7 +36,7 @@ public class TermPlannerController : ApiController
 
     [HttpPost]
     public async Task<IActionResult> CreateTermPlanner(
-               CreateTermPlannerRequest request, string teacherId, ISender sender)
+               CreateTermPlannerRequest request, string teacherId, ISender sender, CancellationToken cancellationToken)
     {
         var command = _mapper.Map<CreateTermPlannerCommand>((request, teacherId));
 

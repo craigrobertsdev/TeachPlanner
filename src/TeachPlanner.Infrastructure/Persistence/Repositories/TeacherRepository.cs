@@ -18,13 +18,13 @@ public class TeacherRepository : ITeacherRepository
         _context = context;
     }
 
-    public async void Create(Teacher teacher)
+    public async void Create(Teacher teacher, CancellationToken cancellationToken)
     {
         _context.Teachers.Add(teacher);
         await _context.SaveChangesAsync();
     }
 
-    public async Task<List<Subject>> GetSubjectsTaughtByTeacherWithoutElaborations(Guid teacherId)
+    public async Task<List<Subject>> GetSubjectsTaughtByTeacherWithoutElaborations(Guid teacherId, CancellationToken cancellationToken)
     {
         var subjectQuery = _context.Teachers
             .Where(t => t.Id == teacherId)
@@ -62,7 +62,7 @@ public class TeacherRepository : ITeacherRepository
         return subjects;
     }
 
-    public async Task<List<Subject>> GetSubjectsTaughtByTeacherWithElaborations(Guid teacherId)
+    public async Task<List<Subject>> GetSubjectsTaughtByTeacherWithElaborations(Guid teacherId, CancellationToken cancellationToken)
     {
         var subjectQuery = _context.Teachers
             .Where(t => t.Id == teacherId)
@@ -102,7 +102,7 @@ public class TeacherRepository : ITeacherRepository
         return subjects;
     }
 
-    public async Task<List<Subject>> SetSubjectsTaughtByTeacher(Guid teacherId, List<string> subjectNames)
+    public async Task<List<Subject>> SetSubjectsTaughtByTeacher(Guid teacherId, List<string> subjectNames, CancellationToken cancellationToken)
     {
         var subjects = _context.Subjects.Where(s => subjectNames.Contains(s.Name)).ToList();
 
@@ -120,15 +120,15 @@ public class TeacherRepository : ITeacherRepository
         return subjects;
     }
 
-    public Task<Teacher?> GetTeacherByEmailAsync(string email)
+    public Task<Teacher?> GetTeacherByEmailAsync(string email, CancellationToken cancellationToken)
     {
         var teacher = _context.Teachers.FirstOrDefaultAsync(t => t.Email == email);
         return teacher;
     }
 
-    public Task<Teacher?> GetTeacherById(Guid id)
+    public Task<Teacher?> GetTeacherById(Guid id, CancellationToken cancellationToken)
     {
-        return _context.Teachers.FirstOrDefaultAsync(t => t.Id == id);
+        return _context.Teachers.FirstOrDefaultAsync(t => t.Id == id, cancellationToken);
     }
 
     public async Task<Teacher?> GetTeacherByUserId(Guid id)

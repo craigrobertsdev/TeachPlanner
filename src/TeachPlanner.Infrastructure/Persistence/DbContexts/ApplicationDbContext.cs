@@ -6,7 +6,7 @@ using TeachPlanner.Domain.Reports;
 using TeachPlanner.Domain.Resources;
 using TeachPlanner.Domain.Subjects;
 using TeachPlanner.Domain.Teachers;
-using TeachPlanner.Domain.TermPlanner;
+using TeachPlanner.Domain.TermPlanners;
 using TeachPlanner.Domain.WeekPlanners;
 
 namespace TeachPlanner.Infrastructure.Persistence.DbContexts;

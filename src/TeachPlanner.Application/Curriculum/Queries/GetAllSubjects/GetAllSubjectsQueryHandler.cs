@@ -16,11 +16,11 @@ public class GetAllSubjectsQueryHandler : IRequestHandler<GetAllSubjectsQuery, G
     }
     public async Task<GetAllSubjectsResult> Handle(GetAllSubjectsQuery request, CancellationToken cancellationToken)
     {
-        List<Subject> subjects = await _curriculumRepository.GetSubjects(request.Elaborations);
+        List<Subject> subjects = await _curriculumRepository.GetSubjects(request.Elaborations, cancellationToken);
 
-        if (subjects == null)
+        if (subjects.Count == 0)
         {
-            throw new TeacherHasNoSubjectsException();
+            throw new NoSubjectsFoundException();
         }
 
         return new GetAllSubjectsResult(subjects);

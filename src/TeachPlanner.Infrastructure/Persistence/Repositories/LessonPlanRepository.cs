@@ -14,13 +14,13 @@ public class LessonPlanRepository : ILessonRepository
         _context = context;
     }
 
-    public async Task Create(LessonPlan lessonPlan)
+    public async Task Create(LessonPlan lessonPlan, CancellationToken cancellationToken)
     {
         _context.Add(lessonPlan);
         await _context.SaveChangesAsync();
     }
 
-    public async Task<List<LessonPlan>?> GetLessonsByTeacherIdAsync(Guid teacherId)
+    public async Task<List<LessonPlan>?> GetLessonsByTeacherIdAsync(Guid teacherId, CancellationToken cancellationToken)
     {
         return await _context.LessonPlans.Where(lessonPlan => lessonPlan.TeacherId == teacherId).ToListAsync();
     }

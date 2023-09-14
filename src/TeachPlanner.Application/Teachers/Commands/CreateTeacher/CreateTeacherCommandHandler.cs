@@ -17,14 +17,14 @@ public class CreateTeacherCommandHandler : IRequestHandler<CreateTeacherCommand,
 
     public async Task<TeacherCreatedResult> Handle(CreateTeacherCommand command, CancellationToken cancellationToken)
     {
-        if (await _teacherRepository.GetTeacherById(command.TeacherId) is not null)
+        if (await _teacherRepository.GetTeacherById(command.TeacherId, cancellationToken) is not null)
         {
             throw new DuplicateEmailException();
         }
 
         var teacher = Teacher.Create(command.FirstName, command.LastName, command.Email, command.Password);
 
-        _teacherRepository.Create(teacher);
+        _teacherRepository.Create(teacher, cancellationToken);
 
         return new TeacherCreatedResult(teacher.Id);
     }

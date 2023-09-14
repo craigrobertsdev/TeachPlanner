@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System.Text.Json;
 using TeachPlanner.Domain.Common.Enums;
 using TeachPlanner.Domain.Common.Helpers;
-using TeachPlanner.Domain.TermPlanner;
+using TeachPlanner.Domain.TermPlanners;
 
 namespace TeachPlanner.Infrastructure.Persistence.Configurations;
 public class TermPlannerConfiguration : IEntityTypeConfiguration<TermPlanner>

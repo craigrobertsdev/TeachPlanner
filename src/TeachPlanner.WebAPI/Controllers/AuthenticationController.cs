@@ -29,19 +29,19 @@ public class AuthenticationController : ApiController
     }
 
     [HttpPost("register")]
-    public async Task<IActionResult> Register(RegisterRequest request)
+    public async Task<IActionResult> Register(RegisterRequest request, CancellationToken cancellationToken)
     {
         var command = _mapper.Map<RegisterCommand>(request);
 
         var validationResult = await _registerValidator.ValidateAsync(command);
 
-        var authResult = await _sender.Send(command);
+        var authResult = await _sender.Send(command, cancellationToken);
 
         return Ok(authResult);
     }
 
     [HttpPost("login")]
-    public async Task<IActionResult> Login(LoginRequest request)
+    public async Task<IActionResult> Login(LoginRequest request, CancellationToken cancellationToken)
     {
         var query = _mapper.Map<LoginQuery>(request);
         var validationResult = await _loginValidator.ValidateAsync(query);

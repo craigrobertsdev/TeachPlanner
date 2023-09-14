@@ -23,7 +23,7 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, Authentic
 
     public async Task<AuthenticationResult> Handle(RegisterCommand command, CancellationToken cancellationToken)
     {
-        if (await _teacherRepository.GetTeacherByEmailAsync(command.Email) != null)
+        if (await _teacherRepository.GetTeacherByEmailAsync(command.Email, cancellationToken) != null)
         {
             throw new DuplicateEmailException();
         }
@@ -34,7 +34,7 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, Authentic
             command.Email,
             command.Password);
 
-        _teacherRepository.Create(teacher);
+        _teacherRepository.Create(teacher, cancellationToken);
 
         var token = _jwtTokenGenerator.GenerateToken(teacher);
 

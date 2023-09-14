@@ -20,7 +20,7 @@ public class CurriculumController : ApiController
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetSubjects(bool elaborations = true)
+    public async Task<IActionResult> GetSubjects(bool elaborations, CancellationToken cancellationToken)
     {
         var result = await _mediator.Send(new GetAllSubjectsQuery(elaborations));
 

@@ -539,7 +539,7 @@ namespace TeachPlanner.Infrastructure.Migrations
                     b.ToTable("teachers", (string)null);
                 });
 
-            modelBuilder.Entity("TeachPlanner.Domain.TermPlanner.TermPlanner", b =>
+            modelBuilder.Entity("TeachPlanner.Domain.TermPlanners.TermPlanners", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -972,9 +972,9 @@ namespace TeachPlanner.Infrastructure.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("TeachPlanner.Domain.TermPlanner.TermPlanner", b =>
+            modelBuilder.Entity("TeachPlanner.Domain.TermPlanners.TermPlanners", b =>
                 {
-                    b.OwnsMany("TeachPlanner.Domain.TermPlanner.TermPlan", "TermPlans", b1 =>
+                    b.OwnsMany("TeachPlanner.Domain.TermPlanners.TermPlan", "TermPlans", b1 =>
                         {
                             b1.Property<int>("Id")
                                 .ValueGeneratedOnAdd()

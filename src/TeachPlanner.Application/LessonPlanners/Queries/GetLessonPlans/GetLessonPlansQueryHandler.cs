@@ -8,23 +8,30 @@ public class GetLessonPlansQueryHandler : IRequestHandler<GetLessonPlansQuery, L
 {
     private readonly ITeacherRepository _teacherRepository;
     private readonly ILessonRepository _lessonRepository;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public GetLessonPlansQueryHandler(ITeacherRepository teacherRepository, ILessonRepository lessonRepository)
+    public GetLessonPlansQueryHandler(ITeacherRepository teacherRepository, ILessonRepository lessonRepository, IUnitOfWork unitOfWork)
     {
         _teacherRepository = teacherRepository;
         _lessonRepository = lessonRepository;
+        _unitOfWork = unitOfWork;
     }
 
     public async Task<List<LessonPlan>> Handle(GetLessonPlansQuery request, CancellationToken cancellationToken)
     {
-        var teacher = await _teacherRepository.GetTeacherById(request.TeacherId);
+        var teacher = await _teacherRepository.GetTeacherById(request.TeacherId, cancellationToken);
 
         if (teacher is null)
         {
             throw new TeacherNotFoundException();
         }
 
-        var lessonPlans = await _lessonRepository.GetLessonsByTeacherIdAsync(request.TeacherId);
+        var lessonPlans = await _lessonRepository.GetLessonsByTeacherIdAsync(request.TeacherId, cancellationToken);
+
+        if (lessonPlans == null)
+        {
+            throw new LessonPlansNotFoundException();
+        }
 
         return lessonPlans;
     }

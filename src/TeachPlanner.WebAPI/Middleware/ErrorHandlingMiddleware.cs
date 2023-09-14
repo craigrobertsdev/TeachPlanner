@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using Microsoft.AspNetCore.Mvc;
+using System.Net;
 using TeachPlanner.Api.Common.Errors;
 using TeachPlanner.Domain.Common.Exceptions;
 
@@ -33,11 +34,16 @@ public class ErrorHandlingMiddleware
         context.Response.ContentType = "application/json";
         context.Response.StatusCode = ex is BaseException bex ? bex.StatusCode : (int)HttpStatusCode.InternalServerError;
 
-        await context.Response.WriteAsync(new ErrorDetails()
+        var problemDetails = new ProblemDetails()
         {
-            StatusCode = context.Response.StatusCode,
-            Message = ex.Message + " --- Make sure to change this in production!"
-            // Message = context.Response.StatusCode == (int)HttpStatusCode.InternalServerError ? "Internal Server Error" : ex.Message
-        }.ToString());
+            Status = context.Response.StatusCode,
+            Title = ex.Message,
+            Detail = ex.Message + " --- Make sure to change this in production!",
+            // Detail = context.Response.StatusCode == (int)HttpStatusCode.InternalServerError ? "Internal Server Error" : ex.Message
+        };
+
+        await context.Response.WriteAsync(problemDetails.ToString() != null
+            ? (problemDetails.ToString())!
+            : "An internal server error has occurred");
     }
 }

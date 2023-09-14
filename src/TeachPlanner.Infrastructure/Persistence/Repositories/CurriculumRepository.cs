@@ -13,7 +13,7 @@ public class CurriculumRepository : ICurriculumRepository
         _context = context;
     }
 
-    public async Task<List<Subject>> GetSubjects(bool elaborations, List<Guid>? subjectsTaught = null)
+    public async Task<List<Subject>> GetSubjects(bool elaborations, CancellationToken cancellationToken)
     {
         IQueryable<Subject> query;
         IQueryable<Subject> mathsQuery;
@@ -53,12 +53,6 @@ public class CurriculumRepository : ICurriculumRepository
                 .Where(s => s.Name == "Mathematics");
         }
 
-        if (subjectsTaught != null && subjectsTaught.Count > 0)
-        {
-            query = query.Where(s => subjectsTaught.Contains(s.Id));
-            mathsQuery = mathsQuery.Where(s => subjectsTaught.Contains(s.Id));
-        }
-
         var subjects = await query.AsNoTracking().ToListAsync();
         var maths = await mathsQuery.AsNoTracking().SingleOrDefaultAsync();
 
@@ -71,7 +65,7 @@ public class CurriculumRepository : ICurriculumRepository
 
     }
 
-    public Task SaveCurriculum(List<Subject> subjects)
+    public Task SaveCurriculum(List<Subject> subjects, CancellationToken cancellationToken)
     {
         // clear existing subjects
         _context.Subjects.RemoveRange(_context.Subjects);

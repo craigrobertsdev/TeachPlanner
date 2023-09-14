@@ -14,7 +14,7 @@ public class SetSubjectsTaughtCommandHandler : IRequestHandler<SetSubjectsTaught
 
     public async Task<SetSubjectsTaughtResult> Handle(SetSubjectsTaughtCommand request, CancellationToken cancellationToken)
     {
-        var subjects = await _teacherRepository.SetSubjectsTaughtByTeacher(request.TeacherId, request.SubjectNames);
+        var subjects = await _teacherRepository.SetSubjectsTaughtByTeacher(request.TeacherId, request.SubjectNames, cancellationToken);
 
         if (subjects == null)
         {

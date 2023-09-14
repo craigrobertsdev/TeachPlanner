@@ -16,4 +16,10 @@
 		<ProjectReference Include="..\TeachPlanner.Domain\TeachPlanner.Domain.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+		<AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
+			<_Parameter1>TeachPlanner.Application.Tests</_Parameter1>
+		</AssemblyAttribute>
+	</ItemGroup>
+
 </Project>

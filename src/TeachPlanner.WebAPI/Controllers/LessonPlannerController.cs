@@ -24,7 +24,7 @@ public class LessonPlannerController : ApiController
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetLessonPlans(GetLessonPlansRequest request)
+    public async Task<IActionResult> GetLessonPlans(GetLessonPlansRequest request, CancellationToken cancellationToken)
     {
         var query = _mapper.Map<GetLessonPlansQuery>(request);
         var lessonPlans = await _mediator.Send(query);
@@ -34,7 +34,7 @@ public class LessonPlannerController : ApiController
     }
 
     [HttpPost]
-    public async Task<IActionResult> CreateLessonPlan(CreateLessonPlanRequest request, string teacherId)
+    public async Task<IActionResult> CreateLessonPlan(CreateLessonPlanRequest request, string teacherId, CancellationToken cancellationToken)
     {
         var command = _mapper.Map<CreateLessonPlanCommand>((request, teacherId));
 

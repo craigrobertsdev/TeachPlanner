@@ -24,7 +24,7 @@ public class CreateLessonPlanCommandHandler : IRequestHandler<CreateLessonPlanCo
             command.NumberOfPeriods,
             command.Resources);
 
-        await _lessonRepository.Create(lesson);
+        await _lessonRepository.Create(lesson, cancellationToken);
 
         return lesson;
     }
