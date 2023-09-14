@@ -39,7 +39,7 @@ public class GetPlannerDataQueryHandler //: IRequestHandler<GetPlannerDataQuery,
     //         return new NotFoundError($"DayPlanPattern with id {weekPlanner.DayPlanPatternId} not found");
     //     }
 
-    //     var subjects = await _subjectRepository.GetSubjects(teacher.SubjectIds);
+    //     var subjects = await _subjectRepository.GetAllSubjects(teacher.SubjectIds);
 
     //     return new GetPlannerDataResult(weekPlanner, dayPlanPattern, subjects);
     // // }

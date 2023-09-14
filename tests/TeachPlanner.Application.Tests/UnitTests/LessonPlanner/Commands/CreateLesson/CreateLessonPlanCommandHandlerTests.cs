@@ -1,10 +1,8 @@
 ﻿using TeachPlanner.Application.Common.Interfaces.Persistence;
 using TeachPlanner.Application.LessonPlanners.CreateLessonPlan.Commands;
-using Application.UnitTests.LessonPlanner.Commands.TestUtils;
 using FluentAssertions;
-using Moq;
 
-namespace Application.UnitTests.LessonPlanner.Commands.CreateLesson;
+namespace TeachPlanner.Application.Tests.UnitTests.LessonPlanner.Commands.CreateLesson;
 public class CreateLessonPlanCommandHandlerTests
 {
     /*    private readonly CreateLessonPlanCommandHandler _handler;

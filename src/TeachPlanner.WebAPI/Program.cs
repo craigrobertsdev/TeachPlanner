@@ -9,9 +9,9 @@ var syncfusionLicenceKey = builder.Configuration["Syncfusion:LicenseKey"];
 Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense(syncfusionLicenceKey);
 
 builder.Services
+    .AddInfrastructure(builder.Configuration)
     .AddPresentation()
-    .AddApplication()
-    .AddInfrastructure(builder.Configuration);
+    .AddApplication();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

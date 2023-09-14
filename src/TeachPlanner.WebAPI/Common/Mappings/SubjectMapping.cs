@@ -1,5 +1,5 @@
 ﻿using Mapster;
-using TeachPlanner.Application.Curriculum.Queries.GetSubjects;
+using TeachPlanner.Application.Curriculum.Queries.GetAllSubjects;
 using TeachPlanner.Contracts.Curriculum;
 using TeachPlanner.Domain.Subjects;
 
@@ -35,7 +35,7 @@ public class SubjectMapping : IRegister
             .Map(dest => dest.Elaborations, src => src.Elaborations.Select(elaboration => elaboration).ToList());
 
         config
-            .NewConfig<GetSubjectsResult, GetSubjectsResponse>()
+            .NewConfig<GetAllSubjectsResult, GetSubjectsResponse>()
             .Map(dest => dest.Subjects, src => src.Subjects.Select(subject => subject.Adapt<SubjectResponse>()).ToList());
     }
 }

@@ -13,7 +13,7 @@ public class CurriculumRepository : ICurriculumRepository
         _context = context;
     }
 
-    public Task<List<Subject>> GetSubjects(bool elaborations, List<Guid>? subjectsTaught = null)
+    public async Task<List<Subject>> GetSubjects(bool elaborations, List<Guid>? subjectsTaught = null)
     {
         IQueryable<Subject> query;
         IQueryable<Subject> mathsQuery;
@@ -59,15 +59,15 @@ public class CurriculumRepository : ICurriculumRepository
             mathsQuery = mathsQuery.Where(s => subjectsTaught.Contains(s.Id));
         }
 
-        var subjects = query.ToList();
-        var maths = mathsQuery.SingleOrDefault();
+        var subjects = await query.AsNoTracking().ToListAsync();
+        var maths = await mathsQuery.AsNoTracking().SingleOrDefaultAsync();
 
         if (maths != null)
         {
             subjects.Add(maths);
         }
 
-        return Task.FromResult(subjects);
+        return subjects;
 
     }
 

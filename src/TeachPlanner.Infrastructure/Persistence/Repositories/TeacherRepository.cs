@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
+using System.Security;
 using TeachPlanner.Application.Common.Exceptions;
 using TeachPlanner.Application.Common.Interfaces.Persistence;
 using TeachPlanner.Domain.Subjects;
@@ -23,42 +24,30 @@ public class TeacherRepository : ITeacherRepository
         await _context.SaveChangesAsync();
     }
 
-    public async Task<List<Subject>?> GetSubjectsTaughtByTeacher(Guid teacherId, bool? elaborations)
+    public async Task<List<Subject>> GetSubjectsTaughtByTeacherWithoutElaborations(Guid teacherId)
     {
-        var teacher = await _context.Teachers
-            .Include(t => t.SubjectsTaught)
-            .SingleOrDefaultAsync(t => t.Id == teacherId);
-
-        if (teacher == null)
-        {
-            return null;
-        }
-
-        var teacherSubjectIds = teacher.SubjectsTaught.Select(s => s.Id).ToList();
-
-        var subjectQuery = _context.Subjects
-            .Where(s => teacherSubjectIds.Contains(s.Id))
+        var subjectQuery = _context.Teachers
+            .Where(t => t.Id == teacherId)
+            .SelectMany(t => t.SubjectsTaught)
+            .AsNoTracking()
             .Where(s => s.Name != "Mathematics")
             .Include(s => s.YearLevels)
             .ThenInclude(yl => yl.Strands)
             .ThenInclude(s => s.Substrands!)
-            .ThenInclude(ss => ss.ContentDescriptions);
+            .ThenInclude(s => s.ContentDescriptions);
 
-        var mathsQuery = _context.Subjects
-            .Where(s => teacherSubjectIds.Contains(s.Id))
+        var mathsQuery = _context.Teachers
+            .Where(t => t.Id == teacherId)
+            .SelectMany(t => t.SubjectsTaught)
+            .AsNoTracking()
             .Where(s => s.Name == "Mathematics")
             .Include(s => s.YearLevels)
             .ThenInclude(yl => yl.Strands)
             .ThenInclude(s => s.ContentDescriptions!);
 
-        if (elaborations == true)
-        {
-            subjectQuery.ThenInclude(cd => cd.Elaborations);
-            mathsQuery.ThenInclude(cd => cd.Elaborations);
-        }
 
-        var subjects = subjectQuery.ToList();
-        var maths = mathsQuery.SingleOrDefault();
+        var subjects = await subjectQuery.ToListAsync();
+        var maths = await mathsQuery.SingleOrDefaultAsync();
 
         if (maths != null)
         {
@@ -69,18 +58,59 @@ public class TeacherRepository : ITeacherRepository
         {
             return new List<Subject>();
         }
+
         return subjects;
     }
 
-    public async Task<List<Subject>?> SetSubjectsTaughtByTeacher(Guid teacherId, List<string> subjectNames)
+    public async Task<List<Subject>> GetSubjectsTaughtByTeacherWithElaborations(Guid teacherId)
+    {
+        var subjectQuery = _context.Teachers
+            .Where(t => t.Id == teacherId)
+            .SelectMany(t => t.SubjectsTaught)
+            .AsNoTracking()
+            .Where(s => s.Name != "Mathematics")
+            .Include(s => s.YearLevels)
+            .ThenInclude(yl => yl.Strands)
+            .ThenInclude(s => s.Substrands!)
+            .ThenInclude(s => s.ContentDescriptions)
+            .ThenInclude(cd => cd.Elaborations);
+
+        var mathsQuery = _context.Teachers
+            .Where(t => t.Id == teacherId)
+            .SelectMany(t => t.SubjectsTaught)
+            .AsNoTracking()
+            .Where(s => s.Name == "Mathematics")
+            .Include(s => s.YearLevels)
+            .ThenInclude(yl => yl.Strands)
+            .ThenInclude(s => s.ContentDescriptions!)
+            .ThenInclude(cd => cd.Elaborations);
+
+
+        var subjects = await subjectQuery.ToListAsync();
+        var maths = await mathsQuery.SingleOrDefaultAsync();
+
+        if (maths != null)
+        {
+            subjects.Add(maths);
+        }
+
+        if (subjects.Count == 0)
+        {
+            return new List<Subject>();
+        }
+
+        return subjects;
+    }
+
+    public async Task<List<Subject>> SetSubjectsTaughtByTeacher(Guid teacherId, List<string> subjectNames)
     {
         var subjects = _context.Subjects.Where(s => subjectNames.Contains(s.Name)).ToList();
 
         var teacher = _context.Teachers.FirstOrDefault(t => t.Id == teacherId);
-        
+
         if (teacher == null)
         {
-            return null;
+            throw new TeacherNotFoundException();
         }
 
         teacher.AddSubjectsTaught(subjects);

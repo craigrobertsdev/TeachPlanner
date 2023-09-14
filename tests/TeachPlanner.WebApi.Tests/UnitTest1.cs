@@ -1,4 +1,4 @@
-namespace Application.UnitTests;
+namespace TeachPlanner.WebApi.UnitTests;
 
 public class UnitTest1
 {

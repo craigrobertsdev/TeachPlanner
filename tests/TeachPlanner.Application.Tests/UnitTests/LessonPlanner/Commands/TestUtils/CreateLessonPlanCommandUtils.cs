@@ -2,7 +2,7 @@
 using TeachPlanner.Application.LessonPlanners.CreateLessonPlan.Commands;
 using TeachPlanner.Domain.Resources;
 
-namespace Application.UnitTests.LessonPlanner.Commands.TestUtils;
+namespace TeachPlanner.Application.Tests.UnitTests.LessonPlanner.Commands.TestUtils;
 
 public static class CreateLessonPlanCommandUtils
 {

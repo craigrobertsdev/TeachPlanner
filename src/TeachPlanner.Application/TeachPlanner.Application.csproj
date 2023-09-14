@@ -16,8 +16,4 @@
 		<ProjectReference Include="..\TeachPlanner.Domain\TeachPlanner.Domain.csproj" />
 	</ItemGroup>
 
-	<ItemGroup>
-		<Folder Include="Teachers\Queries\" />
-	</ItemGroup>
-
 </Project>

@@ -14,18 +14,11 @@ public class SetSubjectsTaughtCommandHandler : IRequestHandler<SetSubjectsTaught
 
     public async Task<SetSubjectsTaughtResult> Handle(SetSubjectsTaughtCommand request, CancellationToken cancellationToken)
     {
-        var teacher = await _teacherRepository.GetTeacherById(request.TeacherId);
-
-        if (teacher == null)
-        {
-            throw new TeacherNotFoundException();
-        }
-
         var subjects = await _teacherRepository.SetSubjectsTaughtByTeacher(request.TeacherId, request.SubjectNames);
 
         if (subjects == null)
         {
-            throw new TeacherNotFoundException();
+            throw new TeacherHasNoSubjectsException();
         }
 
         return new SetSubjectsTaughtResult(subjects);
