@@ -6,6 +6,7 @@ namespace TeachPlanner.Domain.Subjects;
 public sealed class YearLevel : ValueObject
 {
     private readonly List<Strand> _strands = new();
+    public Subject Subject { get; private set; }
     public YearLevelValue? YearLevelValue { get; private set; }
     public BandLevelValue? BandLevelValue { get; private set; }
     public string? YearLevelDescription { get; private set; }
@@ -35,6 +36,7 @@ public sealed class YearLevel : ValueObject
     }
 
     private YearLevel(
+        Subject subject,
         List<Strand> strands,
         YearLevelValue? yearLevelValue,
         BandLevelValue? bandLevelValue,
@@ -42,6 +44,7 @@ public sealed class YearLevel : ValueObject
         string? achievementStandard = null
     )
     {
+        Subject = subject;
         _strands = strands;
         YearLevelValue = yearLevelValue;
         BandLevelValue = bandLevelValue;
@@ -49,9 +52,14 @@ public sealed class YearLevel : ValueObject
         AchievementStandard = achievementStandard;
     }
 
-    public static YearLevel Create(List<Strand> strands, string yearLevelDescription, string achievementStandard, YearLevelValue? yearLevelValue, BandLevelValue? bandLevelValue)
+    public static YearLevel Create(Subject subject, List<Strand> strands, string yearLevelDescription, string achievementStandard, YearLevelValue? yearLevelValue, BandLevelValue? bandLevelValue)
     {
-        return new(strands, yearLevelValue, bandLevelValue, yearLevelDescription, achievementStandard);
+        return new(subject, strands, yearLevelValue, bandLevelValue, yearLevelDescription, achievementStandard);
+    }
+
+    public Strand? GetStrand(Strand strand)
+    {
+        return _strands.Find(s => s.Name == strand.Name);
     }
 
     public void AddStrand(Strand strand)

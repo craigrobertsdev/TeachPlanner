@@ -1,7 +1,10 @@
 ﻿using FluentAssertions;
 using TeachPlanner.Domain.Common.Enums;
 using TeachPlanner.Domain.Common.Exceptions;
+using TeachPlanner.Domain.Subjects;
 using TeachPlanner.Domain.TermPlanners;
+using TeachPlanner.Domain.Tests.Helpers;
+
 namespace TeachPlanner.Domain.Tests.TermPlanners;
 public class TermPlannerTests
 {
@@ -11,70 +14,156 @@ public class TermPlannerTests
         // Arrange
 
         // Act
-        var result = TermPlanner.Create(2021, new List<TermPlan>(), YearLevelValue.Year1);
+        var termPlanner = TermPlanner.Create(2021, YearLevelValue.Year1, null);
 
         // Assert
-        result.Should().BeOfType<TermPlanner>();
-        result.CalendarYear.Should().Be(2021);
-        result.YearLevel.Should().Be(YearLevelValue.Year1);
-        result.YearLevels.Should().BeEmpty();
+        termPlanner.Should().BeOfType<TermPlanner>();
+        termPlanner.CalendarYear.Should().Be(2021);
+        termPlanner.YearLevels.Count.Should().Be(1);
+        termPlanner.YearLevels[0].Should().Be(YearLevelValue.Year1);
+    }
+
+
+    [Fact]
+    public void Create_OnAddingSameYearLevelTwice_ShouldThrowException()
+    {
+        // Arrange
+        var termPlanner = TermPlanner.Create(2021, YearLevelValue.Year1, YearLevelValue.Year1);
+
+        // Act
+
+        // Assert
+        termPlanner.YearLevels.Count.Should().Be(1);
+        termPlanner.YearLevels[0].Should().Be(YearLevelValue.Year1);
     }
 
     [Fact]
-    public void AddTermPlanner_OnAddingTermPlan_ShouldBeAdded()
+    public void Create_OnCreating_YearLevelsShouldBeOrdered()
     {
         // Arrange
-        var termPlanner = TermPlanner.Create(2021, new List<TermPlan>(), YearLevelValue.Year1);
-        var termPlan = TermPlan.Create(new List<string> { "ENG" });
+        var termPlanner = TermPlanner.Create(2021, YearLevelValue.Year5, YearLevelValue.Year1);
 
         // Act
-        var result = termPlanner.AddTermPlan(termPlan);
+
+        // Assert
+        termPlanner.YearLevels[0].Should().Be(YearLevelValue.Year1);
+        termPlanner.YearLevels[1].Should().Be(YearLevelValue.Year5);
+    }
+
+    [Fact]
+    public void AddYearLevel_OnAddingYearLevel_ShouldBeAdded()
+    {
+        // Arrange
+        var termPlanner = TermPlanner.Create(2021, YearLevelValue.Year1, null);
+
+        // Act
+        termPlanner.AddYearLevel(YearLevelValue.Year2);
+
+        // Assert
+        termPlanner.YearLevels.Should().HaveCount(2);
+        termPlanner.YearLevels.Should().Contain(YearLevelValue.Year1);
+        termPlanner.YearLevels.Should().Contain(YearLevelValue.Year2);
+    }
+
+    [Fact]
+    public void AddYearLevel_OnAddingYearLevel_ShouldBeOrdered()
+    {
+        // Arrange
+        var termPlanner = TermPlanner.Create(2021, YearLevelValue.Year5, null);
+
+        // Act
+        termPlanner.AddYearLevel(YearLevelValue.Year1);
+
+        // Assert
+        termPlanner.YearLevels[0].Should().Be(YearLevelValue.Year1);
+        termPlanner.YearLevels[1].Should().Be(YearLevelValue.Year5);
+    }
+    [Fact]
+    public void AddTermPlan_OnAddingTermPlan_ShouldBeAdded()
+    {
+        // Arrange
+        var termPlanner = TermPlanner.Create(2021, YearLevelValue.Year1, null);
+        var termPlan = TermPlan.Create(termPlanner, 1, new List<Subject> { TermPlannerHelpers.CreateSubject("English", "ENG001") });
+
+        // Act
+        termPlanner.AddTermPlan(termPlan);
 
         // Assert
         termPlanner.TermPlans.Should().HaveCount(1);
         termPlanner.TermPlans.Should().Contain(termPlan);
-        result.Should().Be(true);
     }
 
     [Fact]
-    public void AddTermPlanner_OnAddingDuplicateTermPlan_ShouldNotBeAdded()
+    public void AddTermPlan_OnAddingDuplicateTermPlan_ShouldNotBeAdded()
     {
         // Arrange
-        var termPlanner = TermPlanner.Create(2021, new List<TermPlan>(), YearLevelValue.Year1);
-        var termPlan = TermPlan.Create(new List<string> { "ENG" });
+        var termPlanner = TermPlanner.Create(2021, YearLevelValue.Year1, null);
+        var termPlan = TermPlan.Create(termPlanner, 1, new List<Subject> { TermPlannerHelpers.CreateSubject("English", "ENG001") });
 
         // Act
-        var result1 = termPlanner.AddTermPlan(termPlan);
-        var result2 = termPlanner.AddTermPlan(termPlan);
+        termPlanner.AddTermPlan(termPlan);
+        Action act = () => termPlanner.AddTermPlan(termPlan);
 
         // Assert
         termPlanner.TermPlans.Should().HaveCount(1);
-        termPlanner.TermPlans.Should().Contain(termPlan);
-        result1.Should().Be(true);
-        result2.Should().Be(false);
+        act.Should().Throw<DuplicateTermPlanException>();
     }
 
     [Fact]
-    public void Create_OnPassingYearLevelAndYearLevelList_ShouldThrowException()
+    public void AddTermPlan_OnAddingFifthTermPlan_ShouldNotBeAdded()
     {
         // Arrange
+        var termPlanner = TermPlannerHelpers.CreateTermPlanner();
+        List<TermPlan> termPlans = new()
+        {
+            TermPlan.Create(termPlanner, 1, new List < Subject > { TermPlannerHelpers.CreateSubject("English", "ENG001") }),
+            TermPlan.Create(termPlanner, 2, new List < Subject > { TermPlannerHelpers.CreateSubject("English", "ENG002") }),
+            TermPlan.Create(termPlanner, 3, new List < Subject > { TermPlannerHelpers.CreateSubject("English", "ENG003") }),
+            TermPlan.Create(termPlanner, 4, new List < Subject > { TermPlannerHelpers.CreateSubject("English", "ENG004") }),
+        };
+
+        foreach (var termPlan in termPlans)
+        {
+            termPlanner.AddTermPlan(termPlan);
+        }
 
         // Act
-        Action act = () => TermPlanner.Create(2021, new List<TermPlan>(), YearLevelValue.Year1, new List<YearLevelValue> { YearLevelValue.Year1 });
+        Action act = () => termPlanner.AddTermPlan(TermPlan.Create(termPlanner, 4, new List<Subject> { TermPlannerHelpers.CreateSubject("English", "ENG005") }));
 
         // Assert
-        act.Should().Throw<TermPlannerCreationException>();
+        act.Should().Throw<TooManyTermPlansException>();
+        termPlanner.TermPlans.Should().HaveCount(4);
     }
 
     [Fact]
-    public void Create_OnPassingNeitherYearLevelAndYearLevelList_ShouldThrowException()
+    public void AddTermPlan_OnAddingDuplicateTermNumber_ShouldNotBeAdded()
     {
         // Arrange
+        var termPlanner = TermPlannerHelpers.CreateTermPlanner();
+        var termPlan = TermPlan.Create(termPlanner, 1, new List<Subject> { TermPlannerHelpers.CreateSubject("English", "ENG001") });
 
         // Act
-        Action act = () => TermPlanner.Create(2021, new List<TermPlan>(), null, null);
+        termPlanner.AddTermPlan(termPlan);
+        Action act = () => termPlanner.AddTermPlan(TermPlan.Create(termPlanner, 1, new List<Subject> { TermPlannerHelpers.CreateSubject("English", "ENG005") }));
 
         // Assert
-        act.Should().Throw<TermPlannerCreationException>();
+        termPlanner.TermPlans.Should().HaveCount(1);
+        termPlanner.TermPlans[0].Should().Be(termPlan);
+        act.Should().Throw<DuplicateTermNumberException>();
+    }
+
+    [Fact]
+    public void AddSubjects_OnAddingSubject_ShouldAddSubject()
+    {
+        // Arrange
+        var termPlanner = TermPlanner.Create(2021, YearLevelValue.Year1, null);
+        var subject = Subject.Create("English", new List<YearLevel>());
+
+        // Act
+        termPlanner.AddSubject(subject);
+
+        // Assert
+        termPlanner.Subjects.Should().HaveCount(1);
+        termPlanner.Subjects[0].Should().Be(subject);
     }
 }

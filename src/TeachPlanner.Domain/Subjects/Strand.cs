@@ -1,4 +1,3 @@
-using OneOf;
 using TeachPlanner.Domain.Common.Exceptions;
 using TeachPlanner.Domain.Common.Primatives;
 
@@ -7,35 +6,30 @@ namespace TeachPlanner.Domain.Subjects;
 public sealed class Strand : ValueObject
 {
     public string Name { get; private set; }
-
+    public YearLevel YearLevel { get; private set; }
     // one of these properties will be null depending on the subject
     private readonly List<Substrand>? _substrands = new();
     private readonly List<ContentDescription>? _contentDescriptions = new();
     public IReadOnlyList<Substrand>? Substrands => _substrands?.AsReadOnly();
     public IReadOnlyList<ContentDescription>? ContentDescriptions => _contentDescriptions?.AsReadOnly();
+    public bool HasSubstrands => _substrands is not null;
 
     private Strand(
         string name,
+        YearLevel yearLevel,
         List<Substrand>? substrands = null,
         List<ContentDescription>? contentDescriptions = null
     )
     {
         Name = name;
+        YearLevel = yearLevel;
         _substrands = substrands;
         _contentDescriptions = contentDescriptions;
     }
 
-    /// <summary>
-    /// This method is used to create a Strand entity. It will return an error if both substrands and contentDescriptions are null.
-    /// Some subjects have substrands, others only have content descriptors.
-    /// Exactly one of substrands or contentDescriptions must be provided.
-    /// </summary>
-    /// <param name="name"></param>
-    /// <param name="substrands"></param>
-    /// <param name="contentDescriptions"></param>
-    /// <returns></returns>
     public static Strand Create(
         string name,
+        YearLevel yearLevel,
         List<Substrand>? substrands = null,
         List<ContentDescription>? contentDescriptions = null
     )
@@ -45,7 +39,7 @@ public sealed class Strand : ValueObject
             throw new StrandCreationException();
         }
 
-        return new Strand(name, substrands, contentDescriptions);
+        return new Strand(name, yearLevel, substrands, contentDescriptions);
     }
 
     public List<ContentDescription> GetContentDescriptions()
@@ -70,6 +64,19 @@ public sealed class Strand : ValueObject
     public void AddContentDescriptions(List<ContentDescription> contentDescriptions)
     {
         foreach (var contentDescription in contentDescriptions)
+        {
+            AddContentDescription(contentDescription);
+        }
+    }
+
+    public void AddContentDescription(ContentDescription contentDescription)
+    {
+        if (HasSubstrands)
+        {
+            throw new StrandHasSubstrandsException();
+        }
+
+        if (!_contentDescriptions!.Contains(contentDescription))
         {
             _contentDescriptions!.Add(contentDescription);
         }

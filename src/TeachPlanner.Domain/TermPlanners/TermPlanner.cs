@@ -1,64 +1,109 @@
 ﻿using TeachPlanner.Domain.Common.Enums;
-using TeachPlanner.Domain.Common.Primatives;
 using TeachPlanner.Domain.Common.Exceptions;
+using TeachPlanner.Domain.Common.Primatives;
+using TeachPlanner.Domain.Subjects;
 
 namespace TeachPlanner.Domain.TermPlanners;
 public sealed class TermPlanner : AggregateRoot
 {
     private readonly List<TermPlan> _termPlans = new();
-    public int CalendarYear { get; private set; }
-    public YearLevelValue? YearLevel { get; set; }
     private readonly List<YearLevelValue> _yearLevels = new();
+    private readonly List<Subject> _subjects = new();
     public IReadOnlyList<TermPlan> TermPlans => _termPlans.AsReadOnly();
     public IReadOnlyList<YearLevelValue> YearLevels => _yearLevels.AsReadOnly();
+    public IReadOnlyList<Subject> Subjects => _subjects.AsReadOnly();
+    public int CalendarYear { get; private set; }
 
-    private TermPlanner(Guid id, int calendarYear, List<TermPlan> termPlans, List<YearLevelValue> yearLevels, YearLevelValue? yearLevel = null) : base(id)
+    private TermPlanner(Guid id, int calendarYear, YearLevelValue firstYearLevel, YearLevelValue? secondYearLevel) : base(id)
     {
         CalendarYear = calendarYear;
-        _termPlans = termPlans;
-        YearLevel = yearLevel;
-        _yearLevels = yearLevels;
-    }
+        _yearLevels.Add(firstYearLevel);
 
-    public static TermPlanner Create(int calendarYear, List<TermPlan> termPlans, YearLevelValue? yearLevel = null, List<YearLevelValue>? yearLevels = null)
-    {
-        if (NeitherYearLevelOrYearLevelList(yearLevel, yearLevels))
+        if (secondYearLevel != null)
         {
-            throw new TermPlannerCreationException();
+            _yearLevels.Add((YearLevelValue)secondYearLevel);
         }
 
-        if (BothYearLevelAndYearLevelList(yearLevel, yearLevels))
+        SortYearLevels();
+    }
+
+    public static TermPlanner Create(int calendarYear, YearLevelValue firstYearLevel, YearLevelValue? secondYearLevel)
+    {
+
+        if (firstYearLevel == secondYearLevel)
         {
-            throw new TermPlannerCreationException();
+            secondYearLevel = null;
         }
 
         return new TermPlanner(
             Guid.NewGuid(),
             calendarYear,
-            termPlans,
-            yearLevels ?? new List<YearLevelValue>(),
-            yearLevel);
+            firstYearLevel,
+            secondYearLevel);
     }
 
-    public bool AddTermPlan(TermPlan termPlan)
+    public void AddYearLevel(YearLevelValue yearLevel)
+    {
+        if (CanAddNoMoreYearLevels())
+        {
+            throw new TooManyYearLevelsException();
+        }
+
+        if (_yearLevels.Contains(yearLevel))
+        {
+            throw new InputException("Year level already exists");
+        }
+
+        _yearLevels.Add(yearLevel);
+        SortYearLevels();
+    }
+
+    public bool CanAddNoMoreYearLevels()
+    {
+        return _yearLevels.Count >= 2;
+    }
+
+    public bool CanAddMoreYearLevels()
+    {
+        return !CanAddNoMoreYearLevels();
+    }
+
+    public void SortYearLevels()
+    {
+        if (CanAddMoreYearLevels())
+        {
+            return; // cannot sort just 1 year level
+        }
+
+        if ((int)_yearLevels[0]! > (int)_yearLevels[1]!)
+        {
+            (_yearLevels[1], _yearLevels[0]) = (_yearLevels[0], _yearLevels[1]);
+        }
+    }
+
+    public void AddTermPlan(TermPlan termPlan)
     {
         if (_termPlans.Contains(termPlan))
         {
-            return false;
+            throw new DuplicateTermPlanException();
+        }
+         
+        if (_termPlans.Count >= 4)
+        {
+            throw new TooManyTermPlansException();
+        }
+
+        if (_termPlans.Any(tp => tp.TermNumber == termPlan.TermNumber))
+        {
+            throw new DuplicateTermNumberException();
         }
 
         _termPlans.Add(termPlan);
-        return true;
     }
 
-    private static bool NeitherYearLevelOrYearLevelList(YearLevelValue? yearLevel, List<YearLevelValue>? yearLevels)
+    public void AddSubject(Subject subject)
     {
-        return yearLevel is null && yearLevels is null;
-    }
-
-    private static bool BothYearLevelAndYearLevelList(YearLevelValue? yearLevel, List<YearLevelValue>? yearLevels)
-    {
-        return yearLevel is not null && yearLevels is not null && yearLevels.Count != 0;
+        _subjects.Add(subject);
     }
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.

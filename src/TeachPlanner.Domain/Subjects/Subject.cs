@@ -34,6 +34,11 @@ public sealed class Subject : AggregateRoot
             name);
     }
 
+    public YearLevel? GetYearLevel(YearLevel yearLevel)
+    {
+        return _yearLevels.Find(yl => yl.Name == yearLevel.Name);
+    }
+
     public void AddYearLevel(YearLevel yearLevel)
     {
         _yearLevels.Add(yearLevel);

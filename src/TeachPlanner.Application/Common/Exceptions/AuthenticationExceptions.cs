@@ -4,7 +4,7 @@ namespace TeachPlanner.Application.Common.Exceptions;
 
 public class InvalidCredentialsException : BaseException
 {
-    public InvalidCredentialsException() : base("Invalid credentials", 401)
+    public InvalidCredentialsException() : base("Invalid credentials", 401, "Authentication.InvalidCredentials")
     {
 
     }
@@ -12,7 +12,7 @@ public class InvalidCredentialsException : BaseException
 
 public class DuplicateEmailException : BaseException
 {
-    public DuplicateEmailException() : base("Email already exists", 409)
+    public DuplicateEmailException() : base("That email is already in use", 409, "Authentication.DuplicateEmail")
     {
 
     }
@@ -20,7 +20,7 @@ public class DuplicateEmailException : BaseException
 
 public class DuplicateIdException : BaseException
 {
-    public DuplicateIdException() : base("A user with this id already exists", 409)
+    public DuplicateIdException() : base("A user with this id already exists", 409, "Authentication.DuplicateId")
     {
 
     }

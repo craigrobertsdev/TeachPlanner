@@ -32,12 +32,23 @@ public class ErrorHandlingMiddleware
     private static async Task HandleExceptionAsync(HttpContext context, Exception ex)
     {
         context.Response.ContentType = "application/json";
-        context.Response.StatusCode = ex is BaseException bex ? bex.StatusCode : (int)HttpStatusCode.InternalServerError;
+        string type;
+        if (ex is BaseException bex)
+        {
+            context.Response.StatusCode = bex.StatusCode;
+            type = bex.Type ?? "https://tools.ietf.org/html/rfc7231#section-6.6.1";
+        }
+        else
+        {
+            context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+            type = "https://tools.ietf.org/html/rfc7231#section-6.6.1";
+        }
 
         var problemDetails = new ProblemDetails()
         {
-            Status = context.Response.StatusCode,
+            Type = type,
             Title = ex.Message,
+            Status = context.Response.StatusCode,
             Detail = ex.Message + " --- Make sure to change this in production!",
             // Detail = context.Response.StatusCode == (int)HttpStatusCode.InternalServerError ? "Internal Server Error" : ex.Message
         };
