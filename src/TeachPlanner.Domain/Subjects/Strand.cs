@@ -15,21 +15,21 @@ public sealed class Strand : ValueObject
     public bool HasSubstrands => _substrands is not null;
 
     private Strand(
-        string name,
         YearLevel yearLevel,
+        string name,
         List<Substrand>? substrands = null,
         List<ContentDescription>? contentDescriptions = null
     )
     {
-        Name = name;
         YearLevel = yearLevel;
+        Name = name;
         _substrands = substrands;
         _contentDescriptions = contentDescriptions;
     }
 
     public static Strand Create(
-        string name,
         YearLevel yearLevel,
+        string name,
         List<Substrand>? substrands = null,
         List<ContentDescription>? contentDescriptions = null
     )
@@ -39,7 +39,7 @@ public sealed class Strand : ValueObject
             throw new StrandCreationException();
         }
 
-        return new Strand(name, yearLevel, substrands, contentDescriptions);
+        return new Strand(yearLevel, name, substrands, contentDescriptions);
     }
 
     public List<ContentDescription> GetContentDescriptions()

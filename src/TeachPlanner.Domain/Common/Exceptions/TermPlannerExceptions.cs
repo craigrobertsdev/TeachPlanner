@@ -23,3 +23,13 @@ public class DuplicateTermNumberException : BaseException
     public DuplicateTermNumberException() : base("Cannot add a duplicate term number", 400, "TermPlanner.DuplicateTermNumber") { }
 }
 
+public class TermPlannerDoesNotBelongToTeacherException : BaseException
+{
+    public TermPlannerDoesNotBelongToTeacherException() : base("Term planner does not belong to teacher", 401, "TermPlanner.NotBelongToTeacher") { }
+}
+
+public class TermPlannerNotFoundException : BaseException
+{
+    public TermPlannerNotFoundException() : base("Term planner not found", 404, "TermPlanner.NotFound") { }
+}
+

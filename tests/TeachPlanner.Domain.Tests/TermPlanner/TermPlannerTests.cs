@@ -14,7 +14,7 @@ public class TermPlannerTests
         // Arrange
 
         // Act
-        var termPlanner = TermPlanner.Create(2021, YearLevelValue.Year1, null);
+        var termPlanner = TermPlanner.Create(Guid.NewGuid(), 2021, YearLevelValue.Year1, null);
 
         // Assert
         termPlanner.Should().BeOfType<TermPlanner>();
@@ -28,7 +28,7 @@ public class TermPlannerTests
     public void Create_OnAddingSameYearLevelTwice_ShouldThrowException()
     {
         // Arrange
-        var termPlanner = TermPlanner.Create(2021, YearLevelValue.Year1, YearLevelValue.Year1);
+        var termPlanner = TermPlanner.Create(Guid.NewGuid(), 2021, YearLevelValue.Year1, YearLevelValue.Year1);
 
         // Act
 
@@ -41,7 +41,7 @@ public class TermPlannerTests
     public void Create_OnCreating_YearLevelsShouldBeOrdered()
     {
         // Arrange
-        var termPlanner = TermPlanner.Create(2021, YearLevelValue.Year5, YearLevelValue.Year1);
+        var termPlanner = TermPlanner.Create(Guid.NewGuid(), 2021, YearLevelValue.Year5, YearLevelValue.Year1);
 
         // Act
 
@@ -54,7 +54,7 @@ public class TermPlannerTests
     public void AddYearLevel_OnAddingYearLevel_ShouldBeAdded()
     {
         // Arrange
-        var termPlanner = TermPlanner.Create(2021, YearLevelValue.Year1, null);
+        var termPlanner = TermPlanner.Create(Guid.NewGuid(), 2021, YearLevelValue.Year1, null);
 
         // Act
         termPlanner.AddYearLevel(YearLevelValue.Year2);
@@ -69,7 +69,7 @@ public class TermPlannerTests
     public void AddYearLevel_OnAddingYearLevel_ShouldBeOrdered()
     {
         // Arrange
-        var termPlanner = TermPlanner.Create(2021, YearLevelValue.Year5, null);
+        var termPlanner = TermPlanner.Create(Guid.NewGuid(), 2021, YearLevelValue.Year5, null);
 
         // Act
         termPlanner.AddYearLevel(YearLevelValue.Year1);
@@ -82,7 +82,7 @@ public class TermPlannerTests
     public void AddTermPlan_OnAddingTermPlan_ShouldBeAdded()
     {
         // Arrange
-        var termPlanner = TermPlanner.Create(2021, YearLevelValue.Year1, null);
+        var termPlanner = TermPlanner.Create(Guid.NewGuid(), 2021, YearLevelValue.Year1, null);
         var termPlan = TermPlan.Create(termPlanner, 1, new List<Subject> { TermPlannerHelpers.CreateSubject("English", "ENG001") });
 
         // Act
@@ -97,7 +97,7 @@ public class TermPlannerTests
     public void AddTermPlan_OnAddingDuplicateTermPlan_ShouldNotBeAdded()
     {
         // Arrange
-        var termPlanner = TermPlanner.Create(2021, YearLevelValue.Year1, null);
+        var termPlanner = TermPlanner.Create(Guid.NewGuid(), 2021, YearLevelValue.Year1, null);
         var termPlan = TermPlan.Create(termPlanner, 1, new List<Subject> { TermPlannerHelpers.CreateSubject("English", "ENG001") });
 
         // Act
@@ -156,7 +156,7 @@ public class TermPlannerTests
     public void AddSubjects_OnAddingSubject_ShouldAddSubject()
     {
         // Arrange
-        var termPlanner = TermPlanner.Create(2021, YearLevelValue.Year1, null);
+        var termPlanner = TermPlanner.Create(Guid.NewGuid(), 2021, YearLevelValue.Year1, null);
         var subject = Subject.Create("English", new List<YearLevel>());
 
         // Act

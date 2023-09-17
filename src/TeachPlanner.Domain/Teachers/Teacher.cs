@@ -6,7 +6,7 @@ using TeachPlanner.Domain.Resources;
 using TeachPlanner.Domain.Subjects;
 using TeachPlanner.Domain.Students;
 using TeachPlanner.Domain.WeekPlanners;
-using TeachPlanner.Domain.Common.Enums;
+using TeachPlanner.Domain.TermPlanners;
 
 namespace TeachPlanner.Domain.Teachers;
 
@@ -24,6 +24,7 @@ public sealed class Teacher : AggregateRoot
     private readonly List<Report> _reports = new();
     private readonly List<LessonPlan> _lessonPlans = new();
     private readonly List<WeekPlanner> _weekPlanners = new();
+    private readonly List<TermPlanner> _termPlanners = new();
     public IReadOnlyList<Subject> SubjectsTaught => _subjectsTaught;
     public IReadOnlyList<Student> Students => _students;
     public IReadOnlyList<SummativeAssessment> SummativeAssessments => _summativeAssessments;
@@ -32,6 +33,7 @@ public sealed class Teacher : AggregateRoot
     public IReadOnlyList<Report> Reports => _reports;
     public IReadOnlyList<LessonPlan> LessonPlans => _lessonPlans;
     public IReadOnlyList<WeekPlanner> WeekPlanners => _weekPlanners;
+    public IReadOnlyList<TermPlanner> TermPlanners => _termPlanners;
 
     private Teacher(Guid id, string firstName, string lastName, string email, string password) : base(id)
     {

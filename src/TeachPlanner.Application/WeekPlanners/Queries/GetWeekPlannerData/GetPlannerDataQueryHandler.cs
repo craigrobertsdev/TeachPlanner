@@ -18,7 +18,7 @@ public class GetPlannerDataQueryHandler //: IRequestHandler<GetPlannerDataQuery,
 
     // public async Task<ErrorOr<GetPlannerDataResult>> Handle(GetPlannerDataQuery request, CancellationToken cancellationToken)
     // {
-    //     var teacher = await _teacherRepository.GetTeacherById(request.TeacherId);
+    //     var teacher = await _teacherRepository.GetById(request.TeacherId);
 
     //     if (teacher is null)
     //     {

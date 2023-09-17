@@ -13,7 +13,7 @@ internal class GeneralSubjectParser
         {
             while (index < contentArr.Length)
             {
-                YearLevel yearLevel = ParseYearLevel(contentArr, ref index);
+                YearLevel yearLevel = ParseYearLevel(contentArr, ref index, subject);
                 subject.AddYearLevel(yearLevel);
                 // "Australian Curriculum:" appears after all curriculum content for each subject.
                 if (contentArr[index].StartsWith("Australian Curriculum:"))
@@ -26,7 +26,7 @@ internal class GeneralSubjectParser
         return subject;
     }
 
-    private YearLevel ParseYearLevel(string[] contentArr, ref int index)
+    private YearLevel ParseYearLevel(string[] contentArr, ref int index, Subject subject)
     {
         YearLevelValue yearLevelValue = contentArr[index] == "Foundation"
             ? YearLevelValue.Foundation
@@ -61,13 +61,13 @@ internal class GeneralSubjectParser
         }
         while (!contentArr[index].StartsWith("Strand"));
 
-        var yearLevel = YearLevel.Create(new List<Strand>(), description, achievementStandard, yearLevelValue, null);
+        var yearLevel = YearLevel.Create(subject, new List<Strand>(), description, achievementStandard, yearLevelValue, null);
 
         // continue parsing document until the next line doesn't begin with strand.
 
         while (contentArr[index].StartsWith("Strand"))
         {
-            var strand = GetStrand(contentArr, ref index);
+            var strand = GetStrand(contentArr, ref index, yearLevel);
 
             yearLevel.AddStrand(strand);
 
@@ -76,24 +76,24 @@ internal class GeneralSubjectParser
         return yearLevel;
     }
 
-    private Strand GetStrand(string[] contentArr, ref int index)
+    private Strand GetStrand(string[] contentArr, ref int index, YearLevel yearLevel)
     {
         // remove "Strand:" from name
         string name = contentArr[index].Substring(8).TrimEnd();
         index += 2;
 
-        var strand = Strand.Create(name, substrands: new List<Substrand>());
+        var strand = Strand.Create(yearLevel, name, substrands: new List<Substrand>());
 
         while (contentArr[index].StartsWith("Sub-strand"))
         {
-            var substrand = GetSubstrand(contentArr, strand, ref index);
+            var substrand = GetSubstrand(contentArr, ref index, strand);
             strand.AddSubstrand(substrand);
         }
 
         return strand;
     }
 
-    private Substrand GetSubstrand(string[] contentArr, Strand strand, ref int index)
+    private Substrand GetSubstrand(string[] contentArr, ref int index, Strand strand)
     {
         // remove "Sub-strand:" from name
         var name = contentArr[index].Substring(12).TrimEnd();
@@ -111,7 +111,7 @@ internal class GeneralSubjectParser
         // each time GetContentDescriptions returns, check whether the next line starts with AC9 (instead of another header) and repeat if so.
         while (contentArr[index + 1].StartsWith("AC9"))
         {
-            var contentDescription = GetContentDescriptions(contentArr, substrand, ref index);
+            var contentDescription = GetContentDescriptions(contentArr, ref index, substrand);
 
             substrand.AddContentDescription(contentDescription);
         }
@@ -119,7 +119,7 @@ internal class GeneralSubjectParser
         return substrand;
     }
 
-    private ContentDescription GetContentDescriptions(string[] contentArr, Substrand substrand, ref int index)
+    private ContentDescription GetContentDescriptions(string[] contentArr, ref int index, Substrand substrand)
     {
         var description = contentArr[index].WithFirstLetterUpper().TrimEnd();
         index++;

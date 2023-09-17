@@ -48,5 +48,9 @@ public class TeacherConfiguration : IEntityTypeConfiguration<Teacher>
         builder.HasMany(t => t.LessonPlans)
            .WithOne()
            .HasForeignKey(lp => lp.TeacherId);
+
+        builder.HasMany(t => t.TermPlanners)
+            .WithOne()
+            .HasForeignKey(tp => tp.TeacherId);
     }
 }

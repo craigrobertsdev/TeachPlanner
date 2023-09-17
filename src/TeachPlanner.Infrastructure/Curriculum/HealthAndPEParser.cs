@@ -13,7 +13,7 @@ internal class HealthAndPEParser
         {
             while (index < contentArr.Length)
             {
-                YearLevel yearLevel = ParseYearLevel(contentArr, ref index);
+                YearLevel yearLevel = ParseYearLevel(contentArr, ref index, subject);
                 subject.AddYearLevel(yearLevel);
                 // "Australian Curriculum:" appears after all curriculum content for each subject.
                 if (contentArr[index].StartsWith("Australian Curriculum:"))
@@ -26,7 +26,7 @@ internal class HealthAndPEParser
         return subject;
     }
 
-    private YearLevel ParseYearLevel(string[] contentArr, ref int index)
+    private YearLevel ParseYearLevel(string[] contentArr, ref int index, Subject subject)
     {
         BandLevelValue bandLevelValue;
 
@@ -70,13 +70,13 @@ internal class HealthAndPEParser
         }
         while (!contentArr[index].StartsWith("Strand"));
 
-        var yearLevel = YearLevel.Create(new List<Strand>(), description, achievementStandard, null, bandLevelValue);
+        var yearLevel = YearLevel.Create(subject, new List<Strand>(), description, achievementStandard, null, bandLevelValue);
 
         // continue parsing document until the next line doesn't begin with strand.
 
         while (contentArr[index].StartsWith("Strand"))
         {
-            var strand = GetStrand(contentArr, ref index);
+            var strand = GetStrand(contentArr, ref index, yearLevel);
 
             yearLevel.AddStrand(strand);
 
@@ -85,24 +85,24 @@ internal class HealthAndPEParser
         return yearLevel;
     }
 
-    private Strand GetStrand(string[] contentArr, ref int index)
+    private Strand GetStrand(string[] contentArr, ref int index, YearLevel yearLevel)
     {
         // remove "Strand:" from name
         string name = contentArr[index].Substring(8).TrimEnd();
         index += 2;
 
-        var strand = Strand.Create(name, substrands: new List<Substrand>());
+        var strand = Strand.Create(yearLevel, name, substrands: new List<Substrand>());
 
         while (contentArr[index].StartsWith("Sub-strand"))
         {
-            var substrand = GetSubstrand(contentArr, strand, ref index);
+            var substrand = GetSubstrand(contentArr, ref index, strand);
             strand.AddSubstrand(substrand);
         }
 
         return strand;
     }
 
-    private Substrand GetSubstrand(string[] contentArr, Strand strand, ref int index)
+    private Substrand GetSubstrand(string[] contentArr, ref int index, Strand strand)
     {
         // remove "Sub-strand:" from name
         var name = contentArr[index].Substring(12).TrimEnd();

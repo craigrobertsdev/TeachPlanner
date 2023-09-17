@@ -14,7 +14,7 @@ internal class MathematicsParser
         {
             while (index < contentArr.Length)
             {
-                YearLevel yearLevel = ParseYearLevel(contentArr, ref index);
+                YearLevel yearLevel = ParseYearLevel(contentArr, ref index, subject);
                 subject.AddYearLevel(yearLevel);
                 // "Australian Curriculum:" appears after all curriculum content for each subject.
                 if (contentArr[index].StartsWith("Australian Curriculum:"))
@@ -27,7 +27,7 @@ internal class MathematicsParser
         return subject;
     }
 
-    private YearLevel ParseYearLevel(string[] contentArr, ref int index)
+    private YearLevel ParseYearLevel(string[] contentArr, ref int index, Subject subject)
     {
         YearLevelValue yearLevelValue = contentArr[index] == "Foundation" ? YearLevelValue.Foundation : (YearLevelValue)Enum.Parse(typeof(YearLevelValue), contentArr[index].Replace(" ", ""));
 
@@ -59,13 +59,13 @@ internal class MathematicsParser
             index++;
         } while (!contentArr[index].StartsWith("Strand"));
 
-        var yearLevel = YearLevel.Create(new List<Strand>(), description, achievementStandard, yearLevelValue, null);
+        var yearLevel = YearLevel.Create(subject, new List<Strand>(), description, achievementStandard, yearLevelValue, null);
 
         // continue parsing document until the next line doesn't begin with strand.
 
         while (contentArr[index].StartsWith("Strand"))
         {
-            var strand = GetStrand(contentArr, ref index);
+            var strand = GetStrand(contentArr, ref index, yearLevel);
 
             yearLevel.AddStrand(strand);
 
@@ -74,25 +74,25 @@ internal class MathematicsParser
         return yearLevel;
     }
 
-    private Strand GetStrand(string[] contentArr, ref int index)
+    private Strand GetStrand(string[] contentArr, ref int index, YearLevel yearLevel)
     {
         // remove "Strand:" from name
         string name = contentArr[index].Substring(8).TrimEnd();
         index += 2;
 
-        var strand = Strand.Create(name, contentDescriptions: new List<ContentDescription>());
+        var strand = Strand.Create(yearLevel, name, contentDescriptions: new List<ContentDescription>());
 
         while (contentArr[index].StartsWith("Content descriptions"))
         {
             index += 4;
-            var contentDescriptions = GetContentDescriptions(contentArr, strand, ref index);
+            var contentDescriptions = GetContentDescriptions(contentArr, ref index, strand);
             strand.AddContentDescriptions(contentDescriptions);
         }
 
         return strand;
     }
 
-    private List<ContentDescription> GetContentDescriptions(string[] contentArr, Strand strand, ref int index)
+    private List<ContentDescription> GetContentDescriptions(string[] contentArr, ref int index, Strand strand)
     {
         List<ContentDescription> contentDescriptions = new();
 

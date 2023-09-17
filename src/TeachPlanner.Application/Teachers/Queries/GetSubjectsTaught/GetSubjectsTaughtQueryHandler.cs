@@ -17,7 +17,7 @@
 //    {
 //        List<Subject> subjects = new();
 
-//        if (await _teacherRepository.GetTeacherById(request.TeacherId, cancellationToken) == null)
+//        if (await _teacherRepository.GetById(request.TeacherId, cancellationToken) == null)
 //        {
 //            throw new TeacherNotFoundException();
 //        }

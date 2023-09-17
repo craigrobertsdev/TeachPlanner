@@ -13,9 +13,11 @@ public sealed class TermPlanner : AggregateRoot
     public IReadOnlyList<YearLevelValue> YearLevels => _yearLevels.AsReadOnly();
     public IReadOnlyList<Subject> Subjects => _subjects.AsReadOnly();
     public int CalendarYear { get; private set; }
+    public Guid TeacherId { get; private set; }
 
-    private TermPlanner(Guid id, int calendarYear, YearLevelValue firstYearLevel, YearLevelValue? secondYearLevel) : base(id)
+    private TermPlanner(Guid id, Guid teacherId, int calendarYear, YearLevelValue firstYearLevel, YearLevelValue? secondYearLevel) : base(id)
     {
+        TeacherId = teacherId;
         CalendarYear = calendarYear;
         _yearLevels.Add(firstYearLevel);
 
@@ -27,7 +29,7 @@ public sealed class TermPlanner : AggregateRoot
         SortYearLevels();
     }
 
-    public static TermPlanner Create(int calendarYear, YearLevelValue firstYearLevel, YearLevelValue? secondYearLevel)
+    public static TermPlanner Create(Guid teacherId, int calendarYear, YearLevelValue firstYearLevel, YearLevelValue? secondYearLevel)
     {
 
         if (firstYearLevel == secondYearLevel)
@@ -37,6 +39,7 @@ public sealed class TermPlanner : AggregateRoot
 
         return new TermPlanner(
             Guid.NewGuid(),
+            teacherId,
             calendarYear,
             firstYearLevel,
             secondYearLevel);
@@ -87,7 +90,7 @@ public sealed class TermPlanner : AggregateRoot
         {
             throw new DuplicateTermPlanException();
         }
-         
+
         if (_termPlans.Count >= 4)
         {
             throw new TooManyTermPlansException();

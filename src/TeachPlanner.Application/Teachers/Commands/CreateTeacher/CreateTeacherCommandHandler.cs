@@ -17,7 +17,7 @@ public class CreateTeacherCommandHandler : IRequestHandler<CreateTeacherCommand,
 
     public async Task<TeacherCreatedResult> Handle(CreateTeacherCommand command, CancellationToken cancellationToken)
     {
-        if (await _teacherRepository.GetTeacherById(command.TeacherId, cancellationToken) is not null)
+        if (await _teacherRepository.GetById(command.TeacherId, cancellationToken) is not null)
         {
             throw new DuplicateEmailException();
         }

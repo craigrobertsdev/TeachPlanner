@@ -126,7 +126,7 @@ public class TeacherRepository : ITeacherRepository
         return teacher;
     }
 
-    public Task<Teacher?> GetTeacherById(Guid id, CancellationToken cancellationToken)
+    public Task<Teacher?> GetById(Guid id, CancellationToken cancellationToken)
     {
         return _context.Teachers.FirstOrDefaultAsync(t => t.Id == id, cancellationToken);
     }
