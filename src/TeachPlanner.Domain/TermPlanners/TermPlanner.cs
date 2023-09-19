@@ -1,17 +1,14 @@
 ﻿using TeachPlanner.Domain.Common.Enums;
 using TeachPlanner.Domain.Common.Exceptions;
 using TeachPlanner.Domain.Common.Primatives;
-using TeachPlanner.Domain.Subjects;
 
 namespace TeachPlanner.Domain.TermPlanners;
 public sealed class TermPlanner : AggregateRoot
 {
     private readonly List<TermPlan> _termPlans = new();
     private readonly List<YearLevelValue> _yearLevels = new();
-    private readonly List<Subject> _subjects = new();
     public IReadOnlyList<TermPlan> TermPlans => _termPlans.AsReadOnly();
     public IReadOnlyList<YearLevelValue> YearLevels => _yearLevels.AsReadOnly();
-    public IReadOnlyList<Subject> Subjects => _subjects.AsReadOnly();
     public int CalendarYear { get; private set; }
     public Guid TeacherId { get; private set; }
 
@@ -102,11 +99,6 @@ public sealed class TermPlanner : AggregateRoot
         }
 
         _termPlans.Add(termPlan);
-    }
-
-    public void AddSubject(Subject subject)
-    {
-        _subjects.Add(subject);
     }
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.

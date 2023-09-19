@@ -3,21 +3,17 @@ using TeachPlanner.Domain.Common.Primatives;
 using TeachPlanner.Domain.LessonPlans;
 using TeachPlanner.Domain.Reports;
 using TeachPlanner.Domain.Resources;
-using TeachPlanner.Domain.Subjects;
 using TeachPlanner.Domain.Students;
 using TeachPlanner.Domain.WeekPlanners;
 using TeachPlanner.Domain.TermPlanners;
+using TeachPlanner.Domain.Subjects;
+using TeachPlanner.Domain.Users;
 
 namespace TeachPlanner.Domain.Teachers;
 
 public sealed class Teacher : AggregateRoot
 {
-    public string FirstName { get; private set; }
-    public string LastName { get; private set; }
-    public string Email { get; private set; }
-    public string Password { get; private set; }
-    private readonly List<Subject> _subjectsTaught = new();
-    private readonly List<Student> _students = new();
+    private readonly List<Guid> _subjectsTaughtIds = new();
     private readonly List<SummativeAssessment> _summativeAssessments = new();
     private readonly List<FormativeAssessment> _formativeAssessments = new();
     private readonly List<Resource> _resources = new();
@@ -25,8 +21,11 @@ public sealed class Teacher : AggregateRoot
     private readonly List<LessonPlan> _lessonPlans = new();
     private readonly List<WeekPlanner> _weekPlanners = new();
     private readonly List<TermPlanner> _termPlanners = new();
-    public IReadOnlyList<Subject> SubjectsTaught => _subjectsTaught;
-    public IReadOnlyList<Student> Students => _students;
+    private readonly List<StudentsForYear> _studentsForYear = new();
+    public Guid UserId { get; private set; } = Guid.Empty;
+    public string FirstName { get; private set; }
+    public string LastName { get; private set; }
+    public IReadOnlyList<Guid> SubjectsTaughtIds => _subjectsTaughtIds;
     public IReadOnlyList<SummativeAssessment> SummativeAssessments => _summativeAssessments;
     public IReadOnlyList<FormativeAssessment> FormativeAssessments => _formativeAssessments;
     public IReadOnlyList<Resource> Resources => _resources;
@@ -34,29 +33,55 @@ public sealed class Teacher : AggregateRoot
     public IReadOnlyList<LessonPlan> LessonPlans => _lessonPlans;
     public IReadOnlyList<WeekPlanner> WeekPlanners => _weekPlanners;
     public IReadOnlyList<TermPlanner> TermPlanners => _termPlanners;
+    public IReadOnlyList<StudentsForYear> StudentsForYear => _studentsForYear;
 
-    private Teacher(Guid id, string firstName, string lastName, string email, string password) : base(id)
+    private Teacher(Guid id, string firstName, string lastName) : base(id)
     {
         FirstName = firstName;
         LastName = lastName;
-        Email = email;
-        Password = password;
     }
 
-    public static Teacher Create(string firstName, string lastName, string email, string password)
+    public static Teacher Create(Guid userId, string firstName, string lastName)
     {
-        return new(Guid.NewGuid(), firstName, lastName, email, password);
+        return new(Guid.NewGuid(), firstName, lastName);
+    }
+
+    public void AddUserId(Guid userId)
+    {
+        if (UserId == Guid.Empty)
+        {
+            UserId = userId;
+        }
+    }
+
+    public StudentsForYear? GetStudentsForYear(int year)
+    {
+        return _studentsForYear.FirstOrDefault(s => s.CalendarYear == year);
     }
 
     public void AddSubjectsTaught(List<Subject> subjects)
     {
         foreach (var subject in subjects)
         {
-            if (_subjectsTaught.Find(s => s.Id == subject.Id) == null)
+            if (NotInSubjectsTaught(subject.Id) && subject.Is)
             {
-                _subjectsTaught.Add(subject);
+                _subjectsTaughtIds.Add(subject.Id);
             }
         }
+    }
+
+    private bool NotInSubjectsTaught(Guid subjectId)
+    {
+        foreach (var id in _subjectsTaughtIds)
+        {
+            if (subjectId == id) return true;
+        }
+
+        return false;
+    }
+
+    public void UpdateSubjectsTaught(Guid subjectId)
+    {
     }
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.

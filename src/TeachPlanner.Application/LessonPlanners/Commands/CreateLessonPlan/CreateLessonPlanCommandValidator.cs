@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace TeachPlanner.Application.LessonPlanners.CreateLessonPlan.Commands;
+namespace TeachPlanner.Application.LessonPlanners.Commands.CreateLessonPlan;
 
 public class CreateLessonPlanCommandValidator : AbstractValidator<CreateLessonPlanCommand>
 {

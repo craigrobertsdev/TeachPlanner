@@ -11,14 +11,17 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, Authentic
 {
     private readonly IJwtTokenGenerator _jwtTokenGenerator;
     private readonly ITeacherRepository _teacherRepository;
+    private readonly IUnitOfWork _unitOfWork;
 
     public RegisterCommandHandler(
         IJwtTokenGenerator jwtTokenGenerator,
-        ITeacherRepository teacherRepository
+        ITeacherRepository teacherRepository,
+        IUnitOfWork unitOfWork
     )
     {
         _jwtTokenGenerator = jwtTokenGenerator;
         _teacherRepository = teacherRepository;
+        _unitOfWork = unitOfWork;
     }
 
     public async Task<AuthenticationResult> Handle(RegisterCommand command, CancellationToken cancellationToken)
@@ -34,7 +37,9 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, Authentic
             command.Email,
             command.Password);
 
-        _teacherRepository.Create(teacher, cancellationToken);
+        _teacherRepository.Create(teacher);
+
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
 
         var token = _jwtTokenGenerator.GenerateToken(teacher);
 

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System.Text.Json;
 using TeachPlanner.Domain.Common.Enums;
-using TeachPlanner.Domain.Common.Helpers;
+using TeachPlanner.Domain.Teachers;
 using TeachPlanner.Domain.TermPlanners;
 
 namespace TeachPlanner.Infrastructure.Persistence.Configurations;
@@ -13,16 +13,21 @@ public class TermPlannerConfiguration : IEntityTypeConfiguration<TermPlanner>
     {
         builder.ToTable("term_planner");
 
-        builder.HasKey(yp => yp.Id);
+        builder.HasKey(tp => tp.Id);
 
-        builder.Property(yp => yp.Id)
+        builder.Property(tp => tp.Id)
             .HasColumnName("Id");
 
-        builder.Property(yp => yp.CalendarYear)
+        builder.Property(tp => tp.CalendarYear)
             .IsRequired();
+
+        builder.HasOne<Teacher>()
+            .WithMany(t => t.TermPlanners)
+            .HasForeignKey(yp => yp.TeacherId);
 
 #pragma warning disable CS8600, CS8603, CS8604 // Converting null literal or possible null value to non-nullable type.
         builder.Property<List<YearLevelValue>>("_yearLevels")
+            .HasColumnName("YearLevels")
             .HasConversion(
                 v => JsonSerializer.Serialize(v, (JsonSerializerOptions)null),
                 v => JsonSerializer.Deserialize<List<YearLevelValue>>(v, (JsonSerializerOptions)null),
@@ -41,15 +46,13 @@ public class TermPlanConfiguration : IEntityTypeConfiguration<TermPlan>
 
         builder.HasKey(tp => tp.Id);
 
-        builder.Property<List<string>>("_curriculumCodes")
-            .UsePropertyAccessMode(PropertyAccessMode.Field)
-            .HasConversion(
-                v => JsonSerializer.Serialize(v, (JsonSerializerOptions)null),
-                v => JsonSerializer.Deserialize<List<string>>(v, (JsonSerializerOptions)null),
-                new ValueComparer<List<string>>(
-                    (c1, c2) => HelperMethods.ListsContainSameElements(c1, c2),
-                    c => c.Aggregate(0, (a, v) => HashCode.Combine(a, v.GetHashCode())),
-                    c => c.ToList()));
+        builder.HasMany(tp => tp.Subjects)
+            .WithOne()
+            .HasForeignKey("TermPlanId");
+
+        builder.HasOne(tp => tp.TermPlanner)
+            .WithMany(tp => tp.TermPlans)
+            .HasForeignKey("TermPlannerId");
     }
 }
 

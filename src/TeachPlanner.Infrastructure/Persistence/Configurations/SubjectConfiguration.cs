@@ -48,8 +48,13 @@ public class YearLevelConfiguration : IEntityTypeConfiguration<YearLevel>
                 v => (int?)v,
                 v => (BandLevelValue?)v);
 
+        builder.HasOne(yl => yl.Subject)
+            .WithMany(s => s.YearLevels)
+            .IsRequired()
+            .OnDelete(DeleteBehavior.Cascade);
+
         builder.HasMany(yl => yl.Strands)
-            .WithOne()
+            .WithOne(s => s.YearLevel)
             .IsRequired()
             .HasForeignKey("YearLevelId")
             .OnDelete(DeleteBehavior.Cascade);
@@ -69,6 +74,11 @@ public class StrandConfiguration : IEntityTypeConfiguration<Strand>
 
         builder.Property(s => s.Name)
             .HasMaxLength(50);
+
+        builder.HasOne(s => s.YearLevel)
+            .WithMany(yl => yl.Strands)
+            .IsRequired()
+            .OnDelete(DeleteBehavior.Cascade);
 
         builder.HasMany(s => s.Substrands)
             .WithOne(ss => ss.Strand)
@@ -93,10 +103,14 @@ public class SubstrandConfiguration : IEntityTypeConfiguration<Substrand>
         builder.Property(ss => ss.Name)
             .HasMaxLength(50);
 
+        builder.HasOne(ss => ss.Strand)
+            .WithMany(s => s.Substrands)
+            .IsRequired()
+            .OnDelete(DeleteBehavior.Cascade);
+
         builder.HasMany(ss => ss.ContentDescriptions)
             .WithOne(cd => cd.Substrand)
             .OnDelete(DeleteBehavior.Cascade);
-
     }
 }
 
@@ -116,6 +130,14 @@ public class ContentDescriptionConfiguration : IEntityTypeConfiguration<ContentD
         builder.Property(cd => cd.CurriculumCode)
             .HasMaxLength(50);
 
+        builder.HasOne(cd => cd.Substrand)
+            .WithMany(ss => ss.ContentDescriptions)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        builder.HasOne(cd => cd.Strand)
+            .WithMany(s => s.ContentDescriptions)
+            .OnDelete(DeleteBehavior.Cascade);
+
         builder.HasMany(cd => cd.Elaborations)
             .WithOne(el => el.ContentDescription)
             .OnDelete(DeleteBehavior.Cascade);
@@ -133,7 +155,8 @@ public class ElaborationConfiguration : IEntityTypeConfiguration<Elaboration>
         builder.HasKey("Id");
 
         builder.HasOne(el => el.ContentDescription)
-            .WithMany(cd => cd.Elaborations);
+            .WithMany(cd => cd.Elaborations)
+            .OnDelete(DeleteBehavior.Cascade);
 
         builder.Property(e => e.Description)
             .HasMaxLength(1000);

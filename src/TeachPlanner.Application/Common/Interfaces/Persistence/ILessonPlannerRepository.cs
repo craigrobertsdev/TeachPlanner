@@ -2,8 +2,8 @@
 
 namespace TeachPlanner.Application.Common.Interfaces.Persistence;
 
-public interface ILessonRepository
+public interface ILessonPlannerRepository
 {
-    Task Create(LessonPlan lesson, CancellationToken cancellationToken);
+    void Add(LessonPlan lesson);
     Task<List<LessonPlan>?> GetLessonsByTeacherIdAsync(Guid teacherId, CancellationToken cancellationToken);
 }

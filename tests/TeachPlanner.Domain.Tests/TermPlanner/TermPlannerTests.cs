@@ -151,19 +151,4 @@ public class TermPlannerTests
         termPlanner.TermPlans[0].Should().Be(termPlan);
         act.Should().Throw<DuplicateTermNumberException>();
     }
-
-    [Fact]
-    public void AddSubjects_OnAddingSubject_ShouldAddSubject()
-    {
-        // Arrange
-        var termPlanner = TermPlanner.Create(Guid.NewGuid(), 2021, YearLevelValue.Year1, null);
-        var subject = Subject.Create("English", new List<YearLevel>());
-
-        // Act
-        termPlanner.AddSubject(subject);
-
-        // Assert
-        termPlanner.Subjects.Should().HaveCount(1);
-        termPlanner.Subjects[0].Should().Be(subject);
-    }
 }

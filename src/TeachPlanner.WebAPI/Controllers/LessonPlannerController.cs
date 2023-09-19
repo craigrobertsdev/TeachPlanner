@@ -2,7 +2,7 @@
 using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using TeachPlanner.Application.LessonPlanners.CreateLessonPlan.Commands;
+using TeachPlanner.Application.LessonPlanners.Commands.CreateLessonPlan;
 using TeachPlanner.Application.LessonPlanners.Queries.GetLessonPlans;
 using TeachPlanner.Contracts.LessonPlannner.CreateLessonPlan;
 using TeachPlanner.Contracts.LessonPlannner.GetLessonPlans;
@@ -40,9 +40,9 @@ public class LessonPlannerController : ApiController
 
         var validationResult = _createLessonPlanValidator.Validate(command);
 
-        var createLessonPlanResult = await _mediator.Send(command);
+        await _mediator.Send(command);
 
-        return Ok(createLessonPlanResult);
+        return Ok();
     }
 
 }

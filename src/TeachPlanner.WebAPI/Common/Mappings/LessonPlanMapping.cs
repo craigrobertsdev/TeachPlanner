@@ -1,5 +1,5 @@
 ﻿using Mapster;
-using TeachPlanner.Application.LessonPlanners.CreateLessonPlan.Commands;
+using TeachPlanner.Application.LessonPlanners.Commands.CreateLessonPlan;
 using TeachPlanner.Application.LessonPlanners.Queries.GetLessonPlans;
 using TeachPlanner.Contracts.LessonPlannner.CreateLessonPlan;
 using TeachPlanner.Contracts.LessonPlannner.GetLessonPlans;

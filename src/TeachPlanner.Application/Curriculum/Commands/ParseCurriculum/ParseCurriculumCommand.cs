@@ -2,4 +2,4 @@
 
 namespace TeachPlanner.Application.Curriculum.Commands.ParseCurriculum;
 
-public record ParseCurriculumCommand() : IRequest<ParseCurriculumResult>;
+public record ParseCurriculumCommand() : IRequest;

@@ -1,11 +1,10 @@
 ﻿using FluentValidation;
-using TeachPlanner.Application.Common.Interfaces.Persistence;
 
 namespace TeachPlanner.Application.Authentication.Commands.Register;
 
 public class RegisterCommandValidator : AbstractValidator<RegisterCommand>
 {
-    public RegisterCommandValidator(ITeacherRepository teacherRepository)
+    public RegisterCommandValidator()
     {
         RuleFor(x => x.FirstName).NotEmpty();
         RuleFor(x => x.LastName).NotEmpty();

@@ -5,7 +5,7 @@ public class SetSubjectsTaughtCommandValidator : AbstractValidator<SetSubjectsTa
 {
     public SetSubjectsTaughtCommandValidator()
     {
-        RuleFor(x => x.SubjectNames)
+        RuleFor(x => x.SubjectIds)
             .NotEmpty()
             .WithMessage("At least one subject must be provided");
     }

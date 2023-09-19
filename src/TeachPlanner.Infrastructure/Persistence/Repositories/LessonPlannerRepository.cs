@@ -5,19 +5,18 @@ using TeachPlanner.Infrastructure.Persistence.DbContexts;
 
 namespace TeachPlanner.Infrastructure.Persistence.Repositories;
 
-public class LessonPlanRepository : ILessonRepository
+public class LessonPlannerRepository : ILessonPlannerRepository
 {
     private readonly ApplicationDbContext _context;
 
-    public LessonPlanRepository(ApplicationDbContext context)
+    public LessonPlannerRepository(ApplicationDbContext context)
     {
         _context = context;
     }
 
-    public async Task Create(LessonPlan lessonPlan, CancellationToken cancellationToken)
+    public void Add(LessonPlan lessonPlan)
     {
         _context.Add(lessonPlan);
-        await _context.SaveChangesAsync();
     }
 
     public async Task<List<LessonPlan>?> GetLessonsByTeacherIdAsync(Guid teacherId, CancellationToken cancellationToken)

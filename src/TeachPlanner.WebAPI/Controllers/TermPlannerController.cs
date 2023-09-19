@@ -47,7 +47,7 @@ public class TermPlannerController : ApiController
             return BadRequest(); // TODO: return validation errors
         }
 
-        var response = await sender.Send(command);
+        await sender.Send(command);
 
         return Ok();
     }

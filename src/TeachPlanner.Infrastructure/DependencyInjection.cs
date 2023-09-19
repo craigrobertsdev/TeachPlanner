@@ -40,10 +40,11 @@ public static class DependencyInjection
             .EnableDetailedErrors());
 
 
-        services.AddScoped<ILessonRepository, LessonPlanRepository>();
+        services.AddScoped<ILessonPlannerRepository, LessonPlannerRepository>();
         services.AddScoped<ITeacherRepository, TeacherRepository>();
         services.AddScoped<ICurriculumRepository, CurriculumRepository>();
         services.AddScoped<ITermPlannerRepository, TermPlannerRepository>();
+        services.AddScoped<ISubjectRepository, SubjectRepository>();
 
         services.AddScoped<IUnitOfWork, UnitOfWork>();
 

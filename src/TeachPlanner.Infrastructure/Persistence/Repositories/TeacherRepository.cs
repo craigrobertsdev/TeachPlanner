@@ -18,28 +18,30 @@ public class TeacherRepository : ITeacherRepository
         _context = context;
     }
 
-    public async void Create(Teacher teacher, CancellationToken cancellationToken)
+    public void Create(Teacher teacher)
     {
         _context.Teachers.Add(teacher);
-        await _context.SaveChangesAsync();
     }
 
     public async Task<List<Subject>> GetSubjectsTaughtByTeacherWithoutElaborations(Guid teacherId, CancellationToken cancellationToken)
     {
-        var subjectQuery = _context.Teachers
+        var subjectIds = _context.Teachers
             .Where(t => t.Id == teacherId)
-            .SelectMany(t => t.SubjectsTaught)
+            .SelectMany(t => t.SubjectsTaughtIds)
+            .ToList();
+
+        var subjectQuery = _context.Subjects
             .AsNoTracking()
+            .Where(s => subjectIds.Contains(s.Id))
             .Where(s => s.Name != "Mathematics")
             .Include(s => s.YearLevels)
             .ThenInclude(yl => yl.Strands)
             .ThenInclude(s => s.Substrands!)
             .ThenInclude(s => s.ContentDescriptions);
 
-        var mathsQuery = _context.Teachers
-            .Where(t => t.Id == teacherId)
-            .SelectMany(t => t.SubjectsTaught)
+        var mathsQuery = _context.Subjects
             .AsNoTracking()
+            .Where(s => subjectIds.Contains(s.Id))
             .Where(s => s.Name == "Mathematics")
             .Include(s => s.YearLevels)
             .ThenInclude(yl => yl.Strands)
@@ -64,10 +66,14 @@ public class TeacherRepository : ITeacherRepository
 
     public async Task<List<Subject>> GetSubjectsTaughtByTeacherWithElaborations(Guid teacherId, CancellationToken cancellationToken)
     {
-        var subjectQuery = _context.Teachers
+        var subjectIds = _context.Teachers
             .Where(t => t.Id == teacherId)
-            .SelectMany(t => t.SubjectsTaught)
+            .SelectMany(t => t.SubjectsTaughtIds)
+            .ToList();
+
+        var subjectQuery = _context.Subjects
             .AsNoTracking()
+            .Where(s => subjectIds.Contains(s.Id))
             .Where(s => s.Name != "Mathematics")
             .Include(s => s.YearLevels)
             .ThenInclude(yl => yl.Strands)
@@ -75,10 +81,9 @@ public class TeacherRepository : ITeacherRepository
             .ThenInclude(s => s.ContentDescriptions)
             .ThenInclude(cd => cd.Elaborations);
 
-        var mathsQuery = _context.Teachers
-            .Where(t => t.Id == teacherId)
-            .SelectMany(t => t.SubjectsTaught)
+        var mathsQuery = _context.Subjects
             .AsNoTracking()
+            .Where(s => subjectIds.Contains(s.Id))
             .Where(s => s.Name == "Mathematics")
             .Include(s => s.YearLevels)
             .ThenInclude(yl => yl.Strands)
@@ -102,22 +107,9 @@ public class TeacherRepository : ITeacherRepository
         return subjects;
     }
 
-    public async Task<List<Subject>> SetSubjectsTaughtByTeacher(Guid teacherId, List<string> subjectNames, CancellationToken cancellationToken)
+    public void SetSubjectsTaughtByTeacher(Teacher teacher, List<Subject> subjects)
     {
-        var subjects = _context.Subjects.Where(s => subjectNames.Contains(s.Name)).ToList();
-
-        var teacher = _context.Teachers.FirstOrDefault(t => t.Id == teacherId);
-
-        if (teacher == null)
-        {
-            throw new TeacherNotFoundException();
-        }
-
         teacher.AddSubjectsTaught(subjects);
-
-        await _context.SaveChangesAsync();
-
-        return subjects;
     }
 
     public Task<Teacher?> GetTeacherByEmailAsync(string email, CancellationToken cancellationToken)
@@ -134,7 +126,7 @@ public class TeacherRepository : ITeacherRepository
     public async Task<Teacher?> GetTeacherByUserId(Guid id)
     {
         var teachers = _context.Teachers
-            .Include(t => t.Students)
+            .Include(t => t.GetStudentsForYear(DateTime.Now.Year))
             .Include(t => t.SummativeAssessments)
             .Include(t => t.FormativeAssessments);
 

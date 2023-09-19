@@ -13,7 +13,7 @@ public class TermPlannerRepository : ITermPlannerRepository
         _context = context;
     }
 
-    public async Task<TermPlanner?> Get(Guid id, CancellationToken cancellationToken)
+    public async Task<TermPlanner?> GetById(Guid id, CancellationToken cancellationToken)
     {
         return await _context.TermPlanners.
             FirstOrDefaultAsync(tp => tp.Id == id, cancellationToken);
@@ -26,7 +26,7 @@ public class TermPlannerRepository : ITermPlannerRepository
 
     public async Task Delete(Guid id, CancellationToken cancellationToken)
     {
-        var termPlanner = await Get(id, cancellationToken);
+        var termPlanner = await GetById(id, cancellationToken);
 
         if (termPlanner == null)
         {

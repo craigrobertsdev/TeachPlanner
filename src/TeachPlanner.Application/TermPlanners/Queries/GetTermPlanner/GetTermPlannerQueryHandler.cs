@@ -14,7 +14,7 @@ public class GetTermPlannerQueryHandler : IRequestHandler<GetTermPlannerQuery, G
     public async Task<GetTermPlannerResult> Handle(GetTermPlannerQuery request, CancellationToken cancellationToken)
     {
         //var teacher = _teacherRepository.GetById
-        var termPlanner = await _repository.Get(request.TermPlannerId, cancellationToken);
+        var termPlanner = await _repository.GetById(request.TermPlannerId, cancellationToken);
 
         if (termPlanner == null)
         {

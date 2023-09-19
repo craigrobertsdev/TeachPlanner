@@ -1,8 +1,7 @@
 ﻿using MediatR;
-using TeachPlanner.Domain.LessonPlans;
 using TeachPlanner.Domain.Resources;
 
-namespace TeachPlanner.Application.LessonPlanners.CreateLessonPlan.Commands;
+namespace TeachPlanner.Application.LessonPlanners.Commands.CreateLessonPlan;
 
 public record CreateLessonPlanCommand(
     string TeacherId,
@@ -13,4 +12,4 @@ public record CreateLessonPlanCommand(
     List<string> FormativeAssessmentIds,
     DateTime StartTime,
     DateTime EndTime,
-    int NumberOfPeriods) : IRequest<LessonPlan>;
+    int NumberOfPeriods) : IRequest;

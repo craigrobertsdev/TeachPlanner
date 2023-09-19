@@ -77,7 +77,7 @@ public class TermPlannerRepositoryTests
         // Act
         termPlannerRepository.Add(termPlanner);
         await dbContext.SaveChangesAsync();
-        var result = await termPlannerRepository.Get(termPlanner.Id, new CancellationToken());
+        var result = await termPlannerRepository.GetById(termPlanner.Id, new CancellationToken());
 
         // Assert
         result.Should().NotBeNull();

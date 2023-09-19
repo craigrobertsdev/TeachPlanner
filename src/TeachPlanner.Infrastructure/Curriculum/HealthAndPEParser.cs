@@ -7,7 +7,7 @@ internal class HealthAndPEParser
 {
     internal Subject ParseHealthAndPE(string[] contentArr, string subjectName, int index)
     {
-        var subject = Subject.Create(subjectName, new List<YearLevel>());
+        var subject = Subject.CreateCurriculumSubject(subjectName, new List<YearLevel>());
 
         try
         {

@@ -31,8 +31,8 @@ public class CurriculumController : ApiController
     public async Task<IActionResult> ParseCurriculum()
     {
         var parseCurriculumCommand = new ParseCurriculumCommand();
-        var parseCurriculumResult = await _mediator.Send(parseCurriculumCommand);
+        await _mediator.Send(parseCurriculumCommand);
 
-        return Ok(parseCurriculumResult);
+        return Ok();
     }
 }

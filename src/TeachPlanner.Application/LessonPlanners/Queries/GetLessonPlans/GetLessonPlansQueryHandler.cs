@@ -7,10 +7,10 @@ namespace TeachPlanner.Application.LessonPlanners.Queries.GetLessonPlans;
 public class GetLessonPlansQueryHandler : IRequestHandler<GetLessonPlansQuery, List<LessonPlan>>
 {
     private readonly ITeacherRepository _teacherRepository;
-    private readonly ILessonRepository _lessonRepository;
+    private readonly ILessonPlannerRepository _lessonRepository;
     private readonly IUnitOfWork _unitOfWork;
 
-    public GetLessonPlansQueryHandler(ITeacherRepository teacherRepository, ILessonRepository lessonRepository, IUnitOfWork unitOfWork)
+    public GetLessonPlansQueryHandler(ITeacherRepository teacherRepository, ILessonPlannerRepository lessonRepository, IUnitOfWork unitOfWork)
     {
         _teacherRepository = teacherRepository;
         _lessonRepository = lessonRepository;

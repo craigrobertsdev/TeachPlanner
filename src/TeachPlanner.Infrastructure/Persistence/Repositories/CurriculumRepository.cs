@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using TeachPlanner.Application.Common.Exceptions;
 using TeachPlanner.Application.Common.Interfaces.Persistence;
 using TeachPlanner.Domain.Subjects;
 using TeachPlanner.Infrastructure.Persistence.DbContexts;
@@ -65,17 +66,28 @@ public class CurriculumRepository : ICurriculumRepository
 
     }
 
-    public Task SaveCurriculum(List<Subject> subjects, CancellationToken cancellationToken)
+    public async Task SaveCurriculum(List<Subject> subjects, CancellationToken cancellationToken)
     {
-        // clear existing subjects
-        _context.Subjects.RemoveRange(_context.Subjects);
-        _context.SaveChanges();
+        foreach (var subject in subjects)
+        {
+            if (!subject.IsCurriculumSubject)
+            {
+                throw new AttemptedToAddNonCurriculumSubjectException(subject.Name);
+            }
+        }
+
+        // clear existing curriculum subjects
+        var curriculumSubjects = await _context.Subjects
+            .Where(s => s.IsCurriculumSubject)
+            .ToListAsync(cancellationToken);
+
+        _context.Subjects.RemoveRange(curriculumSubjects);
+        await _context.SaveChangesAsync(cancellationToken);
+
         // add new subjects
         foreach (var subject in subjects)
         {
             _context.Subjects.Add(subject);
         }
-
-        return _context.SaveChangesAsync();
     }
 }

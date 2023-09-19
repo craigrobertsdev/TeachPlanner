@@ -26,11 +26,8 @@ public class TeacherConfiguration : IEntityTypeConfiguration<Teacher>
 
         builder.HasIndex(t => t.Email).IsUnique();
 
-        builder.HasMany(t => t.Students)
+        builder.HasMany(t => t.StudentsForYear)
             .WithOne();
-
-        builder.HasMany(t => t.SubjectsTaught)
-            .WithMany();
 
         builder.HasMany(t => t.SummativeAssessments)
             .WithOne()
