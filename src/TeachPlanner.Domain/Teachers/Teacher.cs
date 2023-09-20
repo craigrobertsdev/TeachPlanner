@@ -7,7 +7,6 @@ using TeachPlanner.Domain.Students;
 using TeachPlanner.Domain.WeekPlanners;
 using TeachPlanner.Domain.TermPlanners;
 using TeachPlanner.Domain.Subjects;
-using TeachPlanner.Domain.Users;
 
 namespace TeachPlanner.Domain.Teachers;
 
@@ -63,7 +62,7 @@ public sealed class Teacher : AggregateRoot
     {
         foreach (var subject in subjects)
         {
-            if (NotInSubjectsTaught(subject.Id) && subject.Is)
+            if (NotInSubjectsTaught(subject.Id) && subject.IsCurriculumSubject)
             {
                 _subjectsTaughtIds.Add(subject.Id);
             }

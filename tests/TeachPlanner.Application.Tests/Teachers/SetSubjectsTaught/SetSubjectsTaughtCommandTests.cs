@@ -79,6 +79,6 @@ public class SetSubjectsTaughtCommandTests
 
     private Teacher CreateTeacher()
     {
-        return Teacher.Create("First", "Last", "email", "password");
+        return Teacher.Create(Guid.NewGuid(), "First", "Last");
     }
 }

@@ -112,15 +112,27 @@ public class TeacherRepository : ITeacherRepository
         teacher.AddSubjectsTaught(subjects);
     }
 
-    public Task<Teacher?> GetTeacherByEmailAsync(string email, CancellationToken cancellationToken)
+    public async Task<Teacher?> GetTeacherByEmailAsync(string email, CancellationToken cancellationToken)
     {
-        var teacher = _context.Teachers.FirstOrDefaultAsync(t => t.Email == email);
-        return teacher;
+        var user = await _context.Users
+            .Where(u => u.Email == email)
+            .FirstOrDefaultAsync(cancellationToken);
+
+        if (user == null)
+        {
+            return null;
+        }
+
+        return await _context.Teachers
+            .Where(t => t.UserId == Guid.Parse(user.Id))
+            .FirstOrDefaultAsync(cancellationToken);
     }
 
-    public Task<Teacher?> GetById(Guid id, CancellationToken cancellationToken)
+    public Task<Teacher?> GetById(Guid userId, CancellationToken cancellationToken)
     {
-        return _context.Teachers.FirstOrDefaultAsync(t => t.Id == id, cancellationToken);
+        return _context.Teachers
+            .Where(t => t.UserId == userId)
+            .FirstOrDefaultAsync(cancellationToken);
     }
 
     public async Task<Teacher?> GetTeacherByUserId(Guid id)

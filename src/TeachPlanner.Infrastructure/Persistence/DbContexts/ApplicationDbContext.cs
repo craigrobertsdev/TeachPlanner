@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using TeachPlanner.Domain.Assessments;
 using TeachPlanner.Domain.Calendar;
 using TeachPlanner.Domain.LessonPlans;
@@ -11,7 +12,7 @@ using TeachPlanner.Domain.WeekPlanners;
 
 namespace TeachPlanner.Infrastructure.Persistence.DbContexts;
 
-public class ApplicationDbContext : DbContext
+public class ApplicationDbContext : IdentityDbContext
 {
     public ApplicationDbContext()
     {

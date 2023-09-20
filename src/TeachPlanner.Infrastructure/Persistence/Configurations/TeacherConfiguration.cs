@@ -15,16 +15,9 @@ public class TeacherConfiguration : IEntityTypeConfiguration<Teacher>
         builder.Property(t => t.Id)
             .HasColumnName("Id");
 
-        builder.Property(t => t.Password)
-            .HasMaxLength(255);
-
         builder.Property(t => t.FirstName).HasMaxLength(50);
 
         builder.Property(t => t.LastName).HasMaxLength(50);
-
-        builder.Property(t => t.Email).HasMaxLength(255);
-
-        builder.HasIndex(t => t.Email).IsUnique();
 
         builder.HasMany(t => t.StudentsForYear)
             .WithOne();
