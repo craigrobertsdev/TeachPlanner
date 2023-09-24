@@ -15,10 +15,10 @@ public class TermPlanTests
         var subject = TermPlannerHelpers.CreateSubject("English", "ENG001");
 
         // Act
-        var termPlan = TermPlan.Create(termPlanner, 1, new List<Subject>() { subject });
+        var termPlan = Domain.TermPlanners.TermPlan.Create(termPlanner, 1, new List<Subject>() { subject });
 
         // Assert
-        termPlan.Should().BeOfType<TermPlan>();
+        termPlan.Should().BeOfType<Domain.TermPlanners.TermPlan>();
         termPlan.Subjects.Should().HaveCount(1);
         termPlan.Subjects[0].Name.Should().Be("English");
         termPlan.TermNumber.Should().Be(1);

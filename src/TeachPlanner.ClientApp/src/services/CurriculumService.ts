@@ -11,12 +11,17 @@ type SubjectResponse = {
 };
 
 class CurriculumService {
-  async getSubjects({ elaborations = false, taughtSubjectsOnly = false }: CurriculumVariables, teacher: Teacher, controller: AbortController) {
+  async getSubjects(
+    { elaborations = false, taughtSubjectsOnly = false }: CurriculumVariables,
+    teacher: Teacher,
+    token: string,
+    controller: AbortController
+  ) {
     const request = new Request(
       `${baseUrl}/curriculum/?teacherId=${teacher.id}&elaborations=${elaborations}&taughtSubjectsOnly=${taughtSubjectsOnly}`,
       {
         headers: {
-          Authorization: `Bearer ${teacher!.token}`,
+          Authorization: `Bearer ${token}`,
         },
         signal: controller.signal,
       }
@@ -29,11 +34,11 @@ class CurriculumService {
     return data as SubjectResponse;
   }
 
-  async getTermPlannerSubjects({ year = new Date().getFullYear(), elaborations = true }: CurriculumVariables, teacher: Teacher) {
+  async getTermPlannerSubjects({ year = new Date().getFullYear(), elaborations = true }: CurriculumVariables, teacher: Teacher, token: string) {
     const response = await fetch(`${baseUrl}/curriculum/term-planner?year=${year}&elaborations=${elaborations}`, {
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${teacher!.token}`,
+        Authorization: `Bearer ${token}`,
       },
     });
 
@@ -42,7 +47,7 @@ class CurriculumService {
     return data as SubjectResponse;
   }
 
-  async saveTermSubjects(subjects: Term[]) {
+  async saveTermSubjects(subjects: TermPlan[]) {
     return subjects;
   }
 }

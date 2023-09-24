@@ -9,5 +9,5 @@ public interface ITeacherRepository
     Task<Teacher?> GetById(Guid userId, CancellationToken cancellationToken);
     Task<List<Subject>> GetSubjectsTaughtByTeacherWithoutElaborations(Guid teacherId, CancellationToken cancellationToken);
     Task<List<Subject>> GetSubjectsTaughtByTeacherWithElaborations(Guid teacherId, CancellationToken cancellationToken);
-    void SetSubjectsTaughtByTeacher(Teacher teacher, List<Subject> subjects);
+    void SetSubjectsTaughtByTeacher(Teacher teacher, List<Subject> subjects, int calendarYear);
 }

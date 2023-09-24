@@ -6,7 +6,7 @@ import TermPlan from "../../components/planner/TermPlan";
 
 // TODO: Add ability to send term plans via email
 const TermPlannerPage = () => {
-  const [terms, setTerms] = useState<Term[]>([]);
+  const [terms, setTerms] = useState<TermPlan[]>([]);
   const [addingContentDescriptions, setAddingContentDescriptions] = useState<boolean>(false);
   const [subjectData, setSubjectData] = useState<Subject[] | undefined>(undefined);
   const [year, setYear] = useState<number>(new Date().getFullYear());
@@ -29,7 +29,7 @@ const TermPlannerPage = () => {
   }, []);
 
   function setInitialTerms(subjects: Subject[]) {
-    const initialTerms: Term[] = [];
+    const initialTerms: TermPlan[] = [];
 
     for (let i = 0; i < 4; i++) {
       initialTerms.push({ termNumber: i + 1, subjects: subjects });

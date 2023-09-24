@@ -4,6 +4,7 @@ using TeachPlanner.Application.Common.Interfaces.Persistence;
 using TeachPlanner.Application.Authentication.Common;
 using TeachPlanner.Application.Common.Interfaces.Authentication;
 using Microsoft.AspNetCore.Identity;
+using FluentValidation;
 
 namespace TeachPlanner.Application.Authentication.Queries.Login;
 
@@ -12,13 +13,14 @@ public class LoginQueryHandler : IRequestHandler<LoginQuery, AuthenticationResul
     private readonly ITeacherRepository _teacherRepository;
     private readonly IJwtTokenGenerator _jwtTokenGenerator;
     private readonly UserManager<IdentityUser> _userManager;
+    private readonly SignInManager<IdentityUser> _signInManager;
 
-    public LoginQueryHandler(IJwtTokenGenerator jwtTokenGenerator, UserManager<IdentityUser> userManager, ITeacherRepository teacherRepository)
+    public LoginQueryHandler(IJwtTokenGenerator jwtTokenGenerator, UserManager<IdentityUser> userManager, ITeacherRepository teacherRepository, SignInManager<IdentityUser> signInManager)
     {
         _jwtTokenGenerator = jwtTokenGenerator;
         _userManager = userManager;
         _teacherRepository = teacherRepository;
-
+        _signInManager = signInManager;
     }
 
     public async Task<AuthenticationResult> Handle(LoginQuery request, CancellationToken cancellationToken)

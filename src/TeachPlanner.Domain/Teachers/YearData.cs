@@ -1,24 +1,44 @@
 ﻿using TeachPlanner.Domain.Common.Enums;
 using TeachPlanner.Domain.Common.Exceptions;
 using TeachPlanner.Domain.Common.Primatives;
+using TeachPlanner.Domain.Students;
+using TeachPlanner.Domain.Subjects;
 
-namespace TeachPlanner.Domain.Students;
-public class StudentsForYear : ValueObject
+namespace TeachPlanner.Domain.Teachers;
+public class YearData : ValueObject
 {
     private readonly List<Student> _students = new();
+    private readonly List<Subject> _subjects = new();
     private readonly List<YearLevelValue> _yearLevelsTaught = new();
     public int CalendarYear { get; private set; }
     public IReadOnlyList<Student> Students => _students.AsReadOnly();
     public IReadOnlyList<YearLevelValue> YearLevelsTaught => _yearLevelsTaught.AsReadOnly();
+    public IReadOnlyList<Subject> Subjects => _subjects.AsReadOnly();
 
-    private StudentsForYear(int calendarYear)
+    private YearData(int calendarYear)
     {
         CalendarYear = calendarYear;
     }
 
-    public static StudentsForYear Create(int calendarYear)
+    private YearData(int calendarYear, List<Student> students)
+    {
+        CalendarYear = calendarYear;
+        _students = students;
+    }
+
+    public static YearData Create(int calendarYear)
     {
         return new(calendarYear);
+    }
+
+    public static YearData Create(int calendarYear, List<Student> students)
+    {
+        return new(calendarYear, students);
+    }
+
+    public void AddSubjects(List<Subject> subjects)
+    {
+        _subjects.AddRange(subjects);
     }
 
     public override IEnumerable<object?> GetEqualityComponents()
@@ -60,5 +80,5 @@ public class StudentsForYear : ValueObject
     }
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-    private StudentsForYear() { }
+    private YearData() { }
 }

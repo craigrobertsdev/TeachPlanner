@@ -20,7 +20,7 @@ public sealed class Teacher : AggregateRoot
     private readonly List<LessonPlan> _lessonPlans = new();
     private readonly List<WeekPlanner> _weekPlanners = new();
     private readonly List<TermPlanner> _termPlanners = new();
-    private readonly List<StudentsForYear> _studentsForYear = new();
+    private readonly List<YearData> _yearDataHistory = new();
     public Guid UserId { get; private set; } = Guid.Empty;
     public string FirstName { get; private set; }
     public string LastName { get; private set; }
@@ -32,7 +32,7 @@ public sealed class Teacher : AggregateRoot
     public IReadOnlyList<LessonPlan> LessonPlans => _lessonPlans;
     public IReadOnlyList<WeekPlanner> WeekPlanners => _weekPlanners;
     public IReadOnlyList<TermPlanner> TermPlanners => _termPlanners;
-    public IReadOnlyList<StudentsForYear> StudentsForYear => _studentsForYear;
+    public IReadOnlyList<YearData> YearDataHistory => _yearDataHistory;
 
     private Teacher(Guid id, string firstName, string lastName) : base(id)
     {
@@ -53,20 +53,44 @@ public sealed class Teacher : AggregateRoot
         }
     }
 
-    public StudentsForYear? GetStudentsForYear(int year)
+    public YearData? GetYearData(int year)
     {
-        return _studentsForYear.FirstOrDefault(s => s.CalendarYear == year);
+        return _yearDataHistory.FirstOrDefault(s => s.CalendarYear == year);
     }
 
-    public void AddSubjectsTaught(List<Subject> subjects)
+    public void AddYearData(int year)
     {
-        foreach (var subject in subjects)
+        if (!YearDataExists(year))
         {
-            if (NotInSubjectsTaught(subject.Id) && subject.IsCurriculumSubject)
-            {
-                _subjectsTaughtIds.Add(subject.Id);
-            }
+            _yearDataHistory.Add(YearData.Create(year));
         }
+    }
+
+    public void AddYearData(int year, List<Student> students)
+    {
+        if (!YearDataExists(year))
+        {
+            _yearDataHistory.Add(YearData.Create(year, students));
+        }
+
+    }
+
+    private bool YearDataExists(int year)
+    {
+        return _yearDataHistory.Any(y => y.CalendarYear == year);
+    }
+
+    public void AddSubjectsTaught(List<Subject> subjects, int calendarYear)
+    {
+        var yearData = GetYearData(calendarYear);
+
+        if (yearData is null)
+        {
+            yearData = YearData.Create(calendarYear);
+            _yearDataHistory.Add(yearData);
+        }
+
+        yearData.AddSubjects(subjects);
     }
 
     private bool NotInSubjectsTaught(Guid subjectId)

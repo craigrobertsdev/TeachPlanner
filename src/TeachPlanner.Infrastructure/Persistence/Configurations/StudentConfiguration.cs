@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System.Text.Json;
 using TeachPlanner.Domain.Common.Enums;
 using TeachPlanner.Domain.Students;
+using TeachPlanner.Domain.Teachers;
 
 namespace TeachPlanner.Infrastructure.Persistence.Configurations;
 
@@ -28,9 +29,9 @@ public class StudentConfiguration : IEntityTypeConfiguration<Student>
     }
 }
 
-public class StudentsForYearConfiguration : IEntityTypeConfiguration<StudentsForYear>
+public class StudentsForYearConfiguration : IEntityTypeConfiguration<YearData>
 {
-    public void Configure(EntityTypeBuilder<StudentsForYear> builder)
+    public void Configure(EntityTypeBuilder<YearData> builder)
     {
         builder.ToTable("students_for_year");
 

@@ -1,21 +1,26 @@
 import { useEffect, useState } from "react";
 import Dropdown from "../components/common/Dropdown";
-import curriculumService from "../services/CurriculumService";
 import teacherService from "../services/TeacherService";
 import useAuth from "../contexts/AuthContext";
 import Button from "../components/common/Button";
 
+type SubjectIdentifier = {
+  id: string;
+  name: string;
+};
+
 const SettingsPage = () => {
-  const [subjects, setSubjects] = useState<Subject[]>([]);
-  const [subjectsTaught, setSubjectsTaught] = useState<string[]>([]);
-  const { teacher } = useAuth();
+  const [subjects, setSubjects] = useState<SubjectIdentifier[]>([]);
+  const [subjectsTaught, setSubjectsTaught] = useState<SubjectIdentifier[]>([]);
+  const { teacher, token } = useAuth();
 
   useEffect(() => {
     const getSubjects = async () => {
       const abortController = new AbortController();
-      const subjects = await curriculumService.getSubjects({}, teacher!, abortController);
+      const settings = await teacherService.getSettingsData(teacher!, 2023, token!);
 
-      setSubjects(subjects.subjects);
+      setSubjects(settings.curriculumSubjects);
+      setSubjectsTaught(settings.subjectsTaught);
     };
 
     getSubjects();
@@ -23,17 +28,22 @@ const SettingsPage = () => {
 
   async function handleSetSubjects() {
     try {
-      await teacherService.setSubjectsTaught(teacher!, subjectsTaught);
+      await teacherService.setSubjectsTaught(
+        teacher!,
+        token!,
+        subjectsTaught.map((s) => s.id)
+      );
       console.log("Subjects taught successfully set");
     } catch (error) {
       console.log(error);
     }
   }
 
-  function handleSubjectSelect(subjects: string[]) {
-    setSubjectsTaught(subjects);
-  }
+  function handleSubjectSelect(subjectsToAdd: string[]) {
+    const subjectIdentifiers = subjects.filter((sub) => subjectsToAdd.find((s) => s === sub.name));
 
+    setSubjectsTaught(subjectIdentifiers);
+  }
   return (
     <div className="flex-grow">
       <h1>Settings</h1>

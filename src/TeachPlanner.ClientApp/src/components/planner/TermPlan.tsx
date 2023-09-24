@@ -3,7 +3,7 @@ import { useEffect } from "react";
 
 type TermPlanProps = {
   termNumber: number;
-  terms: Term[];
+  terms: TermPlan[];
   yearLevel: string; // Year 1 || Year 1 & 2
   handleAddContentDescriptions: (termNumber: number) => void;
 };

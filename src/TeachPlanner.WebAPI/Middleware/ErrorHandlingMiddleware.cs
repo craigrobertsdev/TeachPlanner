@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Net;
-using TeachPlanner.Api.Common.Errors;
 using TeachPlanner.Domain.Common.Exceptions;
 
 namespace TeachPlanner.Api.Middleware;
@@ -33,10 +32,10 @@ public class ErrorHandlingMiddleware
     {
         context.Response.ContentType = "application/json";
         string type;
-        if (ex is BaseException bex)
+        if (ex is BaseException baseException)
         {
-            context.Response.StatusCode = bex.StatusCode;
-            type = bex.Type ?? "https://tools.ietf.org/html/rfc7231#section-6.6.1";
+            context.Response.StatusCode = baseException.StatusCode;
+            type = baseException.Type ?? "https://tools.ietf.org/html/rfc7231#section-6.6.1";
         }
         else
         {
@@ -53,8 +52,8 @@ public class ErrorHandlingMiddleware
             // Detail = context.Response.StatusCode == (int)HttpStatusCode.InternalServerError ? "Internal Server Error" : ex.Message
         };
 
-        await context.Response.WriteAsync(problemDetails.ToString() != null
-            ? (problemDetails.ToString())!
+        await context.Response.WriteAsync(problemDetails.Detail.ToString() != null
+            ? (problemDetails.Detail.ToString())!
             : "An internal server error has occurred");
     }
 }

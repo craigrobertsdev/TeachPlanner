@@ -11,7 +11,7 @@ using TeachPlanner.Infrastructure.Persistence.DbContexts;
 namespace TeachPlanner.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230919200315_Add-StudentsForYear")]
+    [Migration("20230919200315_Add-YearData")]
     partial class AddStudentsForYear
     {
         /// <inheritdoc />
@@ -362,7 +362,7 @@ namespace TeachPlanner.Infrastructure.Migrations
                     b.ToTable("students", (string)null);
                 });
 
-            modelBuilder.Entity("TeachPlanner.Domain.Students.StudentsForYear", b =>
+            modelBuilder.Entity("TeachPlanner.Domain.Students.YearData", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -734,7 +734,7 @@ namespace TeachPlanner.Infrastructure.Migrations
 
             modelBuilder.Entity("StudentStudentsForYear", b =>
                 {
-                    b.HasOne("TeachPlanner.Domain.Students.StudentsForYear", null)
+                    b.HasOne("TeachPlanner.Domain.Students.YearData", null)
                         .WithMany()
                         .HasForeignKey("StudentsForYearId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -957,10 +957,10 @@ namespace TeachPlanner.Infrastructure.Migrations
                         .HasForeignKey("TeacherId");
                 });
 
-            modelBuilder.Entity("TeachPlanner.Domain.Students.StudentsForYear", b =>
+            modelBuilder.Entity("TeachPlanner.Domain.Students.YearData", b =>
                 {
                     b.HasOne("TeachPlanner.Domain.Teachers.Teacher", null)
-                        .WithMany("StudentsForYear")
+                        .WithMany("YearData")
                         .HasForeignKey("TeacherId");
                 });
 
@@ -1145,7 +1145,7 @@ namespace TeachPlanner.Infrastructure.Migrations
 
                     b.Navigation("Resources");
 
-                    b.Navigation("StudentsForYear");
+                    b.Navigation("YearData");
 
                     b.Navigation("SummativeAssessments");
 

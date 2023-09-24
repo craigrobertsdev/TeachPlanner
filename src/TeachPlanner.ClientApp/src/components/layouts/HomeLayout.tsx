@@ -17,8 +17,11 @@ function HomeLayout() {
           <li>
             <Link to="/">Home</Link>
           </li>
-          <li className="ml-auto pr-6">
+          <li>
             <Link to="/login">Login</Link>
+          </li>
+          <li>
+            <Link to="/register">Register</Link>
           </li>
         </ul>
       </nav>

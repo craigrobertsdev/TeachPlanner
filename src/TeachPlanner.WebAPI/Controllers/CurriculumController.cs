@@ -4,6 +4,8 @@ using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using TeachPlanner.Contracts.Curriculum;
+using Microsoft.AspNetCore.Authorization;
+using TeachPlanner.Api.Identity;
 
 namespace TeachPlanner.Api.Controllers;
 
@@ -27,6 +29,7 @@ public class CurriculumController : ApiController
         return Ok(_mapper.Map<GetSubjectsResponse>(result));
     }
 
+    [Authorize(Policy = IdentityData.AdminUserPolicyName)]
     [HttpGet("ParseCurriculum")]
     public async Task<IActionResult> ParseCurriculum()
     {

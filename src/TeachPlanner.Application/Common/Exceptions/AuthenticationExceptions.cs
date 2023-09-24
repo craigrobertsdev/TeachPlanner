@@ -22,5 +22,9 @@ public class UserRegistrationFailedException : BaseException
     public UserRegistrationFailedException() : base(
         "User registration failed. Please check details and try again.", 500, "Authentication.UserRegistrationFailed")
     { }
+}
 
+public class PasswordsDoNotMatchException : BaseException
+{
+    public PasswordsDoNotMatchException() : base("Passwords do not match", 400, "Authentication.PasswordsDoNotMatch") { }
 }

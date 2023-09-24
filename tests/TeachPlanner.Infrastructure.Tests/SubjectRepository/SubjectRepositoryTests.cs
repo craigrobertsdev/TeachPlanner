@@ -15,16 +15,15 @@ public class SubjectRepositoryTests
             .Options;
 
         var databaseContext = new ApplicationDbContext(options);
+        databaseContext.Database.EnsureDeleted();
         databaseContext.Database.EnsureCreated();
 
-        if (await databaseContext.TermPlanners.CountAsync() == 0)
+        if (!(await databaseContext.TermPlanners.AnyAsync()))
         {
-            List<Subject> subjects = new();
-
             for (int i = 0; i < 10; i++)
             {
-                var subject = Subject.Create("English"+i, new List<YearLevel>());
-                var yearLevel = YearLevel.Create(subject, new List<Strand>(), "Description"+i, "Achievement Standard", YearLevelValue.Foundation, null);
+                var subject = Subject.Create("English" + i, new List<YearLevel>());
+                var yearLevel = YearLevel.Create(subject, new List<Strand>(), "Description" + i, "Achievement Standard", YearLevelValue.Foundation, null);
                 var strand = Strand.Create(yearLevel, "Grammar" + i, new List<Substrand>(), null);
                 var substrand = Substrand.Create("Grammar constructs" + i, new List<ContentDescription>(), strand);
                 var contentDescription = ContentDescription.Create("Description", "ENG001" + i, new List<Elaboration>(), substrand: substrand);
@@ -34,10 +33,8 @@ public class SubjectRepositoryTests
                 strand.AddSubstrand(substrand);
                 substrand.AddContentDescription(contentDescription);
 
-                subjects.Add(subject);
+                databaseContext.Subjects.Add(subject);
             }
-
-            databaseContext.Subjects.AddRange(subjects);
 
             // if there are any change tracking issues, uncomment this
             //databaseContext.TermPlanners.AsNoTracking();
@@ -54,13 +51,13 @@ public class SubjectRepositoryTests
         // Arrange
         var dbContext = await GetDbContext();
         var subjectRepository = new SubjectRepository(dbContext);
-        var subjectIds = dbContext.Subjects.Select(s => s.Id).ToList(); 
+        var subjectIds = dbContext.Subjects.Select(s => s.Id).ToList();
 
         // Act
         var subjects = await subjectRepository.GetSubjectsById(subjectIds, new CancellationToken());
 
         // Assert
         subjects.Should().BeOfType<List<Subject>>();
-        subjects.Should().HaveCount(10);
+        subjects.Should().HaveCount(subjectIds.Count);
     }
 }

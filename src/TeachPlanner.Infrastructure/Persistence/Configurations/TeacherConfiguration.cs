@@ -19,7 +19,7 @@ public class TeacherConfiguration : IEntityTypeConfiguration<Teacher>
 
         builder.Property(t => t.LastName).HasMaxLength(50);
 
-        builder.HasMany(t => t.StudentsForYear)
+        builder.HasMany(t => t.YearDataHistory)
             .WithOne();
 
         builder.HasMany(t => t.SummativeAssessments)

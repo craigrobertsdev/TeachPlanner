@@ -1,4 +1,5 @@
 using TeachPlanner.Api.Extensions;
+using TeachPlanner.Api.Identity;
 using TeachPlanner.Api.Middleware;
 using TeachPlanner.Application;
 using TeachPlanner.Infrastructure;
@@ -12,6 +13,11 @@ builder.Services
     .AddInfrastructure(builder.Configuration)
     .AddPresentation()
     .AddApplication();
+
+builder.Services.AddAuthorization(x =>
+{
+    x.AddPolicy(IdentityData.AdminUserPolicyName, policy => policy.RequireClaim(IdentityData.AdminUserClaimName, "true"));
+});
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

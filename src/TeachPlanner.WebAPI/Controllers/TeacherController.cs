@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using TeachPlanner.Application.Teachers.Commands.SetSubjectsTaught;
 using TeachPlanner.Contracts.Teacher.SetSubjectsTaught;
 using TeachPlanner.Application.WeekPlanners.Queries.GetPlannerData;
+using TeachPlanner.Application.Teachers.Queries.GetTeacherSettings;
 
 namespace TeachPlanner.Api.Controllers;
 
@@ -35,10 +36,21 @@ public class TeacherController : ApiController
     [Route("{teacherId}/subjects")]
     public async Task<IActionResult> SetSubjectsTaught(string teacherId, SetSubjectsTaughtRequest request, CancellationToken cancellationToken)
     {
-        var command = new SetSubjectsTaughtCommand(Guid.Parse(teacherId), request.SubjectIds);
+        var command = new SetSubjectsTaughtCommand(Guid.Parse(teacherId), request.SubjectIds, 2023);
 
         await _mediator.Send(command);
 
         return Ok();
+    }
+
+    [HttpGet]
+    [Route("{teacherId}/settings")]
+    public async Task<IActionResult> GetTeacherSettings(string teacherId, int calendarYear)
+    {
+        var command = new GetTeacherSettingsQuery(Guid.Parse(teacherId), calendarYear);
+
+        var settings = await _mediator.Send(command);
+
+        return Ok(settings);
     }
 }

@@ -5,10 +5,11 @@ import { useLocalStorage } from "../hooks/useLocalStorage";
 
 type AuthContextType = {
   teacher: Teacher | null;
+  token: string | null;
   loading: boolean;
   error?: any;
   login: (email: string, password: string) => void;
-  register: (email: string, firstName: string, lastName: string, password: string) => void;
+  register: (email: string, firstName: string, lastName: string, password: string, confirmedPassword: string) => void;
   logout: () => void;
 };
 
@@ -21,6 +22,7 @@ const AuthContext = createContext<AuthContextType>({} as AuthContextType);
 
 export function AuthProvider({ children, teacherData }: AuthProviderProps) {
   const [teacher, setTeacher] = useLocalStorage<Teacher | null>("teacher", teacherData);
+  const [token, setToken] = useLocalStorage<string>("token", "");
   const [error, setError] = useState<any>();
   const [loading, setLoading] = useState<boolean>(false);
   const routerLocation = useLocation();
@@ -38,7 +40,8 @@ export function AuthProvider({ children, teacherData }: AuthProviderProps) {
 
       const response = await teacherService.login(email, password);
 
-      setTeacher(response);
+      setTeacher(response.teacher);
+      setToken(response.token);
 
       setLoading(false);
       navigate("/");
@@ -48,13 +51,14 @@ export function AuthProvider({ children, teacherData }: AuthProviderProps) {
     }
   }
 
-  async function register(email: string, firstName: string, lastName: string, password: string) {
+  async function register(email: string, firstName: string, lastName: string, password: string, confirmedPassword: string) {
     try {
       setLoading(true);
 
-      const response = await teacherService.register(email, firstName, lastName, password);
+      const response = await teacherService.register(email, firstName, lastName, password, confirmedPassword);
 
-      setTeacher(response);
+      setTeacher(response.teacher);
+      setToken(response.token);
 
       setLoading(false);
       navigate("/", { replace: true });
@@ -66,19 +70,21 @@ export function AuthProvider({ children, teacherData }: AuthProviderProps) {
 
   function logout() {
     setTeacher(null);
+    setToken("");
     navigate("/", { replace: true });
   }
 
   const memoedValue = useMemo(
     () => ({
       teacher,
+      token,
       loading,
       error,
       login,
       register,
       logout,
     }),
-    [teacher, loading, error]
+    [teacher, token, loading, error]
   );
 
   return <AuthContext.Provider value={memoedValue}>{children}</AuthContext.Provider>;

@@ -1,16 +1,15 @@
 import { baseUrl } from "../utils/constants";
 
 type TeacherResponse = {
-  id: string;
-  firstName: string;
-  lastName: string;
-  email: string;
+  teacher: Teacher;
   token: string;
-  subjectsTaught: Subject[];
 };
 
-type SubjectsTaughtResponse = {
+type TeacherSettings = {
+  curriculumSubjects: Subject[];
   subjectsTaught: Subject[];
+  students: Student[];
+  calendarYear: number;
 };
 
 class TeacherService {
@@ -32,13 +31,15 @@ class TeacherService {
     return data;
   }
 
-  async register(email: string, firstName: string, lastName: string, password: string) {
+  async register(email: string, firstName: string, lastName: string, password: string, confirmedPassword: string) {
+    const body = JSON.stringify({ email, firstName, lastName, password, confirmedPassword });
+    console.log(body);
     const response = await fetch(`${baseUrl}/auth/register`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ email, firstName, lastName, password }),
+      body,
     });
 
     if (!response.ok) {
@@ -50,14 +51,14 @@ class TeacherService {
     return data;
   }
 
-  async setSubjectsTaught(teacher: Teacher, subjectNames: string[]) {
+  async setSubjectsTaught(teacher: Teacher, token: string, subjectNames: string[]) {
     try {
       console.log(JSON.stringify({ teacherId: teacher.id, subjectNames }));
       const request = new Request(`${baseUrl}/teacher/${teacher.id}/subjects`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${teacher!.token}`,
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({ subjectNames }),
       });
@@ -70,6 +71,20 @@ class TeacherService {
     } catch (error) {
       console.log(error);
     }
+  }
+
+  async getSettingsData(teacher: Teacher, calendarYear: number, token: string) {
+    const request = new Request(`${baseUrl}/teacher/${teacher.id}/settings?calendarYear=${calendarYear}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    const response = await fetch(request);
+
+    const data = await response.json();
+
+    return data as TeacherSettings;
   }
 }
 

@@ -63,7 +63,13 @@ public class CurriculumRepository : ICurriculumRepository
         }
 
         return subjects;
+    }
 
+    public async Task<List<Subject>> GetCurriculumSubjectNamesAndIds(CancellationToken cancellationToken)
+    {
+        return await _context.Subjects
+            .Where(s => s.IsCurriculumSubject)
+            .ToListAsync(cancellationToken);
     }
 
     public async Task SaveCurriculum(List<Subject> subjects, CancellationToken cancellationToken)

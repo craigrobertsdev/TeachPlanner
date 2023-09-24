@@ -1,7 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Query;
-using System.Security;
-using TeachPlanner.Application.Common.Exceptions;
 using TeachPlanner.Application.Common.Interfaces.Persistence;
 using TeachPlanner.Domain.Subjects;
 using TeachPlanner.Domain.Teachers;
@@ -107,9 +104,9 @@ public class TeacherRepository : ITeacherRepository
         return subjects;
     }
 
-    public void SetSubjectsTaughtByTeacher(Teacher teacher, List<Subject> subjects)
+    public void SetSubjectsTaughtByTeacher(Teacher teacher, List<Subject> subjects, int calendarYear)
     {
-        teacher.AddSubjectsTaught(subjects);
+        teacher.AddSubjectsTaught(subjects, calendarYear);
     }
 
     public async Task<Teacher?> GetTeacherByEmailAsync(string email, CancellationToken cancellationToken)
@@ -138,7 +135,7 @@ public class TeacherRepository : ITeacherRepository
     public async Task<Teacher?> GetTeacherByUserId(Guid id)
     {
         var teachers = _context.Teachers
-            .Include(t => t.GetStudentsForYear(DateTime.Now.Year))
+            .Include(t => t.GetYearData(DateTime.Now.Year))
             .Include(t => t.SummativeAssessments)
             .Include(t => t.FormativeAssessments);
 

@@ -31,6 +31,11 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, Authentic
 
     public async Task<AuthenticationResult> Handle(RegisterCommand command, CancellationToken cancellationToken)
     {
+        if (command.Password != command.ConfirmedPassword)
+        {
+            throw new PasswordsDoNotMatchException();
+        }
+
         if (_userManager.FindByEmailAsync(command.Email).Result != null)
         {
             throw new DuplicateEmailException();

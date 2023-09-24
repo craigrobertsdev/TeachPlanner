@@ -24,9 +24,9 @@ class AuthService {
 
   getToken(): string | null {
     // Retrieves the user token from localStorage
-    const teacher = localStorage.getItem("teacher");
-    if (teacher) {
-      return JSON.parse(teacher).token;
+    const token = localStorage.getItem("token");
+    if (token) {
+      return JSON.parse(token);
     }
 
     return null;
@@ -35,6 +35,7 @@ class AuthService {
   logout() {
     // Clear user token and profile data from localStorage
     localStorage.removeItem("teacher");
+    localStorage.removeItem("token");
   }
 }
 

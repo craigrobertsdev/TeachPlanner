@@ -14,10 +14,10 @@ public class TermPlannerTests
         // Arrange
 
         // Act
-        var termPlanner = TermPlanner.Create(Guid.NewGuid(), 2021, YearLevelValue.Year1, null);
+        var termPlanner = Domain.TermPlanners.TermPlanner.Create(Guid.NewGuid(), 2021, YearLevelValue.Year1, null);
 
         // Assert
-        termPlanner.Should().BeOfType<TermPlanner>();
+        termPlanner.Should().BeOfType<Domain.TermPlanners.TermPlanner>();
         termPlanner.CalendarYear.Should().Be(2021);
         termPlanner.YearLevels.Count.Should().Be(1);
         termPlanner.YearLevels[0].Should().Be(YearLevelValue.Year1);
@@ -28,7 +28,7 @@ public class TermPlannerTests
     public void Create_OnAddingSameYearLevelTwice_ShouldThrowException()
     {
         // Arrange
-        var termPlanner = TermPlanner.Create(Guid.NewGuid(), 2021, YearLevelValue.Year1, YearLevelValue.Year1);
+        var termPlanner = Domain.TermPlanners.TermPlanner.Create(Guid.NewGuid(), 2021, YearLevelValue.Year1, YearLevelValue.Year1);
 
         // Act
 
@@ -41,7 +41,7 @@ public class TermPlannerTests
     public void Create_OnCreating_YearLevelsShouldBeOrdered()
     {
         // Arrange
-        var termPlanner = TermPlanner.Create(Guid.NewGuid(), 2021, YearLevelValue.Year5, YearLevelValue.Year1);
+        var termPlanner = Domain.TermPlanners.TermPlanner.Create(Guid.NewGuid(), 2021, YearLevelValue.Year5, YearLevelValue.Year1);
 
         // Act
 
@@ -54,7 +54,7 @@ public class TermPlannerTests
     public void AddYearLevel_OnAddingYearLevel_ShouldBeAdded()
     {
         // Arrange
-        var termPlanner = TermPlanner.Create(Guid.NewGuid(), 2021, YearLevelValue.Year1, null);
+        var termPlanner = Domain.TermPlanners.TermPlanner.Create(Guid.NewGuid(), 2021, YearLevelValue.Year1, null);
 
         // Act
         termPlanner.AddYearLevel(YearLevelValue.Year2);
@@ -69,7 +69,7 @@ public class TermPlannerTests
     public void AddYearLevel_OnAddingYearLevel_ShouldBeOrdered()
     {
         // Arrange
-        var termPlanner = TermPlanner.Create(Guid.NewGuid(), 2021, YearLevelValue.Year5, null);
+        var termPlanner = Domain.TermPlanners.TermPlanner.Create(Guid.NewGuid(), 2021, YearLevelValue.Year5, null);
 
         // Act
         termPlanner.AddYearLevel(YearLevelValue.Year1);
@@ -82,8 +82,8 @@ public class TermPlannerTests
     public void AddTermPlan_OnAddingTermPlan_ShouldBeAdded()
     {
         // Arrange
-        var termPlanner = TermPlanner.Create(Guid.NewGuid(), 2021, YearLevelValue.Year1, null);
-        var termPlan = TermPlan.Create(termPlanner, 1, new List<Subject> { TermPlannerHelpers.CreateSubject("English", "ENG001") });
+        var termPlanner = Domain.TermPlanners.TermPlanner.Create(Guid.NewGuid(), 2021, YearLevelValue.Year1, null);
+        var termPlan = Domain.TermPlanners.TermPlan.Create(termPlanner, 1, new List<Subject> { TermPlannerHelpers.CreateSubject("English", "ENG001") });
 
         // Act
         termPlanner.AddTermPlan(termPlan);
@@ -97,8 +97,8 @@ public class TermPlannerTests
     public void AddTermPlan_OnAddingDuplicateTermPlan_ShouldNotBeAdded()
     {
         // Arrange
-        var termPlanner = TermPlanner.Create(Guid.NewGuid(), 2021, YearLevelValue.Year1, null);
-        var termPlan = TermPlan.Create(termPlanner, 1, new List<Subject> { TermPlannerHelpers.CreateSubject("English", "ENG001") });
+        var termPlanner = Domain.TermPlanners.TermPlanner.Create(Guid.NewGuid(), 2021, YearLevelValue.Year1, null);
+        var termPlan = Domain.TermPlanners.TermPlan.Create(termPlanner, 1, new List<Subject> { TermPlannerHelpers.CreateSubject("English", "ENG001") });
 
         // Act
         termPlanner.AddTermPlan(termPlan);
@@ -114,12 +114,12 @@ public class TermPlannerTests
     {
         // Arrange
         var termPlanner = TermPlannerHelpers.CreateTermPlanner();
-        List<TermPlan> termPlans = new()
+        List<Domain.TermPlanners.TermPlan> termPlans = new()
         {
-            TermPlan.Create(termPlanner, 1, new List < Subject > { TermPlannerHelpers.CreateSubject("English", "ENG001") }),
-            TermPlan.Create(termPlanner, 2, new List < Subject > { TermPlannerHelpers.CreateSubject("English", "ENG002") }),
-            TermPlan.Create(termPlanner, 3, new List < Subject > { TermPlannerHelpers.CreateSubject("English", "ENG003") }),
-            TermPlan.Create(termPlanner, 4, new List < Subject > { TermPlannerHelpers.CreateSubject("English", "ENG004") }),
+            Domain.TermPlanners.TermPlan.Create(termPlanner, 1, new List < Subject > { TermPlannerHelpers.CreateSubject("English", "ENG001") }),
+            Domain.TermPlanners.TermPlan.Create(termPlanner, 2, new List < Subject > { TermPlannerHelpers.CreateSubject("English", "ENG002") }),
+            Domain.TermPlanners.TermPlan.Create(termPlanner, 3, new List < Subject > { TermPlannerHelpers.CreateSubject("English", "ENG003") }),
+            Domain.TermPlanners.TermPlan.Create(termPlanner, 4, new List < Subject > { TermPlannerHelpers.CreateSubject("English", "ENG004") }),
         };
 
         foreach (var termPlan in termPlans)
@@ -128,7 +128,7 @@ public class TermPlannerTests
         }
 
         // Act
-        Action act = () => termPlanner.AddTermPlan(TermPlan.Create(termPlanner, 4, new List<Subject> { TermPlannerHelpers.CreateSubject("English", "ENG005") }));
+        Action act = () => termPlanner.AddTermPlan(Domain.TermPlanners.TermPlan.Create(termPlanner, 4, new List<Subject> { TermPlannerHelpers.CreateSubject("English", "ENG005") }));
 
         // Assert
         act.Should().Throw<TooManyTermPlansException>();
@@ -140,11 +140,11 @@ public class TermPlannerTests
     {
         // Arrange
         var termPlanner = TermPlannerHelpers.CreateTermPlanner();
-        var termPlan = TermPlan.Create(termPlanner, 1, new List<Subject> { TermPlannerHelpers.CreateSubject("English", "ENG001") });
+        var termPlan = Domain.TermPlanners.TermPlan.Create(termPlanner, 1, new List<Subject> { TermPlannerHelpers.CreateSubject("English", "ENG001") });
 
         // Act
         termPlanner.AddTermPlan(termPlan);
-        Action act = () => termPlanner.AddTermPlan(TermPlan.Create(termPlanner, 1, new List<Subject> { TermPlannerHelpers.CreateSubject("English", "ENG005") }));
+        Action act = () => termPlanner.AddTermPlan(Domain.TermPlanners.TermPlan.Create(termPlanner, 1, new List<Subject> { TermPlannerHelpers.CreateSubject("English", "ENG005") }));
 
         // Assert
         termPlanner.TermPlans.Should().HaveCount(1);

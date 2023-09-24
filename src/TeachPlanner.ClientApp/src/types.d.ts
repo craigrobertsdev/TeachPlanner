@@ -3,9 +3,14 @@ declare type Teacher = {
   id: string;
   firstName: string;
   lastName: string;
-  email: string;
-  token: string;
-  subjectsTaught: Subject[];
+  lessonPlans: LessonPlan[];
+  reports: Report[];
+  resources: Resource[];
+  studentsForYear: number & Student[];
+  subjectsTaughtIds: Subject[];
+  summativeAssessments: Assessment[];
+  termPlanners: TermPlanner[];
+  weekPlanners: WeekPlanner[];
 };
 
 //#region Student
@@ -101,7 +106,41 @@ declare type Subject = {
 
 declare type SubjectYearLevel = {
   name: string;
+  subject: Subject;
   strands: Strand[];
+};
+
+declare type Strand = {
+  name: string;
+  yearLevel: SubjectYearLevel;
+  substrands?: Substrand[];
+  contentDescriptions?: ContentDescription[];
+};
+
+declare type Substrand = {
+  name: string;
+  strand: Strand;
+  contentDescriptions?: ContentDescription[];
+};
+
+declare type ContentDescription = {
+  description: string;
+  strand?: Strand;
+  substrand?: Substrand;
+  curriculumCode: string;
+  elaborations: string[];
+};
+
+declare type Elaboration = {
+  contentDescription: ContentDescription;
+  description: string;
+};
+
+declare type Resource = {
+  id: string;
+  name: string;
+  description: string;
+  url: string;
 };
 
 type YearLevelBandNames = {
@@ -113,34 +152,6 @@ type YearLevelBandNames = {
 
 declare type YearLevelBand = SubjectYearLevel & {
   bandLevelValue: YearLevelBandNames[keyof YearLevelBandNames];
-};
-
-declare type Strand = {
-  name: string;
-  substrands?: Substrand[];
-  contentDescriptions?: ContentDescription[];
-};
-
-declare type Substrand = {
-  name: string;
-  contentDescriptions?: ContentDescription[];
-};
-
-declare type ContentDescription = {
-  description: string;
-  curriculumCode: string;
-  elaborations: string[];
-};
-
-declare type Elaboration = {
-  description: string;
-};
-
-declare type Resource = {
-  id: string;
-  name: string;
-  description: string;
-  url: string;
 };
 
 //#region Assessments
@@ -166,7 +177,13 @@ declare type Assessment = {
 );
 
 //#region TermPlanner
-declare type Term = {
+declare type TermPlanner = {
+  calendarYear: number;
+  termPlans: TermPlan[];
+  yearLevels: YearLevelValue[];
+};
+
+declare type TermPlan = {
   termNumber: number;
   subjects: Subject[];
 };

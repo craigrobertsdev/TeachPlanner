@@ -18,6 +18,8 @@ const LessonPlannerPage = ({ numLessons, numBreaks, lessonLength, weekNumber, da
   const [selectedLessonEntryIndex, setSelectedLessonEntryIndex] = useState<GridCellLocation>({ row: -1, column: -1 });
   const navigate = useNavigate();
 
+  console.log(teacher);
+
   //#region seed data
   // TODO: get these values from the database
   numLessons = 6;
