@@ -256,19 +256,19 @@ namespace TeachPlanner.Infrastructure.Migrations
                     b.ToTable("SchoolEventWeekPlanner");
                 });
 
-            modelBuilder.Entity("StudentStudentsForYear", b =>
+            modelBuilder.Entity("SubjectYearData", b =>
                 {
-                    b.Property<Guid>("StudentsForYearId")
+                    b.Property<Guid>("SubjectsId")
                         .HasColumnType("char(36)");
 
-                    b.Property<Guid>("StudentsId")
+                    b.Property<Guid>("YearDataId")
                         .HasColumnType("char(36)");
 
-                    b.HasKey("StudentsForYearId", "StudentsId");
+                    b.HasKey("SubjectsId", "YearDataId");
 
-                    b.HasIndex("StudentsId");
+                    b.HasIndex("YearDataId");
 
-                    b.ToTable("StudentStudentsForYear");
+                    b.ToTable("SubjectYearData");
                 });
 
             modelBuilder.Entity("TeachPlanner.Domain.Assessments.Assessment", b =>
@@ -543,35 +543,25 @@ namespace TeachPlanner.Infrastructure.Migrations
                         .HasColumnType("char(36)")
                         .HasColumnName("Id");
 
-                    b.Property<Guid?>("TeacherId")
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<Guid>("TeacherId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid?>("YearDataId")
                         .HasColumnType("char(36)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("YearDataId");
 
                     b.ToTable("students", (string)null);
-                });
-
-            modelBuilder.Entity("TeachPlanner.Domain.Students.YearData", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
-
-                    b.Property<int>("CalendarYear")
-                        .HasColumnType("int");
-
-                    b.Property<Guid?>("TeacherId")
-                        .HasColumnType("char(36)");
-
-                    b.Property<string>("_yearLevels")
-                        .HasColumnType("longtext")
-                        .HasColumnName("YearLevels");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("TeacherId");
-
-                    b.ToTable("students_for_year", (string)null);
                 });
 
             modelBuilder.Entity("TeachPlanner.Domain.Subjects.ContentDescription", b =>
@@ -750,6 +740,31 @@ namespace TeachPlanner.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("teachers", (string)null);
+                });
+
+            modelBuilder.Entity("TeachPlanner.Domain.Teachers.YearData", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("char(36)");
+
+                    b.Property<int>("CalendarYear")
+                        .HasColumnType("int");
+
+                    b.Property<Guid?>("TeacherId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("_yearLevelsTaught")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)")
+                        .HasColumnName("YearLevels");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TeacherId");
+
+                    b.ToTable("YearData");
                 });
 
             modelBuilder.Entity("TeachPlanner.Domain.TermPlanners.TermPlan", b =>
@@ -962,17 +977,17 @@ namespace TeachPlanner.Infrastructure.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("StudentStudentsForYear", b =>
+            modelBuilder.Entity("SubjectYearData", b =>
                 {
-                    b.HasOne("TeachPlanner.Domain.Students.YearData", null)
+                    b.HasOne("TeachPlanner.Domain.Subjects.Subject", null)
                         .WithMany()
-                        .HasForeignKey("StudentsForYearId")
+                        .HasForeignKey("SubjectsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TeachPlanner.Domain.Students.Student", null)
+                    b.HasOne("TeachPlanner.Domain.Teachers.YearData", null)
                         .WithMany()
-                        .HasForeignKey("StudentsId")
+                        .HasForeignKey("YearDataId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -1187,11 +1202,11 @@ namespace TeachPlanner.Infrastructure.Migrations
                         .HasForeignKey("TeacherId");
                 });
 
-            modelBuilder.Entity("TeachPlanner.Domain.Students.YearData", b =>
+            modelBuilder.Entity("TeachPlanner.Domain.Students.Student", b =>
                 {
-                    b.HasOne("TeachPlanner.Domain.Teachers.Teacher", null)
-                        .WithMany("YearData")
-                        .HasForeignKey("TeacherId");
+                    b.HasOne("TeachPlanner.Domain.Teachers.YearData", null)
+                        .WithMany("Students")
+                        .HasForeignKey("YearDataId");
                 });
 
             modelBuilder.Entity("TeachPlanner.Domain.Subjects.ContentDescription", b =>
@@ -1260,6 +1275,13 @@ namespace TeachPlanner.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("Subject");
+                });
+
+            modelBuilder.Entity("TeachPlanner.Domain.Teachers.YearData", b =>
+                {
+                    b.HasOne("TeachPlanner.Domain.Teachers.Teacher", null)
+                        .WithMany("YearDataHistory")
+                        .HasForeignKey("TeacherId");
                 });
 
             modelBuilder.Entity("TeachPlanner.Domain.TermPlanners.TermPlan", b =>
@@ -1375,13 +1397,18 @@ namespace TeachPlanner.Infrastructure.Migrations
 
                     b.Navigation("Resources");
 
-                    b.Navigation("YearData");
-
                     b.Navigation("SummativeAssessments");
 
                     b.Navigation("TermPlanners");
 
                     b.Navigation("WeekPlanners");
+
+                    b.Navigation("YearDataHistory");
+                });
+
+            modelBuilder.Entity("TeachPlanner.Domain.Teachers.YearData", b =>
+                {
+                    b.Navigation("Students");
                 });
 
             modelBuilder.Entity("TeachPlanner.Domain.TermPlanners.TermPlan", b =>

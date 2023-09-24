@@ -29,7 +29,7 @@ public class CurriculumController : ApiController
         return Ok(_mapper.Map<GetSubjectsResponse>(result));
     }
 
-    [Authorize(Policy = IdentityData.AdminUserPolicyName)]
+    // [Authorize(Policy = IdentityData.AdminUserPolicyName)]
     [HttpGet("ParseCurriculum")]
     public async Task<IActionResult> ParseCurriculum()
     {

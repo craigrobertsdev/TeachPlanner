@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using TeachPlanner.Application.Common.Exceptions;
 using TeachPlanner.Application.Common.Interfaces.Persistence;
+using TeachPlanner.Domain.Teachers;
 
 namespace TeachPlanner.Application.Teachers.Queries.GetTeacherSettings;
 public class GetTeacherSettingsQueryHandler : IRequestHandler<GetTeacherSettingsQuery, GetTeacherSettingsResult>
@@ -25,9 +26,10 @@ public class GetTeacherSettingsQueryHandler : IRequestHandler<GetTeacherSettings
         }
 
         var curriculumSubjects = await _curriculumRepository.GetCurriculumSubjectNamesAndIds(cancellationToken);
+        var yearData = teacher.GetYearData(request.CalendarYear);
 
         return new GetTeacherSettingsResult(
             curriculumSubjects,
-            teacher.GetYearData(request.CalendarYear));
+            yearData ?? YearData.Create(request.CalendarYear));
     }
 }

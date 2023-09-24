@@ -18,7 +18,7 @@ public class SetSubjectsTaughtCommandHandlerTests
 
     }
     [Fact]
-    public async void SetSubjectsTaughtCommndHandler_WhenPassedListOfUntaughtSubjects_ShouldSendWholeListToRepository()
+    public async void SetSubjectsTaughtCommandHandler_WhenPassedListOfUntaughtSubjects_ShouldSendWholeListToRepository()
     {
         // Arrange
         var subjects = Helpers.CreateSubjects();

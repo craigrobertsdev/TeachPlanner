@@ -125,14 +125,14 @@ public class TeacherRepository : ITeacherRepository
             .FirstOrDefaultAsync(cancellationToken);
     }
 
-    public Task<Teacher?> GetById(Guid userId, CancellationToken cancellationToken)
+    public Task<Teacher?> GetByUserId(Guid userId, CancellationToken cancellationToken)
     {
         return _context.Teachers
             .Where(t => t.UserId == userId)
             .FirstOrDefaultAsync(cancellationToken);
     }
 
-    public async Task<Teacher?> GetTeacherByUserId(Guid id)
+    public async Task<Teacher?> GetById(Guid id, CancellationToken cancellationToken)
     {
         var teachers = _context.Teachers
             .Include(t => t.GetYearData(DateTime.Now.Year))
@@ -140,7 +140,7 @@ public class TeacherRepository : ITeacherRepository
             .Include(t => t.FormativeAssessments);
 
         return await _context.Teachers
-            .SingleOrDefaultAsync(t => t.Id == id);
+            .SingleOrDefaultAsync(t => t.Id == id, cancellationToken);
     }
 
 }
