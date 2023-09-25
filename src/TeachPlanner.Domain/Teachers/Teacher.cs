@@ -34,28 +34,29 @@ public sealed class Teacher : AggregateRoot
     public IReadOnlyList<TermPlanner> TermPlanners => _termPlanners;
     public IReadOnlyList<YearData> YearDataHistory => _yearDataHistory;
 
-    private Teacher(Guid id, string firstName, string lastName) : base(id)
+    private Teacher(Guid id, Guid userId, string firstName, string lastName) : base(id)
     {
         FirstName = firstName;
         LastName = lastName;
+        UserId = userId;
     }
 
     public static Teacher Create(Guid userId, string firstName, string lastName)
     {
-        return new(Guid.NewGuid(), firstName, lastName);
-    }
-
-    public void AddUserId(Guid userId)
-    {
-        if (UserId == Guid.Empty)
-        {
-            UserId = userId;
-        }
+        return new(Guid.NewGuid(), userId, firstName, lastName);
     }
 
     public YearData? GetYearData(int year)
     {
         return _yearDataHistory.FirstOrDefault(s => s.CalendarYear == year);
+    }
+
+    public void AddYearData(YearData yearData)
+    {
+        if (!YearDataExists(yearData))
+        {
+            _yearDataHistory.Add(yearData);
+        }
     }
 
     public void AddYearData(int year)
@@ -73,6 +74,11 @@ public sealed class Teacher : AggregateRoot
             _yearDataHistory.Add(YearData.Create(year, students));
         }
 
+    }
+
+    private bool YearDataExists(YearData yearData)
+    {
+        return _yearDataHistory.Any(y => y.CalendarYear == yearData.CalendarYear);
     }
 
     private bool YearDataExists(int year)
@@ -101,10 +107,6 @@ public sealed class Teacher : AggregateRoot
         }
 
         return false;
-    }
-
-    public void UpdateSubjectsTaught(Guid subjectId)
-    {
     }
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.

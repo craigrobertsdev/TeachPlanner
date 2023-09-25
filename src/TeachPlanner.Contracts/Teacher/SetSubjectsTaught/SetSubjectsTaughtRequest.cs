@@ -1,2 +1,2 @@
 ﻿namespace TeachPlanner.Contracts.Teacher.SetSubjectsTaught;
-public record SetSubjectsTaughtRequest(List<Guid> SubjectIds);
+public record SetSubjectsTaughtRequest(List<string> SubjectIds);

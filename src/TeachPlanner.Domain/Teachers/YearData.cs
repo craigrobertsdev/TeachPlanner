@@ -38,7 +38,31 @@ public class YearData : ValueObject
 
     public void AddSubjects(List<Subject> subjects)
     {
-        _subjects.AddRange(subjects);
+        CheckForNonCurriculumSubjects(subjects);
+
+        foreach (var subject in subjects)
+        {
+            if (NotInSubjects(subject))
+            {
+                _subjects.Add(subject);
+            }
+        }
+    }
+
+    private static void CheckForNonCurriculumSubjects(List<Subject> subjects)
+    {
+        foreach (var subject in subjects)
+        {
+            if (subject.IsCurriculumSubject == false)
+            {
+                throw new IsNonCurriculumSubjectException(subject);
+            }
+        }
+    }
+
+    private bool NotInSubjects(Subject subject)
+    {
+        return !_subjects.Contains(subject);
     }
 
     public override IEnumerable<object?> GetEqualityComponents()

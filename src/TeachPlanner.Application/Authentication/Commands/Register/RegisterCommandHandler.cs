@@ -53,9 +53,8 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, Authentic
             throw new UserRegistrationFailedException();
         }
 
-        var teacher = Teacher.Create(Guid.NewGuid(), command.FirstName, command.LastName);
         var user = await _userManager.FindByEmailAsync(command.Email);
-        teacher.AddUserId(Guid.Parse(user!.Id));
+        var teacher = Teacher.Create(Guid.Parse(user!.Id), command.FirstName, command.LastName);
 
         _teacherRepository.Create(teacher);
         await _unitOfWork.SaveChangesAsync(cancellationToken);

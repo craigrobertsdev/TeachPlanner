@@ -27,7 +27,7 @@ public class SetSubjectsTaughtCommandHandler : IRequestHandler<SetSubjectsTaught
 
         var subjects = await _subjectRepository.GetSubjectsById(command.SubjectIds, cancellationToken);
 
-        _teacherRepository.SetSubjectsTaughtByTeacher(teacher, subjects, command.CalendarYear);
+        teacher.AddSubjectsTaught(subjects, command.CalendarYear);
 
         await _unitOfWork.SaveChangesAsync(cancellationToken);
     }

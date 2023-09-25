@@ -1,3 +1,4 @@
+using TeachPlanner.Api.Controllers;
 using TeachPlanner.Api.Extensions;
 using TeachPlanner.Api.Identity;
 using TeachPlanner.Api.Middleware;
@@ -23,6 +24,11 @@ builder.Services.AddAuthorization(x =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+//builder.Services.AddControllers(options =>
+//{
+//    options.Filters.Add<MyActionFilter>();
+//});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -39,6 +45,7 @@ app.UseCors(builder => builder
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
+
 app.MapControllers();
 
 app.Run();

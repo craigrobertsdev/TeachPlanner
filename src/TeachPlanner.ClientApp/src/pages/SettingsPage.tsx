@@ -31,7 +31,8 @@ const SettingsPage = () => {
       await teacherService.setSubjectsTaught(
         teacher!,
         token!,
-        subjectsTaught.map((s) => s.id)
+        subjectsTaught.map((s) => s.id),
+        2023
       );
       console.log("Subjects taught successfully set");
     } catch (error) {

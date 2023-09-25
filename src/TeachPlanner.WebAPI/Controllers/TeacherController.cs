@@ -2,9 +2,9 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using TeachPlanner.Application.Teachers.Commands.SetSubjectsTaught;
-using TeachPlanner.Contracts.Teacher.SetSubjectsTaught;
 using TeachPlanner.Application.WeekPlanners.Queries.GetPlannerData;
 using TeachPlanner.Application.Teachers.Queries.GetTeacherSettings;
+using TeachPlanner.Contracts.Teacher.SetSubjectsTaught;
 
 namespace TeachPlanner.Api.Controllers;
 
@@ -34,11 +34,12 @@ public class TeacherController : ApiController
 
     [HttpPost]
     [Route("{teacherId}/subjects")]
-    public async Task<IActionResult> SetSubjectsTaught(string teacherId, SetSubjectsTaughtRequest request, CancellationToken cancellationToken)
+    public async Task<IActionResult> SetSubjectsTaught(string teacherId, int calendarYear, SetSubjectsTaughtRequest request, CancellationToken cancellationToken)
     {
-        var command = new SetSubjectsTaughtCommand(Guid.Parse(teacherId), request.SubjectIds, 2023);
+        var subjectIds = request.SubjectIds.Select(Guid.Parse).ToList();
+        var command = new SetSubjectsTaughtCommand(Guid.Parse(teacherId), subjectIds, calendarYear);
 
-        await _mediator.Send(command);
+        await _mediator.Send(command, cancellationToken);
 
         return Ok();
     }

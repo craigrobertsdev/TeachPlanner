@@ -1,4 +1,5 @@
 ﻿using FakeItEasy;
+using FluentAssertions;
 using TeachPlanner.Application.Common.Interfaces.Persistence;
 using TeachPlanner.Application.Teachers.Commands.SetSubjectsTaught;
 using Xunit;
@@ -18,10 +19,10 @@ public class SetSubjectsTaughtCommandHandlerTests
 
     }
     [Fact]
-    public async void SetSubjectsTaughtCommandHandler_WhenPassedListOfUntaughtSubjects_ShouldSendWholeListToRepository()
+    public async void Handle_WhenPassedListOfUntaughtSubjects_ShouldSendWholeListToRepository()
     {
         // Arrange
-        var subjects = Helpers.CreateSubjects();
+        var subjects = Helpers.CreateCurriculumSubjects();
         var teacher = Helpers.CreateTeacher();
         var handler = new SetSubjectsTaughtCommandHandler(_teacherRepository, _subjectRepository, _unitOfWork);
         var command = new SetSubjectsTaughtCommand(teacher.Id, subjects.Select(s => s.Id).ToList(), 2023);
@@ -33,23 +34,35 @@ public class SetSubjectsTaughtCommandHandlerTests
         await handler.Handle(command, CancellationToken.None);
 
         // Assert
-        A.CallTo(() => _teacherRepository.SetSubjectsTaughtByTeacher(teacher, subjects, 2023)).MustHaveHappenedOnceExactly();
         A.CallTo(() => _subjectRepository.GetSubjectsById(command.SubjectIds, CancellationToken.None)).MustHaveHappenedOnceExactly();
+        teacher.GetYearData(command.CalendarYear)!.Subjects.Should().BeEquivalentTo(subjects);
     }
 
-    // I don't know how to test this yet. Teacher is a sealed class with no visible constructors
-    // so I can't mock it. 
-    // The goal for this test is to test the logic that confirms whether teacher.UpdateSubjectsTaught() 
-    // is called with the appropriate subjects
-    public async void SetSubjectsTaughtCommandHandler_WhenPassedListWithSomeTaughtSubjects_ShouldCallUpdateSubjectsTaught()
+    [Fact]
+    public async void Handle_WhenPassedListWithSomeTaughtSubjects_ShouldCallUpdateSubjectsTaught()
     {
         // Arrange
+        var subjects = Helpers.CreateCurriculumSubjects();
+        var teacher = Helpers.CreateTeacher();
+        teacher.AddYearData(2023);
+        teacher.GetYearData(2023)!.AddSubjects(subjects.Take(3).ToList());
+
+        var handler = new SetSubjectsTaughtCommandHandler(_teacherRepository, _subjectRepository, _unitOfWork);
+        var command = new SetSubjectsTaughtCommand(teacher.Id, subjects.Select(s => s.Id).ToList(), 2023);
+
+        A.CallTo(() => _teacherRepository.GetById(teacher.Id, A<CancellationToken>._)).Returns(teacher);
+        A.CallTo(() => _subjectRepository.GetSubjectsById(command.SubjectIds, A<CancellationToken>._)).Returns(subjects);
 
         // Act
+        await handler.Handle(command, CancellationToken.None);
 
         // Assert
-
+        teacher.GetYearData(command.CalendarYear)!.Subjects.Should().BeEquivalentTo(subjects);
     }
 
+    [Fact]
+    public async void Handle_WhenNoNewSubjectsAdded_ShouldNotCallSaveChanges()
+    {
 
+    }
 }

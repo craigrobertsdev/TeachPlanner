@@ -31,7 +31,7 @@ public class LoginQueryHandler : IRequestHandler<LoginQuery, AuthenticationResul
             throw new InvalidCredentialsException();
         }
 
-        var teacher = await _teacherRepository.GetTeacherByEmailAsync(request.Email, cancellationToken);
+        var teacher = await _teacherRepository.GetByEmail(request.Email, cancellationToken);
         if (teacher == null)
         {
             throw new TeacherNotFoundException();

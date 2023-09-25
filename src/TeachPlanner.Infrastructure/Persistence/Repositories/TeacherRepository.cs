@@ -104,12 +104,7 @@ public class TeacherRepository : ITeacherRepository
         return subjects;
     }
 
-    public void SetSubjectsTaughtByTeacher(Teacher teacher, List<Subject> subjects, int calendarYear)
-    {
-        teacher.AddSubjectsTaught(subjects, calendarYear);
-    }
-
-    public async Task<Teacher?> GetTeacherByEmailAsync(string email, CancellationToken cancellationToken)
+    public async Task<Teacher?> GetByEmail(string email, CancellationToken cancellationToken)
     {
         var user = await _context.Users
             .Where(u => u.Email == email)
@@ -122,6 +117,9 @@ public class TeacherRepository : ITeacherRepository
 
         return await _context.Teachers
             .Where(t => t.UserId == Guid.Parse(user.Id))
+            .Include(t => t.SummativeAssessments)
+            .Include(t => t.FormativeAssessments)
+            .Include(t => t.YearDataHistory.Where(yd => yd.CalendarYear == DateTime.Now.Year))
             .FirstOrDefaultAsync(cancellationToken);
     }
 
@@ -134,13 +132,10 @@ public class TeacherRepository : ITeacherRepository
 
     public async Task<Teacher?> GetById(Guid id, CancellationToken cancellationToken)
     {
-        var teachers = _context.Teachers
-            .Include(t => t.GetYearData(DateTime.Now.Year))
-            .Include(t => t.SummativeAssessments)
-            .Include(t => t.FormativeAssessments);
-
         return await _context.Teachers
+            .Include(t => t.YearDataHistory)
+            .Include(t => t.SummativeAssessments)
+            .Include(t => t.FormativeAssessments)
             .SingleOrDefaultAsync(t => t.Id == id, cancellationToken);
     }
-
 }

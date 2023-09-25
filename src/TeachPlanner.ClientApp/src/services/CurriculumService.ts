@@ -48,7 +48,7 @@ class CurriculumService {
   }
 
   async saveTermSubjects(subjects: TermPlan[]) {
-    return subjects;
+    throw new Error("Not implemented");
   }
 }
 

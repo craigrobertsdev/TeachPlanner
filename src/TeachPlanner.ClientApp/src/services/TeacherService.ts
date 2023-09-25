@@ -51,16 +51,16 @@ class TeacherService {
     return data;
   }
 
-  async setSubjectsTaught(teacher: Teacher, token: string, subjectNames: string[]) {
+  async setSubjectsTaught(teacher: Teacher, token: string, subjectIds: string[], calendarYear: number) {
     try {
-      console.log(JSON.stringify({ teacherId: teacher.id, subjectNames }));
-      const request = new Request(`${baseUrl}/teacher/${teacher.id}/subjects`, {
+      console.log(JSON.stringify({ teacherId: teacher.id, subjectNames: subjectIds }));
+      const request = new Request(`${baseUrl}/teacher/${teacher.id}/subjects?calendarYear=${calendarYear}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ subjectNames }),
+        body: JSON.stringify({ subjectIds }),
       });
 
       const response = await fetch(request);

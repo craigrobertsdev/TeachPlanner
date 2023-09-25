@@ -21,11 +21,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeachPlanner.Application.Te
 EndProject
 Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "ClientApp", "src\TeachPlanner.ClientApp\ClientApp.esproj", "{D6F3782B-386E-4884-AD7C-01EF8D3F28DA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeachPlanner.WebApi.Tests", "tests\TeachPlanner.WebApi.Tests\TeachPlanner.WebApi.Tests.csproj", "{16C56DA5-CA43-4E31-AD95-7307677A68A1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeachPlanner.WebApi.Tests", "tests\TeachPlanner.WebApi.Tests\TeachPlanner.WebApi.Tests.csproj", "{16C56DA5-CA43-4E31-AD95-7307677A68A1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeachPlanner.Domain.Tests", "tests\TeachPlanner.Domain.Tests\TeachPlanner.Domain.Tests.csproj", "{6A9C9173-8C57-4647-BC39-9C8E69182DCE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeachPlanner.Domain.Tests", "tests\TeachPlanner.Domain.Tests\TeachPlanner.Domain.Tests.csproj", "{6A9C9173-8C57-4647-BC39-9C8E69182DCE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeachPlanner.Infrastructure.Tests", "tests\TeachPlanner.Infrastructure.Tests\TeachPlanner.Infrastructure.Tests.csproj", "{A9CF6D32-45F7-432A-81D0-D365F8977BC0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeachPlanner.Infrastructure.Tests", "tests\TeachPlanner.Infrastructure.Tests\TeachPlanner.Infrastructure.Tests.csproj", "{A9CF6D32-45F7-432A-81D0-D365F8977BC0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

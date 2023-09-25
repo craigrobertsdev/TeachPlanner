@@ -27,6 +27,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\TeachPlanner.Infrastructure\TeachPlanner.Infrastructure.csproj" />
+    <ProjectReference Include="..\TeachPlanner.Domain.Tests\TeachPlanner.Domain.Tests.csproj" />
   </ItemGroup>
 
 </Project>

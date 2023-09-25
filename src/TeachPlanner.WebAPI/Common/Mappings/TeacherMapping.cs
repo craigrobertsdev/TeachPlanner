@@ -1,6 +1,6 @@
 ﻿using Mapster;
 using TeachPlanner.Application.Teachers.Common;
-using TeachPlanner.Contracts.Teacher;
+using TeachPlanner.Contracts.Teacher.CreateTeacher;
 
 namespace TeachPlanner.Api.Common.Mappings;
 
