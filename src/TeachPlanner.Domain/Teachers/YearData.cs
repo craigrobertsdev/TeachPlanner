@@ -1,4 +1,4 @@
-﻿using TeachPlanner.Domain.Common.Enums;
+using TeachPlanner.Domain.Common.Enums;
 using TeachPlanner.Domain.Common.Exceptions;
 using TeachPlanner.Domain.Common.Primatives;
 using TeachPlanner.Domain.Students;
@@ -87,11 +87,6 @@ public class YearData : ValueObject
 
     public void AddYearLevel(YearLevelValue yearLevel)
     {
-        if (_yearLevelsTaught.Count >= 2)
-        {
-            throw new TooManyYearLevelsException();
-        }
-
         if (NotInYearLevelsTaught(yearLevel))
         {
             _yearLevelsTaught.Add(yearLevel);
