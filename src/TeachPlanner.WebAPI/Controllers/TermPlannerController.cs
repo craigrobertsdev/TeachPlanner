@@ -24,14 +24,15 @@ public class TermPlannerController : ApiController
     }
 
     [HttpGet]
+    [Route("{calendarYear}")]
     public async Task<IActionResult> GetTermPlanner(
-        GetTermPlannerRequest request, ISender sender, CancellationToken cancellationToken)
+        string teacherId, int calendarYear, ISender sender, CancellationToken cancellationToken)
     {
-        var command = new GetTermPlannerQuery(Guid.Parse(request.TeacherId), Guid.Parse(request.TermPlannerId));
+        var command = new GetTermPlannerQuery(Guid.Parse(teacherId), calendarYear);
 
-        var response = await sender.Send(command);
+        var response = await sender.Send(command, cancellationToken);
 
-        return Ok();
+        return Ok(response);
     }
 
     [HttpPost]

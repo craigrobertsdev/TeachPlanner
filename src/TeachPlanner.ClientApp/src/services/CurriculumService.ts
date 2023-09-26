@@ -35,7 +35,7 @@ class CurriculumService {
   }
 
   async getTermPlannerSubjects({ year = new Date().getFullYear(), elaborations = true }: CurriculumVariables, teacher: Teacher, token: string) {
-    const response = await fetch(`${baseUrl}/curriculum/term-planner?year=${year}&elaborations=${elaborations}`, {
+    const response = await fetch(`${baseUrl}/curriculum/${teacher.id}/term-planner?year=${year}&elaborations=${elaborations}`, {
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,

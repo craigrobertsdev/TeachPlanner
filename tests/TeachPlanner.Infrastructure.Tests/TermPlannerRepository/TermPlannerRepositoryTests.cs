@@ -20,7 +20,7 @@ public class TermPlannerRepositoryTests
 
         if (await databaseContext.TermPlanners.CountAsync() == 0)
         {
-            var termPlanner = TermPlanner.Create(Guid.NewGuid(), 2023, YearLevelValue.Foundation, YearLevelValue.Year1);
+            var termPlanner = TermPlanner.Create(Guid.NewGuid(), 2023, new List<YearLevelValue> { YearLevelValue.Foundation, YearLevelValue.Year1 });
             var termPlan = TermPlan.Create(termPlanner, 1, new List<Subject>());
 
             termPlanner.AddTermPlan(termPlan);
@@ -56,7 +56,7 @@ public class TermPlannerRepositoryTests
         // Arrange
         var dbContext = await GetDbContext();
         var termPlannerRepository = new TermPlannerRepository(dbContext);
-        var termPlanner = TermPlanner.Create(Guid.NewGuid(), 2022, YearLevelValue.Foundation, YearLevelValue.Year1);
+        var termPlanner = TermPlanner.Create(Guid.NewGuid(), 2023, new List<YearLevelValue> { YearLevelValue.Foundation, YearLevelValue.Year1 });
 
         // Act
         termPlannerRepository.Add(termPlanner);
@@ -72,7 +72,7 @@ public class TermPlannerRepositoryTests
         // Arrange
         var dbContext = await GetDbContext();
         var termPlannerRepository = new TermPlannerRepository(dbContext);
-        var termPlanner = TermPlanner.Create(Guid.NewGuid(), 2022, YearLevelValue.Foundation, YearLevelValue.Year1);
+        var termPlanner = TermPlanner.Create(Guid.NewGuid(), 2023, new List<YearLevelValue> { YearLevelValue.Foundation, YearLevelValue.Year1 });
 
         // Act
         termPlannerRepository.Add(termPlanner);
@@ -91,7 +91,7 @@ public class TermPlannerRepositoryTests
         // Arrange
         var dbContext = await GetDbContext();
         var termPlannerRepository = new TermPlannerRepository(dbContext);
-        var termPlanner = TermPlanner.Create(Guid.NewGuid(), 2023, YearLevelValue.Foundation, YearLevelValue.Year1);
+        var termPlanner = TermPlanner.Create(Guid.NewGuid(), 2023, new List<YearLevelValue> { YearLevelValue.Foundation, YearLevelValue.Year1 });
 
         // Act
         termPlannerRepository.Add(termPlanner);

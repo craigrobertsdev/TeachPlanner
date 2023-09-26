@@ -16,7 +16,7 @@ public class GetTermPlannerQueryTests
     public void GetTermPlannerQuery_WhenNoIdProvided_ShouldReturnValidationProblem()
     {
         // Arrange
-        var query = new GetTermPlannerQuery(Guid.NewGuid(), Guid.NewGuid());
+        var query = new GetTermPlannerQuery(Guid.NewGuid(), 2023);
 
         // Act
 

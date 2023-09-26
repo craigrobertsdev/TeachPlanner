@@ -12,34 +12,30 @@ public sealed class TermPlanner : AggregateRoot
     public int CalendarYear { get; private set; }
     public Guid TeacherId { get; private set; }
 
-    private TermPlanner(Guid id, Guid teacherId, int calendarYear, YearLevelValue firstYearLevel, YearLevelValue? secondYearLevel) : base(id)
+    private TermPlanner(Guid id, Guid teacherId, int calendarYear, List<YearLevelValue> yearLevels) : base(id)
     {
         TeacherId = teacherId;
         CalendarYear = calendarYear;
-        _yearLevels.Add(firstYearLevel);
-
-        if (secondYearLevel != null)
-        {
-            _yearLevels.Add((YearLevelValue)secondYearLevel);
-        }
+        _yearLevels = yearLevels;
 
         SortYearLevels();
     }
 
-    public static TermPlanner Create(Guid teacherId, int calendarYear, YearLevelValue firstYearLevel, YearLevelValue? secondYearLevel)
+    public static TermPlanner Create(Guid teacherId, int calendarYear, List<YearLevelValue> yearLevels)
     {
 
-        if (firstYearLevel == secondYearLevel)
-        {
-            secondYearLevel = null;
-        }
+        yearLevels = RemoveDuplicateYearLevels(yearLevels);
 
         return new TermPlanner(
             Guid.NewGuid(),
             teacherId,
             calendarYear,
-            firstYearLevel,
-            secondYearLevel);
+            yearLevels);
+    }
+
+    private static List<YearLevelValue> RemoveDuplicateYearLevels(List<YearLevelValue> yearLevels)
+    {
+        return yearLevels.Distinct().ToList();
     }
 
     public void AddYearLevel(YearLevelValue yearLevel)
@@ -70,15 +66,12 @@ public sealed class TermPlanner : AggregateRoot
 
     public void SortYearLevels()
     {
-        if (CanAddMoreYearLevels())
+        if (_yearLevels.Count == 1)
         {
-            return; // cannot sort just 1 year level
+            return;
         }
 
-        if ((int)_yearLevels[0]! > (int)_yearLevels[1]!)
-        {
-            (_yearLevels[1], _yearLevels[0]) = (_yearLevels[0], _yearLevels[1]);
-        }
+        _yearLevels.Sort();
     }
 
     public void AddTermPlan(TermPlan termPlan)

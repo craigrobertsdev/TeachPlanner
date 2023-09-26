@@ -7,7 +7,7 @@ internal static class TermPlannerHelpers
 {
     internal static TermPlanner CreateTermPlanner()
     {
-        return TermPlanner.Create(Guid.NewGuid(), 2023, YearLevelValue.Foundation, null);
+        return TermPlanner.Create(Guid.NewGuid(), 2023, new List<YearLevelValue> { YearLevelValue.Foundation, YearLevelValue.Year1 });
     }
 
     internal static TermPlan CreateTermPlan(TermPlanner termPlanner, string curriculumCode, bool withSubstrands = true)

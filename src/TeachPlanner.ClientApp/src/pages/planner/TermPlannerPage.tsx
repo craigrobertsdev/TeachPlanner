@@ -11,13 +11,13 @@ const TermPlannerPage = () => {
   const [subjectData, setSubjectData] = useState<Subject[] | undefined>(undefined);
   const [year, setYear] = useState<number>(new Date().getFullYear());
   const [currentTerm, setCurrentTerm] = useState<number>(getCurrentTerm());
-  const { teacher } = useAuth();
+  const { teacher, token } = useAuth();
 
   useEffect(() => {
     const getSubjectsTaught = async () => {
       const abortController = new AbortController();
       try {
-        const response = await curriculumService.getSubjects({ taughtSubjectsOnly: true }, teacher!, abortController);
+        const response = await curriculumService.getSubjects({ taughtSubjectsOnly: true }, teacher!, token!, abortController);
         setSubjectData(response.subjects);
         setInitialTerms(response.subjects);
       } catch (error) {

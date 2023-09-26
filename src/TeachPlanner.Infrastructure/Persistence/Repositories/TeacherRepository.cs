@@ -134,6 +134,7 @@ public class TeacherRepository : ITeacherRepository
     {
         return await _context.Teachers
             .Include(t => t.YearDataHistory)
+            .ThenInclude(yd => yd.Subjects)
             .Include(t => t.SummativeAssessments)
             .Include(t => t.FormativeAssessments)
             .SingleOrDefaultAsync(t => t.Id == id, cancellationToken);

@@ -13,7 +13,7 @@ type ContentDescriptionSearchBoxProps = {
   setSubjectData: React.Dispatch<React.SetStateAction<Subject[] | undefined>>;
   termSubjects?: Subject[];
   termNumber: number;
-  setTermSubjects: React.Dispatch<React.SetStateAction<Term[]>>;
+  setTermSubjects: React.Dispatch<React.SetStateAction<TermPlan[]>>;
 };
 
 type ContentDescriptionWithTerms = {
@@ -43,7 +43,7 @@ function ContentDescriptionSearchBox({
   setTermSubjects,
 }: ContentDescriptionSearchBoxProps) {
   const [subjectStates, setSubjectStates] = useState<SubjectStateTable>({} as SubjectStateTable);
-  const { teacher } = useAuth();
+  const { teacher, token } = useAuth();
   const currentSubject = getCurrentSubject();
   const currentYearLevel = getCurrentYearLevel();
   const currentStrand = getCurrentStrand();
@@ -57,7 +57,7 @@ function ContentDescriptionSearchBox({
 
       const fetchSubjects = async () => {
         try {
-          const data = await curriculumService.getSubjects({ elaborations: false }, teacher!, controller);
+          const data = await curriculumService.getSubjects({ elaborations: false }, teacher!, token!, controller);
 
           setSubjectData(data.subjects);
           setInitialSubjectStates(data.subjects);
@@ -351,7 +351,7 @@ function ContentDescriptionSearchBox({
   // this will build the list of subjects to add to the term planner
   // will return an array of subjects with the relevant year level, strand and content descriptions
   async function handleSaveChanges() {
-    const termSubjects: Term[] = [
+    const termSubjects: TermPlan[] = [
       {
         termNumber: 1,
         subjects: [],
@@ -401,6 +401,7 @@ function ContentDescriptionSearchBox({
 
         let yearLevelToAdd: SubjectYearLevel = {
           name: yearLevel.name,
+          subject: yearLevel.subject,
           strands: [] as Strand[],
         };
 
@@ -422,6 +423,7 @@ function ContentDescriptionSearchBox({
 
           if (strand.substrands && strand.substrands.length > 0) {
             strandToAdd = {
+              yearLevel: strand.yearLevel,
               name: strand.name,
               substrands: [] as Substrand[],
             };
@@ -435,6 +437,7 @@ function ContentDescriptionSearchBox({
                 // if not, create the substrand and add the content description to it
                 strandToAdd.substrands!.push({
                   name: substrand.name,
+                  strand: substrand.strand,
                   contentDescriptions: [cdToAdd],
                 });
               } else {
@@ -455,6 +458,7 @@ function ContentDescriptionSearchBox({
             // the strand has only content descriptions, no substrands
             strandToAdd = {
               name: strand.name,
+              yearLevel: strand.yearLevel,
               contentDescriptions: [] as ContentDescription[],
             };
 

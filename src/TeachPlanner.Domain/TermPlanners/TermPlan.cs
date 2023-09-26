@@ -16,6 +16,10 @@ public sealed class TermPlan : Entity
         _subjects = subjects;
     }
 
+    // The term planner page will get a list of all subjects that a teacher teaches.
+    // It will also receive a term planner that contains all the content descriptions that the teacher has selected.
+    // Do I need to create a search for each 
+
     public void AddContentDescription(ContentDescription contentDescription)
     {
         var substrand = contentDescription.Substrand ?? null;
