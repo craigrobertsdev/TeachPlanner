@@ -1,5 +1,6 @@
 ﻿using FakeItEasy;
 using FluentAssertions;
+using TeachPlanner.Application.Common.Exceptions;
 using TeachPlanner.Application.Common.Interfaces.Persistence;
 using TeachPlanner.Application.Teachers.Commands.SetSubjectsTaught;
 using Xunit;
@@ -61,8 +62,24 @@ public class SetSubjectsTaughtCommandHandlerTests
     }
 
     [Fact]
-    public async void Handle_WhenNoNewSubjectsAdded_ShouldNotCallSaveChanges()
+    public async void Handle_WhenNoNewSubjectsAdded_ShouldThrowException()
     {
+        // Arrange
+        var subjects = Helpers.CreateCurriculumSubjects().Take(3).ToList();
+        var teacher = Helpers.CreateTeacher();
+        teacher.AddYearData(2023);
+        teacher.GetYearData(2023)!.AddSubjects(subjects);
 
+        var handler = new SetSubjectsTaughtCommandHandler(_teacherRepository, _subjectRepository, _unitOfWork);
+        var command = new SetSubjectsTaughtCommand(teacher.Id, subjects.Select(s => s.Id).ToList(), 2023);
+
+        A.CallTo(() => _teacherRepository.GetById(teacher.Id, A<CancellationToken>._)).Returns(teacher);
+        A.CallTo(() => _subjectRepository.GetSubjectsById(command.SubjectIds, A<CancellationToken>._)).Returns(subjects);
+
+        // Act
+        Func<Task> act = () => handler.Handle(command, CancellationToken.None);
+
+        // Assert
+        await act.Should().ThrowAsync<NoNewSubjectsTaughtException>();
     }
 }

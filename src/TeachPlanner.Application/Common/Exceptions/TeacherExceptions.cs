@@ -10,8 +10,15 @@ public class TeacherNotFoundException : BaseException
 }
 public class TeacherHasNoSubjectsException : BaseException
 {
-    public TeacherHasNoSubjectsException() : base("Teacher has no subjects", 404, "Teacher.NoSubjects")
-    {
-
-    }
+    public TeacherHasNoSubjectsException()
+        : base("Teacher has no subjects", 404, "Teacher.NoSubjects")
+    { }
 }
+
+public class NoNewSubjectsTaughtException : BaseException
+{
+    public NoNewSubjectsTaughtException()
+        : base("No new subjects taught", 404, "Teacher.NoNewSubjectsTaught")
+    { }
+}
+
