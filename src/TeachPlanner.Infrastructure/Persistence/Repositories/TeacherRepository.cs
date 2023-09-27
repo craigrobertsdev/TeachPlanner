@@ -1,7 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using TeachPlanner.Application.Common.Exceptions;
 using TeachPlanner.Application.Common.Interfaces.Persistence;
 using TeachPlanner.Domain.Subjects;
 using TeachPlanner.Domain.Teachers;
+using TeachPlanner.Domain.YearDataRecord;
 using TeachPlanner.Infrastructure.Persistence.DbContexts;
 
 namespace TeachPlanner.Infrastructure.Persistence.Repositories;
@@ -138,5 +140,20 @@ public class TeacherRepository : ITeacherRepository
             .Include(t => t.SummativeAssessments)
             .Include(t => t.FormativeAssessments)
             .SingleOrDefaultAsync(t => t.Id == id, cancellationToken);
+    }
+    public async Task<YearData?> GetYearDataByTeacherIdAndYear(Guid teacherId, int calendarYear, CancellationToken cancellationToken)
+    {
+        var teacher = await _context.Teachers
+            .Include(t => t.YearDataHistory)
+            .ThenInclude(yd => yd.Subjects)
+            .FirstOrDefaultAsync(t => t.Id == teacherId, cancellationToken);
+
+        if (teacher is null)
+        {
+            throw new TeacherNotFoundException();
+        }
+
+        return teacher.GetYearData(calendarYear);
+
     }
 }

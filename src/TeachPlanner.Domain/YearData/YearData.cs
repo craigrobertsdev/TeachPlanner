@@ -3,24 +3,28 @@ using TeachPlanner.Domain.Common.Exceptions;
 using TeachPlanner.Domain.Common.Primatives;
 using TeachPlanner.Domain.Students;
 using TeachPlanner.Domain.Subjects;
+using TeachPlanner.Domain.Teachers;
+using TeachPlanner.Domain.TermPlanners;
 
-namespace TeachPlanner.Domain.Teachers;
-public class YearData : ValueObject
+namespace TeachPlanner.Domain.YearDataRecord;
+public class YearData : AggregateRoot
 {
     private readonly List<Student> _students = new();
     private readonly List<Subject> _subjects = new();
     private readonly List<YearLevelValue> _yearLevelsTaught = new();
+    public Guid TeacherId { get; private set; }
+    public TermPlanner? TermPlanner { get; private set; }
     public int CalendarYear { get; private set; }
     public IReadOnlyList<Student> Students => _students.AsReadOnly();
     public IReadOnlyList<YearLevelValue> YearLevelsTaught => _yearLevelsTaught.AsReadOnly();
     public IReadOnlyList<Subject> Subjects => _subjects.AsReadOnly();
 
-    private YearData(int calendarYear)
+    private YearData(Guid id, int calendarYear) : base(id)
     {
         CalendarYear = calendarYear;
     }
 
-    private YearData(int calendarYear, List<Student> students)
+    private YearData(Guid id, int calendarYear, List<Student> students) : base(id)
     {
         CalendarYear = calendarYear;
         _students = students;
@@ -28,12 +32,12 @@ public class YearData : ValueObject
 
     public static YearData Create(int calendarYear)
     {
-        return new(calendarYear);
+        return new(Guid.NewGuid(), calendarYear);
     }
 
     public static YearData Create(int calendarYear, List<Student> students)
     {
-        return new(calendarYear, students);
+        return new(Guid.NewGuid(), calendarYear, students);
     }
 
     public void AddSubjects(List<Subject> subjects)
@@ -65,11 +69,12 @@ public class YearData : ValueObject
         return !_subjects.Contains(subject);
     }
 
-    public override IEnumerable<object?> GetEqualityComponents()
+    public void AddStudents(List<Student> students)
     {
-        yield return CalendarYear;
-        yield return _yearLevelsTaught;
-        yield return _students;
+        foreach (var student in students)
+        {
+            AddStudent(student);
+        }
     }
 
     public void AddStudent(Student student)
@@ -96,6 +101,16 @@ public class YearData : ValueObject
     private bool NotInYearLevelsTaught(YearLevelValue yearLevel)
     {
         return _yearLevelsTaught.Contains(yearLevel);
+    }
+
+    public void AddTermPlanner(TermPlanner termPlanner)
+    {
+        if (TermPlanner is not null)
+        {
+            throw new TermPlannerAlreadyExistsException();
+        }
+
+        TermPlanner = termPlanner;
     }
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.

@@ -21,10 +21,6 @@ public class TermPlannerConfiguration : IEntityTypeConfiguration<TermPlanner>
         builder.Property(tp => tp.CalendarYear)
             .IsRequired();
 
-        builder.HasOne<Teacher>()
-            .WithMany(t => t.TermPlanners)
-            .HasForeignKey(yp => yp.TeacherId);
-
 #pragma warning disable CS8600, CS8603, CS8604 // Converting null literal or possible null value to non-nullable type.
         builder.Property<List<YearLevelValue>>("_yearLevels")
             .HasColumnName("YearLevels")

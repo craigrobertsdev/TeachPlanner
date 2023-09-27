@@ -1,7 +1,7 @@
 ﻿using FluentAssertions;
 using TeachPlanner.Domain.Students;
-using TeachPlanner.Domain.Teachers;
 using TeachPlanner.Domain.Tests.Helpers;
+using TeachPlanner.Domain.YearDataRecord;
 
 namespace TeachPlanner.Domain.Tests.Teachers;
 public class TeacherTests

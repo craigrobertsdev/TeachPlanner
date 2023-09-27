@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using TeachPlanner.Application.Common.Exceptions;
 using TeachPlanner.Application.Common.Interfaces.Persistence;
-using TeachPlanner.Domain.Teachers;
+using TeachPlanner.Domain.YearDataRecord;
 
 namespace TeachPlanner.Application.Teachers.Commands.SetSubjectsTaught;
 public class SetSubjectsTaughtCommandHandler : IRequestHandler<SetSubjectsTaughtCommand>

@@ -1,5 +1,6 @@
 ﻿using TeachPlanner.Domain.Subjects;
 using TeachPlanner.Domain.Teachers;
+using TeachPlanner.Domain.YearDataRecord;
 
 namespace TeachPlanner.Application.Common.Interfaces.Persistence;
 public interface ITeacherRepository
@@ -10,4 +11,5 @@ public interface ITeacherRepository
     Task<Teacher?> GetById(Guid teacherId, CancellationToken cancellationToken);
     Task<List<Subject>> GetSubjectsTaughtByTeacherWithoutElaborations(Guid teacherId, CancellationToken cancellationToken);
     Task<List<Subject>> GetSubjectsTaughtByTeacherWithElaborations(Guid teacherId, CancellationToken cancellationToken);
+    Task<YearData?> GetYearDataByTeacherIdAndYear(Guid teacherId, int calendarYear, CancellationToken cancellationToken);
 }

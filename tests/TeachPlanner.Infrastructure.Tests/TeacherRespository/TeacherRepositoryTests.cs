@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using TeachPlanner.Domain.Teachers;
 using TeachPlanner.Domain.Tests.Helpers;
+using TeachPlanner.Domain.YearDataRecord;
 using TeachPlanner.Infrastructure.Persistence.DbContexts;
 using TeachPlanner.Infrastructure.Persistence.Repositories;
 

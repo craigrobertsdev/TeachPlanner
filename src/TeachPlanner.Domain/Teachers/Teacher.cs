@@ -5,8 +5,8 @@ using TeachPlanner.Domain.Reports;
 using TeachPlanner.Domain.Resources;
 using TeachPlanner.Domain.Students;
 using TeachPlanner.Domain.WeekPlanners;
-using TeachPlanner.Domain.TermPlanners;
 using TeachPlanner.Domain.Subjects;
+using TeachPlanner.Domain.YearDataRecord;
 
 namespace TeachPlanner.Domain.Teachers;
 
@@ -19,20 +19,18 @@ public sealed class Teacher : AggregateRoot
     private readonly List<Report> _reports = new();
     private readonly List<LessonPlan> _lessonPlans = new();
     private readonly List<WeekPlanner> _weekPlanners = new();
-    private readonly List<TermPlanner> _termPlanners = new();
     private readonly List<YearData> _yearDataHistory = new();
     public Guid UserId { get; private set; } = Guid.Empty;
     public string FirstName { get; private set; }
     public string LastName { get; private set; }
-    public IReadOnlyList<Guid> SubjectsTaughtIds => _subjectsTaughtIds;
-    public IReadOnlyList<SummativeAssessment> SummativeAssessments => _summativeAssessments;
-    public IReadOnlyList<FormativeAssessment> FormativeAssessments => _formativeAssessments;
-    public IReadOnlyList<Resource> Resources => _resources;
-    public IReadOnlyList<Report> Reports => _reports;
-    public IReadOnlyList<LessonPlan> LessonPlans => _lessonPlans;
-    public IReadOnlyList<WeekPlanner> WeekPlanners => _weekPlanners;
-    public IReadOnlyList<TermPlanner> TermPlanners => _termPlanners;
-    public IReadOnlyList<YearData> YearDataHistory => _yearDataHistory;
+    public IReadOnlyList<Guid> SubjectsTaughtIds => _subjectsTaughtIds.AsReadOnly();
+    public IReadOnlyList<SummativeAssessment> SummativeAssessments => _summativeAssessments.AsReadOnly();
+    public IReadOnlyList<FormativeAssessment> FormativeAssessments => _formativeAssessments.AsReadOnly();
+    public IReadOnlyList<Resource> Resources => _resources.AsReadOnly();
+    public IReadOnlyList<Report> Reports => _reports.AsReadOnly();
+    public IReadOnlyList<LessonPlan> LessonPlans => _lessonPlans.AsReadOnly();
+    public IReadOnlyList<WeekPlanner> WeekPlanners => _weekPlanners.AsReadOnly();
+    public IReadOnlyList<YearData> YearDataHistory => _yearDataHistory.AsReadOnly();
 
     private Teacher(Guid id, Guid userId, string firstName, string lastName) : base(id)
     {
@@ -97,16 +95,6 @@ public sealed class Teacher : AggregateRoot
         }
 
         yearData.AddSubjects(subjects);
-    }
-
-    private bool NotInSubjectsTaught(Guid subjectId)
-    {
-        foreach (var id in _subjectsTaughtIds)
-        {
-            if (subjectId == id) return true;
-        }
-
-        return false;
     }
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.

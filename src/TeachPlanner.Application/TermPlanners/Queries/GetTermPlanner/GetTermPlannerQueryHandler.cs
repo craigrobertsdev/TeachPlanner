@@ -26,7 +26,7 @@ public class GetTermPlannerQueryHandler : IRequestHandler<GetTermPlannerQuery, G
             throw new TeacherNotFoundException();
         }
 
-        var termPlanner = teacher.TermPlanners.SingleOrDefault(tp => tp.CalendarYear == request.CalendarYear);
+        var termPlanner = await _termPlannerRepository.GetByTeacherAndYear(request.TeacherId, request.CalendarYear, cancellationToken);
 
         if (termPlanner == null)
         {

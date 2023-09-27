@@ -10,25 +10,25 @@ public sealed class TermPlanner : AggregateRoot
     public IReadOnlyList<TermPlan> TermPlans => _termPlans.AsReadOnly();
     public IReadOnlyList<YearLevelValue> YearLevels => _yearLevels.AsReadOnly();
     public int CalendarYear { get; private set; }
-    public Guid TeacherId { get; private set; }
+    public Guid YearDataId { get; private set; }
 
-    private TermPlanner(Guid id, Guid teacherId, int calendarYear, List<YearLevelValue> yearLevels) : base(id)
+    private TermPlanner(Guid id, Guid yearDataId, int calendarYear, List<YearLevelValue> yearLevels) : base(id)
     {
-        TeacherId = teacherId;
+        YearDataId = yearDataId;
         CalendarYear = calendarYear;
         _yearLevels = yearLevels;
 
         SortYearLevels();
     }
 
-    public static TermPlanner Create(Guid teacherId, int calendarYear, List<YearLevelValue> yearLevels)
+    public static TermPlanner Create(Guid yearDataId, int calendarYear, List<YearLevelValue> yearLevels)
     {
 
         yearLevels = RemoveDuplicateYearLevels(yearLevels);
 
         return new TermPlanner(
             Guid.NewGuid(),
-            teacherId,
+            yearDataId,
             calendarYear,
             yearLevels);
     }

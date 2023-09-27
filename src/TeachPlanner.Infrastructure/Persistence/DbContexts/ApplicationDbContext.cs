@@ -9,14 +9,13 @@ using TeachPlanner.Domain.Subjects;
 using TeachPlanner.Domain.Teachers;
 using TeachPlanner.Domain.TermPlanners;
 using TeachPlanner.Domain.WeekPlanners;
+using TeachPlanner.Domain.YearDataRecord;
 
 namespace TeachPlanner.Infrastructure.Persistence.DbContexts;
 
 public class ApplicationDbContext : IdentityDbContext
 {
-    public ApplicationDbContext()
-    {
-    }
+    public ApplicationDbContext() { }
 
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
     {
@@ -32,6 +31,7 @@ public class ApplicationDbContext : IdentityDbContext
     public DbSet<WeekPlanner> WeekPlanners { get; set; } = null!;
     public DbSet<TermPlanner> TermPlanners { get; set; } = null!;
     public DbSet<Calendar> Calendar { get; set; } = null!;
+    public DbSet<YearData> YearData { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
