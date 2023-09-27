@@ -1,6 +1,6 @@
 ﻿using TeachPlanner.Domain.Subjects;
 using TeachPlanner.Domain.Teachers;
-using TeachPlanner.Domain.YearDataRecord;
+using TeachPlanner.Domain.YearDataRecords;
 
 namespace TeachPlanner.Application.Common.Interfaces.Persistence;
 public interface ITeacherRepository

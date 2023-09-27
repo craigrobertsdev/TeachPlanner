@@ -1,7 +1,7 @@
 ﻿using FluentAssertions;
 using TeachPlanner.Domain.Common.Exceptions;
 using TeachPlanner.Domain.Tests.Helpers;
-using TeachPlanner.Domain.YearDataRecord;
+using TeachPlanner.Domain.YearDataRecords;
 
 namespace TeachPlanner.Domain.Tests.Teachers;
 public class YearDataTests

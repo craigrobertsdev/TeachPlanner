@@ -3,7 +3,7 @@ using TeachPlanner.Application.Common.Exceptions;
 using TeachPlanner.Application.Common.Interfaces.Persistence;
 using TeachPlanner.Domain.Subjects;
 using TeachPlanner.Domain.Teachers;
-using TeachPlanner.Domain.YearDataRecord;
+using TeachPlanner.Domain.YearDataRecords;
 using TeachPlanner.Infrastructure.Persistence.DbContexts;
 
 namespace TeachPlanner.Infrastructure.Persistence.Repositories;
@@ -121,7 +121,7 @@ public class TeacherRepository : ITeacherRepository
             .Where(t => t.UserId == Guid.Parse(user.Id))
             .Include(t => t.SummativeAssessments)
             .Include(t => t.FormativeAssessments)
-            .Include(t => t.YearDataHistory.Where(yd => yd.CalendarYear == DateTime.Now.Year))
+            .Include(t => t.YearDataHistory.Where(yd => yd.Key == DateTime.Now.Year))
             .FirstOrDefaultAsync(cancellationToken);
     }
 
@@ -136,24 +136,23 @@ public class TeacherRepository : ITeacherRepository
     {
         return await _context.Teachers
             .Include(t => t.YearDataHistory)
-            .ThenInclude(yd => yd.Subjects)
             .Include(t => t.SummativeAssessments)
             .Include(t => t.FormativeAssessments)
             .SingleOrDefaultAsync(t => t.Id == id, cancellationToken);
     }
     public async Task<YearData?> GetYearDataByTeacherIdAndYear(Guid teacherId, int calendarYear, CancellationToken cancellationToken)
     {
-        var teacher = await _context.Teachers
-            .Include(t => t.YearDataHistory)
-            .ThenInclude(yd => yd.Subjects)
-            .FirstOrDefaultAsync(t => t.Id == teacherId, cancellationToken);
+        //var teacher = await _context.Teachers
+        //    .Include(t => t.YearDataHistory)
+        //    .FirstOrDefaultAsync(t => t.Id == teacherId, cancellationToken);
 
-        if (teacher is null)
-        {
-            throw new TeacherNotFoundException();
-        }
+        //if (teacher is null)
+        //{
+        //    throw new TeacherNotFoundException();
+        //}
 
-        return teacher.GetYearData(calendarYear);
+        //return teacher.GetYearData(calendarYear);
+        throw new NotImplementedException();
 
     }
 }

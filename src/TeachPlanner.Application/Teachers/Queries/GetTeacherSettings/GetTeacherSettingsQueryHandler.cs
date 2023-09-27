@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using TeachPlanner.Application.Common.Exceptions;
 using TeachPlanner.Application.Common.Interfaces.Persistence;
-using TeachPlanner.Domain.YearDataRecord;
+using TeachPlanner.Domain.YearDataRecords;
 
 namespace TeachPlanner.Application.Teachers.Queries.GetTeacherSettings;
 public class GetTeacherSettingsQueryHandler : IRequestHandler<GetTeacherSettingsQuery, GetTeacherSettingsResult>

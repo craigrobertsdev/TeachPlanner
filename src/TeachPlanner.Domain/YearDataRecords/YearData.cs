@@ -3,10 +3,9 @@ using TeachPlanner.Domain.Common.Exceptions;
 using TeachPlanner.Domain.Common.Primatives;
 using TeachPlanner.Domain.Students;
 using TeachPlanner.Domain.Subjects;
-using TeachPlanner.Domain.Teachers;
 using TeachPlanner.Domain.TermPlanners;
 
-namespace TeachPlanner.Domain.YearDataRecord;
+namespace TeachPlanner.Domain.YearDataRecords;
 public class YearData : AggregateRoot
 {
     private readonly List<Student> _students = new();
@@ -32,12 +31,20 @@ public class YearData : AggregateRoot
 
     public static YearData Create(int calendarYear)
     {
-        return new(Guid.NewGuid(), calendarYear);
+        var yearData = new YearData(Guid.NewGuid(), calendarYear);
+
+        yearData.Raise(new YearDataCreatedDomainEvent(Guid.NewGuid(), yearData.Id));
+
+        return yearData;
     }
 
     public static YearData Create(int calendarYear, List<Student> students)
     {
-        return new(Guid.NewGuid(), calendarYear, students);
+        var yearData = new YearData(Guid.NewGuid(), calendarYear, students);
+
+        yearData.Raise(new YearDataCreatedDomainEvent(Guid.NewGuid(), yearData.Id));
+
+        return yearData;
     }
 
     public void AddSubjects(List<Subject> subjects)

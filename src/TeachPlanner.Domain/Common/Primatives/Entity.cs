@@ -1,8 +1,12 @@
-﻿namespace TeachPlanner.Domain.Common.Primatives;
+﻿using System.Transactions;
+
+namespace TeachPlanner.Domain.Common.Primatives;
 
 public abstract class Entity : IEquatable<Entity>
 {
     public virtual Guid Id { get; protected set; }
+    private readonly List<DomainEvent> _domainEvents = new();
+    public ICollection<DomainEvent> DomainEvents => _domainEvents;
 
     protected Entity(Guid id)
     {
@@ -34,15 +38,15 @@ public abstract class Entity : IEquatable<Entity>
         return Id.GetHashCode();
     }
 
-    //public void AddDomainEvent(IDomainEvent domainEvent)
-    //{
-    //    _domainEvents.Add(domainEvent);
-    //}
+    protected void Raise(DomainEvent domainEvent)
+    {
+        _domainEvents.Add(domainEvent);
+    }
 
-    //public void ClearDomainEvents()
-    //{
-    //    _domainEvents.Clear();
-    //}
+    protected void ClearDomainEvents()
+    {
+        _domainEvents.Clear();
+    }
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
     protected Entity()

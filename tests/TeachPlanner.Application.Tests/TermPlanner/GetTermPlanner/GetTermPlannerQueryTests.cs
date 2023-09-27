@@ -1,6 +1,5 @@
 ﻿using FakeItEasy;
 using TeachPlanner.Application.Common.Interfaces.Persistence;
-using FluentValidation.TestHelper;
 using Xunit;
 using TeachPlanner.Application.TermPlanners.Queries.GetTermPlanner;
 using TeachPlanner.Domain.Teachers;
@@ -15,11 +14,13 @@ public class GetTermPlannerQueryTests
 {
     private readonly ITermPlannerRepository _termPlannerRepository;
     private readonly ITeacherRepository _teacherRepository;
+    private readonly IYearDataRepository _yearDataRepository;
 
     public GetTermPlannerQueryTests()
     {
         _termPlannerRepository = A.Fake<ITermPlannerRepository>();
         _teacherRepository = A.Fake<ITeacherRepository>();
+        _yearDataRepository = A.Fake<IYearDataRepository>();
     }
 
     [Fact]
@@ -30,9 +31,8 @@ public class GetTermPlannerQueryTests
         var teacher = Teacher.Create(Guid.NewGuid(), "Test", "Teacher");
         var termPlanner = TermPlanner.Create(teacher.Id, 2023, new List<YearLevelValue>());
         var subjects = Helpers.CreateCurriculumSubjects();
-        teacher.AddTermPlanner(termPlanner);
 
-        var handler = new GetTermPlannerQueryHandler(_termPlannerRepository, _teacherRepository);
+        var handler = new GetTermPlannerQueryHandler(_termPlannerRepository, _teacherRepository, _yearDataRepository);
 
         A.CallTo(() => _teacherRepository.GetById(query.TeacherId, default)).Returns(teacher);
 
@@ -51,7 +51,7 @@ public class GetTermPlannerQueryTests
         // Arrange
         var query = new GetTermPlannerQuery(Guid.NewGuid(), 2023);
         A.CallTo(() => _teacherRepository.GetById(query.TeacherId, default)).Returns((Teacher)null);
-        var handler = new GetTermPlannerQueryHandler(_termPlannerRepository, _teacherRepository);
+        var handler = new GetTermPlannerQueryHandler(_termPlannerRepository, _teacherRepository, _yearDataRepository);
 
         // Act
         Func<Task> act = () => handler.Handle(query, CancellationToken.None);

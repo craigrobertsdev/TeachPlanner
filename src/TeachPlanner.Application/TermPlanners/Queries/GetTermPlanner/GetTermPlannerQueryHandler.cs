@@ -11,11 +11,13 @@ public class GetTermPlannerQueryHandler : IRequestHandler<GetTermPlannerQuery, G
 {
     private readonly ITermPlannerRepository _termPlannerRepository;
     private readonly ITeacherRepository _teacherRepository;
+    private readonly IYearDataRepository _yearDataRepository;
 
-    public GetTermPlannerQueryHandler(ITermPlannerRepository termPlannerRepository, ITeacherRepository teacherRepository)
+    public GetTermPlannerQueryHandler(ITermPlannerRepository termPlannerRepository, ITeacherRepository teacherRepository, IYearDataRepository yearDataRepository)
     {
         _termPlannerRepository = termPlannerRepository;
         _teacherRepository = teacherRepository;
+        _yearDataRepository = yearDataRepository;
     }
     public async Task<GetTermPlannerResult> Handle(GetTermPlannerQuery request, CancellationToken cancellationToken)
     {
@@ -26,18 +28,14 @@ public class GetTermPlannerQueryHandler : IRequestHandler<GetTermPlannerQuery, G
             throw new TeacherNotFoundException();
         }
 
-        var termPlanner = await _termPlannerRepository.GetByTeacherAndYear(request.TeacherId, request.CalendarYear, cancellationToken);
+        var yearData = await _yearDataRepository.GetByTeacherAndYear(request.TeacherId, request.CalendarYear, cancellationToken);
 
-        if (termPlanner == null)
+        if (yearData.TermPlanner == null)
         {
-            TermPlanner.Create(teacher.Id, request.CalendarYear, new List<YearLevelValue>());
+            var termPlanner = TermPlanner.Create(teacher.Id, request.CalendarYear, new List<YearLevelValue>());
+            yearData.AddTermPlanner(termPlanner);
         }
 
-        if (termPlanner.TeacherId != request.TeacherId)
-        {
-            throw new TermPlannerDoesNotBelongToTeacherException();
-        }
-
-        return new GetTermPlannerResult(termPlanner, new List<Subject>());
+        return new GetTermPlannerResult(yearData.TermPlanner, new List<Subject>());
     }
 }
