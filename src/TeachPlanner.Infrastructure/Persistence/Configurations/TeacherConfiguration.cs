@@ -31,12 +31,12 @@ public class TeacherConfiguration : IEntityTypeConfiguration<Teacher>
             .IsRequired();
 
 #pragma warning disable CS8600, CS8603, CS8604 // Converting null literal or possible null value to non-nullable type.
-        builder.Property<Dictionary<int, Guid>>("_yearDataHistory")
+        builder.Property<Dictionary<int, YearDataId>>("_yearDataHistory")
             .HasColumnName("YearDataHistory")
             .HasConversion(
                 v => JsonSerializer.Serialize(v, (JsonSerializerOptions)null),
-                v => JsonSerializer.Deserialize<Dictionary<int, Guid>>(v, (JsonSerializerOptions)null),
-                new ValueComparer<Dictionary<int, Guid>>(
+                v => JsonSerializer.Deserialize<Dictionary<int, YearDataId>>(v, (JsonSerializerOptions)null),
+                new ValueComparer<Dictionary<int, YearDataId>>(
                     (d1, d2) => (d1.SequenceEqual(d2)),
                     d => d.Aggregate(0, (a, v) => HashCode.Combine(a, v.GetHashCode())),
                     d => d.ToDictionary(x => x.Key, x => x.Value)));

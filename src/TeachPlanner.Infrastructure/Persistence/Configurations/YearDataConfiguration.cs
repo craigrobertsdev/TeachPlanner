@@ -15,10 +15,6 @@ public class YearDataConfiguration : IEntityTypeConfiguration<YearData>
     {
         builder.HasKey(yd => yd.Id.Value);
 
-        builder.Property(yd => yd.Id).HasConversion(
-            v => v.Value,
-            v => new YearDataId(v));
-
         builder.HasMany(yd => yd.Students)
             .WithOne();
 

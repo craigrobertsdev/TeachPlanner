@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -13,6 +14,7 @@ using TeachPlanner.Application.Common.Interfaces.Persistence;
 using TeachPlanner.Infrastructure.Authentication;
 using TeachPlanner.Infrastructure.Curriculum;
 using TeachPlanner.Infrastructure.Persistence;
+using TeachPlanner.Infrastructure.Persistence.Converters;
 using TeachPlanner.Infrastructure.Persistence.DbContexts;
 using TeachPlanner.Infrastructure.Persistence.Repositories;
 
@@ -36,6 +38,7 @@ public static class DependencyInjection
         var serverVersion = ServerVersion.AutoDetect(dbContextSettings.DefaultConnection);
 
         services.AddDbContext<ApplicationDbContext>(options => options
+            .ReplaceService<IValueConverterSelector, StronglyTypedIdValueConverterSelector>()
             .UseMySql(dbContextSettings.DefaultConnection, serverVersion)
             .LogTo(Console.WriteLine, LogLevel.Information)
             .EnableSensitiveDataLogging()
