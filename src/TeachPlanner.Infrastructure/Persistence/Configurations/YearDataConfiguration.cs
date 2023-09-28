@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Pomelo.EntityFrameworkCore.MySql.Storage.Internal;
 using System.Text.Json;
 using TeachPlanner.Domain.Common.Enums;
 using TeachPlanner.Domain.Teachers;
@@ -12,7 +13,11 @@ public class YearDataConfiguration : IEntityTypeConfiguration<YearData>
 {
     public void Configure(EntityTypeBuilder<YearData> builder)
     {
-        builder.HasKey(yd => yd.Id);
+        builder.HasKey(yd => yd.Id.Value);
+
+        builder.Property(yd => yd.Id).HasConversion(
+            v => v.Value,
+            v => new YearDataId(v));
 
         builder.HasMany(yd => yd.Students)
             .WithOne();
@@ -27,6 +32,18 @@ public class YearDataConfiguration : IEntityTypeConfiguration<YearData>
         builder.HasOne(yd => yd.TermPlanner)
             .WithOne()
             .HasForeignKey<TermPlanner>(tp => tp.YearDataId);
+
+        builder.HasMany(yd => yd.Reports)
+            .WithOne()
+            .HasForeignKey(r => r.YearDataId);
+
+        builder.HasMany(yd => yd.LessonPlans)
+            .WithOne()
+            .HasForeignKey(lp => lp.YearDataId);
+
+        builder.HasMany(yd => yd.WeekPlanners)
+            .WithOne()
+            .HasForeignKey(wp => wp.YearDataId);
 
 #pragma warning disable CS8600, CS8603, CS8604 // Converting null literal or possible null value to non-nullable type.
         builder.Property<List<YearLevelValue>>("_yearLevelsTaught")

@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using TeachPlanner.Application.Common.Interfaces.Persistence;
 using TeachPlanner.Domain.LessonPlans;
+using TeachPlanner.Domain.YearDataRecords;
 
 namespace TeachPlanner.Application.LessonPlanners.Commands.CreateLessonPlan;
 
@@ -19,7 +20,8 @@ public class CreateLessonPlanCommandHandler : IRequestHandler<CreateLessonPlanCo
     {
         var lesson = LessonPlan.Create(
             Guid.NewGuid(),
-            Guid.NewGuid(),
+            new YearDataId(Guid.NewGuid()),
+            Guid.Parse(command.SubjectId),
             command.PlanningNotes,
             command.StartTime,
             command.EndTime,

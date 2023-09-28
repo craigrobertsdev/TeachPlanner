@@ -8,6 +8,8 @@ public sealed class WeekPlanner : AggregateRoot
 {
     private readonly List<LessonPlan> _lessonPlans = new();
     private readonly List<SchoolEvent> _schoolEvents = new();
+    public Guid TeacherId { get; private set; }
+    public Guid YearDataId { get; private set; }
     public DateTime WeekStart { get; private set; }
     public int WeekNumber { get; private set; }
     public IReadOnlyList<LessonPlan> LessonPlans => _lessonPlans.AsReadOnly();
@@ -17,10 +19,14 @@ public sealed class WeekPlanner : AggregateRoot
 
     private WeekPlanner(
         Guid id,
+        Guid teacherId,
+        Guid yearDataId,
         DateTime weekStart,
         List<LessonPlan> lessonPlans,
         List<SchoolEvent>? schoolEvents) : base(id)
     {
+        TeacherId = teacherId;
+        YearDataId = yearDataId;
         WeekStart = weekStart;
         _lessonPlans = lessonPlans;
         CreatedDateTime = DateTime.UtcNow;
@@ -33,12 +39,16 @@ public sealed class WeekPlanner : AggregateRoot
     }
 
     public static WeekPlanner Create(
+        Guid teacherId,
+        Guid yearDataId,
         DateTime weekStart,
         List<LessonPlan> lessonPlans,
         List<SchoolEvent>? schoolEvents = null)
     {
         return new WeekPlanner(
             Guid.NewGuid(),
+            teacherId,
+            yearDataId,
             weekStart,
             lessonPlans,
             schoolEvents);

@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using TeachPlanner.Domain.Common.Enums;
 using TeachPlanner.Domain.Subjects;
@@ -9,13 +10,19 @@ using TeachPlanner.Infrastructure.Persistence.Repositories;
 namespace TeachPlanner.Infrastructure.Tests.TermPlannerRepositoryTests;
 public class TermPlannerRepositoryTests
 {
+    private readonly IPublisher _publisher;
+
+    public TermPlannerRepositoryTests(IPublisher publisher)
+    {
+        _publisher = publisher;
+    }
     private async Task<ApplicationDbContext> GetDbContext()
     {
         var options = new DbContextOptionsBuilder<ApplicationDbContext>()
             .UseInMemoryDatabase(databaseName: "TeachPlanner")
             .Options;
 
-        var databaseContext = new ApplicationDbContext(options);
+        var databaseContext = new ApplicationDbContext(options, _publisher);
         databaseContext.Database.EnsureCreated();
 
         if (await databaseContext.TermPlanners.CountAsync() == 0)

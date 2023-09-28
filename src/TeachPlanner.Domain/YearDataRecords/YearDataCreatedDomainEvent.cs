@@ -1,4 +1,4 @@
 ﻿using TeachPlanner.Domain.Common.Primatives;
 
 namespace TeachPlanner.Domain.YearDataRecords;
-public record YearDataCreatedDomainEvent(Guid Id, Guid YearDataId) : DomainEvent(Id);
+public record YearDataCreatedDomainEvent(Guid Id, YearDataId YearDataId) : DomainEvent(Id);

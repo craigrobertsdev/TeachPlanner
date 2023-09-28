@@ -3,6 +3,7 @@ using FluentAssertions;
 using TeachPlanner.Application.Common.Interfaces.Persistence;
 using TeachPlanner.Application.Teachers.Queries.GetTeacherSettings;
 using TeachPlanner.Domain.Students;
+using TeachPlanner.Domain.YearDataRecords;
 using Xunit;
 
 namespace TeachPlanner.Application.Tests.Teachers;
@@ -26,10 +27,9 @@ public class GetTeacherSettingsQueryHandlerTests
         // Arrange
         var curriculumSubjects = Helpers.CreateCurriculumSubjects();
         var teacher = Helpers.CreateTeacher();
-        teacher.AddYearData(2023, new List<Student>
-        {
-            Student.Create(teacher.Id, "Fred", "Smith")
-        });
+        var yearData = YearData.Create(2023);
+        yearData.AddStudent(Student.Create(teacher.Id, "Fred", "Smith"));
+        teacher.AddYearData(yearData);
         var calendarYear = 2023;
         var query = new GetTeacherSettingsQuery(teacher.Id, calendarYear);
         var handler = new Application.Teachers.Queries.GetTeacherSettings.GetTeacherSettingsQueryHandler(_teacherRepository, _curriculumRepository, _unitOfWork);

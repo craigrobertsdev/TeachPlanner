@@ -1,6 +1,7 @@
 ﻿using TeachPlanner.Domain.Assessments;
 using TeachPlanner.Domain.Common.Primatives;
 using TeachPlanner.Domain.Resources;
+using TeachPlanner.Domain.YearDataRecords;
 
 namespace TeachPlanner.Domain.LessonPlans;
 
@@ -10,6 +11,7 @@ public sealed class LessonPlan : AggregateRoot
     private readonly List<Assessment> _assessments = new();
     private readonly List<LessonComment> _comments = new();
     public Guid TeacherId { get; private set; }
+    public YearDataId YearDataId { get; private set; }
     public Guid SubjectId { get; private set; }
     public string PlanningNotes { get; private set; }
     public DateTime StartTime { get; private set; }
@@ -61,6 +63,7 @@ public sealed class LessonPlan : AggregateRoot
     private LessonPlan(
         Guid id,
         Guid teacherId,
+        YearDataId yearDataId,
         Guid subjectId,
         string planningNotes,
         DateTime startTime,
@@ -71,6 +74,7 @@ public sealed class LessonPlan : AggregateRoot
         List<Resource>? resources) : base(id)
     {
         TeacherId = teacherId;
+        YearDataId = yearDataId;
         SubjectId = subjectId;
         PlanningNotes = planningNotes;
         StartTime = startTime;
@@ -87,6 +91,7 @@ public sealed class LessonPlan : AggregateRoot
 
     public static LessonPlan Create(
         Guid teacherId,
+        YearDataId yearDataId,
         Guid subjectId,
         string planningNotes,
         DateTime startTime,
@@ -95,7 +100,18 @@ public sealed class LessonPlan : AggregateRoot
         List<Resource>? resources
         )
     {
-        return new LessonPlan(Guid.NewGuid(), teacherId, subjectId, planningNotes, startTime, endTime, numberOfPeriods, DateTime.UtcNow, DateTime.UtcNow, resources);
+        return new LessonPlan(
+            Guid.NewGuid(),
+            teacherId,
+            yearDataId,
+            subjectId,
+            planningNotes,
+            startTime,
+            endTime,
+            numberOfPeriods,
+            DateTime.UtcNow,
+            DateTime.UtcNow,
+            resources);
     }
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.

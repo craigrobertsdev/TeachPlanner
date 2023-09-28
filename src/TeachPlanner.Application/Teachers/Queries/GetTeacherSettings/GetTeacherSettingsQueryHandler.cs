@@ -8,12 +8,15 @@ public class GetTeacherSettingsQueryHandler : IRequestHandler<GetTeacherSettings
 {
     private readonly ITeacherRepository _teacherRepository;
     private readonly ICurriculumRepository _curriculumRepository;
+    private readonly IYearDataRepository _yearDataRepository;
     private readonly IUnitOfWork _unitOfWork;
 
-    public GetTeacherSettingsQueryHandler(ITeacherRepository teacherRepository, ICurriculumRepository curriculumRepository, IUnitOfWork unitOfWork)
+    public GetTeacherSettingsQueryHandler(ITeacherRepository teacherRepository,
+        ICurriculumRepository curriculumRepository, IYearDataRepository yearDataRepository, IUnitOfWork unitOfWork)
     {
         _teacherRepository = teacherRepository;
         _curriculumRepository = curriculumRepository;
+        _yearDataRepository = yearDataRepository;
         _unitOfWork = unitOfWork;
     }
     public async Task<GetTeacherSettingsResult> Handle(GetTeacherSettingsQuery request, CancellationToken cancellationToken)
@@ -26,7 +29,7 @@ public class GetTeacherSettingsQueryHandler : IRequestHandler<GetTeacherSettings
         }
 
         var curriculumSubjects = await _curriculumRepository.GetCurriculumSubjectNamesAndIds(cancellationToken);
-        var yearData = teacher.GetYearData(request.CalendarYear);
+        var yearData = await _yearDataRepository.GetByTeacherAndYear(teacher.Id, request.CalendarYear, cancellationToken);
 
         return new GetTeacherSettingsResult(
             curriculumSubjects,

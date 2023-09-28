@@ -2,20 +2,23 @@
 using FluentAssertions;
 using TeachPlanner.Application.Common.Exceptions;
 using TeachPlanner.Application.Common.Interfaces.Persistence;
-using TeachPlanner.Application.Teachers.Commands.SetSubjectsTaught;
+using TeachPlanner.Application.Tests.Teachers;
+using TeachPlanner.Application.YearDataRecords.Commands.SetSubjectsTaught;
 using Xunit;
 
-namespace TeachPlanner.Application.Tests.Teachers;
+namespace TeachPlanner.Application.Tests.YearData;
 public class SetSubjectsTaughtCommandHandlerTests
 {
     private readonly ITeacherRepository _teacherRepository;
     private readonly ISubjectRepository _subjectRepository;
+    private readonly IYearDataRepository _yearDataRepository;
     private readonly IUnitOfWork _unitOfWork;
 
     public SetSubjectsTaughtCommandHandlerTests()
     {
         _teacherRepository = A.Fake<ITeacherRepository>();
         _subjectRepository = A.Fake<ISubjectRepository>();
+        _yearDataRepository = A.Fake<IYearDataRepository>();
         _unitOfWork = A.Fake<IUnitOfWork>();
 
     }
@@ -25,7 +28,7 @@ public class SetSubjectsTaughtCommandHandlerTests
         // Arrange
         var subjects = Helpers.CreateCurriculumSubjects();
         var teacher = Helpers.CreateTeacher();
-        var handler = new SetSubjectsTaughtCommandHandler(_teacherRepository, _subjectRepository, _unitOfWork);
+        var handler = new SetSubjectsTaughtCommandHandler(_yearDataRepository, _subjectRepository, _unitOfWork);
         var command = new SetSubjectsTaughtCommand(teacher.Id, subjects.Select(s => s.Id).ToList(), 2023);
 
         A.CallTo(() => _teacherRepository.GetById(teacher.Id, A<CancellationToken>._)).Returns(teacher);

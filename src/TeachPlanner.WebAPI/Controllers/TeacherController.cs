@@ -1,10 +1,10 @@
 ﻿using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using TeachPlanner.Application.Teachers.Commands.SetSubjectsTaught;
 using TeachPlanner.Application.WeekPlanners.Queries.GetPlannerData;
 using TeachPlanner.Application.Teachers.Queries.GetTeacherSettings;
 using TeachPlanner.Contracts.Teacher.SetSubjectsTaught;
+using TeachPlanner.Application.YearDataRecords.Commands.SetSubjectsTaught;
 
 namespace TeachPlanner.Api.Controllers;
 
@@ -37,7 +37,7 @@ public class TeacherController : ApiController
     public async Task<IActionResult> SetSubjectsTaught(string teacherId, int calendarYear, SetSubjectsTaughtRequest request, CancellationToken cancellationToken)
     {
         var subjectIds = request.SubjectIds.Select(Guid.Parse).ToList();
-        var command = new SetSubjectsTaughtCommand(Guid.Parse(teacherId), subjectIds, calendarYear);
+        var command = new /**/SetSubjectsTaughtCommand(Guid.Parse(teacherId), subjectIds, calendarYear);
 
         await _mediator.Send(command, cancellationToken);
 

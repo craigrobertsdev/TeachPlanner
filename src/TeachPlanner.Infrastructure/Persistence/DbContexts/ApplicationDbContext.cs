@@ -45,10 +45,16 @@ public class ApplicationDbContext : IdentityDbContext
 
     public async override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
     {
-        var domainEvents = ChangeTracker.Entries<Entity>()
+        var entitiesWithDomainEvents = ChangeTracker.Entries<Entity>()
             .Select(e => e.Entity)
             .Where(e => e.DomainEvents.Any())
-            .SelectMany(e => e.DomainEvents);
+            .ToList();
+
+        var domainEvents = entitiesWithDomainEvents
+            .SelectMany(e => e.DomainEvents)
+            .ToList();
+
+        entitiesWithDomainEvents.ForEach(e => e.ClearDomainEvents());
 
         var result = await base.SaveChangesAsync(cancellationToken);
 

@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace TeachPlanner.Application.Teachers.Commands.SetSubjectsTaught;
+namespace TeachPlanner.Application.YearDataRecords.Commands.SetSubjectsTaught;
 public class SetSubjectsTaughtCommandValidator : AbstractValidator<SetSubjectsTaughtCommand>
 {
     public SetSubjectsTaughtCommandValidator()

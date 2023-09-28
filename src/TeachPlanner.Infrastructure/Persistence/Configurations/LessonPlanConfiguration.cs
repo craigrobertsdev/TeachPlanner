@@ -5,6 +5,7 @@ using TeachPlanner.Domain.LessonPlans;
 using TeachPlanner.Domain.Subjects;
 using TeachPlanner.Domain.Teachers;
 using TeachPlanner.Domain.WeekPlanners;
+using TeachPlanner.Domain.YearDataRecords;
 
 namespace TeachPlanner.Infrastructure.Persistence.Configurations;
 
@@ -19,7 +20,7 @@ public class LessonPlanConfiguration : IEntityTypeConfiguration<LessonPlan>
         builder.Property(lp => lp.Id)
             .HasColumnName("Id");
 
-        builder.HasOne<Teacher>()
+        builder.HasOne<YearData>()
             .WithMany(t => t.LessonPlans)
             .HasForeignKey(lp => lp.TeacherId)
             .IsRequired();

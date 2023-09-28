@@ -3,39 +3,37 @@ using TeachPlanner.Application.Common.Exceptions;
 using TeachPlanner.Application.Common.Interfaces.Persistence;
 using TeachPlanner.Domain.YearDataRecords;
 
-namespace TeachPlanner.Application.Teachers.Commands.SetSubjectsTaught;
+namespace TeachPlanner.Application.YearDataRecords.Commands.SetSubjectsTaught;
 public class SetSubjectsTaughtCommandHandler : IRequestHandler<SetSubjectsTaughtCommand>
 {
-    private readonly ITeacherRepository _teacherRepository;
+    private readonly IYearDataRepository _yearDataRepository;
     private readonly ISubjectRepository _subjectRepository;
     private readonly IUnitOfWork _unitOfWork;
 
-    public SetSubjectsTaughtCommandHandler(ITeacherRepository teacherRepository, ISubjectRepository subjectRepository, IUnitOfWork unitOfWork)
+    public SetSubjectsTaughtCommandHandler(IYearDataRepository yearDataRepository, ISubjectRepository subjectRepository, IUnitOfWork unitOfWork)
     {
-        _teacherRepository = teacherRepository;
+        _yearDataRepository = yearDataRepository;
         _subjectRepository = subjectRepository;
         _unitOfWork = unitOfWork;
     }
 
     public async Task Handle(SetSubjectsTaughtCommand command, CancellationToken cancellationToken)
     {
-        var teacher = await _teacherRepository.GetById(command.TeacherId, cancellationToken);
+        var yearData = await _yearDataRepository.GetByTeacherAndYear(command.TeacherId, command.CalendarYear, cancellationToken);
 
-        if (teacher == null)
+        if (yearData == null)
         {
-            throw new TeacherNotFoundException();
+            yearData = YearData.Create(command.CalendarYear);
         }
-
-        CheckNewSubjectsToBeSaved(teacher.GetYearData(command.CalendarYear), command);
 
         var subjects = await _subjectRepository.GetSubjectsById(command.SubjectIds, cancellationToken);
 
-        teacher.AddSubjectsTaught(subjects, command.CalendarYear);
+        yearData.AddSubjects(subjects);
 
         await _unitOfWork.SaveChangesAsync(cancellationToken);
     }
 
-    private static void CheckNewSubjectsToBeSaved(YearData? yearData, SetSubjectsTaughtCommand command)
+    private static void CheckNewSubjectsToBeSaved(YearData yearData, SetSubjectsTaughtCommand command)
     {
         if (yearData is null)
         {

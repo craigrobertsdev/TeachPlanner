@@ -30,15 +30,6 @@ public class TeacherConfiguration : IEntityTypeConfiguration<Teacher>
             .WithOne()
             .IsRequired();
 
-        builder.HasMany(t => t.Reports)
-            .WithOne()
-            .HasForeignKey(r => r.TeacherId)
-            .IsRequired();
-
-        builder.HasMany(t => t.LessonPlans)
-           .WithOne()
-           .HasForeignKey(lp => lp.TeacherId);
-
 #pragma warning disable CS8600, CS8603, CS8604 // Converting null literal or possible null value to non-nullable type.
         builder.Property<Dictionary<int, Guid>>("_yearDataHistory")
             .HasColumnName("YearDataHistory")

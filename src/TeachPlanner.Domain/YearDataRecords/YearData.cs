@@ -1,29 +1,39 @@
 using TeachPlanner.Domain.Common.Enums;
 using TeachPlanner.Domain.Common.Exceptions;
+using TeachPlanner.Domain.Common.Interfaces;
 using TeachPlanner.Domain.Common.Primatives;
+using TeachPlanner.Domain.LessonPlans;
+using TeachPlanner.Domain.Reports;
 using TeachPlanner.Domain.Students;
 using TeachPlanner.Domain.Subjects;
 using TeachPlanner.Domain.TermPlanners;
+using TeachPlanner.Domain.WeekPlanners;
 
 namespace TeachPlanner.Domain.YearDataRecords;
-public class YearData : AggregateRoot
+public class YearData : Entity<YearDataId>, IAggregateRoot
 {
     private readonly List<Student> _students = new();
     private readonly List<Subject> _subjects = new();
     private readonly List<YearLevelValue> _yearLevelsTaught = new();
+    private readonly List<Report> _reports = new();
+    private readonly List<LessonPlan> _lessonPlans = new();
+    private readonly List<WeekPlanner> _weekPlanners = new();
     public Guid TeacherId { get; private set; }
     public TermPlanner? TermPlanner { get; private set; }
     public int CalendarYear { get; private set; }
     public IReadOnlyList<Student> Students => _students.AsReadOnly();
     public IReadOnlyList<YearLevelValue> YearLevelsTaught => _yearLevelsTaught.AsReadOnly();
     public IReadOnlyList<Subject> Subjects => _subjects.AsReadOnly();
+    public IReadOnlyList<Report> Reports => _reports.AsReadOnly();
+    public IReadOnlyList<LessonPlan> LessonPlans => _lessonPlans.AsReadOnly();
+    public IReadOnlyList<WeekPlanner> WeekPlanners => _weekPlanners.AsReadOnly();
 
-    private YearData(Guid id, int calendarYear) : base(id)
+    private YearData(YearDataId id, int calendarYear) : base(id)
     {
         CalendarYear = calendarYear;
     }
 
-    private YearData(Guid id, int calendarYear, List<Student> students) : base(id)
+    private YearData(YearDataId id, int calendarYear, List<Student> students) : base(id)
     {
         CalendarYear = calendarYear;
         _students = students;
@@ -31,25 +41,25 @@ public class YearData : AggregateRoot
 
     public static YearData Create(int calendarYear)
     {
-        var yearData = new YearData(Guid.NewGuid(), calendarYear);
+        var yearData = new YearData(new YearDataId(Guid.NewGuid()), calendarYear);
 
-        yearData.Raise(new YearDataCreatedDomainEvent(Guid.NewGuid(), yearData.Id));
+        yearData.AddDomainEvent(new YearDataCreatedDomainEvent(Guid.NewGuid(), yearData.Id));
 
         return yearData;
     }
 
     public static YearData Create(int calendarYear, List<Student> students)
     {
-        var yearData = new YearData(Guid.NewGuid(), calendarYear, students);
+        var yearData = new YearData(new YearDataId(Guid.NewGuid()), calendarYear, students);
 
-        yearData.Raise(new YearDataCreatedDomainEvent(Guid.NewGuid(), yearData.Id));
+        yearData.AddDomainEvent(new YearDataCreatedDomainEvent(Guid.NewGuid(), yearData.Id));
 
         return yearData;
     }
 
     public void AddSubjects(List<Subject> subjects)
     {
-        CheckForNonCurriculumSubjects(subjects);
+        // CheckForNonCurriculumSubjects(subjects);
 
         foreach (var subject in subjects)
         {

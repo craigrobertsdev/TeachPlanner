@@ -9,6 +9,7 @@ public sealed class Report : AggregateRoot
     public Guid TeacherId { get; private set; }
     public Guid StudentId { get; private set; }
     public Guid SubjectId { get; private set; }
+    public Guid YearDataId { get; private set; }
     public YearLevelValue YearLevel { get; private set; }
     public IReadOnlyList<ReportComment> ReportComments => _reportComments.AsReadOnly();
     public DateTime CreatedDateTime { get; private set; }
@@ -19,6 +20,7 @@ public sealed class Report : AggregateRoot
         List<ReportComment> reportComments,
         Guid teacherId,
         Guid studentId,
+        Guid yearDataId,
         Guid subjectId,
         YearLevelValue yearLevel,
         DateTime createdDateTime,
@@ -27,6 +29,7 @@ public sealed class Report : AggregateRoot
         _reportComments = reportComments;
         TeacherId = teacherId;
         StudentId = studentId;
+        YearDataId = yearDataId;
         SubjectId = subjectId;
         YearLevel = yearLevel;
         CreatedDateTime = createdDateTime;
@@ -36,6 +39,7 @@ public sealed class Report : AggregateRoot
     public static Report Create(
         Guid teacherId,
         Guid studentId,
+        Guid yearDataId,
         Guid subjectId,
         YearLevelValue yearLevel,
         DateTime createdDateTime,
@@ -46,6 +50,7 @@ public sealed class Report : AggregateRoot
             new List<ReportComment>(),
             teacherId,
             studentId,
+            yearDataId,
             subjectId,
             yearLevel,
             createdDateTime,
