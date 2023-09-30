@@ -2,10 +2,12 @@
 using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using TeachPlanner.Application.TermPlanners.Commands.CreateTermPlanner;
+using TeachPlanner.Api.Contracts.TermPlanner.CreateTermPlanner;
+using TeachPlanner.Api.Features.TermPlanners.Commands.CreateTermPlanner;
 using TeachPlanner.Application.TermPlanners.Queries.GetTermPlanner;
 using TeachPlanner.Contracts.TermPlanner.CreateTermPlanner;
 using TeachPlanner.Contracts.TermPlanner.GetTermPlanner;
+using TeachPlanner.Domain.Teachers;
 
 namespace TeachPlanner.Api.Controllers;
 
@@ -28,7 +30,7 @@ public class TermPlannerController : ApiController
     public async Task<IActionResult> GetTermPlanner(
         string teacherId, int calendarYear, ISender sender, CancellationToken cancellationToken)
     {
-        var command = new GetTermPlannerQuery(Guid.Parse(teacherId), calendarYear);
+        var command = new GetTermPlannerQuery(new TeacherId(Guid.Parse(teacherId)), calendarYear);
 
         var response = await sender.Send(command, cancellationToken);
 

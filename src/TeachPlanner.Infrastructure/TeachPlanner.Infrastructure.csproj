@@ -25,4 +25,8 @@
 		<ProjectReference Include="..\TeachPlanner.Domain\TeachPlanner.Domain.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="Persistence\" />
+	</ItemGroup>
+
 </Project>

@@ -1,0 +1,62 @@
+﻿using TeachPlanner.Api.Entities.Common.Interfaces;
+using TeachPlanner.Api.Entities.Common.Planner;
+using TeachPlanner.Api.Entities.Common.Primatives;
+using TeachPlanner.Api.Entities.LessonPlans;
+using TeachPlanner.Api.Entities.Teachers;
+using TeachPlanner.Api.Entities.YearDataRecords;
+
+namespace TeachPlanner.Api.Entities.WeekPlanners;
+
+public sealed class WeekPlanner : Entity<WeekPlannerId>, IAggregateRoot
+{
+    private readonly List<LessonPlan> _lessonPlans = new();
+    private readonly List<SchoolEvent> _schoolEvents = new();
+    public TeacherId TeacherId { get; private set; }
+    public YearDataId YearDataId { get; private set; }
+    public DateTime WeekStart { get; private set; }
+    public int WeekNumber { get; private set; }
+    public IReadOnlyList<LessonPlan> LessonPlans => _lessonPlans.AsReadOnly();
+    public IReadOnlyList<SchoolEvent> SchoolEvents => _schoolEvents.AsReadOnly();
+    public DateTime CreatedDateTime { get; private set; }
+    public DateTime UpdatedDateTime { get; private set; }
+
+    private WeekPlanner(
+        WeekPlannerId id,
+        TeacherId teacherId,
+        YearDataId yearDataId,
+        DateTime weekStart,
+        List<LessonPlan> lessonPlans,
+        List<SchoolEvent>? schoolEvents) : base(id)
+    {
+        TeacherId = teacherId;
+        YearDataId = yearDataId;
+        WeekStart = weekStart;
+        _lessonPlans = lessonPlans;
+        CreatedDateTime = DateTime.UtcNow;
+        UpdatedDateTime = DateTime.UtcNow;
+
+        if (schoolEvents is not null)
+        {
+            _schoolEvents = schoolEvents;
+        }
+    }
+
+    public static WeekPlanner Create(
+        TeacherId teacherId,
+        YearDataId yearDataId,
+        DateTime weekStart,
+        List<LessonPlan> lessonPlans,
+        List<SchoolEvent>? schoolEvents = null)
+    {
+        return new WeekPlanner(
+            new WeekPlannerId(Guid.NewGuid()),
+            teacherId,
+            yearDataId,
+            weekStart,
+            lessonPlans,
+            schoolEvents);
+    }
+
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+    private WeekPlanner() { }
+}

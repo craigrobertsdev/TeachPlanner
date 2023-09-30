@@ -1,11 +1,7 @@
-﻿using TeachPlanner.Application.Curriculum.Commands.ParseCurriculum;
-using TeachPlanner.Application.Curriculum.Queries.GetAllSubjects;
-using MapsterMapper;
+﻿using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using TeachPlanner.Contracts.Curriculum;
-using Microsoft.AspNetCore.Authorization;
-using TeachPlanner.Api.Identity;
+using TeachPlanner.Api.Contracts.Curriculum;
 
 namespace TeachPlanner.Api.Controllers;
 

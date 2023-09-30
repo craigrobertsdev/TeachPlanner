@@ -5,6 +5,9 @@ using TeachPlanner.Application.WeekPlanners.Queries.GetPlannerData;
 using TeachPlanner.Application.Teachers.Queries.GetTeacherSettings;
 using TeachPlanner.Contracts.Teacher.SetSubjectsTaught;
 using TeachPlanner.Application.YearDataRecords.Commands.SetSubjectsTaught;
+using TeachPlanner.Domain.Teachers;
+using TeachPlanner.Domain.Subjects;
+using TeachPlanner.Api.Contracts.Teachers.SetSubjectsTaught;
 
 namespace TeachPlanner.Api.Controllers;
 
@@ -36,8 +39,8 @@ public class TeacherController : ApiController
     [Route("{teacherId}/subjects")]
     public async Task<IActionResult> SetSubjectsTaught(string teacherId, int calendarYear, SetSubjectsTaughtRequest request, CancellationToken cancellationToken)
     {
-        var subjectIds = request.SubjectIds.Select(Guid.Parse).ToList();
-        var command = new /**/SetSubjectsTaughtCommand(Guid.Parse(teacherId), subjectIds, calendarYear);
+        var subjectIds = request.SubjectIds.Select(s => new SubjectId(Guid.Parse(s))).ToList();
+        var command = new SetSubjectsTaughtCommand(new TeacherId(Guid.Parse(teacherId)), subjectIds, calendarYear);
 
         await _mediator.Send(command, cancellationToken);
 
@@ -48,7 +51,7 @@ public class TeacherController : ApiController
     [Route("{teacherId}/settings")]
     public async Task<IActionResult> GetTeacherSettings(string teacherId, int calendarYear)
     {
-        var command = new GetTeacherSettingsQuery(Guid.Parse(teacherId), calendarYear);
+        var command = new GetTeacherSettingsQuery(new TeacherId(Guid.Parse(teacherId)), calendarYear);
 
         var settings = await _mediator.Send(command);
 

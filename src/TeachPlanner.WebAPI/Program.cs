@@ -1,9 +1,7 @@
-using TeachPlanner.Api.Controllers;
-using TeachPlanner.Api.Extensions;
+using Carter;
+using TeachPlanner.Api.Extensions.DependencyInjection;
 using TeachPlanner.Api.Identity;
 using TeachPlanner.Api.Middleware;
-using TeachPlanner.Application;
-using TeachPlanner.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,16 +22,8 @@ builder.Services.AddAuthorization(x =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-//builder.Services.AddControllers(options =>
-//{
-//    options.Filters.Add<MyActionFilter>();
-//});
-
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-
-//app.UseExceptionHandler("/error");
 app.UseMiddleware<ErrorHandlingMiddleware>();
 
 // enable cors
@@ -46,6 +36,6 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapControllers();
+app.MapCarter();
 
 app.Run();
