@@ -19,8 +19,8 @@ public static class CreateLessonPlan
         Guid TeacherId,
         Guid SubjectId,
         string PlanningNotes,
-        List<ResourceId>? ResourceIds,
-        List<AssessmentId>? AssessmentIds,
+        List<LessonPlanResource> LessonPlanResources,
+        List<AssessmentId> AssessmentIds,
         DateTime StartTime,
         DateTime EndTime,
         int NumberOfPeriods) : IRequest<CreateLessonPlanResponse>;
@@ -56,14 +56,13 @@ public static class CreateLessonPlan
                 assessments = await _context.Assessments
                     .Where(x => request.AssessmentIds.Contains(x.Id))
                     .ToListAsync(cancellationToken);
-
             }
 
             List<Resource> resources = new();
-            if (request.ResourceIds != null)
+            if (request.LessonPlanResources.Count > 0)
             {
                 resources = await _context.Resources
-                    .Where(x => request.ResourceIds.Contains(x.Id))
+                    .Where(x => request.LessonPlanResources.Select(lr => lr.ResourceId).Contains(x.Id))
                     .ToListAsync(cancellationToken);
             }
 
@@ -83,8 +82,23 @@ public static class CreateLessonPlan
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
             return new CreateLessonPlanResponse(lesson.Id.Value);
-
-
         }
+    }
+
+    public static async Task<IResult> Delegate(ISender sender, Guid teacherId, CreateLessonPlanRequest request)
+    {
+        var command = new Command(
+            teacherId,
+            request.SubjectId,
+            request.PlanningNotes,
+            request.LessonPlanResources ?? new(),
+            request.AssessmentIds?.Select(id => new AssessmentId(id)).ToList() ?? new(),
+            request.StartTime,
+            request.EndTime,
+            request.NumberOfPeriods);
+
+        var response = await sender.Send(command);
+
+        return TypedResults.Ok(response);
     }
 }

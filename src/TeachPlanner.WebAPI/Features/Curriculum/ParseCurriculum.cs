@@ -58,5 +58,13 @@ public static class ParseCurriculum
             context.Subjects.Add(subject);
         }
     }
+
+    public static async Task<IResult> Delegate(ISender sender)
+    {
+        var command = new Command();
+        await sender.Send(command);
+
+        return Results.Ok();
+    }
 }
 

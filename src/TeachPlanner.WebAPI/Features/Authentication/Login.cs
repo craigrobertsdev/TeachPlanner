@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using Mapster;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -62,5 +63,11 @@ public static class Login
 
             return new AuthenticationResponse(teacher, _jwtTokenGenerator.GenerateToken(teacher));
         }
+    }
+    public static async Task<IResult> Delegate(LoginRequest request, ISender sender)
+    {
+        var command = request.Adapt<Login.Command>();
+        var result = await sender.Send(command);
+        return Results.Ok(result);
     }
 }

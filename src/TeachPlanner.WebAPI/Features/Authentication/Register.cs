@@ -84,5 +84,12 @@ public static class Register
             return new AuthenticationResponse(teacher, token);
         }
     }
+
+    public static async Task<IResult> Delegate(RegisterRequest request, ISender sender)
+    {
+        var command = request.Adapt<Command>();
+        var result = await sender.Send(command);
+        return Results.Ok(result);
+    }
 }
 

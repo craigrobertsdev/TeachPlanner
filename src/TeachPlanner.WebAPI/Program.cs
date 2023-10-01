@@ -1,4 +1,6 @@
 using Carter;
+using Microsoft.AspNetCore.Builder;
+using TeachPlanner.Api.Extensions;
 using TeachPlanner.Api.Extensions.DependencyInjection;
 using TeachPlanner.Api.Identity;
 using TeachPlanner.Api.Middleware;
@@ -25,7 +27,6 @@ builder.Services.AddSwaggerGen();
 var app = builder.Build();
 
 app.UseMiddleware<ErrorHandlingMiddleware>();
-
 // enable cors
 app.UseCors(builder => builder
     .AllowAnyOrigin()
@@ -36,6 +37,6 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapCarter();
+app.MapApi();
 
 app.Run();
