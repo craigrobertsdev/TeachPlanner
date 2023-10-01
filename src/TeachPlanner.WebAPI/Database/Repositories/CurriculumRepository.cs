@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TeachPlanner.Api.Common.Exceptions;
+using TeachPlanner.Api.Common.Interfaces.Persistence;
 using TeachPlanner.Api.Entities.Subjects;
 
 namespace TeachPlanner.Api.Database.Repositories;

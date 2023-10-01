@@ -1,5 +1,4 @@
-﻿using Carter;
-using FluentValidation;
+﻿using FluentValidation;
 using Mapster;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
@@ -85,10 +84,10 @@ public static class Register
         }
     }
 
-    public static async Task<IResult> Delegate(RegisterRequest request, ISender sender)
+    public static async Task<IResult> Delegate(RegisterRequest request, ISender sender, CancellationToken cancellationToken)
     {
         var command = request.Adapt<Command>();
-        var result = await sender.Send(command);
+        var result = await sender.Send(command, cancellationToken);
         return Results.Ok(result);
     }
 }

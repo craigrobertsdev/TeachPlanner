@@ -131,6 +131,14 @@ public class YearData : Entity<YearDataId>, IAggregateRoot
         TermPlanner = termPlanner;
     }
 
+    public void AddYearLevelsTaught(List<YearLevelValue> yearLevelsTaught)
+    {
+        foreach (var yearLevel in yearLevelsTaught)
+        {
+            AddYearLevel(yearLevel);
+        }
+    }
+
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
     private YearData() { }
 }

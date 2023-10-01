@@ -7,11 +7,11 @@ namespace TeachPlanner.Api.Entities.Resources;
 
 public sealed class Resource : Entity<ResourceId>, IAggregateRoot
 {
-    private readonly List<LessonPlan> _lessonPlans = new();
+    private readonly List<LessonPlanResource> _lessonPlanResources = new();
     public string Name { get; private set; }
     public string Url { get; private set; }
     public bool IsAssessment { get; private set; }
-    public IReadOnlyList<LessonPlan> LessonPlans => _lessonPlans.AsReadOnly();
+    public IReadOnlyList<LessonPlanResource> LessonPlanResources => _lessonPlanResources.AsReadOnly();
     public SubjectId SubjectId { get; private set; }
     public List<string> AssociatedStrands { get; private set; } = new();
     public DateTime CreatedDateTime { get; private set; }

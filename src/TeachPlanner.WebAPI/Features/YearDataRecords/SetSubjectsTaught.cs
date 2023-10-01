@@ -1,5 +1,4 @@
-﻿using Carter;
-using FluentValidation;
+﻿using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using TeachPlanner.Api.Common.Exceptions;
@@ -71,22 +70,16 @@ public static class SetSubjectsTaught
             await _context.SaveChangesAsync(cancellationToken);
         }
     }
-}
 
-public class AddSubjectsEndpoint : ICarterModule
-{
-    public void AddRoutes(IEndpointRouteBuilder app)
+    public async static Task<IResult> Delegate(Guid teacherId, ISender sender, CancellationToken cancellationToken)
     {
-        app.MapPost("api/{teacherId}/yeardata", async (Guid teacherId, ISender sender) =>
-        {
-            var command = new SetSubjectsTaught.Command(
-                new TeacherId(teacherId),
-                new List<SubjectId>(),
-                DateTime.Now.Year);
+        var command = new Command(
+            new TeacherId(teacherId),
+            new List<SubjectId>(),
+            DateTime.Now.Year);
 
-            await sender.Send(command);
+        await sender.Send(command, cancellationToken);
 
-            return Results.Ok();
-        });
+        return Results.Ok();
     }
 }

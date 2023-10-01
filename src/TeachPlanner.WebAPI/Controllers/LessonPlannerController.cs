@@ -2,12 +2,10 @@
 using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using TeachPlanner.Api.Contracts.LessonPlannner.CreateLessonPlan;
-using TeachPlanner.Api.Contracts.LessonPlannner.GetLessonPlans;
+using TeachPlanner.Api.Contracts.LessonPlans.CreateLessonPlan;
+using TeachPlanner.Api.Contracts.LessonPlans.GetLessonPlans;
 using TeachPlanner.Api.Features.LessonPlanners.Commands.CreateLessonPlan;
 using TeachPlanner.Api.Features.LessonPlanners.Queries.GetLessonPlans;
-using TeachPlanner.Contracts.LessonPlannner.CreateLessonPlan;
-using TeachPlanner.Contracts.LessonPlannner.GetLessonPlans;
 
 namespace TeachPlanner.Api.Controllers;
 

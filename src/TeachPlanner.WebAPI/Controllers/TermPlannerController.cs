@@ -3,11 +3,9 @@ using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using TeachPlanner.Api.Contracts.TermPlanner.CreateTermPlanner;
+using TeachPlanner.Api.Entities.Teachers;
 using TeachPlanner.Api.Features.TermPlanners.Commands.CreateTermPlanner;
-using TeachPlanner.Application.TermPlanners.Queries.GetTermPlanner;
-using TeachPlanner.Contracts.TermPlanner.CreateTermPlanner;
-using TeachPlanner.Contracts.TermPlanner.GetTermPlanner;
-using TeachPlanner.Domain.Teachers;
+using TeachPlanner.Api.Features.TermPlanners.Queries.GetTermPlanner;
 
 namespace TeachPlanner.Api.Controllers;
 

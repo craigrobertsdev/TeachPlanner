@@ -1,5 +1,3 @@
-using Carter;
-using Microsoft.AspNetCore.Builder;
 using TeachPlanner.Api.Extensions;
 using TeachPlanner.Api.Extensions.DependencyInjection;
 using TeachPlanner.Api.Identity;
@@ -12,7 +10,6 @@ Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense(syncfusionLicence
 
 builder.Services
     .AddInfrastructure(builder.Configuration)
-    .AddPresentation()
     .AddApplication();
 
 builder.Services.AddAuthorization(x =>

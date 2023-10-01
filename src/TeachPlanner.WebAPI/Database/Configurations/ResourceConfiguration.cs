@@ -32,8 +32,5 @@ public class ResourceConfiguration : IEntityTypeConfiguration<Resource>
             .WithMany()
             .HasForeignKey(r => r.SubjectId)
             .IsRequired();
-
-        builder.HasMany(r => r.LessonPlans)
-            .WithMany(lp => lp.Resources);
     }
 }

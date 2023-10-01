@@ -2,7 +2,7 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using TeachPlanner.Api.Common.Interfaces.Persistence;
-using TeachPlanner.Api.Contracts.LessonPlannner.CreateLessonPlan;
+using TeachPlanner.Api.Contracts.LessonPlans.CreateLessonPlan;
 using TeachPlanner.Api.Database;
 using TeachPlanner.Api.Entities.Assessments;
 using TeachPlanner.Api.Entities.LessonPlans;
@@ -74,7 +74,6 @@ public static class CreateLessonPlan
                 request.StartTime,
                 request.EndTime,
                 request.NumberOfPeriods,
-                resources,
                 assessments);
 
             _context.LessonPlans.Add(lesson);
@@ -85,7 +84,7 @@ public static class CreateLessonPlan
         }
     }
 
-    public static async Task<IResult> Delegate(ISender sender, Guid teacherId, CreateLessonPlanRequest request)
+    public static async Task<IResult> Delegate(ISender sender, Guid teacherId, CreateLessonPlanRequest request, CancellationToken cancellationToken)
     {
         var command = new Command(
             teacherId,
@@ -97,7 +96,7 @@ public static class CreateLessonPlan
             request.EndTime,
             request.NumberOfPeriods);
 
-        var response = await sender.Send(command);
+        var response = await sender.Send(command, cancellationToken);
 
         return TypedResults.Ok(response);
     }

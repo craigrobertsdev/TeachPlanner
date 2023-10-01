@@ -64,10 +64,10 @@ public static class Login
             return new AuthenticationResponse(teacher, _jwtTokenGenerator.GenerateToken(teacher));
         }
     }
-    public static async Task<IResult> Delegate(LoginRequest request, ISender sender)
+    public static async Task<IResult> Delegate(LoginRequest request, ISender sender, CancellationToken cancellationToken)
     {
-        var command = request.Adapt<Login.Command>();
-        var result = await sender.Send(command);
+        var command = request.Adapt<Command>();
+        var result = await sender.Send(command, cancellationToken);
         return Results.Ok(result);
     }
 }

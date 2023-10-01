@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using TeachPlanner.Api.Entities.LessonPlans;
+using TeachPlanner.Api.Entities.Resources;
 using TeachPlanner.Api.Entities.Subjects;
 using TeachPlanner.Api.Entities.WeekPlanners;
 using TeachPlanner.Api.Entities.YearDataRecords;
@@ -47,5 +48,25 @@ public class LessonPlanConfiguration : IEntityTypeConfiguration<LessonPlan>
         builder.HasOne<WeekPlanner>()
             .WithMany(wp => wp.LessonPlans)
             .HasForeignKey("WeekPlannerId");
+    }
+}
+
+public class LessonPlanResourceConfiguration : IEntityTypeConfiguration<LessonPlanResource>
+{
+    public void Configure(EntityTypeBuilder<LessonPlanResource> builder)
+    {
+        builder.ToTable("lesson_plan_resources");
+
+        builder.HasKey(lr => new { lr.LessonPlanId, lr.ResourceId });
+
+        builder.HasOne<LessonPlan>()
+            .WithMany(lp => lp.LessonPlanResources)
+            .HasForeignKey(lr => lr.LessonPlanId)
+            .IsRequired();
+
+        builder.HasOne<Resource>()
+            .WithMany(r => r.LessonPlanResources)
+            .HasForeignKey(lr => lr.ResourceId)
+            .IsRequired();
     }
 }

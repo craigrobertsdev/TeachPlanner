@@ -1,3 +1,3 @@
-﻿namespace TeachPlanner.Api.Contracts.TermPlanner.GetTermPlanner;
+﻿namespace TeachPlanner.Api.Contracts.TermPlanners.GetTermPlanner;
 public record GetTermPlannerRequest(string TeacherId, string TermPlannerId);
 

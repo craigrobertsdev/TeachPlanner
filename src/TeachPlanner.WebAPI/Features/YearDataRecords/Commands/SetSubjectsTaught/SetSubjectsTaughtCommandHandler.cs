@@ -1,8 +1,8 @@
 ﻿using MediatR;
+using TeachPlanner.Api.Common.Exceptions;
 using TeachPlanner.Api.Common.Interfaces.Persistence;
 using TeachPlanner.Api.Entities.Subjects;
 using TeachPlanner.Api.Entities.YearDataRecords;
-using TeachPlanner.Api.Features.Common.Exceptions;
 
 namespace TeachPlanner.Api.Features.YearDataRecords.Commands.SetSubjectsTaught;
 public class SetSubjectsTaughtCommandHandler : IRequestHandler<SetSubjectsTaughtCommand>

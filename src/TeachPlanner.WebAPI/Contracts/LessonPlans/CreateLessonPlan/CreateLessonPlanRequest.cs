@@ -1,6 +1,6 @@
 ﻿using TeachPlanner.Api.Entities.LessonPlans;
 
-namespace TeachPlanner.Api.Contracts.LessonPlannner.CreateLessonPlan;
+namespace TeachPlanner.Api.Contracts.LessonPlans.CreateLessonPlan;
 
 public record CreateLessonPlanRequest(
     Guid TeacherId,

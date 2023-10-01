@@ -1,10 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using TeachPlanner.Api.Database.DbContexts;
+using TeachPlanner.Api.Common.Interfaces.Persistence;
 using TeachPlanner.Api.Entities.Subjects;
 using TeachPlanner.Api.Entities.Teachers;
 using TeachPlanner.Api.Entities.YearDataRecords;
-using TeachPlanner.Api.Features.Common.Interfaces.Persistence;
-using TeachPlanner.Infrastructure.Persistence.DbContexts;
 
 namespace TeachPlanner.Api.Database.Repositories;
 
@@ -119,8 +117,7 @@ public class TeacherRepository : ITeacherRepository
 
         return await _context.Teachers
             .Where(t => t.UserId == Guid.Parse(user.Id))
-            .Include(t => t.SummativeAssessments)
-            .Include(t => t.FormativeAssessments)
+            .Include(t => t.Assessments)
             .FirstOrDefaultAsync(cancellationToken);
     }
 
@@ -135,8 +132,7 @@ public class TeacherRepository : ITeacherRepository
     {
         return await _context.Teachers
             .Include(t => t.YearDataHistory)
-            .Include(t => t.SummativeAssessments)
-            .Include(t => t.FormativeAssessments)
+            .Include(t => t.Assessments)
             .SingleOrDefaultAsync(t => t.Id == id, cancellationToken);
     }
     public async Task<YearData?> GetYearDataByTeacherIdAndYear(TeacherId teacherId, int calendarYear, CancellationToken cancellationToken)

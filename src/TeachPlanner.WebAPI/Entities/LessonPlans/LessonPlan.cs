@@ -10,7 +10,7 @@ namespace TeachPlanner.Api.Entities.LessonPlans;
 
 public sealed class LessonPlan : Entity<LessonPlanId>, IAggregateRoot
 {
-    private readonly List<Resource> _resources = new();
+    private readonly List<LessonPlanResource> _lessonPlanResources = new();
     private readonly List<Assessment> _assessments = new();
     private readonly List<LessonComment> _comments = new();
     public TeacherId TeacherId { get; private set; }
@@ -23,7 +23,7 @@ public sealed class LessonPlan : Entity<LessonPlanId>, IAggregateRoot
     public DateTime UpdatedDateTime { get; private set; }
     public int NumberOfPeriods { get; private set; }
 
-    public IReadOnlyList<Resource> Resources => _resources.AsReadOnly();
+    public IReadOnlyList<LessonPlanResource> LessonPlanResources => _lessonPlanResources.AsReadOnly();
     public IReadOnlyList<Assessment> Assessments => _assessments.AsReadOnly();
     public IReadOnlyList<LessonComment> Comments => _comments.AsReadOnly();
 
@@ -36,11 +36,11 @@ public sealed class LessonPlan : Entity<LessonPlanId>, IAggregateRoot
         }
     }
 
-    public void AddResource(Resource resource)
+    public void AddResource(ResourceId resourceId)
     {
-        if (!_resources.Contains(resource))
+        if (!_lessonPlanResources.Any(lr => lr.ResourceId == resourceId))
         {
-            _resources.Add(resource);
+            _lessonPlanResources.Add(LessonPlanResource.Create(Id, resourceId));
             UpdatedDateTime = DateTime.Now;
         }
     }
@@ -74,7 +74,6 @@ public sealed class LessonPlan : Entity<LessonPlanId>, IAggregateRoot
         int numberOfPeriods,
         DateTime createdDateTime,
         DateTime updatedDateTime,
-        List<Resource>? resources,
         List<Assessment>? assessments) : base(id)
     {
         TeacherId = teacherId;
@@ -86,11 +85,6 @@ public sealed class LessonPlan : Entity<LessonPlanId>, IAggregateRoot
         NumberOfPeriods = numberOfPeriods;
         CreatedDateTime = createdDateTime;
         UpdatedDateTime = updatedDateTime;
-
-        if (resources != null)
-        {
-            _resources = resources;
-        }
 
         if (assessments != null)
         {
@@ -106,7 +100,6 @@ public sealed class LessonPlan : Entity<LessonPlanId>, IAggregateRoot
         DateTime startTime,
         DateTime endTime,
         int numberOfPeriods,
-        List<Resource>? resources,
         List<Assessment>? assessments
         )
     {
@@ -121,7 +114,6 @@ public sealed class LessonPlan : Entity<LessonPlanId>, IAggregateRoot
             numberOfPeriods,
             DateTime.UtcNow,
             DateTime.UtcNow,
-            resources,
             assessments);
     }
 

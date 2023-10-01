@@ -19,11 +19,7 @@ public class TeacherConfiguration : IEntityTypeConfiguration<Teacher>
 
         builder.Property(t => t.LastName).HasMaxLength(50);
 
-        builder.HasMany(t => t.SummativeAssessments)
-            .WithOne()
-            .IsRequired();
-
-        builder.HasMany(t => t.FormativeAssessments)
+        builder.HasMany(t => t.Assessments)
             .WithOne()
             .IsRequired();
 

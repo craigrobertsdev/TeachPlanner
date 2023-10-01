@@ -10,16 +10,14 @@ namespace TeachPlanner.Api.Entities.Teachers;
 public sealed class Teacher : Entity<TeacherId>, IAggregateRoot
 {
     private readonly List<SubjectId> _subjectsTaughtIds = new();
-    private readonly List<SummativeAssessment> _summativeAssessments = new();
-    private readonly List<FormativeAssessment> _formativeAssessments = new();
+    private readonly List<Assessment> _assessments = new();
     private readonly List<Resource> _resources = new();
     private readonly List<YearDataEntry> _yearDataHistory = new();
     public Guid UserId { get; private set; } = Guid.Empty;
     public string FirstName { get; private set; }
     public string LastName { get; private set; }
     public IReadOnlyList<SubjectId> SubjectsTaughtIds => _subjectsTaughtIds.AsReadOnly();
-    public IReadOnlyList<SummativeAssessment> SummativeAssessments => _summativeAssessments.AsReadOnly();
-    public IReadOnlyList<FormativeAssessment> FormativeAssessments => _formativeAssessments.AsReadOnly();
+    public IReadOnlyList<Assessment> Assessments => _assessments.AsReadOnly();
     public IReadOnlyList<Resource> Resources => _resources.AsReadOnly();
     public IReadOnlyList<YearDataEntry> YearDataHistory => _yearDataHistory.AsReadOnly();
 

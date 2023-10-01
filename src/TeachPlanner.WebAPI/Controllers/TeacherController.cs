@@ -1,13 +1,12 @@
 ﻿using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using TeachPlanner.Application.WeekPlanners.Queries.GetPlannerData;
-using TeachPlanner.Application.Teachers.Queries.GetTeacherSettings;
-using TeachPlanner.Contracts.Teacher.SetSubjectsTaught;
-using TeachPlanner.Application.YearDataRecords.Commands.SetSubjectsTaught;
-using TeachPlanner.Domain.Teachers;
-using TeachPlanner.Domain.Subjects;
 using TeachPlanner.Api.Contracts.Teachers.SetSubjectsTaught;
+using TeachPlanner.Api.Entities.Subjects;
+using TeachPlanner.Api.Entities.Teachers;
+using TeachPlanner.Api.Features.Teachers.Queries.GetTeacherSettings;
+using TeachPlanner.Api.Features.WeekPlanners.Queries.GetWeekPlannerData;
+using TeachPlanner.Api.Features.YearDataRecords.Commands.SetSubjectsTaught;
 
 namespace TeachPlanner.Api.Controllers;
 

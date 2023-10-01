@@ -59,10 +59,10 @@ public static class ParseCurriculum
         }
     }
 
-    public static async Task<IResult> Delegate(ISender sender)
+    public static async Task<IResult> Delegate(ISender sender, CancellationToken cancellationToken)
     {
         var command = new Command();
-        await sender.Send(command);
+        await sender.Send(command, cancellationToken);
 
         return Results.Ok();
     }

@@ -1,5 +1,4 @@
-﻿using Carter;
-using FluentValidation;
+﻿using FluentValidation;
 using System.Reflection;
 
 namespace TeachPlanner.Api.Extensions.DependencyInjection;
@@ -12,8 +11,6 @@ public static class Application
         {
             config.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
         });
-
-        services.AddCarter();
 
         services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 

@@ -1,10 +1,12 @@
 ﻿using TeachPlanner.Api.Features.Authentication;
 using TeachPlanner.Api.Features.Curriculum;
 using TeachPlanner.Api.Features.LessonPlanners;
+using TeachPlanner.Api.Features.Teachers;
+using TeachPlanner.Api.Features.YearDataRecords;
 
 namespace TeachPlanner.Api.Extensions;
 
-public static class ApiRouting
+public static class Routing
 {
     public static void MapApi(this WebApplication app)
     {
@@ -51,12 +53,14 @@ public static class ApiRouting
     private static RouteGroupBuilder MapSubjects(this RouteGroupBuilder group)
     {
         var subjectGroup = group.MapGroup("/subjects");
+
         return group;
     }
 
     private static RouteGroupBuilder MapTeachers(this RouteGroupBuilder group)
     {
         var teacherGroup = group.MapGroup("/teachers");
+        teacherGroup.MapGet("/settings", GetTeacherSettings.Delegate);
         return group;
     }
 
@@ -93,6 +97,7 @@ public static class ApiRouting
     private static RouteGroupBuilder MapYearData(this RouteGroupBuilder group)
     {
         var yearDataGroup = group.MapGroup("/year-data");
+        yearDataGroup.MapPost("/set-subjects", SetSubjectsTaught.Delegate);
         return group;
     }
 

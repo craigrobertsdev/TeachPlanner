@@ -4,7 +4,6 @@ using TeachPlanner.Api.Common.Interfaces.Persistence;
 using TeachPlanner.Api.Entities.Common.Enums;
 using TeachPlanner.Api.Entities.Subjects;
 using TeachPlanner.Api.Entities.TermPlanners;
-using TeachPlanner.Api.Features.Common.Exceptions;
 
 namespace TeachPlanner.Api.Features.TermPlanners.Queries.GetTermPlanner;
 public class GetTermPlannerQueryHandler : IRequestHandler<GetTermPlannerQuery, GetTermPlannerResult>
