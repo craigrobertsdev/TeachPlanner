@@ -3,16 +3,16 @@ using TeachPlanner.Api.Contracts.LessonPlans;
 using TeachPlanner.Api.Contracts.Subjects;
 using TeachPlanner.Api.Contracts.TermPlanners;
 using TeachPlanner.Api.Contracts.WeekPlanners;
+using TeachPlanner.Api.Domain.Common.Enums;
+using TeachPlanner.Api.Domain.LessonPlans;
+using TeachPlanner.Api.Domain.Students;
+using TeachPlanner.Api.Domain.Subjects;
+using TeachPlanner.Api.Domain.TermPlanners;
+using TeachPlanner.Api.Domain.WeekPlanners;
+using TeachPlanner.Api.Domain.YearDataRecords;
 using TeachPlanner.Api.Entities.Assessments;
-using TeachPlanner.Api.Entities.Common.Enums;
-using TeachPlanner.Api.Entities.LessonPlans;
 using TeachPlanner.Api.Entities.Reports;
 using TeachPlanner.Api.Entities.Resources;
-using TeachPlanner.Api.Entities.Students;
-using TeachPlanner.Api.Entities.Subjects;
-using TeachPlanner.Api.Entities.TermPlanners;
-using TeachPlanner.Api.Entities.WeekPlanners;
-using TeachPlanner.Api.Entities.YearDataRecords;
 
 namespace TeachPlanner.Api.Contracts.Teachers.GetTeacherSettings;
 public record GetTeacherSettingsResponse

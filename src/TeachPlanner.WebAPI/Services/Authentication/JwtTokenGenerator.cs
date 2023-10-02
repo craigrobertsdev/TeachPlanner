@@ -3,7 +3,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using TeachPlanner.Api.Common.Interfaces.Authentication;
-using TeachPlanner.Api.Entities.Teachers;
+using TeachPlanner.Api.Domain.Teachers;
 
 namespace TeachPlanner.Api.Services.Authentication;
 

@@ -1,6 +1,6 @@
-﻿using TeachPlanner.Api.Entities.Subjects;
-using TeachPlanner.Api.Entities.Common.Enums;
-using TeachPlanner.Api.Extensions;
+﻿using TeachPlanner.Api.Extensions;
+using TeachPlanner.Api.Domain.Subjects;
+using TeachPlanner.Api.Domain.Common.Enums;
 
 namespace TeachPlanner.Api.Services.CurriculumParser;
 internal class GeneralSubjectParser

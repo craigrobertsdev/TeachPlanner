@@ -1,4 +1,4 @@
-﻿using TeachPlanner.Api.Entities.LessonPlans;
+﻿using TeachPlanner.Api.Domain.LessonPlans;
 
 namespace TeachPlanner.Api.Contracts.LessonPlans.CreateLessonPlan;
 

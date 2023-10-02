@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using TeachPlanner.Api.Entities.Common.Enums;
-using TeachPlanner.Api.Entities.Subjects;
+using TeachPlanner.Api.Domain.Common.Enums;
+using TeachPlanner.Api.Domain.Subjects;
 
 namespace TeachPlanner.Api.Database.Configurations;
 

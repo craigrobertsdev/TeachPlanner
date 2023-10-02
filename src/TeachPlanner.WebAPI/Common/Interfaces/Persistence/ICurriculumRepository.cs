@@ -1,4 +1,4 @@
-﻿using TeachPlanner.Api.Entities.Subjects;
+﻿using TeachPlanner.Api.Domain.Subjects;
 
 namespace TeachPlanner.Api.Common.Interfaces.Persistence;
 public interface ICurriculumRepository

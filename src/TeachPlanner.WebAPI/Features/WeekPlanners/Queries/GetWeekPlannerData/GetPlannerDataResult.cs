@@ -1,5 +1,5 @@
-using TeachPlanner.Api.Entities.Subjects;
-using TeachPlanner.Api.Entities.WeekPlanners;
+using TeachPlanner.Api.Domain.Subjects;
+using TeachPlanner.Api.Domain.WeekPlanners;
 
 namespace TeachPlanner.Api.Features.WeekPlanners.Queries.GetWeekPlannerData;
 

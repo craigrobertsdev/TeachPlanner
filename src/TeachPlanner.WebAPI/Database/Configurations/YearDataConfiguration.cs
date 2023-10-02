@@ -3,10 +3,10 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Pomelo.EntityFrameworkCore.MySql.Storage.Internal;
 using System.Text.Json;
-using TeachPlanner.Api.Entities.Common.Enums;
-using TeachPlanner.Api.Entities.Teachers;
-using TeachPlanner.Api.Entities.TermPlanners;
-using TeachPlanner.Api.Entities.YearDataRecords;
+using TeachPlanner.Api.Domain.Common.Enums;
+using TeachPlanner.Api.Domain.Teachers;
+using TeachPlanner.Api.Domain.TermPlanners;
+using TeachPlanner.Api.Domain.YearDataRecords;
 
 namespace TeachPlanner.Api.Database.Configurations;
 public class YearDataConfiguration : IEntityTypeConfiguration<YearData>

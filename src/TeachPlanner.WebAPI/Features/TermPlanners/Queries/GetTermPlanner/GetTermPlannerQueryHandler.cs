@@ -1,9 +1,9 @@
 ﻿using MediatR;
 using TeachPlanner.Api.Common.Exceptions;
 using TeachPlanner.Api.Common.Interfaces.Persistence;
-using TeachPlanner.Api.Entities.Common.Enums;
-using TeachPlanner.Api.Entities.Subjects;
-using TeachPlanner.Api.Entities.TermPlanners;
+using TeachPlanner.Api.Domain.Common.Enums;
+using TeachPlanner.Api.Domain.Subjects;
+using TeachPlanner.Api.Domain.TermPlanners;
 
 namespace TeachPlanner.Api.Features.TermPlanners.Queries.GetTermPlanner;
 public class GetTermPlannerQueryHandler : IRequestHandler<GetTermPlannerQuery, GetTermPlannerResult>

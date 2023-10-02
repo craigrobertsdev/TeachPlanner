@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using TeachPlanner.Api.Entities.Reports;
-using TeachPlanner.Api.Entities.Subjects;
-using TeachPlanner.Api.Entities.Teachers;
+using TeachPlanner.Api.Domain.Reports;
+using TeachPlanner.Api.Domain.Subjects;
+using TeachPlanner.Api.Domain.Teachers;
 
 namespace TeachPlanner.Api.Database.Configurations;
 

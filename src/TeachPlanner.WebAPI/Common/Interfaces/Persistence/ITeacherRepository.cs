@@ -1,6 +1,6 @@
-﻿using TeachPlanner.Api.Entities.Subjects;
-using TeachPlanner.Api.Entities.Teachers;
-using TeachPlanner.Api.Entities.YearDataRecords;
+﻿using TeachPlanner.Api.Domain.Subjects;
+using TeachPlanner.Api.Domain.Teachers;
+using TeachPlanner.Api.Domain.YearDataRecords;
 
 namespace TeachPlanner.Api.Common.Interfaces.Persistence;
 public interface ITeacherRepository

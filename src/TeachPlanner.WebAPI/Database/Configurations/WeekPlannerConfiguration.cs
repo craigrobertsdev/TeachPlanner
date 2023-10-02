@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using TeachPlanner.Api.Entities.Calendar;
-using TeachPlanner.Api.Entities.WeekPlanners;
+using TeachPlanner.Api.Domain.Calendar;
+using TeachPlanner.Api.Domain.WeekPlanners;
 
 namespace TeachPlanner.Api.Database.Configurations;
 

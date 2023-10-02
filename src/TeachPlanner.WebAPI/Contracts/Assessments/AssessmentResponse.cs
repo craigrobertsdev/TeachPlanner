@@ -1,5 +1,5 @@
-﻿using TeachPlanner.Api.Entities.Assessments;
-using TeachPlanner.Api.Entities.Common.Enums;
+﻿using TeachPlanner.Api.Domain.Assessments;
+using TeachPlanner.Api.Domain.Common.Enums;
 
 namespace TeachPlanner.Api.Contracts.Assessments;
 

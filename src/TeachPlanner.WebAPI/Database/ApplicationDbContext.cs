@@ -1,18 +1,18 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using TeachPlanner.Api.Entities.Assessments;
-using TeachPlanner.Api.Entities.Calendar;
-using TeachPlanner.Api.Entities.Common.Interfaces;
-using TeachPlanner.Api.Entities.Common.Primatives;
-using TeachPlanner.Api.Entities.LessonPlans;
-using TeachPlanner.Api.Entities.Reports;
-using TeachPlanner.Api.Entities.Resources;
-using TeachPlanner.Api.Entities.Subjects;
-using TeachPlanner.Api.Entities.Teachers;
-using TeachPlanner.Api.Entities.TermPlanners;
-using TeachPlanner.Api.Entities.WeekPlanners;
-using TeachPlanner.Api.Entities.YearDataRecords;
+using TeachPlanner.Api.Domain.Assessments;
+using TeachPlanner.Api.Domain.Calendar;
+using TeachPlanner.Api.Domain.Common.Interfaces;
+using TeachPlanner.Api.Domain.Common.Primatives;
+using TeachPlanner.Api.Domain.LessonPlans;
+using TeachPlanner.Api.Domain.Reports;
+using TeachPlanner.Api.Domain.Resources;
+using TeachPlanner.Api.Domain.Subjects;
+using TeachPlanner.Api.Domain.Teachers;
+using TeachPlanner.Api.Domain.TermPlanners;
+using TeachPlanner.Api.Domain.WeekPlanners;
+using TeachPlanner.Api.Domain.YearDataRecords;
 
 namespace TeachPlanner.Api.Database;
 

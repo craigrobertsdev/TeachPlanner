@@ -1,4 +1,4 @@
-﻿using TeachPlanner.Api.Entities.TermPlanners;
+﻿using TeachPlanner.Api.Domain.TermPlanners;
 
 namespace TeachPlanner.Api.Common.Interfaces.Persistence;
 public interface ITermPlannerRepository

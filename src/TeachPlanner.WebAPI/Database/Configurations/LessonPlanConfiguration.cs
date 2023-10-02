@@ -1,10 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using TeachPlanner.Api.Entities.LessonPlans;
-using TeachPlanner.Api.Entities.Resources;
-using TeachPlanner.Api.Entities.Subjects;
-using TeachPlanner.Api.Entities.WeekPlanners;
-using TeachPlanner.Api.Entities.YearDataRecords;
+using TeachPlanner.Api.Domain.LessonPlans;
+using TeachPlanner.Api.Domain.Resources;
+using TeachPlanner.Api.Domain.Subjects;
+using TeachPlanner.Api.Domain.WeekPlanners;
+using TeachPlanner.Api.Domain.YearDataRecords;
 
 namespace TeachPlanner.Api.Database.Configurations;
 

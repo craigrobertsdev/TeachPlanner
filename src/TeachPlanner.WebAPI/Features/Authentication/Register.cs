@@ -7,7 +7,7 @@ using TeachPlanner.Api.Common.Interfaces.Authentication;
 using TeachPlanner.Api.Common.Interfaces.Persistence;
 using TeachPlanner.Api.Contracts.Authentication;
 using TeachPlanner.Api.Database;
-using TeachPlanner.Api.Entities.Teachers;
+using TeachPlanner.Api.Domain.Teachers;
 
 namespace TeachPlanner.Api.Features.Authentication;
 

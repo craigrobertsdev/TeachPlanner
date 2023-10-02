@@ -1,5 +1,5 @@
 ﻿using TeachPlanner.Api.Contracts.LessonPlans;
-using TeachPlanner.Api.Entities.Common.Planner;
+using TeachPlanner.Api.Domain.Common.Planner;
 using TeachPlanner.Api.Entities.WeekPlanners;
 
 namespace TeachPlanner.Api.Contracts.WeekPlanners;

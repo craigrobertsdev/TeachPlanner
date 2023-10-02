@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using TeachPlanner.Api.Entities.Resources;
-using TeachPlanner.Api.Entities.Subjects;
+using TeachPlanner.Api.Domain.Resources;
+using TeachPlanner.Api.Domain.Subjects;
 
 namespace TeachPlanner.Api.Database.Configurations;
 

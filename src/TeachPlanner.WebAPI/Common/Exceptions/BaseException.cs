@@ -1,5 +1,5 @@
 ﻿namespace TeachPlanner.Api.Common.Exceptions;
-public class BaseException : Exception
+public abstract class BaseException : Exception
 {
     public int StatusCode { get; set; }
     public string Type { get; set; }

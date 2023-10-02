@@ -1,7 +1,7 @@
 ﻿namespace TeachPlanner.Api.Common.Exceptions;
-public class TermPlannerAlreadyExistsException : BaseException
+public class TermPlannerAlreadyAssociatedException : BaseException
 {
-    public TermPlannerAlreadyExistsException()
+    public TermPlannerAlreadyAssociatedException()
         : base("Term planner already exists for this year.",
             400, "YearData.TermPlannerAlreadyExists")
     { }

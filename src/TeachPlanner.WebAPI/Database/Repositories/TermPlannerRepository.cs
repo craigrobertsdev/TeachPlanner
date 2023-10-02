@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TeachPlanner.Api.Common.Interfaces.Persistence;
-using TeachPlanner.Api.Entities.TermPlanners;
+using TeachPlanner.Api.Domain.TermPlanners;
 
 namespace TeachPlanner.Api.Database.Repositories;
 public class TermPlannerRepository : ITermPlannerRepository

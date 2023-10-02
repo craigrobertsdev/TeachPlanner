@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TeachPlanner.Api.Common.Exceptions;
 using TeachPlanner.Api.Common.Interfaces.Persistence;
-using TeachPlanner.Api.Entities.Subjects;
+using TeachPlanner.Api.Domain.Subjects;
 
 namespace TeachPlanner.Api.Database.Repositories;
 public class CurriculumRepository : ICurriculumRepository

@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TeachPlanner.Api.Common.Interfaces.Persistence;
-using TeachPlanner.Api.Entities.Subjects;
+using TeachPlanner.Api.Domain.Subjects;
 
 namespace TeachPlanner.Api.Database.Repositories;
 public class SubjectRepository : ISubjectRepository

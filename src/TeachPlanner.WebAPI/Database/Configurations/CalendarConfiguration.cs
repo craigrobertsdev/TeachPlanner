@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using TeachPlanner.Api.Entities.Calendar;
+using TeachPlanner.Api.Domain.Calendar;
 
 namespace TeachPlanner.Api.Database.Configurations;
 public class CalendarConfiguration : IEntityTypeConfiguration<Calendar>

@@ -2,6 +2,7 @@
 using TeachPlanner.Api.Features.Curriculum;
 using TeachPlanner.Api.Features.LessonPlanners;
 using TeachPlanner.Api.Features.Teachers;
+using TeachPlanner.Api.Features.TermPlanners;
 using TeachPlanner.Api.Features.YearDataRecords;
 
 namespace TeachPlanner.Api.Extensions;
@@ -85,6 +86,7 @@ public static class Routing
     private static RouteGroupBuilder MapTermPlanners(this RouteGroupBuilder group)
     {
         var termPlannerGroup = group.MapGroup("/term-planners");
+        termPlannerGroup.MapPost("/", CreateTermPlanner.Delegate);
         return group;
     }
 

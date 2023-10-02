@@ -1,6 +1,6 @@
 ﻿using MediatR;
-using TeachPlanner.Api.Entities.Subjects;
-using TeachPlanner.Api.Entities.Teachers;
+using TeachPlanner.Api.Domain.Subjects;
+using TeachPlanner.Api.Domain.Teachers;
 
 namespace TeachPlanner.Api.Features.YearDataRecords.Commands.SetSubjectsTaught;
 public record SetSubjectsTaughtCommand(

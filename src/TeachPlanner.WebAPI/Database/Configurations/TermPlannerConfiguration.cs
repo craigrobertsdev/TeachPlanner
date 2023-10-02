@@ -2,8 +2,8 @@
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System.Text.Json;
-using TeachPlanner.Api.Entities.Common.Enums;
-using TeachPlanner.Api.Entities.TermPlanners;
+using TeachPlanner.Api.Domain.Common.Enums;
+using TeachPlanner.Api.Domain.TermPlanners;
 
 namespace TeachPlanner.Api.Database.Configurations;
 public class TermPlannerConfiguration : IEntityTypeConfiguration<TermPlanner>

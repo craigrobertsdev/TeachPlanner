@@ -1,6 +1,6 @@
 ﻿using TeachPlanner.Api.Contracts.Subjects;
-using TeachPlanner.Api.Entities.Common.Enums;
-using TeachPlanner.Api.Entities.TermPlanners;
+using TeachPlanner.Api.Domain.Common.Enums;
+using TeachPlanner.Api.Domain.TermPlanners;
 
 namespace TeachPlanner.Api.Contracts.TermPlanners;
 

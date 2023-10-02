@@ -1,6 +1,6 @@
 ﻿using TeachPlanner.Api.Common.Interfaces.Persistence;
-using TeachPlanner.Api.Entities.Teachers;
-using TeachPlanner.Api.Entities.YearDataRecords;
+using TeachPlanner.Api.Domain.Teachers;
+using TeachPlanner.Api.Domain.YearDataRecords;
 
 namespace TeachPlanner.Api.Database.Repositories;
 public class YearDataRepository : IYearDataRepository

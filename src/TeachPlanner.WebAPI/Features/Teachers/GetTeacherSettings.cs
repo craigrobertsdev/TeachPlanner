@@ -5,8 +5,8 @@ using TeachPlanner.Api.Common.Exceptions;
 using TeachPlanner.Api.Common.Interfaces.Persistence;
 using TeachPlanner.Api.Contracts.Teachers.GetTeacherSettings;
 using TeachPlanner.Api.Database;
-using TeachPlanner.Api.Entities.Teachers;
-using TeachPlanner.Api.Entities.YearDataRecords;
+using TeachPlanner.Api.Domain.Teachers;
+using TeachPlanner.Api.Domain.YearDataRecords;
 
 namespace TeachPlanner.Api.Features.Teachers;
 
@@ -74,10 +74,10 @@ public static class GetTeacherSettings
                 yearData.TermPlanner);
         }
 
-        public async static Task<GetTeacherSettingsResponse> Delegate(TeacherId teacherId, int calendarYear, ISender sender)
-        {
-            var query = new Query(teacherId, calendarYear);
-            return await sender.Send(query);
-        }
+    }
+    public async static Task<GetTeacherSettingsResponse> Delegate(TeacherId teacherId, int calendarYear, ISender sender)
+    {
+        var query = new Query(teacherId, calendarYear);
+        return await sender.Send(query);
     }
 }
