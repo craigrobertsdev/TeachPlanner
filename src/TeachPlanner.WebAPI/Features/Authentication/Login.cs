@@ -2,11 +2,14 @@
 using Mapster;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TeachPlanner.Api.Common.Exceptions;
 using TeachPlanner.Api.Common.Interfaces.Authentication;
 using TeachPlanner.Api.Contracts.Authentication;
+using TeachPlanner.Api.Contracts.Teachers;
 using TeachPlanner.Api.Database;
+using TeachPlanner.Api.Database.Extensions;
 
 namespace TeachPlanner.Api.Features.Authentication;
 
@@ -52,19 +55,22 @@ public static class Login
 
             var userId = Guid.Parse(user.Id);
 
-            var teacher = await _context.Teachers
-                .Where(t => t.UserId == userId)
-                .FirstOrDefaultAsync(cancellationToken);
-
+            var teacher = await _context.GetTeacherByUserId(userId);
             if (teacher == null)
             {
                 throw new TeacherNotFoundException();
             }
 
-            return new AuthenticationResponse(teacher, _jwtTokenGenerator.GenerateToken(teacher));
+            var response = new TeacherResponse(
+                teacher.Id.Value,
+                teacher.FirstName,
+                teacher.LastName,
+                teacher.Resources.Select(r => r.Id.Value).ToList());
+
+            return new AuthenticationResponse(response, _jwtTokenGenerator.GenerateToken(teacher));
         }
     }
-    public static async Task<IResult> Delegate(LoginRequest request, ISender sender, CancellationToken cancellationToken)
+    public static async Task<IResult> Delegate([FromBody] LoginRequest request, ISender sender, CancellationToken cancellationToken)
     {
         var command = request.Adapt<Command>();
         var result = await sender.Send(command, cancellationToken);

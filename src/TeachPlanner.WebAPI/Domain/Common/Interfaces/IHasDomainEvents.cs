@@ -1,8 +1,6 @@
-﻿using TeachPlanner.Api.Domain.Common.Primatives;
-
-namespace TeachPlanner.Api.Domain.Common.Interfaces;
+﻿namespace TeachPlanner.Api.Domain.Common.Interfaces;
 public interface IHasDomainEvents
 {
-    public IReadOnlyList<DomainEvent> DomainEvents { get; }
+    public IReadOnlyList<IDomainEvent> DomainEvents { get; }
     public void ClearDomainEvents();
 }

@@ -19,11 +19,12 @@ internal class AssessmentConfiguration : IEntityTypeConfiguration<Assessment>
             .HasConversion<string>()
             .IsRequired();
 
-        builder.Property(sa => sa.PlanningNotes)
+        builder.Property(a => a.PlanningNotes)
             .HasMaxLength(500);
 
-        builder.Property("assessment_type")
-            .HasMaxLength(50);
+        builder.Property(a => a.AssessmentType)
+            .HasConversion<string>()
+            .HasMaxLength(15);
 
         builder.HasOne<Subject>()
             .WithMany()

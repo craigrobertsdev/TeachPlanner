@@ -1,5 +1,4 @@
-﻿using TeachPlanner.Api.Contracts.Assessments;
-using TeachPlanner.Api.Contracts.LessonPlans;
+﻿using TeachPlanner.Api.Contracts.LessonPlans;
 using TeachPlanner.Api.Contracts.Subjects;
 using TeachPlanner.Api.Contracts.TermPlanners;
 using TeachPlanner.Api.Contracts.WeekPlanners;
@@ -10,9 +9,6 @@ using TeachPlanner.Api.Domain.Subjects;
 using TeachPlanner.Api.Domain.TermPlanners;
 using TeachPlanner.Api.Domain.WeekPlanners;
 using TeachPlanner.Api.Domain.YearDataRecords;
-using TeachPlanner.Api.Entities.Assessments;
-using TeachPlanner.Api.Entities.Reports;
-using TeachPlanner.Api.Entities.Resources;
 
 namespace TeachPlanner.Api.Contracts.Teachers.GetTeacherSettings;
 public record GetTeacherSettingsResponse

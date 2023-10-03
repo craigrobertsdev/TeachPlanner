@@ -13,6 +13,7 @@ public class Assessment : Entity<AssessmentId>, IAggregateRoot
     public SubjectId SubjectId { get; private set; }
     public StudentId StudentId { get; private set; }
     public YearLevelValue YearLevel { get; private set; }
+    public AssessmentType AssessmentType { get; private set; }
     public AssessmentResult? AssessmentResult { get; private set; }
     public string PlanningNotes { get; private set; }
     public DateTime ConductedDateTime { get; private set; }

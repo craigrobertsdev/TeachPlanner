@@ -12,26 +12,22 @@ public static class Routing
     public static void MapApi(this WebApplication app)
     {
         var routePrefix = app.MapGroup("/api");
-        var teacherPrefix = routePrefix.MapGroup("/{teacherId}");
 
         routePrefix
             .MapAuth();
 
-        teacherPrefix
-            .MapLessonPlans()
-            .MapSubjects()
-            .MapTeachers()
-            .MapAssessments()
-            .MapResources()
-            .MapStudents()
-            .MapTermPlanners()
-            .MapWeekPlanners()
-            .MapYearData()
-            .RequireAuthorization();
-
-        routePrefix
-            .MapCurriculum()
-            .RequireAuthorization();
+        //routePrefix
+        //    .MapLessonPlans()
+        //    .MapSubjects()
+        //    .MapTeachers()
+        //    .MapAssessments()
+        //    .MapResources()
+        //    .MapStudents()
+        //    .MapTermPlanners()
+        //    .MapWeekPlanners()
+        //    .MapYearData()
+        //    .MapCurriculum()
+        //    .RequireAuthorization();
     }
 
     private static RouteGroupBuilder MapAuth(this RouteGroupBuilder group)
@@ -45,7 +41,7 @@ public static class Routing
 
     private static RouteGroupBuilder MapLessonPlans(this RouteGroupBuilder group)
     {
-        var lessonPlanGroup = group.MapGroup("/lesson-plans");
+        var lessonPlanGroup = group.MapGroup("/{teacherId}/lesson-plans");
         lessonPlanGroup.MapPost("/", CreateLessonPlan.Delegate);
 
         return group;
@@ -53,52 +49,53 @@ public static class Routing
 
     private static RouteGroupBuilder MapSubjects(this RouteGroupBuilder group)
     {
-        var subjectGroup = group.MapGroup("/subjects");
+        var subjectGroup = group.MapGroup("/{teacherId}/subjects");
 
         return group;
     }
 
     private static RouteGroupBuilder MapTeachers(this RouteGroupBuilder group)
     {
-        var teacherGroup = group.MapGroup("/teachers");
+        var teacherGroup = group.MapGroup("/{teacherId}");
         teacherGroup.MapGet("/settings", GetTeacherSettings.Delegate);
         return group;
     }
 
     private static RouteGroupBuilder MapAssessments(this RouteGroupBuilder group)
     {
-        var assessmentGroup = group.MapGroup("/assessments");
+        var assessmentGroup = group.MapGroup("/{teacherId}/assessments");
         return group;
     }
 
     private static RouteGroupBuilder MapResources(this RouteGroupBuilder group)
     {
-        var resourceGroup = group.MapGroup("/resources");
+        var resourceGroup = group.MapGroup("/{teacherId}/resources");
         return group;
     }
 
     private static RouteGroupBuilder MapStudents(this RouteGroupBuilder group)
     {
-        var studentGroup = group.MapGroup("/students");
+        var studentGroup = group.MapGroup("/{teacherId}/students");
         return group;
     }
 
     private static RouteGroupBuilder MapTermPlanners(this RouteGroupBuilder group)
     {
-        var termPlannerGroup = group.MapGroup("/term-planners");
+        var termPlannerGroup = group.MapGroup("/{teacherId}/term-planners");
         termPlannerGroup.MapPost("/", CreateTermPlanner.Delegate);
+        termPlannerGroup.MapGet("/", GetTermPlanner.Delegate);
         return group;
     }
 
     private static RouteGroupBuilder MapWeekPlanners(this RouteGroupBuilder group)
     {
-        var weekPlannerGroup = group.MapGroup("/week-planners");
+        var weekPlannerGroup = group.MapGroup("/{teacherId}/week-planners");
         return group;
     }
 
     private static RouteGroupBuilder MapYearData(this RouteGroupBuilder group)
     {
-        var yearDataGroup = group.MapGroup("/year-data");
+        var yearDataGroup = group.MapGroup("/{teacherId}/year-data");
         yearDataGroup.MapPost("/set-subjects", SetSubjectsTaught.Delegate);
         return group;
     }

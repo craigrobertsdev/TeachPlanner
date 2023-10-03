@@ -10,6 +10,8 @@ public sealed class Subject : Entity<SubjectId>, IAggregateRoot
     public IReadOnlyList<YearLevel> YearLevels => _yearLevels.AsReadOnly();
     public DateTime CreatedDateTime { get; private set; }
     public DateTime UpdatedDateTime { get; private set; }
+    // curriculum subjects are subjects that are part of the curriculum and contain all content descriptions and elaborations
+    // other subjects contain a subset of that data and are attached to a term plan to represent the subjects taught in a term
     public bool IsCurriculumSubject { get; private set; }
 
     private Subject(

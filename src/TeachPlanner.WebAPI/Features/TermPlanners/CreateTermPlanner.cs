@@ -1,7 +1,6 @@
 ﻿using FluentValidation;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using System.Reflection.Metadata.Ecma335;
 using TeachPlanner.Api.Common.Exceptions;
 using TeachPlanner.Api.Common.Interfaces.Persistence;
 using TeachPlanner.Api.Contracts.TermPlanners.CreateTermPlanner;
@@ -9,7 +8,6 @@ using TeachPlanner.Api.Database;
 using TeachPlanner.Api.Domain.Common.Enums;
 using TeachPlanner.Api.Domain.Teachers;
 using TeachPlanner.Api.Domain.TermPlanners;
-using TeachPlanner.Api.Entities.YearDataRecords;
 
 namespace TeachPlanner.Api.Features.TermPlanners;
 

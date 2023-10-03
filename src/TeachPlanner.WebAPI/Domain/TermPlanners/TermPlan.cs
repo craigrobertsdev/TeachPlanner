@@ -1,4 +1,5 @@
-﻿using TeachPlanner.Api.Domain.Common.Primatives;
+﻿using TeachPlanner.Api.Common.Exceptions;
+using TeachPlanner.Api.Domain.Common.Primatives;
 using TeachPlanner.Api.Domain.Subjects;
 
 namespace TeachPlanner.Api.Domain.TermPlanners;
@@ -16,9 +17,20 @@ public sealed class TermPlan : ValueObject
         _subjects = subjects;
     }
 
-    // The term planner page will get a list of all subjects that a teacher teaches.
-    // It will also receive a term planner that contains all the content descriptions that the teacher has selected.
-    // Do I need to create a search for each 
+    public void SetSubjects(List<Subject> subjects)
+    {
+        if (_subjects.Count > 0)
+        {
+            throw new TermPlanSubjectsAlreadySetException();
+        }
+
+        _subjects.AddRange(subjects);
+    }
+
+    public void SetSubjectAtIndex(Subject subject, int index)
+    {
+        _subjects[index] = subject;
+    }
 
     public void AddContentDescription(ContentDescription contentDescription)
     {

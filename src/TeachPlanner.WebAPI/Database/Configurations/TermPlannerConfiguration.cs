@@ -39,9 +39,8 @@ public class TermPlanConfiguration : IEntityTypeConfiguration<TermPlan>
     {
         builder.ToTable("term_plans");
 
-        builder.Property("Id");
+        builder.Property<Guid>("Id");
         builder.HasKey("Id");
-
 
         builder.HasMany(tp => tp.Subjects)
             .WithOne()

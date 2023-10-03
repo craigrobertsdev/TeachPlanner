@@ -1,4 +1,5 @@
 ﻿using TeachPlanner.Api.Contracts.Assessments;
+using TeachPlanner.Api.Contracts.Reports;
 
 namespace TeachPlanner.Api.Contracts.Students;
 

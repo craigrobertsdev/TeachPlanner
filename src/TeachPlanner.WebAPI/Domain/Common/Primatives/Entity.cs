@@ -5,9 +5,9 @@ namespace TeachPlanner.Api.Domain.Common.Primatives;
 public class Entity<TId> : IEquatable<Entity<TId>>, IHasDomainEvents
     where TId : notnull
 {
-    public List<DomainEvent> _domainEvents = new();
+    public List<IDomainEvent> _domainEvents = new();
     public TId Id { get; protected set; }
-    public IReadOnlyList<DomainEvent> DomainEvents => _domainEvents.AsReadOnly();
+    public IReadOnlyList<IDomainEvent> DomainEvents => _domainEvents.AsReadOnly();
 
 
     protected Entity(TId id)

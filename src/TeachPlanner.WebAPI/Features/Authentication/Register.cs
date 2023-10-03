@@ -6,6 +6,7 @@ using TeachPlanner.Api.Common.Exceptions;
 using TeachPlanner.Api.Common.Interfaces.Authentication;
 using TeachPlanner.Api.Common.Interfaces.Persistence;
 using TeachPlanner.Api.Contracts.Authentication;
+using TeachPlanner.Api.Contracts.Teachers;
 using TeachPlanner.Api.Database;
 using TeachPlanner.Api.Domain.Teachers;
 
@@ -80,7 +81,13 @@ public static class Register
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
             var token = _jwtTokenGenerator.GenerateToken(teacher);
-            return new AuthenticationResponse(teacher, token);
+            var response = new TeacherResponse(
+                teacher.Id.Value,
+                teacher.FirstName,
+                teacher.LastName,
+                teacher.Resources.Select(r => r.Id.Value).ToList());
+
+            return new AuthenticationResponse(response, token);
         }
     }
 

@@ -1,5 +1,5 @@
-﻿using TeachPlanner.Api.Domain.Teachers;
+﻿using TeachPlanner.Api.Contracts.Teachers;
 
 namespace TeachPlanner.Api.Contracts.Authentication;
 
-public record AuthenticationResponse(Teacher Teacher, string Token);
+public record AuthenticationResponse(TeacherResponse Teacher, string Token);

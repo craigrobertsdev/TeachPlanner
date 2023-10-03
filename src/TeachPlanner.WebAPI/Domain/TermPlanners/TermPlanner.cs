@@ -1,11 +1,12 @@
 ﻿using TeachPlanner.Api.Common.Exceptions;
-using TeachPlanner.Api.Entities.Common.Enums;
-using TeachPlanner.Api.Entities.Common.Interfaces;
-using TeachPlanner.Api.Entities.Common.Primatives;
-using TeachPlanner.Api.Entities.TermPlanners.DomainEvents;
-using TeachPlanner.Api.Entities.YearDataRecords;
+using TeachPlanner.Api.Domain.Common.Enums;
+using TeachPlanner.Api.Domain.Common.Interfaces;
+using TeachPlanner.Api.Domain.Common.Primatives;
+using TeachPlanner.Api.Domain.Subjects;
+using TeachPlanner.Api.Domain.TermPlanners.DomainEvents;
+using TeachPlanner.Api.Domain.YearDataRecords;
 
-namespace TeachPlanner.Api.Entities.TermPlanners;
+namespace TeachPlanner.Api.Domain.TermPlanners;
 public sealed class TermPlanner : Entity<TermPlannerId>, IAggregateRoot
 {
     private readonly List<TermPlan> _termPlans = new();
@@ -82,6 +83,36 @@ public sealed class TermPlanner : Entity<TermPlannerId>, IAggregateRoot
         }
 
         _termPlans.Add(termPlan);
+    }
+
+    public void PopulateSubjectsForTerms(List<Subject> subjects)
+    {
+        var subjectNumbersForTerms = TermPlans.
+            Select(tp => tp.Subjects.Count)
+            .ToArray();
+
+        var subjectCounts = new[] { 0, 0, 0, 0 };
+
+        for (int i = 0; i < subjectNumbersForTerms.Length; i++)
+        {
+            for (int j = 0; j < subjectNumbersForTerms[i]; j++)
+            {
+                if (subjectCounts[i] >= subjectNumbersForTerms[i])
+                {
+                    break;
+                }
+
+                var subject = subjects.First(s => s.Id == _termPlans[i].Subjects[j].Id);
+
+                if (subject is null)
+                {
+                    continue;
+                }
+
+                _termPlans[i].SetSubjectAtIndex(subject, j);
+                subjectCounts[i]++;
+            }
+        }
     }
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.

@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Pomelo.EntityFrameworkCore.MySql.Storage.Internal;
 using System.Text.Json;
 using TeachPlanner.Api.Domain.Common.Enums;
 using TeachPlanner.Api.Domain.Teachers;
@@ -25,7 +24,7 @@ public class YearDataConfiguration : IEntityTypeConfiguration<YearData>
             .WithMany()
             .HasForeignKey(yd => yd.TeacherId);
 
-        builder.HasOne(yd => yd.TermPlanner)
+        builder.HasOne<TermPlanner>()
             .WithOne()
             .HasForeignKey<TermPlanner>(tp => tp.YearDataId);
 

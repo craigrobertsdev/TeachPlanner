@@ -5,7 +5,9 @@ using TeachPlanner.Api.Common.Exceptions;
 using TeachPlanner.Api.Common.Interfaces.Persistence;
 using TeachPlanner.Api.Contracts.Teachers.GetTeacherSettings;
 using TeachPlanner.Api.Database;
+using TeachPlanner.Api.Database.Extensions;
 using TeachPlanner.Api.Domain.Teachers;
+using TeachPlanner.Api.Domain.TermPlanners;
 using TeachPlanner.Api.Domain.YearDataRecords;
 
 namespace TeachPlanner.Api.Features.Teachers;
@@ -53,7 +55,6 @@ public static class GetTeacherSettings
                 .Include(yd => yd.Subjects)
                 .Include(yd => yd.Students)
                 .Include(yd => yd.YearLevelsTaught)
-                .Include(yd => yd.TermPlanner)
                 .Include(yd => yd.WeekPlanners)
                 .Include(yd => yd.LessonPlans)
                 .Include(yd => yd.Reports)
@@ -63,7 +64,14 @@ public static class GetTeacherSettings
 
             if (yearData == null)
             {
-                yearData = YearData.Create(request.CalendarYear);
+                yearData = YearData.Create(request.TeacherId, request.CalendarYear);
+            }
+
+            var termPlanner = await _context.GetTermPlanner(yearData.Id, request.CalendarYear, cancellationToken);
+
+            if (termPlanner is null)
+            {
+                termPlanner = TermPlanner.Create(yearData.Id, request.CalendarYear, yearData.YearLevelsTaught.ToList());
             }
 
             return new GetTeacherSettingsResponse(
@@ -71,7 +79,7 @@ public static class GetTeacherSettings
                 yearData.Subjects,
                 yearData.Students,
                 yearData.YearLevelsTaught,
-                yearData.TermPlanner);
+                termPlanner);
         }
 
     }
