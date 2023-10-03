@@ -2,7 +2,7 @@
 using TeachPlanner.Api.Domain.Subjects;
 using TeachPlanner.Api.Domain.Teachers;
 
-namespace TeachPlanner.Api.Database.Extensions;
+namespace TeachPlanner.Api.Database.QueryExtensions;
 
 public static class SubjectQueries
 {

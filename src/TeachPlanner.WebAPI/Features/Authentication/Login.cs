@@ -1,15 +1,14 @@
 ﻿using FluentValidation;
 using Mapster;
 using MediatR;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using TeachPlanner.Api.Common.Exceptions;
 using TeachPlanner.Api.Common.Interfaces.Authentication;
 using TeachPlanner.Api.Contracts.Authentication;
 using TeachPlanner.Api.Contracts.Teachers;
 using TeachPlanner.Api.Database;
-using TeachPlanner.Api.Database.Extensions;
+using TeachPlanner.Api.Database.QueryExtensions;
+using TeachPlanner.Api.Services.Authentication;
 
 namespace TeachPlanner.Api.Features.Authentication;
 
@@ -30,32 +29,24 @@ public static class Login
     {
         private readonly ApplicationDbContext _context;
         private readonly IJwtTokenGenerator _jwtTokenGenerator;
-        private readonly UserManager<IdentityUser> _userManager;
-        private readonly SignInManager<IdentityUser> _signInManager;
 
         public Handler(
             IJwtTokenGenerator jwtTokenGenerator,
-            UserManager<IdentityUser> userManager,
-            ApplicationDbContext context,
-            SignInManager<IdentityUser> signInManager)
+            ApplicationDbContext context)
         {
             _jwtTokenGenerator = jwtTokenGenerator;
-            _userManager = userManager;
             _context = context;
-            _signInManager = signInManager;
         }
 
         public async Task<AuthenticationResponse> Handle(Command request, CancellationToken cancellationToken)
         {
-            var user = await _userManager.FindByEmailAsync(_userManager.NormalizeEmail(request.Email));
-            if (user == null || !await _userManager.CheckPasswordAsync(user, request.Password))
+            var user = await _context.GetUserByEmail(NormaliseEmail(request.Email), cancellationToken);
+            if (user == null || !PasswordService.VerifyPassword(request.Password, user.Password))
             {
                 throw new InvalidCredentialsException();
             }
 
-            var userId = Guid.Parse(user.Id);
-
-            var teacher = await _context.GetTeacherByUserId(userId);
+            var teacher = await _context.GetTeacherByUserId(user.Id);
             if (teacher == null)
             {
                 throw new TeacherNotFoundException();
@@ -70,10 +61,15 @@ public static class Login
             return new AuthenticationResponse(response, _jwtTokenGenerator.GenerateToken(teacher));
         }
     }
-    public static async Task<IResult> Delegate([FromBody] LoginRequest request, ISender sender, CancellationToken cancellationToken)
+    public static async Task<IResult> Delegate(LoginRequest request, ISender sender, CancellationToken cancellationToken)
     {
         var command = request.Adapt<Command>();
         var result = await sender.Send(command, cancellationToken);
         return Results.Ok(result);
     }
+    private static string NormaliseEmail(string email)
+    {
+        return email.Trim().ToUpper();
+    }
 }
+

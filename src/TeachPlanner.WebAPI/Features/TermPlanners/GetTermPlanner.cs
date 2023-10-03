@@ -4,7 +4,7 @@ using System.Linq.Expressions;
 using TeachPlanner.Api.Common.Exceptions;
 using TeachPlanner.Api.Contracts.TermPlanners.GetTermPlanner;
 using TeachPlanner.Api.Database;
-using TeachPlanner.Api.Database.Extensions;
+using TeachPlanner.Api.Database.QueryExtensions;
 using TeachPlanner.Api.Domain.Subjects;
 using TeachPlanner.Api.Domain.Teachers;
 using TeachPlanner.Api.Domain.TermPlanners;
@@ -51,9 +51,9 @@ public static class GetTermPlanner
         }
     }
 
-    public static async Task<IResult> Delegate(TeacherId teacherId, int calendarYear, ISender sender, CancellationToken cancellationToken)
+    public static async Task<IResult> Delegate(Guid teacherId, int calendarYear, ISender sender, CancellationToken cancellationToken)
     {
-        var query = new Query(teacherId, calendarYear);
+        var query = new Query(new TeacherId(teacherId), calendarYear);
 
         var result = await sender.Send(query);
 

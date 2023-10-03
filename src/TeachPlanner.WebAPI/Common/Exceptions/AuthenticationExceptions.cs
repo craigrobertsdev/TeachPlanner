@@ -18,7 +18,7 @@ public class DuplicateIdException : BaseException
 public class UserRegistrationFailedException : BaseException
 {
     public UserRegistrationFailedException() : base(
-        "User registration failed. Please check details and try again.", 500, "Authentication.UserRegistrationFailed")
+        "Users registration failed. Please check details and try again.", 500, "Authentication.UserRegistrationFailed")
     { }
 }
 

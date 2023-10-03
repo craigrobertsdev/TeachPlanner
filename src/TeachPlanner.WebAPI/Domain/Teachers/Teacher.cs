@@ -3,6 +3,8 @@ using TeachPlanner.Api.Domain.Common.Interfaces;
 using TeachPlanner.Api.Domain.Common.Primatives;
 using TeachPlanner.Api.Domain.Resources;
 using TeachPlanner.Api.Domain.Subjects;
+using TeachPlanner.Api.Domain.Teachers.DomainEvents;
+using TeachPlanner.Api.Domain.Users;
 using TeachPlanner.Api.Domain.YearDataRecords;
 
 namespace TeachPlanner.Api.Domain.Teachers;
@@ -13,7 +15,7 @@ public sealed class Teacher : Entity<TeacherId>, IAggregateRoot
     private readonly List<Assessment> _assessments = new();
     private readonly List<Resource> _resources = new();
     private readonly List<YearDataEntry> _yearDataHistory = new();
-    public Guid UserId { get; private set; } = Guid.Empty;
+    public UserId UserId { get; private set; }
     public string FirstName { get; private set; }
     public string LastName { get; private set; }
     public IReadOnlyList<SubjectId> SubjectsTaughtIds => _subjectsTaughtIds.AsReadOnly();
@@ -21,16 +23,19 @@ public sealed class Teacher : Entity<TeacherId>, IAggregateRoot
     public IReadOnlyList<Resource> Resources => _resources.AsReadOnly();
     public IReadOnlyList<YearDataEntry> YearDataHistory => _yearDataHistory.AsReadOnly();
 
-    private Teacher(TeacherId id, Guid userId, string firstName, string lastName) : base(id)
+    private Teacher(TeacherId id, UserId userId, string firstName, string lastName) : base(id)
     {
         FirstName = firstName;
         LastName = lastName;
         UserId = userId;
     }
 
-    public static Teacher Create(Guid userId, string firstName, string lastName)
+    public static Teacher Create(UserId userId, string firstName, string lastName)
     {
-        return new(new TeacherId(Guid.NewGuid()), userId, firstName, lastName);
+        var teacher = new Teacher(new TeacherId(Guid.NewGuid()), userId, firstName, lastName);
+        teacher.AddDomainEvent(new TeacherCreatedDomainEvent(Guid.NewGuid(), teacher.Id));
+
+        return teacher;
     }
 
     public YearDataId? GetYearData(int year)

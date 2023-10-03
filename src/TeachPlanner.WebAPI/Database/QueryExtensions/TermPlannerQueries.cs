@@ -3,7 +3,7 @@ using TeachPlanner.Api.Common.Exceptions;
 using TeachPlanner.Api.Domain.TermPlanners;
 using TeachPlanner.Api.Domain.YearDataRecords;
 
-namespace TeachPlanner.Api.Database.Extensions;
+namespace TeachPlanner.Api.Database.QueryExtensions;
 
 public static class TermPlannerQueries
 {

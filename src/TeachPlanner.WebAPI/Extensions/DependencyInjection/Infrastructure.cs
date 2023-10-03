@@ -47,15 +47,14 @@ public static class Infrastructure
     private static IServiceCollection AddAuth(this IServiceCollection services, IConfiguration configuration)
     {
 
-        services.AddIdentity<IdentityUser, IdentityRole>(options =>
-        {
-            options.Password.RequireDigit = true;
-            options.Password.RequireUppercase = true;
-            options.Password.RequireNonAlphanumeric = true;
-            options.Password.RequiredLength = 8;
-        })
-            .AddEntityFrameworkStores<ApplicationDbContext>()
-            .AddDefaultTokenProviders();
+        //services.AddIdentity<IdentityUser, IdentityRole>(options =>
+        //{
+        //    options.Password.RequireDigit = true;
+        //    options.Password.RequireUppercase = true;
+        //    options.Password.RequireNonAlphanumeric = true;
+        //    options.Password.RequiredLength = 8;
+        //})
+        //    .AddDefaultTokenProviders();
 
         var jwtSettings = new JwtSettings();
         configuration.Bind(JwtSettings.SectionName, jwtSettings);

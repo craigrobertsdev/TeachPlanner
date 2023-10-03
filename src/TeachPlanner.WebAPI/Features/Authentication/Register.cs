@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using Mapster;
 using MediatR;
-using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using TeachPlanner.Api.Common.Exceptions;
 using TeachPlanner.Api.Common.Interfaces.Authentication;
 using TeachPlanner.Api.Common.Interfaces.Persistence;
@@ -9,6 +9,8 @@ using TeachPlanner.Api.Contracts.Authentication;
 using TeachPlanner.Api.Contracts.Teachers;
 using TeachPlanner.Api.Database;
 using TeachPlanner.Api.Domain.Teachers;
+using TeachPlanner.Api.Domain.Users;
+using TeachPlanner.Api.Services.Authentication;
 
 namespace TeachPlanner.Api.Features.Authentication;
 
@@ -33,21 +35,17 @@ public static class Register
     {
         private readonly IJwtTokenGenerator _jwtTokenGenerator;
         private readonly ApplicationDbContext _context;
-        private readonly UserManager<IdentityUser> _userManager;
         private readonly IUnitOfWork _unitOfWork;
 
         public Handler(
             IJwtTokenGenerator jwtTokenGenerator,
             ApplicationDbContext context,
-            IUnitOfWork unitOfWork,
-            UserManager<IdentityUser> userManager)
+            IUnitOfWork unitOfWork)
         {
             _jwtTokenGenerator = jwtTokenGenerator;
             _context = context;
             _unitOfWork = unitOfWork;
-            _userManager = userManager;
         }
-
 
         public async Task<AuthenticationResponse> Handle(Command request, CancellationToken cancellationToken)
         {
@@ -56,26 +54,16 @@ public static class Register
                 throw new PasswordsDoNotMatchException();
             }
 
-            if (_userManager.FindByEmailAsync(request.Email).Result != null)
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == request.Email, cancellationToken);
+            if (user is not null)
             {
                 throw new DuplicateEmailException();
             }
 
-            var identityUser = new IdentityUser
-            {
-                Email = request.Email,
-                UserName = request.Email
-            };
+            user = new User(request.Email, PasswordService.HashPassword(request.Password));
+            _context.Users.Add(user);
 
-            var result = await _userManager.CreateAsync(identityUser, request.Password);
-            if (result.Succeeded == false)
-            {
-                throw new UserRegistrationFailedException();
-            }
-
-            var user = await _userManager.FindByEmailAsync(request.Email);
-            var teacher = Teacher.Create(Guid.Parse(user!.Id), request.FirstName, request.LastName);
-
+            var teacher = Teacher.Create(user.Id, request.FirstName, request.LastName);
             _context.Teachers.Add(teacher);
 
             await _unitOfWork.SaveChangesAsync(cancellationToken);

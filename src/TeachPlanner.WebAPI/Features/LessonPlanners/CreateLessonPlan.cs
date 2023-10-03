@@ -78,7 +78,19 @@ public static class CreateLessonPlan
 
             _context.LessonPlans.Add(lesson);
 
-            await _unitOfWork.SaveChangesAsync(cancellationToken);
+            try
+            {
+                await _unitOfWork.SaveChangesAsync(cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                await Console.Out.WriteLineAsync(ex.Message);
+
+                if (ex.InnerException != null)
+                {
+                    await Console.Out.WriteLineAsync(ex.InnerException.Message);
+                }
+            }
 
             return new CreateLessonPlanResponse(lesson.Id.Value);
         }

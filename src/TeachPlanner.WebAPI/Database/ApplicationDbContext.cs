@@ -1,5 +1,4 @@
 ﻿using MediatR;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using TeachPlanner.Api.Domain.Assessments;
 using TeachPlanner.Api.Domain.Calendar;
@@ -11,12 +10,13 @@ using TeachPlanner.Api.Domain.Resources;
 using TeachPlanner.Api.Domain.Subjects;
 using TeachPlanner.Api.Domain.Teachers;
 using TeachPlanner.Api.Domain.TermPlanners;
+using TeachPlanner.Api.Domain.Users;
 using TeachPlanner.Api.Domain.WeekPlanners;
 using TeachPlanner.Api.Domain.YearDataRecords;
 
 namespace TeachPlanner.Api.Database;
 
-public class ApplicationDbContext : IdentityDbContext
+public class ApplicationDbContext : DbContext
 {
     private readonly IPublisher _publisher;
 
@@ -26,6 +26,7 @@ public class ApplicationDbContext : IdentityDbContext
         _publisher = publisher;
     }
 
+    public DbSet<User> Users { get; set; } = null!;
     public DbSet<Subject> Subjects { get; set; } = null!;
     public DbSet<Resource> Resources { get; set; } = null!;
     public DbSet<Teacher> Teachers { get; set; } = null!;
