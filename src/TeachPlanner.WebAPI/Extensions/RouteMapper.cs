@@ -7,27 +7,28 @@ using TeachPlanner.Api.Features.YearDataRecords;
 
 namespace TeachPlanner.Api.Extensions;
 
-public static class Routing
+public static class RouteMapper
 {
     public static void MapApi(this WebApplication app)
     {
-        var routePrefix = app.MapGroup("/api");
+        var authReqGroup = app.MapGroup("/api");
+        var noAuthGroup = app.MapGroup("/api");
 
-        routePrefix
+        noAuthGroup
             .MapAuth();
 
-        //routePrefix
-        //    .MapLessonPlans()
-        //    .MapSubjects()
-        //    .MapTeachers()
-        //    .MapAssessments()
-        //    .MapResources()
-        //    .MapStudents()
-        //    .MapTermPlanners()
-        //    .MapWeekPlanners()
-        //    .MapYearData()
-        //    .MapCurriculum()
-        //    .RequireAuthorization();
+        authReqGroup
+            .MapLessonPlans()
+            .MapSubjects()
+            .MapTeachers()
+            .MapAssessments()
+            .MapResources()
+            .MapStudents()
+            .MapTermPlanners()
+            .MapWeekPlanners()
+            .MapYearData()
+            .MapCurriculum()
+            .RequireAuthorization();
     }
 
     private static RouteGroupBuilder MapAuth(this RouteGroupBuilder group)
