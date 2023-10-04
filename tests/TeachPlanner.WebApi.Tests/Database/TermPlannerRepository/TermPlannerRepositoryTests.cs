@@ -1,4 +1,5 @@
-﻿using FluentAssertions;
+﻿using FakeItEasy;
+using FluentAssertions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using TeachPlanner.Api.Database;
@@ -13,9 +14,9 @@ public class TermPlannerRepositoryTests
 {
     private readonly IPublisher _publisher;
 
-    public TermPlannerRepositoryTests(IPublisher publisher)
+    public TermPlannerRepositoryTests()
     {
-        _publisher = publisher;
+        _publisher = A.Fake<IPublisher>();
     }
     private async Task<ApplicationDbContext> GetDbContext()
     {

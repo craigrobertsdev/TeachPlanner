@@ -4,5 +4,5 @@ using TeachPlanner.Api.Domain.YearDataRecords;
 namespace TeachPlanner.Api.Common.Interfaces.Persistence;
 public interface IYearDataRepository : IRepository<YearData>
 {
-    Task<YearData?> GetByTeacherAndYear(TeacherId teacherId, int calendarYear, CancellationToken cancellationToken);
+    Task<YearData?> GetByTeacherIdAndYear(TeacherId teacherId, int calendarYear, CancellationToken cancellationToken);
 }

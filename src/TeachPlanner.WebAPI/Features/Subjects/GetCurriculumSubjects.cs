@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
+using TeachPlanner.Api.Common.Interfaces.Persistence;
 using TeachPlanner.Api.Database;
 using TeachPlanner.Api.Database.QueryExtensions;
 using TeachPlanner.Api.Domain.Subjects;
@@ -12,26 +13,26 @@ public static class GetCurriculumSubjects
 
     public sealed class Handler : IRequestHandler<Query, List<Subject>>
     {
-        private readonly ApplicationDbContext _context;
+        private readonly ISubjectRepository _subjectRepository;
 
-        public Handler(ApplicationDbContext context)
+        public Handler(ISubjectRepository subjectRepository)
         {
-            _context = context;
+            _subjectRepository = subjectRepository;
         }
 
         public async Task<List<Subject>> Handle(Query request, CancellationToken cancellationToken)
         {
-            var subjects = await _context.GetCurriculumSubjects(request.IncludeElaborations, cancellationToken);
+            var subjects = await _subjectRepository.GetCurriculumSubjects(request.IncludeElaborations, cancellationToken);
 
             return subjects;
         }
     }
 
-    public async static Task<IResult> Delegate(bool includeElaborations, ISender sender)
+    public async static Task<IResult> Delegate(bool includeElaborations, ISender sender, CancellationToken cancellationToken)
     {
         var query = new Query(includeElaborations);
 
-        var result = await sender.Send(query, new CancellationToken());
+        var result = await sender.Send(query, cancellationToken);
 
         return Results.Ok(result);
     }

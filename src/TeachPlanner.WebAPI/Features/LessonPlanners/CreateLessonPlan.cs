@@ -39,31 +39,35 @@ public static class CreateLessonPlan
 
     internal sealed class Handler : IRequestHandler<Command, CreateLessonPlanResponse>
     {
-        private readonly ApplicationDbContext _context;
+        private readonly ILessonPlanRepository _lessonPlanRepository;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IAssessmentRepository _assessmentRepository;
+        private readonly IResourceRepository _resourceRepository;
 
-        public Handler(ApplicationDbContext context, IUnitOfWork unitOfWork)
+        public Handler(
+            ILessonPlanRepository lessonPlanRepository,
+            IAssessmentRepository assessmentRepository,
+            IResourceRepository resourceRepository,
+            IUnitOfWork unitOfWork)
         {
-            _context = context;
             _unitOfWork = unitOfWork;
+            _lessonPlanRepository = lessonPlanRepository;
+            _assessmentRepository = assessmentRepository;
+            _resourceRepository = resourceRepository;
         }
 
         public async Task<CreateLessonPlanResponse> Handle(Command request, CancellationToken cancellationToken)
         {
             List<Assessment> assessments = new();
-            if (request.AssessmentIds != null)
+            if (request.AssessmentIds is not null)
             {
-                assessments = await _context.Assessments
-                    .Where(x => request.AssessmentIds.Contains(x.Id))
-                    .ToListAsync(cancellationToken);
+                assessments = await _assessmentRepository.GetAssessmentsById(request.AssessmentIds, cancellationToken);
             }
 
             List<Resource> resources = new();
             if (request.LessonPlanResources.Count > 0)
             {
-                resources = await _context.Resources
-                    .Where(x => request.LessonPlanResources.Select(lr => lr.ResourceId).Contains(x.Id))
-                    .ToListAsync(cancellationToken);
+                resources = await _resourceRepository.GetResourcesById(request.LessonPlanResources.Select(lr => lr.ResourceId).ToList(), cancellationToken);
             }
 
             var lesson = LessonPlan.Create(
@@ -76,21 +80,9 @@ public static class CreateLessonPlan
                 request.NumberOfPeriods,
                 assessments);
 
-            _context.LessonPlans.Add(lesson);
+            _lessonPlanRepository.Add(lesson);
 
-            try
-            {
-                await _unitOfWork.SaveChangesAsync(cancellationToken);
-            }
-            catch (Exception ex)
-            {
-                await Console.Out.WriteLineAsync(ex.Message);
-
-                if (ex.InnerException != null)
-                {
-                    await Console.Out.WriteLineAsync(ex.InnerException.Message);
-                }
-            }
+            await _unitOfWork.SaveChangesAsync(cancellationToken);
 
             return new CreateLessonPlanResponse(lesson.Id.Value);
         }

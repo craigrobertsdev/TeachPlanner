@@ -4,6 +4,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using TeachPlanner.Api.Common.Exceptions;
 using TeachPlanner.Api.Common.Interfaces.Authentication;
+using TeachPlanner.Api.Common.Interfaces.Persistence;
 using TeachPlanner.Api.Contracts.Authentication;
 using TeachPlanner.Api.Contracts.Teachers;
 using TeachPlanner.Api.Database;
@@ -27,20 +28,20 @@ public static class Login
 
     internal sealed class Handler : IRequestHandler<Command, AuthenticationResponse>
     {
-        private readonly ApplicationDbContext _context;
         private readonly IJwtTokenGenerator _jwtTokenGenerator;
+        private readonly IUserRepository _userRepository;
 
         public Handler(
             IJwtTokenGenerator jwtTokenGenerator,
-            ApplicationDbContext context)
+            IUserRepository userRepository)
         {
             _jwtTokenGenerator = jwtTokenGenerator;
-            _context = context;
+            _userRepository = userRepository;
         }
 
         public async Task<AuthenticationResponse> Handle(Command request, CancellationToken cancellationToken)
         {
-            var user = await _context.GetUserByEmail(NormaliseEmail(request.Email), cancellationToken);
+            var user = await _userRepository.GetByEmail(NormaliseEmail(request.Email), cancellationToken);
             if (user == null || !PasswordService.VerifyPassword(request.Password, user.Password))
             {
                 throw new InvalidCredentialsException();

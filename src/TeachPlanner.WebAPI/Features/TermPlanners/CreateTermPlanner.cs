@@ -31,32 +31,26 @@ public static class CreateTermPlanner
 
     internal sealed class Handler : IRequestHandler<Command, CreateTermPlannerResponse>
     {
-        private readonly ApplicationDbContext _context;
+        private readonly ITermPlannerRepository _termPlannerRepository;
+        private readonly IYearDataRepository _yearDataRepository;
         private readonly IUnitOfWork _unitOfWork;
 
-        public Handler(ApplicationDbContext context, IUnitOfWork unitOfWork)
+        public Handler(ITermPlannerRepository termPlannerRepository, IYearDataRepository yearDataRepository, IUnitOfWork unitOfWork)
         {
-            _context = context;
+            _termPlannerRepository = termPlannerRepository;
+            _yearDataRepository = yearDataRepository;
             _unitOfWork = unitOfWork;
         }
 
         public async Task<CreateTermPlannerResponse> Handle(Command request, CancellationToken cancellationToken)
         {
-            var yearData = await _context.YearData
-                .Where(yd => yd.TeacherId == request.TeacherId)
-                .Where(yd => yd.CalendarYear == request.CalendarYear)
-                .SingleOrDefaultAsync(cancellationToken);
-
+            var yearData = await _yearDataRepository.GetByTeacherIdAndYear(request.TeacherId, request.CalendarYear, cancellationToken);
             if (yearData is null)
             {
                 throw new YearDataNotFoundException();
             }
 
-            var termPlanner = await _context.TermPlanners
-                .Where(tp => tp.YearDataId == yearData.Id)
-                .Where(tp => tp.CalendarYear == request.CalendarYear)
-                .SingleOrDefaultAsync(cancellationToken);
-
+            var termPlanner = await _termPlannerRepository.GetByYearDataIdAndYear(yearData.Id, request.CalendarYear, cancellationToken);
             if (termPlanner is not null)
             {
                 throw new TermPlannerAlreadyAssociatedException();
@@ -64,7 +58,7 @@ public static class CreateTermPlanner
 
             termPlanner = TermPlanner.Create(yearData.Id, request.CalendarYear, request.YearLevels);
 
-            _context.TermPlanners.Add(termPlanner);
+            _termPlannerRepository.Add(termPlanner);
 
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 

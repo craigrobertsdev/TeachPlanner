@@ -30,13 +30,15 @@ public static class SetSubjectsTaught
 
     public class Handler : IRequestHandler<Command>
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IYearDataRepository _yearDataRepository;
+        private readonly ISubjectRepository _subjectRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IValidator<Command> _validator;
 
-        public Handler(ApplicationDbContext context, IUnitOfWork unitOfWork, IValidator<Command> validator)
+        public Handler(IYearDataRepository yearDataRepository, ISubjectRepository subjectRepository, IUnitOfWork unitOfWork, IValidator<Command> validator)
         {
-            _context = context;
+            _yearDataRepository = yearDataRepository;
+            _subjectRepository = subjectRepository;
             _unitOfWork = unitOfWork;
             _validator = validator;
         }
@@ -49,22 +51,20 @@ public static class SetSubjectsTaught
                 throw new ValidationException(validationResult.Errors);
             }
 
-            var yearPlanner = await _context.GetYearData(request.TeacherId, request.CalendarYear, cancellationToken);
-            if (yearPlanner == null)
+            var yearData = await _yearDataRepository.GetByTeacherIdAndYear(request.TeacherId, request.CalendarYear, cancellationToken);
+            if (yearData == null)
             {
                 throw new YearDataNotFoundException();
             }
 
-            var subjects = await _context.Subjects
-                .Where(s => request.SubjectIds.Contains(s.Id))
-                .ToListAsync(cancellationToken);
+            var subjects = await _subjectRepository.GetSubjectsById(request.SubjectIds, cancellationToken);
 
             if (subjects.Count != request.SubjectIds.Count)
             {
                 throw new SubjectNotFoundException();
             }
 
-            yearPlanner.AddSubjects(subjects);
+            yearData.AddSubjects(subjects);
 
             await _unitOfWork.SaveChangesAsync(cancellationToken);
         }

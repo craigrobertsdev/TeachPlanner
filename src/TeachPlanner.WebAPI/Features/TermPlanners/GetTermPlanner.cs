@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
 using TeachPlanner.Api.Common.Exceptions;
+using TeachPlanner.Api.Common.Interfaces.Persistence;
 using TeachPlanner.Api.Contracts.TermPlanners.GetTermPlanner;
 using TeachPlanner.Api.Database;
 using TeachPlanner.Api.Database.QueryExtensions;
@@ -15,16 +16,18 @@ public static class GetTermPlanner
 
     public class Handler : IRequestHandler<Query, GetTermPlannerResponse>
     {
-        private readonly ApplicationDbContext _context;
+        private readonly ITermPlannerRepository _termPlannerRepository;
+        private readonly ITeacherRepository _teacherRepository;
 
-        public Handler(ApplicationDbContext context)
+        public Handler(ITermPlannerRepository termPlannerRepository, ITeacherRepository teacherRepository)
         {
-            _context = context;
+            _termPlannerRepository = termPlannerRepository;
+            _teacherRepository = teacherRepository;
         }
 
         public async Task<GetTermPlannerResponse> Handle(Query request, CancellationToken cancellationToken)
         {
-            var teacher = await _context.GetTeacherById(request.TeacherId, cancellationToken);
+            var teacher = await _teacherRepository.GetById(request.TeacherId, cancellationToken);
 
             if (teacher is null)
             {
@@ -38,7 +41,7 @@ public static class GetTermPlanner
                 throw new YearDataNotFoundException();
             }
 
-            var termPlanner = await _context.GetTermPlanner(yearDataId, request.CalendarYear, cancellationToken);
+            var termPlanner = await _termPlannerRepository.GetByYearDataIdAndYear(yearDataId, request.CalendarYear, cancellationToken);
 
             if (termPlanner is null)
             {
@@ -53,7 +56,7 @@ public static class GetTermPlanner
     {
         var query = new Query(new TeacherId(teacherId), calendarYear);
 
-        var result = await sender.Send(query);
+        var result = await sender.Send(query, cancellationToken);
 
         return Results.Ok(result);
     }

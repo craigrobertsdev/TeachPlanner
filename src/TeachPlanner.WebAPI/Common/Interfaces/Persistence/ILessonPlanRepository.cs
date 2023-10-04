@@ -3,8 +3,8 @@ using TeachPlanner.Api.Domain.Teachers;
 
 namespace TeachPlanner.Api.Common.Interfaces.Persistence;
 
-public interface ILessonPlannerRepository
+public interface ILessonPlanRepository
 {
     void Add(LessonPlan lesson);
-    Task<List<LessonPlan>?> GetLessonsByTeacherIdAsync(TeacherId teacherId, CancellationToken cancellationToken);
+    Task<List<LessonPlan>?> GetLessonsByTeacherId(TeacherId teacherId, CancellationToken cancellationToken);
 }

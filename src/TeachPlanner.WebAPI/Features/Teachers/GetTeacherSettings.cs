@@ -26,48 +26,33 @@ public static class GetTeacherSettings
 
     public sealed class Handler : IRequestHandler<Query, GetTeacherSettingsResponse>
     {
-        ApplicationDbContext _context;
-        IUnitOfWork _unitOfWork;
+        private readonly ITeacherRepository _teacherRepository;
+        private readonly IYearDataRepository _yearDataRepository;
+        private readonly ITermPlannerRepository _termPlannerRepository;
 
-        public Handler(ApplicationDbContext context, IUnitOfWork unitOfWork)
+        public Handler(ITeacherRepository teacherRepository, IYearDataRepository yearDataRepository, ITermPlannerRepository termPlannerRepository)
         {
-            _context = context;
-            _unitOfWork = unitOfWork;
+            _teacherRepository = teacherRepository;
+            _yearDataRepository = yearDataRepository;
+            _termPlannerRepository = termPlannerRepository;
         }
 
         public async Task<GetTeacherSettingsResponse> Handle(Query request, CancellationToken cancellationToken)
         {
-            var teacher = await _context.Teachers
-                .Where(t => t.Id == request.TeacherId)
-                .Include(t => t.Resources)
-                .AsSplitQuery()
-                .AsNoTracking()
-                .FirstOrDefaultAsync(cancellationToken);
-
+            var teacher = await _teacherRepository.GetById(request.TeacherId, cancellationToken);
             if (teacher == null)
             {
                 throw new TeacherNotFoundException();
             }
 
-            var yearData = await _context.YearData
-                .Where(yd => yd.TeacherId == request.TeacherId)
-                .Where(yd => yd.CalendarYear == request.CalendarYear)
-                .Include(yd => yd.Subjects)
-                .Include(yd => yd.Students)
-                .Include(yd => yd.YearLevelsTaught)
-                .Include(yd => yd.WeekPlanners)
-                .Include(yd => yd.LessonPlans)
-                .Include(yd => yd.Reports)
-                .AsSplitQuery()
-                .AsNoTracking()
-                .FirstOrDefaultAsync(cancellationToken);
+            var yearData = await _yearDataRepository.GetByTeacherIdAndYear(request.TeacherId, request.CalendarYear, cancellationToken);
 
             if (yearData == null)
             {
                 yearData = YearData.Create(request.TeacherId, request.CalendarYear);
             }
 
-            var termPlanner = await _context.GetTermPlanner(yearData.Id, request.CalendarYear, cancellationToken);
+            var termPlanner = await _termPlannerRepository.GetByYearDataIdAndYear(yearData.Id, request.CalendarYear, cancellationToken);
 
             if (termPlanner is null)
             {
@@ -83,9 +68,9 @@ public static class GetTeacherSettings
         }
 
     }
-    public async static Task<GetTeacherSettingsResponse> Delegate(Guid teacherId, int calendarYear, ISender sender)
+    public async static Task<GetTeacherSettingsResponse> Delegate(Guid teacherId, int calendarYear, ISender sender, CancellationToken cancellationToken)
     {
         var query = new Query(new TeacherId(teacherId), calendarYear);
-        return await sender.Send(query);
+        return await sender.Send(query, cancellationToken);
     }
 }

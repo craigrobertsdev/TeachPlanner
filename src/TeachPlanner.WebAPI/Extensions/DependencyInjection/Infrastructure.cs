@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using MediatR.Registration;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
@@ -9,6 +10,7 @@ using TeachPlanner.Api.Common.Interfaces.Curriculum;
 using TeachPlanner.Api.Common.Interfaces.Persistence;
 using TeachPlanner.Api.Database;
 using TeachPlanner.Api.Database.Converters;
+using TeachPlanner.Api.Database.Repositories;
 using TeachPlanner.Api.Services.Authentication;
 using TeachPlanner.Api.Services.CurriculumParser;
 
@@ -40,6 +42,11 @@ public static class Infrastructure
 
 
         services.AddScoped<IUnitOfWork, UnitOfWork>();
+        services.AddScoped<ICurriculumRepository, CurriculumRepository>();
+        services.AddScoped<ILessonPlanRepository, LessonPlanRepository>();
+        services.AddScoped<ISubjectRepository, SubjectRepository>();
+        services.AddScoped<ITermPlannerRepository, TermPlannerRepository>();
+        services.AddScoped<IYearDataRepository, YearDataRepository>();
 
         return services;
     }

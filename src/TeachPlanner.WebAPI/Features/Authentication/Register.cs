@@ -34,16 +34,16 @@ public static class Register
     internal sealed class Handler : IRequestHandler<Command, AuthenticationResponse>
     {
         private readonly IJwtTokenGenerator _jwtTokenGenerator;
-        private readonly ApplicationDbContext _context;
+        private readonly IUserRepository _userRepository;
         private readonly IUnitOfWork _unitOfWork;
 
         public Handler(
             IJwtTokenGenerator jwtTokenGenerator,
-            ApplicationDbContext context,
+            IUserRepository userRepository,
             IUnitOfWork unitOfWork)
         {
             _jwtTokenGenerator = jwtTokenGenerator;
-            _context = context;
+            _userRepository = userRepository;
             _unitOfWork = unitOfWork;
         }
 
@@ -54,7 +54,7 @@ public static class Register
                 throw new PasswordsDoNotMatchException();
             }
 
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == request.Email, cancellationToken);
+            var user = await _userRepository.GetByEmail(request.Email, cancellationToken);
             if (user is not null)
             {
                 throw new DuplicateEmailException();
