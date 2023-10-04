@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using TeachPlanner.Api.Database.Converters;
 using TeachPlanner.Api.Domain.Common.Planner;
 
 namespace TeachPlanner.Api.Database.Configurations;
@@ -13,7 +14,8 @@ public class SchoolEventConfiguration : IEntityTypeConfiguration<SchoolEvent>
         builder.HasKey(se => se.Id);
 
         builder.Property(se => se.Id)
-            .HasColumnName("Id");
+            .HasColumnName("Id")
+            .HasConversion(new StronglyTypedIdConverter.SchoolEventIdConverter());
 
         builder.Property(se => se.Name)
             .HasMaxLength(100);

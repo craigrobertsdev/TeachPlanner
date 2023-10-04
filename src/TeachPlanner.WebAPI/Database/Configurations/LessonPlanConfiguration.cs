@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using TeachPlanner.Api.Database.Converters;
 using TeachPlanner.Api.Domain.LessonPlans;
 using TeachPlanner.Api.Domain.Resources;
 using TeachPlanner.Api.Domain.Subjects;
@@ -18,7 +19,8 @@ public class LessonPlanConfiguration : IEntityTypeConfiguration<LessonPlan>
         builder.HasKey(lp => lp.Id);
 
         builder.Property(lp => lp.Id)
-            .HasColumnName("Id");
+            .HasColumnName("Id")
+            .HasConversion(new StronglyTypedIdConverter.LessonPlanIdConverter());
 
         builder.HasOne<YearData>()
             .WithMany(t => t.LessonPlans)

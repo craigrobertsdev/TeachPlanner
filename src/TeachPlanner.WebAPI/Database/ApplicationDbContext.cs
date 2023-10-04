@@ -49,6 +49,7 @@ public class ApplicationDbContext : DbContext
         modelBuilder
             .Ignore<List<IDomainEvent>>()
             .ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
+
         base.OnModelCreating(modelBuilder);
     }
 

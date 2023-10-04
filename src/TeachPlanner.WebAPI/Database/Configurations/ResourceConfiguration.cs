@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using TeachPlanner.Api.Database.Converters;
 using TeachPlanner.Api.Domain.Resources;
 using TeachPlanner.Api.Domain.Subjects;
 
@@ -14,7 +15,8 @@ public class ResourceConfiguration : IEntityTypeConfiguration<Resource>
         builder.HasKey(r => r.Id);
 
         builder.Property(r => r.Id)
-            .HasColumnName("Id");
+            .HasColumnName("Id")
+            .HasConversion(new StronglyTypedIdConverter.ResourceIdConverter());
 
         builder.Property(r => r.Name)
             .HasMaxLength(100);

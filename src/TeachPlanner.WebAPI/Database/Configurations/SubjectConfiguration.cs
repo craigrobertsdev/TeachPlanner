@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using TeachPlanner.Api.Database.Converters;
 using TeachPlanner.Api.Domain.Common.Enums;
 using TeachPlanner.Api.Domain.Subjects;
 
@@ -14,7 +15,8 @@ public class SubjectConfiguration : IEntityTypeConfiguration<Subject>
         builder.HasKey(s => s.Id);
 
         builder.Property(s => s.Id)
-            .HasColumnName("Id");
+            .HasColumnName("Id")
+            .HasConversion(new StronglyTypedIdConverter.SubjectIdConverter());
 
         builder.Property(s => s.Name)
             .HasMaxLength(50);

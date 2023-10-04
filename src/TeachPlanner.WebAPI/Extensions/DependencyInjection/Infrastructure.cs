@@ -32,7 +32,7 @@ public static class Infrastructure
         var serverVersion = ServerVersion.AutoDetect(dbContextSettings.DefaultConnection);
 
         services.AddDbContext<ApplicationDbContext>(options => options
-            .ReplaceService<IValueConverterSelector, StronglyTypedIdValueConverterSelector>()
+            //.ReplaceService<IValueConverterSelector, StronglyTypedIdValueConverterSelector>()
             .UseMySql(dbContextSettings.DefaultConnection, serverVersion)
             .LogTo(Console.WriteLine, LogLevel.Information)
             .EnableSensitiveDataLogging()

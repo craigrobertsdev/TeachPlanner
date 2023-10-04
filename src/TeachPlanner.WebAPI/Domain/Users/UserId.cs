@@ -4,7 +4,7 @@ namespace TeachPlanner.Api.Domain.Users;
 
 public record UserId
 {
-    Guid Value;
+    public Guid Value;
 
     public UserId(Guid value)
     {

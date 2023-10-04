@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System.Text.Json;
+using TeachPlanner.Api.Database.Converters;
 using TeachPlanner.Api.Domain.Common.Enums;
 using TeachPlanner.Api.Domain.Teachers;
 using TeachPlanner.Api.Domain.TermPlanners;
@@ -12,7 +13,12 @@ public class YearDataConfiguration : IEntityTypeConfiguration<YearData>
 {
     public void Configure(EntityTypeBuilder<YearData> builder)
     {
+        builder.ToTable("yeardata");
         builder.HasKey(yd => yd.Id);
+
+        builder.Property(yd => yd.Id)
+            .HasColumnName("Id")
+            .HasConversion(new StronglyTypedIdConverter.YearDataIdConverter());
 
         builder.HasMany(yd => yd.Students)
             .WithOne();

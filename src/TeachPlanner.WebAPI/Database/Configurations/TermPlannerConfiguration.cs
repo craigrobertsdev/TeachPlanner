@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System.Text.Json;
+using TeachPlanner.Api.Database.Converters;
 using TeachPlanner.Api.Domain.Common.Enums;
 using TeachPlanner.Api.Domain.TermPlanners;
 using TeachPlanner.Api.Domain.YearDataRecords;
@@ -16,7 +17,8 @@ public class TermPlannerConfiguration : IEntityTypeConfiguration<TermPlanner>
         builder.HasKey(tp => tp.Id);
 
         builder.Property(tp => tp.Id)
-            .HasColumnName("Id");
+            .HasColumnName("Id")
+            .HasConversion(new StronglyTypedIdConverter.TermPlannerIdConverter());
 
         builder.Property(tp => tp.CalendarYear)
             .IsRequired();

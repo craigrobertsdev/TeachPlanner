@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using TeachPlanner.Api.Database.Converters;
 using TeachPlanner.Api.Domain.Students;
 using TeachPlanner.Api.Domain.Teachers;
 
@@ -12,7 +13,8 @@ public class StudentConfiguration : IEntityTypeConfiguration<Student>
         builder.ToTable("students");
         builder.HasKey(s => s.Id);
         builder.Property(s => s.Id)
-            .HasColumnName("Id");
+            .HasColumnName("Id")
+            .HasConversion(new StronglyTypedIdConverter.StudentIdConverter());
 
         builder.HasMany(s => s.Reports)
             .WithOne()

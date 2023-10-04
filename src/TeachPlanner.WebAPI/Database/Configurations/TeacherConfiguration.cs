@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using TeachPlanner.Api.Database.Converters;
 using TeachPlanner.Api.Domain.Teachers;
 using TeachPlanner.Api.Domain.Users;
 
@@ -14,7 +15,8 @@ public class TeacherConfiguration : IEntityTypeConfiguration<Teacher>
         builder.HasKey(t => t.Id);
 
         builder.Property(t => t.Id)
-            .HasColumnName("Id");
+            .HasColumnName("Id")
+            .HasConversion(new StronglyTypedIdConverter.TeacherIdConverter());
 
         builder.Property(t => t.FirstName).HasMaxLength(50);
 
@@ -35,9 +37,10 @@ public class TeacherConfiguration : IEntityTypeConfiguration<Teacher>
             ydb.Property<Guid>("Id");
             ydb.WithOwner().HasForeignKey("TeacherId");
             ydb.Property(yd => yd.CalendarYear).HasColumnName("CalendarYear");
-            ydb.Property(yd => yd.YearDataId).HasColumnName("YearDataId");
+            ydb.Property(yd => yd.YearDataId)
+                .HasColumnName("YearDataId")
+                .HasConversion(new StronglyTypedIdConverter.YearDataIdConverter());
 
         });
     }
 }
-

@@ -16,5 +16,10 @@ public record AssessmentId
             : base(id => id.Value, value => new AssessmentId(value), mappingHints)
         {
         }
+        public StronglyTypedIdEfValueConverter()
+            : base(id => id.Value, value => new AssessmentId(value), null)
+        {
+        }
+
     }
 }

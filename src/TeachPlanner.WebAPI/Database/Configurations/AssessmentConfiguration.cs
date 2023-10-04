@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using TeachPlanner.Api.Database.Converters;
 using TeachPlanner.Api.Domain.Assessments;
 using TeachPlanner.Api.Domain.Students;
 using TeachPlanner.Api.Domain.Subjects;
@@ -16,7 +17,8 @@ internal class AssessmentConfiguration : IEntityTypeConfiguration<Assessment>
         builder.HasKey(a => a.Id);
 
         builder.Property(a => a.Id)
-            .HasColumnName("Id");
+            .HasColumnName("Id")
+            .HasConversion(new StronglyTypedIdConverter.AssessmentIdConverter());
 
         builder.Property(a => a.YearLevel)
             .HasConversion<string>()

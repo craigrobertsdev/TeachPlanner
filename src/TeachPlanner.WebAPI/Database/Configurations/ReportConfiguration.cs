@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using TeachPlanner.Api.Database.Converters;
 using TeachPlanner.Api.Domain.Reports;
 using TeachPlanner.Api.Domain.Students;
 using TeachPlanner.Api.Domain.Subjects;
@@ -16,7 +17,8 @@ public class ReportConfiguration : IEntityTypeConfiguration<Report>
         builder.HasKey(r => r.Id);
 
         builder.Property(r => r.Id)
-            .HasColumnName("Id");
+            .HasColumnName("Id")
+            .HasConversion(new StronglyTypedIdConverter.ReportIdConverter());
 
         builder.HasOne<Teacher>()
             .WithMany()

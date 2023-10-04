@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using TeachPlanner.Api.Database.Converters;
 using TeachPlanner.Api.Domain.Users;
 
 namespace TeachPlanner.Api.Database.Configurations;
@@ -10,6 +11,11 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
     {
         builder.ToTable("users");
         builder.HasKey(u => u.Id);
+
+        builder.Property(u => u.Id)
+            .HasColumnName("Id")
+            .HasConversion(new StronglyTypedIdConverter.UserIdConverter());
+
         builder.Property(u => u.Email)
             .HasMaxLength(255)
             .IsRequired();
