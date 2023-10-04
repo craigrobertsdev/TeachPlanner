@@ -1,13 +1,11 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
-using System.Linq.Expressions;
 using TeachPlanner.Api.Common.Exceptions;
 using TeachPlanner.Api.Contracts.TermPlanners.GetTermPlanner;
 using TeachPlanner.Api.Database;
 using TeachPlanner.Api.Database.QueryExtensions;
 using TeachPlanner.Api.Domain.Subjects;
 using TeachPlanner.Api.Domain.Teachers;
-using TeachPlanner.Api.Domain.TermPlanners;
 
 namespace TeachPlanner.Api.Features.TermPlanners;
 
@@ -26,7 +24,7 @@ public static class GetTermPlanner
 
         public async Task<GetTermPlannerResponse> Handle(Query request, CancellationToken cancellationToken)
         {
-            var teacher = await _context.Teachers.FirstOrDefaultAsync(t => t.Id == request.TeacherId, cancellationToken);
+            var teacher = await _context.GetTeacherById(request.TeacherId, cancellationToken);
 
             if (teacher is null)
             {

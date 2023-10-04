@@ -1,4 +1,4 @@
-using TeachPlanner.Api.Extensions;
+using TeachPlanner.Api;
 using TeachPlanner.Api.Extensions.DependencyInjection;
 using TeachPlanner.Api.Identity;
 using TeachPlanner.Api.Middleware;

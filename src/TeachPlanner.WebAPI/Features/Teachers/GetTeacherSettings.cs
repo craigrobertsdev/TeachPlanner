@@ -24,7 +24,7 @@ public static class GetTeacherSettings
         }
     }
 
-    internal sealed class Handler : IRequestHandler<Query, GetTeacherSettingsResponse>
+    public sealed class Handler : IRequestHandler<Query, GetTeacherSettingsResponse>
     {
         ApplicationDbContext _context;
         IUnitOfWork _unitOfWork;

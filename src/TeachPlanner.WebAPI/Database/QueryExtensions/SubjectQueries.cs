@@ -1,42 +1,76 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
+using TeachPlanner.Api.Common.Exceptions;
 using TeachPlanner.Api.Domain.Subjects;
-using TeachPlanner.Api.Domain.Teachers;
 
 namespace TeachPlanner.Api.Database.QueryExtensions;
 
 public static class SubjectQueries
 {
-    public static async Task<List<Subject>> GetSubjectsTaughtByTeacherWithElaborations(
+    public static async Task<List<Subject>> GetCurriculumSubjects(
         this ApplicationDbContext context,
-        TeacherId teacherId,
+        bool includeElaborations,
         CancellationToken cancellationToken)
     {
-        var subjectIds = context.Teachers
-            .Where(t => t.Id == teacherId)
-            .SelectMany(t => t.SubjectsTaughtIds)
-            .ToList();
+        Expression<Func<Subject, bool>> filter = s => s.IsCurriculumSubject;
 
-        var subjectQuery = context.Subjects
+        if (includeElaborations)
+        {
+            return await GetSubjectsWithElaborations(context, new List<SubjectId>(), cancellationToken, filter);
+        }
+
+        return await GetSubjectsWithoutElaborations(context, new List<SubjectId>(), cancellationToken, filter);
+    }
+
+    public static async Task<List<Subject>?> GetSubjectsById(
+        this ApplicationDbContext context,
+        List<SubjectId> subjects,
+        bool includeElaborations,
+        CancellationToken cancellationToken)
+    {
+        if (includeElaborations)
+        {
+            return await context.GetSubjectsWithElaborations(subjects, cancellationToken);
+        }
+
+        return await context.GetSubjectsWithoutElaborations(subjects, cancellationToken);
+    }
+
+    private static async Task<List<Subject>> GetSubjectsWithElaborations(
+        this ApplicationDbContext context,
+        List<SubjectId> subjectIds,
+        CancellationToken cancellationToken,
+        Expression<Func<Subject, bool>>? filter = null)
+    {
+        var subjectsQuery = context.Subjects
             .AsNoTracking()
-            .Where(s => subjectIds.Contains(s.Id))
             .Where(s => s.Name != "Mathematics")
+            .Where(s => subjectIds.Contains(s.Id));
+
+        var mathsQuery = context.Subjects
+            .AsNoTracking()
+            .Where(s => s.Name == "Mathematics")
+            .Where(s => subjectIds.Contains(s.Id));
+
+        if (filter != null)
+        {
+            subjectsQuery = subjectsQuery.Where(filter);
+            mathsQuery = mathsQuery.Where(filter);
+        }
+
+        subjectsQuery = subjectsQuery
             .Include(s => s.YearLevels)
             .ThenInclude(yl => yl.Strands)
             .ThenInclude(s => s.Substrands!)
             .ThenInclude(s => s.ContentDescriptions)
             .ThenInclude(cd => cd.Elaborations);
 
-        var mathsQuery = context.Subjects
-            .AsNoTracking()
-            .Where(s => subjectIds.Contains(s.Id))
-            .Where(s => s.Name == "Mathematics")
-            .Include(s => s.YearLevels)
+        mathsQuery.Include(s => s.YearLevels)
             .ThenInclude(yl => yl.Strands)
             .ThenInclude(s => s.ContentDescriptions!)
             .ThenInclude(cd => cd.Elaborations);
 
-
-        var subjects = await subjectQuery.ToListAsync(cancellationToken);
+        var subjects = await subjectsQuery.ToListAsync(cancellationToken);
         var maths = await mathsQuery.SingleOrDefaultAsync(cancellationToken);
 
         if (maths != null)
@@ -46,35 +80,45 @@ public static class SubjectQueries
 
         if (subjects.Count == 0)
         {
-            return new List<Subject>();
+            throw new NoSubjectsFoundException();
         }
 
         return subjects;
     }
 
-    public static async Task<List<Subject>> GetTermPlannerSubjectsWithoutElaborations(
+    private static async Task<List<Subject>> GetSubjectsWithoutElaborations(
         this ApplicationDbContext context,
         List<SubjectId> subjectIds,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken,
+        Expression<Func<Subject, bool>>? filter = null)
     {
-        var subjectQuery = context.Subjects
+        var subjectsQuery = context.Subjects
             .AsNoTracking()
-            .Where(s => subjectIds.Contains(s.Id))
             .Where(s => s.Name != "Mathematics")
+            .Where(s => subjectIds.Contains(s.Id));
+
+        var mathsQuery = context.Subjects
+            .AsNoTracking()
+            .Where(s => s.Name == "Mathematics")
+            .Where(s => subjectIds.Contains(s.Id));
+
+        if (filter != null)
+        {
+            subjectsQuery = subjectsQuery.Where(filter);
+            mathsQuery = mathsQuery.Where(filter);
+        }
+
+        subjectsQuery = subjectsQuery
             .Include(s => s.YearLevels)
             .ThenInclude(yl => yl.Strands)
             .ThenInclude(s => s.Substrands!)
             .ThenInclude(s => s.ContentDescriptions);
 
-        var mathsQuery = context.Subjects
-            .AsNoTracking()
-            .Where(s => subjectIds.Contains(s.Id))
-            .Where(s => s.Name == "Mathematics")
-            .Include(s => s.YearLevels)
+        mathsQuery.Include(s => s.YearLevels)
             .ThenInclude(yl => yl.Strands)
             .ThenInclude(s => s.ContentDescriptions!);
 
-        var subjects = await subjectQuery.ToListAsync(cancellationToken);
+        var subjects = await subjectsQuery.ToListAsync(cancellationToken);
         var maths = await mathsQuery.SingleOrDefaultAsync(cancellationToken);
 
         if (maths != null)
@@ -84,41 +128,7 @@ public static class SubjectQueries
 
         if (subjects.Count == 0)
         {
-            return new List<Subject>();
-        }
-
-        return subjects;
-    }
-    public static async Task<List<Subject>> GetCurriculum(this ApplicationDbContext context, CancellationToken cancellationToken)
-    {
-        var subjectQuery = context.Subjects
-            .AsNoTracking()
-            .Where(s => s.Name != "Mathematics")
-            .Include(s => s.YearLevels)
-            .ThenInclude(yl => yl.Strands)
-            .ThenInclude(s => s.Substrands!)
-            .ThenInclude(s => s.ContentDescriptions)
-            .ThenInclude(cd => cd.Elaborations);
-
-        var mathsQuery = context.Subjects
-            .AsNoTracking()
-            .Where(s => s.Name == "Mathematics")
-            .Include(s => s.YearLevels)
-            .ThenInclude(yl => yl.Strands)
-            .ThenInclude(s => s.ContentDescriptions!)
-            .ThenInclude(cd => cd.Elaborations);
-
-        var subjects = await subjectQuery.ToListAsync(cancellationToken);
-        var maths = await mathsQuery.SingleOrDefaultAsync(cancellationToken);
-
-        if (maths != null)
-        {
-            subjects.Add(maths);
-        }
-
-        if (subjects.Count == 0)
-        {
-            return new List<Subject>();
+            throw new NoSubjectsFoundException();
         }
 
         return subjects;

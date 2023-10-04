@@ -13,7 +13,7 @@ public static class TeacherQueries
             .AsNoTracking()
             .FirstOrDefaultAsync(t => t.UserId == userId);
     }
-    public static async Task<Teacher?> GetByEmail(this ApplicationDbContext context, string email, CancellationToken cancellationToken)
+    public static async Task<Teacher?> GetTeacherByEmail(this ApplicationDbContext context, string email, CancellationToken cancellationToken)
     {
         var user = await context.Users
             .Where(u => u.Email == email)
@@ -26,6 +26,15 @@ public static class TeacherQueries
 
         return await context.Teachers
             .Where(t => t.UserId == user.Id)
+            .Include(t => t.Assessments)
+            .FirstOrDefaultAsync(cancellationToken);
+    }
+
+    public static async Task<Teacher?> GetTeacherById(this ApplicationDbContext context, TeacherId teacherId, CancellationToken cancellationToken)
+    {
+        return await context.Teachers
+            .AsNoTracking()
+            .Where(t => t.Id == teacherId)
             .Include(t => t.Assessments)
             .FirstOrDefaultAsync(cancellationToken);
     }

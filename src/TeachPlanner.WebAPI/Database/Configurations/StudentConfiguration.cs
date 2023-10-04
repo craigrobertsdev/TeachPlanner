@@ -9,11 +9,7 @@ public class StudentConfiguration : IEntityTypeConfiguration<Student>
     public void Configure(EntityTypeBuilder<Student> builder)
     {
         builder.HasKey(s => s.Id);
-
         builder.ToTable("students");
-
-        builder.Property(s => s.Id)
-            .HasColumnName("Id");
 
         builder.HasMany(s => s.Reports)
             .WithOne()

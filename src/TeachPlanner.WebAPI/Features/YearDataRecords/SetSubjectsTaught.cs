@@ -2,7 +2,9 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using TeachPlanner.Api.Common.Exceptions;
+using TeachPlanner.Api.Common.Interfaces.Persistence;
 using TeachPlanner.Api.Database;
+using TeachPlanner.Api.Database.QueryExtensions;
 using TeachPlanner.Api.Domain.Subjects;
 using TeachPlanner.Api.Domain.Teachers;
 
@@ -29,11 +31,13 @@ public static class SetSubjectsTaught
     public class Handler : IRequestHandler<Command>
     {
         private readonly ApplicationDbContext _context;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IValidator<Command> _validator;
 
-        public Handler(ApplicationDbContext context, IValidator<Command> validator)
+        public Handler(ApplicationDbContext context, IUnitOfWork unitOfWork, IValidator<Command> validator)
         {
             _context = context;
+            _unitOfWork = unitOfWork;
             _validator = validator;
         }
 
@@ -45,12 +49,7 @@ public static class SetSubjectsTaught
                 throw new ValidationException(validationResult.Errors);
             }
 
-            var yearPlanner = await _context.YearData
-                .Where(yd => yd.TeacherId == request.TeacherId)
-                .Where(yd => yd.CalendarYear == request.CalendarYear)
-                .Include(yd => yd.Subjects)
-                .FirstOrDefaultAsync(cancellationToken);
-
+            var yearPlanner = await _context.GetYearData(request.TeacherId, request.CalendarYear, cancellationToken);
             if (yearPlanner == null)
             {
                 throw new YearDataNotFoundException();
@@ -67,7 +66,7 @@ public static class SetSubjectsTaught
 
             yearPlanner.AddSubjects(subjects);
 
-            await _context.SaveChangesAsync(cancellationToken);
+            await _unitOfWork.SaveChangesAsync(cancellationToken);
         }
     }
 

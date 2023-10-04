@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using MediatR;
+using Microsoft.EntityFrameworkCore;
 using TeachPlanner.Api.Common.Exceptions;
 using TeachPlanner.Api.Domain.TermPlanners;
 using TeachPlanner.Api.Domain.YearDataRecords;
@@ -35,5 +36,15 @@ public static class TermPlannerQueries
         termPlanner.PopulateSubjectsForTerms(subjects);
 
         return termPlanner;
+    }
+
+    public async static Task<TermPlanner?> GetTermPlannerById(this ApplicationDbContext context,
+        TermPlannerId termPlannerId, CancellationToken cancellationToken)
+    {
+        return await context.TermPlanners
+            .AsNoTracking()
+            .Where(tp => tp.Id == termPlannerId)
+            .Include(tp => tp.TermPlans)
+            .FirstOrDefaultAsync(cancellationToken);
     }
 }
