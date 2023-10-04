@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using TeachPlanner.Api.Domain.LessonPlans;
 using TeachPlanner.Api.Domain.Resources;
 using TeachPlanner.Api.Domain.Subjects;
+using TeachPlanner.Api.Domain.Teachers;
 using TeachPlanner.Api.Domain.WeekPlanners;
 using TeachPlanner.Api.Domain.YearDataRecords;
 
@@ -26,10 +27,16 @@ public class LessonPlanConfiguration : IEntityTypeConfiguration<LessonPlan>
 
         builder.HasOne<Subject>()
             .WithMany()
+            .HasForeignKey(lp => lp.SubjectId)
             .IsRequired();
 
         builder.HasMany(lp => lp.Assessments)
             .WithOne();
+
+        builder.HasOne<Teacher>()
+            .WithMany()
+            .HasForeignKey(lp => lp.TeacherId)
+            .IsRequired();
 
         builder.OwnsMany(lp => lp.Comments, lcb =>
         {

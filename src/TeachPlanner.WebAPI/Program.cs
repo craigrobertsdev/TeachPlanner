@@ -1,43 +1,44 @@
 using TeachPlanner.Api;
 using TeachPlanner.Api.Extensions.DependencyInjection;
-using TeachPlanner.Api.Identity;
-using TeachPlanner.Api.Middleware;
 
-var builder = WebApplication.CreateBuilder(args);
-
-var syncfusionLicenceKey = builder.Configuration["Syncfusion:LicenseKey"];
-Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense(syncfusionLicenceKey);
-
-builder.Services
-    .AddInfrastructure(builder.Configuration)
-    .AddApplication();
-
-builder.Services.AddAuthorization(x =>
+internal class Program
 {
-    x.AddPolicy(IdentityData.AdminUserPolicyName, policy => policy.RequireClaim(IdentityData.AdminUserClaimName, "true"));
-});
+    private static void Main(string[] args)
+    {
+        var builder = WebApplication.CreateBuilder(args);
 
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+        var syncfusionLicenceKey = builder.Configuration["Syncfusion:LicenseKey"];
+        Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense(syncfusionLicenceKey);
 
-var app = builder.Build();
+        builder.Services
+            .AddInfrastructure(builder.Configuration)
+            .AddApplication();
 
-app.UseSwagger();
-app.UseSwaggerUI();
+        builder.Services.AddAuthorization();
 
-//app.UseMiddleware<ErrorHandlingMiddleware>();
+        // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+        builder.Services.AddEndpointsApiExplorer();
+        builder.Services.AddSwaggerGen();
 
-// enable cors
-//app.UseCors(builder => builder
-//    .AllowAnyOrigin()
-//    .AllowAnyMethod()
-//    .AllowAnyHeader());
+        var app = builder.Build();
 
-app.UseHttpsRedirection();
-app.UseAuthentication();
-app.UseAuthorization();
+        app.UseSwagger();
+        app.UseSwaggerUI();
 
-app.MapApi();
+        //app.UseMiddleware<ErrorHandlingMiddleware>();
 
-app.Run();
+        // enable cors
+        //app.UseCors(builder => builder
+        //    .AllowAnyOrigin()
+        //    .AllowAnyMethod()
+        //    .AllowAnyHeader());
+
+        app.UseHttpsRedirection();
+        app.UseAuthentication();
+        app.UseAuthorization();
+
+        app.MapApi();
+
+        app.Run();
+    }
+}

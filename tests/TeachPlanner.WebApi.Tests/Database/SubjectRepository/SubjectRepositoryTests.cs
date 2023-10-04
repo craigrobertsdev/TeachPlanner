@@ -16,8 +16,7 @@ public class SubjectRepositoryTests
             .UseInMemoryDatabase(databaseName: "TeachPlanner")
             .Options;
 
-        var publisher = A.Fake<IPublisher>();
-        var databaseContext = new ApplicationDbContext(options, publisher);
+        var databaseContext = new ApplicationDbContext(options);
         databaseContext.Database.EnsureDeleted();
         databaseContext.Database.EnsureCreated();
 

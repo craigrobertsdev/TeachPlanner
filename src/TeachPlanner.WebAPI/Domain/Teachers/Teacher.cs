@@ -11,14 +11,12 @@ namespace TeachPlanner.Api.Domain.Teachers;
 
 public sealed class Teacher : Entity<TeacherId>, IAggregateRoot
 {
-    private readonly List<SubjectId> _subjectsTaughtIds = new();
     private readonly List<Assessment> _assessments = new();
     private readonly List<Resource> _resources = new();
     private readonly List<YearDataEntry> _yearDataHistory = new();
     public UserId UserId { get; private set; }
     public string FirstName { get; private set; }
     public string LastName { get; private set; }
-    public IReadOnlyList<SubjectId> SubjectsTaughtIds => _subjectsTaughtIds.AsReadOnly();
     public IReadOnlyList<Assessment> Assessments => _assessments.AsReadOnly();
     public IReadOnlyList<Resource> Resources => _resources.AsReadOnly();
     public IReadOnlyList<YearDataEntry> YearDataHistory => _yearDataHistory.AsReadOnly();

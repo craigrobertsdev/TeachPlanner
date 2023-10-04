@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using TeachPlanner.Api.Domain.Reports;
+using TeachPlanner.Api.Domain.Students;
 using TeachPlanner.Api.Domain.Subjects;
 using TeachPlanner.Api.Domain.Teachers;
 
@@ -25,6 +26,11 @@ public class ReportConfiguration : IEntityTypeConfiguration<Report>
         builder.HasOne<Subject>()
             .WithMany()
             .HasForeignKey(r => r.SubjectId)
+            .IsRequired();
+
+        builder.HasOne<Student>()
+            .WithMany(s => s.Reports)
+            .HasForeignKey(r => r.StudentId)
             .IsRequired();
 
         builder.Property(r => r.YearLevel)

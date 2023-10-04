@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System.Text.Json;
 using TeachPlanner.Api.Domain.Common.Enums;
 using TeachPlanner.Api.Domain.TermPlanners;
+using TeachPlanner.Api.Domain.YearDataRecords;
 
 namespace TeachPlanner.Api.Database.Configurations;
 public class TermPlannerConfiguration : IEntityTypeConfiguration<TermPlanner>
@@ -19,6 +20,10 @@ public class TermPlannerConfiguration : IEntityTypeConfiguration<TermPlanner>
 
         builder.Property(tp => tp.CalendarYear)
             .IsRequired();
+
+        builder.HasOne<YearData>()
+            .WithOne()
+            .HasForeignKey<YearData>(yd => yd.TermPlannerId);
 
 #pragma warning disable CS8600, CS8603, CS8604 // Converting null literal or possible null value to non-nullable type.
         builder.Property<List<YearLevelValue>>("_yearLevels")

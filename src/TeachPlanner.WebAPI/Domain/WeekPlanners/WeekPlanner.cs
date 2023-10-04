@@ -11,7 +11,6 @@ public sealed class WeekPlanner : Entity<WeekPlannerId>, IAggregateRoot
 {
     private readonly List<LessonPlan> _lessonPlans = new();
     private readonly List<SchoolEvent> _schoolEvents = new();
-    public TeacherId TeacherId { get; private set; }
     public YearDataId YearDataId { get; private set; }
     public DateTime WeekStart { get; private set; }
     public int WeekNumber { get; private set; }
@@ -22,13 +21,11 @@ public sealed class WeekPlanner : Entity<WeekPlannerId>, IAggregateRoot
 
     private WeekPlanner(
         WeekPlannerId id,
-        TeacherId teacherId,
         YearDataId yearDataId,
         DateTime weekStart,
         List<LessonPlan> lessonPlans,
         List<SchoolEvent>? schoolEvents) : base(id)
     {
-        TeacherId = teacherId;
         YearDataId = yearDataId;
         WeekStart = weekStart;
         _lessonPlans = lessonPlans;
@@ -42,7 +39,6 @@ public sealed class WeekPlanner : Entity<WeekPlannerId>, IAggregateRoot
     }
 
     public static WeekPlanner Create(
-        TeacherId teacherId,
         YearDataId yearDataId,
         DateTime weekStart,
         List<LessonPlan> lessonPlans,
@@ -50,7 +46,6 @@ public sealed class WeekPlanner : Entity<WeekPlannerId>, IAggregateRoot
     {
         return new WeekPlanner(
             new WeekPlannerId(Guid.NewGuid()),
-            teacherId,
             yearDataId,
             weekStart,
             lessonPlans,

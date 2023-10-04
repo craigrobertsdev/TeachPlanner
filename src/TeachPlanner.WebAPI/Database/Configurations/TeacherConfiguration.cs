@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using TeachPlanner.Api.Domain.Teachers;
+using TeachPlanner.Api.Domain.Users;
 
 namespace TeachPlanner.Api.Database.Configurations;
 
@@ -21,6 +22,11 @@ public class TeacherConfiguration : IEntityTypeConfiguration<Teacher>
 
         builder.HasMany(t => t.Assessments)
             .WithOne()
+            .IsRequired();
+
+        builder.HasOne<User>()
+            .WithOne()
+            .HasForeignKey<Teacher>(t => t.UserId)
             .IsRequired();
 
         builder.OwnsMany(t => t.YearDataHistory, ydb =>

@@ -1,8 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using TeachPlanner.Api.Domain.Assessments;
 using TeachPlanner.Api.Domain.Students;
 using TeachPlanner.Api.Domain.Subjects;
+using TeachPlanner.Api.Domain.Teachers;
 
 namespace TeachPlanner.Api.Database.Configurations;
 
@@ -10,6 +12,7 @@ internal class AssessmentConfiguration : IEntityTypeConfiguration<Assessment>
 {
     public void Configure(EntityTypeBuilder<Assessment> builder)
     {
+        builder.ToTable("assessments");
         builder.HasKey(a => a.Id);
 
         builder.Property(a => a.Id)
@@ -28,6 +31,7 @@ internal class AssessmentConfiguration : IEntityTypeConfiguration<Assessment>
 
         builder.HasOne<Subject>()
             .WithMany()
+            .HasForeignKey(a => a.SubjectId)
             .IsRequired();
 
         builder.HasOne<Student>()
@@ -35,32 +39,35 @@ internal class AssessmentConfiguration : IEntityTypeConfiguration<Assessment>
             .HasForeignKey(a => a.StudentId)
             .IsRequired();
 
+        builder.HasOne<Teacher>()
+            .WithMany(t => t.Assessments)
+            .HasForeignKey(a => a.TeacherId)
+            .IsRequired();
+
         builder.Property(a => a.YearLevel)
             .HasConversion<string>()
             .HasMaxLength(15);
-    }
-}
 
-public class SummativeAssessmentResultConfiguration : IEntityTypeConfiguration<AssessmentResult>
-{
-    public void Configure(EntityTypeBuilder<AssessmentResult> builder)
-    {
-        builder.ToTable("assessment_results");
-
-        builder.Property<Guid>("Id");
-
-        builder.HasKey("Id");
-
-        builder.Property(ar => ar.Comments)
-            .HasMaxLength(500);
-
-        builder.OwnsOne(sa => sa.Grade, gb =>
+        builder.OwnsOne(a => a.AssessmentResult, arb =>
         {
-            gb.Property(g => g.Grade)
-            .HasConversion<string>()
-            .HasMaxLength(10);
+            arb.ToTable("assessment_results");
+            arb.WithOwner().HasForeignKey("AssessmentId");
+            arb.Property<Guid>("Id");
+            arb.HasKey("Id", "AssessmentId");
 
-            gb.Property(g => g.Percentage);
+            arb.Property(ar => ar.Comments)
+                .HasMaxLength(1000);
+
+            arb.OwnsOne(ar => ar.Grade, gb =>
+            {
+                gb.Property(g => g.Percentage)
+                    .HasColumnName("Percentage")
+                    .IsRequired();
+
+                gb.Property(g => g.Grade)
+                    .HasConversion<string>()
+                    .HasMaxLength(10);
+            });
         });
     }
 }

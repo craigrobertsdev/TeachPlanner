@@ -7,7 +7,7 @@ using TeachPlanner.Api.Database;
 
 #nullable disable
 
-namespace TeachPlanner.Infrastructure.Migrations
+namespace TeachPlanner.Api.Database
 {
     [DbContext(typeof(ApplicationDbContext))]
     partial class ApplicationDbContextModelSnapshot : ModelSnapshot
@@ -31,7 +31,7 @@ namespace TeachPlanner.Infrastructure.Migrations
 
                     b.HasIndex("SchoolEventsId");
 
-                    b.ToTable("CalendarSchoolEvent", (string)null);
+                    b.ToTable("CalendarSchoolEvent");
                 });
 
             modelBuilder.Entity("SchoolEventWeekPlanner", b =>
@@ -46,7 +46,7 @@ namespace TeachPlanner.Infrastructure.Migrations
 
                     b.HasIndex("WeekPlannerId");
 
-                    b.ToTable("SchoolEventWeekPlanner", (string)null);
+                    b.ToTable("SchoolEventWeekPlanner");
                 });
 
             modelBuilder.Entity("SubjectYearData", b =>
@@ -61,7 +61,7 @@ namespace TeachPlanner.Infrastructure.Migrations
 
                     b.HasIndex("YearDataId");
 
-                    b.ToTable("SubjectYearData", (string)null);
+                    b.ToTable("SubjectYearData");
                 });
 
             modelBuilder.Entity("TeachPlanner.Api.Domain.Assessments.Assessment", b =>
@@ -69,9 +69,6 @@ namespace TeachPlanner.Infrastructure.Migrations
                     b.Property<Guid>("Id")
                         .HasColumnType("char(36)")
                         .HasColumnName("Id");
-
-                    b.Property<Guid?>("AssessmentResultId")
-                        .HasColumnType("char(36)");
 
                     b.Property<string>("AssessmentType")
                         .IsRequired()
@@ -111,8 +108,6 @@ namespace TeachPlanner.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AssessmentResultId");
-
                     b.HasIndex("LessonPlanId");
 
                     b.HasIndex("StudentId");
@@ -121,32 +116,7 @@ namespace TeachPlanner.Infrastructure.Migrations
 
                     b.HasIndex("TeacherId");
 
-                    b.ToTable("Assessments", (string)null);
-                });
-
-            modelBuilder.Entity("TeachPlanner.Api.Domain.Assessments.AssessmentResult", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
-
-                    b.Property<string>("Comments")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("varchar(500)");
-
-                    b.Property<DateTime>("CreatedDateTime")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<DateTime>("DateMarked")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<DateTime>("UpdatedDateTime")
-                        .HasColumnType("datetime(6)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("assessment_results", (string)null);
+                    b.ToTable("assessments", (string)null);
                 });
 
             modelBuilder.Entity("TeachPlanner.Api.Domain.Calendar.Calendar", b =>
@@ -246,6 +216,8 @@ namespace TeachPlanner.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("SubjectId");
+
+                    b.HasIndex("TeacherId");
 
                     b.HasIndex("WeekPlannerId");
 
@@ -376,6 +348,8 @@ namespace TeachPlanner.Infrastructure.Migrations
                         .HasColumnType("char(36)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("TeacherId");
 
                     b.HasIndex("YearDataId");
 
@@ -555,6 +529,9 @@ namespace TeachPlanner.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
                     b.ToTable("teachers", (string)null);
                 });
 
@@ -634,9 +611,6 @@ namespace TeachPlanner.Infrastructure.Migrations
                     b.Property<DateTime>("CreatedDateTime")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<Guid>("TeacherId")
-                        .HasColumnType("char(36)");
-
                     b.Property<DateTime>("UpdatedDateTime")
                         .HasColumnType("datetime(6)");
 
@@ -682,7 +656,10 @@ namespace TeachPlanner.Infrastructure.Migrations
 
                     b.HasIndex("TeacherId");
 
-                    b.ToTable("YearData", (string)null);
+                    b.HasIndex("TermPlannerId")
+                        .IsUnique();
+
+                    b.ToTable("YearData");
                 });
 
             modelBuilder.Entity("CalendarSchoolEvent", b =>
@@ -732,10 +709,6 @@ namespace TeachPlanner.Infrastructure.Migrations
 
             modelBuilder.Entity("TeachPlanner.Api.Domain.Assessments.Assessment", b =>
                 {
-                    b.HasOne("TeachPlanner.Api.Domain.Assessments.AssessmentResult", "AssessmentResult")
-                        .WithMany()
-                        .HasForeignKey("AssessmentResultId");
-
                     b.HasOne("TeachPlanner.Api.Domain.LessonPlans.LessonPlan", null)
                         .WithMany("Assessments")
                         .HasForeignKey("LessonPlanId");
@@ -758,39 +731,75 @@ namespace TeachPlanner.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("AssessmentResult");
-                });
-
-            modelBuilder.Entity("TeachPlanner.Api.Domain.Assessments.AssessmentResult", b =>
-                {
-                    b.OwnsOne("TeachPlanner.Api.Domain.Assessments.AssessmentResult.Grade#TeachPlanner.Api.Domain.Assessments.AssessmentGrade", "Grade", b1 =>
+                    b.OwnsOne("TeachPlanner.Api.Domain.Assessments.AssessmentResult", "AssessmentResult", b1 =>
                         {
-                            b1.Property<Guid>("AssessmentResultId")
+                            b1.Property<Guid>("Id")
+                                .ValueGeneratedOnAdd()
                                 .HasColumnType("char(36)");
 
-                            b1.Property<string>("Grade")
+                            b1.Property<Guid>("AssessmentId")
+                                .HasColumnType("char(36)");
+
+                            b1.Property<string>("Comments")
                                 .IsRequired()
-                                .HasMaxLength(10)
-                                .HasColumnType("varchar(10)");
+                                .HasMaxLength(1000)
+                                .HasColumnType("varchar(1000)");
 
-                            b1.Property<double?>("Percentage")
-                                .HasColumnType("double");
+                            b1.Property<DateTime>("CreatedDateTime")
+                                .HasColumnType("datetime(6)");
 
-                            b1.HasKey("AssessmentResultId");
+                            b1.Property<DateTime>("DateMarked")
+                                .HasColumnType("datetime(6)");
+
+                            b1.Property<DateTime>("UpdatedDateTime")
+                                .HasColumnType("datetime(6)");
+
+                            b1.HasKey("Id", "AssessmentId");
+
+                            b1.HasIndex("AssessmentId")
+                                .IsUnique();
 
                             b1.ToTable("assessment_results", (string)null);
 
                             b1.WithOwner()
-                                .HasForeignKey("AssessmentResultId");
+                                .HasForeignKey("AssessmentId");
+
+                            b1.OwnsOne("TeachPlanner.Api.Domain.Assessments.AssessmentGrade", "Grade", b2 =>
+                                {
+                                    b2.Property<Guid>("AssessmentResultId")
+                                        .HasColumnType("char(36)");
+
+                                    b2.Property<Guid>("AssessmentResultAssessmentId")
+                                        .HasColumnType("char(36)");
+
+                                    b2.Property<string>("Grade")
+                                        .IsRequired()
+                                        .HasMaxLength(10)
+                                        .HasColumnType("varchar(10)");
+
+                                    b2.Property<double?>("Percentage")
+                                        .IsRequired()
+                                        .HasColumnType("double")
+                                        .HasColumnName("Percentage");
+
+                                    b2.HasKey("AssessmentResultId", "AssessmentResultAssessmentId");
+
+                                    b2.ToTable("assessment_results");
+
+                                    b2.WithOwner()
+                                        .HasForeignKey("AssessmentResultId", "AssessmentResultAssessmentId");
+                                });
+
+                            b1.Navigation("Grade")
+                                .IsRequired();
                         });
 
-                    b.Navigation("Grade")
-                        .IsRequired();
+                    b.Navigation("AssessmentResult");
                 });
 
             modelBuilder.Entity("TeachPlanner.Api.Domain.Common.Planner.SchoolEvent", b =>
                 {
-                    b.OwnsOne("TeachPlanner.Api.Domain.Common.Planner.SchoolEvent.Location#TeachPlanner.Api.Domain.Common.Planner.Location", "Location", b1 =>
+                    b.OwnsOne("TeachPlanner.Api.Domain.Common.Planner.Location", "Location", b1 =>
                         {
                             b1.Property<Guid>("SchoolEventId")
                                 .HasColumnType("char(36)");
@@ -812,7 +821,7 @@ namespace TeachPlanner.Infrastructure.Migrations
 
                             b1.HasKey("SchoolEventId");
 
-                            b1.ToTable("school_events", (string)null);
+                            b1.ToTable("school_events");
 
                             b1.WithOwner()
                                 .HasForeignKey("SchoolEventId");
@@ -830,6 +839,12 @@ namespace TeachPlanner.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("TeachPlanner.Api.Domain.Teachers.Teacher", null)
+                        .WithMany()
+                        .HasForeignKey("TeacherId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("TeachPlanner.Api.Domain.WeekPlanners.WeekPlanner", null)
                         .WithMany("LessonPlans")
                         .HasForeignKey("WeekPlannerId");
@@ -840,7 +855,7 @@ namespace TeachPlanner.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.OwnsMany("TeachPlanner.Api.Domain.LessonPlans.LessonPlan.Comments#TeachPlanner.Api.Domain.LessonPlans.LessonComment", "Comments", b1 =>
+                    b.OwnsMany("TeachPlanner.Api.Domain.LessonPlans.LessonComment", "Comments", b1 =>
                         {
                             b1.Property<Guid>("Id")
                                 .ValueGeneratedOnAdd()
@@ -922,7 +937,7 @@ namespace TeachPlanner.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.OwnsMany("TeachPlanner.Api.Domain.Reports.Report.ReportComments#TeachPlanner.Api.Domain.Reports.ReportComment", "ReportComments", b1 =>
+                    b.OwnsMany("TeachPlanner.Api.Domain.Reports.ReportComment", "ReportComments", b1 =>
                         {
                             b1.Property<Guid>("Id")
                                 .ValueGeneratedOnAdd()
@@ -942,9 +957,6 @@ namespace TeachPlanner.Infrastructure.Migrations
                                 .HasColumnType("varchar(10)");
 
                             b1.Property<Guid>("ReportId")
-                                .HasColumnType("char(36)");
-
-                            b1.Property<Guid>("SubjectId")
                                 .HasColumnType("char(36)");
 
                             b1.HasKey("Id");
@@ -975,6 +987,12 @@ namespace TeachPlanner.Infrastructure.Migrations
 
             modelBuilder.Entity("TeachPlanner.Api.Domain.Students.Student", b =>
                 {
+                    b.HasOne("TeachPlanner.Api.Domain.Teachers.Teacher", null)
+                        .WithMany()
+                        .HasForeignKey("TeacherId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("TeachPlanner.Api.Domain.YearDataRecords.YearData", null)
                         .WithMany("Students")
                         .HasForeignKey("YearDataId");
@@ -1050,7 +1068,13 @@ namespace TeachPlanner.Infrastructure.Migrations
 
             modelBuilder.Entity("TeachPlanner.Api.Domain.Teachers.Teacher", b =>
                 {
-                    b.OwnsMany("TeachPlanner.Api.Domain.Teachers.Teacher.YearDataHistory#TeachPlanner.Api.Domain.Teachers.YearDataEntry", "YearDataHistory", b1 =>
+                    b.HasOne("TeachPlanner.Api.Domain.Users.User", null)
+                        .WithOne()
+                        .HasForeignKey("TeachPlanner.Api.Domain.Teachers.Teacher", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.OwnsMany("TeachPlanner.Api.Domain.Teachers.YearDataEntry", "YearDataHistory", b1 =>
                         {
                             b1.Property<Guid>("TeacherId")
                                 .HasColumnType("char(36)");
@@ -1120,6 +1144,10 @@ namespace TeachPlanner.Infrastructure.Migrations
                         .HasForeignKey("TeacherId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("TeachPlanner.Api.Domain.TermPlanners.TermPlanner", null)
+                        .WithOne()
+                        .HasForeignKey("TeachPlanner.Api.Domain.YearDataRecords.YearData", "TermPlannerId");
                 });
 
             modelBuilder.Entity("TeachPlanner.Api.Domain.Calendar.Calendar", b =>

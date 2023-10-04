@@ -7,6 +7,7 @@ using TeachPlanner.Api.Domain.Common.Primatives;
 using TeachPlanner.Api.Domain.LessonPlans;
 using TeachPlanner.Api.Domain.Reports;
 using TeachPlanner.Api.Domain.Resources;
+using TeachPlanner.Api.Domain.Students;
 using TeachPlanner.Api.Domain.Subjects;
 using TeachPlanner.Api.Domain.Teachers;
 using TeachPlanner.Api.Domain.TermPlanners;
@@ -18,18 +19,23 @@ namespace TeachPlanner.Api.Database;
 
 public class ApplicationDbContext : DbContext
 {
-    private readonly IPublisher _publisher;
+    private readonly IPublisher _publisher = null!;
 
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, IPublisher publisher)
         : base(options)
     {
         _publisher = publisher;
     }
+    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+        : base(options)
+    {
+    }
 
     public DbSet<User> Users { get; set; } = null!;
     public DbSet<Subject> Subjects { get; set; } = null!;
     public DbSet<Resource> Resources { get; set; } = null!;
     public DbSet<Teacher> Teachers { get; set; } = null!;
+    public DbSet<Student> Students { get; set; } = null!;
     public DbSet<Assessment> Assessments { get; set; } = null!;
     public DbSet<Report> Reports { get; set; } = null!;
     public DbSet<LessonPlan> LessonPlans { get; set; } = null!;
