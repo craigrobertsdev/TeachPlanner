@@ -4,11 +4,11 @@ using TeachPlanner.Api.Domain.Assessments;
 
 namespace TeachPlanner.Api.Database.Repositories;
 
-public class AssesssmentRepository : IAssessmentRepository
+public class AssessmentRepository : IAssessmentRepository
 {
     private readonly ApplicationDbContext _context;
 
-    public AssesssmentRepository(ApplicationDbContext context)
+    public AssessmentRepository(ApplicationDbContext context)
     {
         _context = context;
     }

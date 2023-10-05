@@ -2,8 +2,6 @@
 using FluentAssertions;
 using TeachPlanner.Api.Common.Interfaces.Persistence;
 using TeachPlanner.Api.Contracts.Teachers.GetTeacherSettings;
-using TeachPlanner.Api.Database;
-using TeachPlanner.Api.Database.QueryExtensions;
 using TeachPlanner.Api.Domain.Students;
 using TeachPlanner.Api.Domain.Teachers;
 using TeachPlanner.Api.Domain.YearDataRecords;
@@ -11,19 +9,21 @@ using TeachPlanner.Api.Features.Teachers;
 using TeachPlanner.WebApi.Tests.Helpers;
 
 namespace TeachPlanner.WebApi.Tests.Features.Teachers;
-public class GetTeacherSettingsQueryHandlerTests
+public class GetTeacherSettingsTests
 {
-    private readonly ApplicationDbContext _context;
-    private readonly IUnitOfWork _unitOfWork;
+    private readonly ITeacherRepository _teacherRepository;
+    private readonly IYearDataRepository _yearDataRepository;
+    private readonly ITermPlannerRepository _termPlannerRepository;
 
-    public GetTeacherSettingsQueryHandlerTests()
+    public GetTeacherSettingsTests()
     {
-        _unitOfWork = A.Fake<IUnitOfWork>();
-        _context = A.Fake<ApplicationDbContext>();
+        _teacherRepository = A.Fake<ITeacherRepository>();
+        _yearDataRepository = A.Fake<IYearDataRepository>();
+        _termPlannerRepository = A.Fake<ITermPlannerRepository>();
     }
 
     [Fact]
-    public async void Handle_WhenPassedValidData_ReturnsGetTeacherSettingsResult()
+    public async void Handle_WhenPassedValidData_ReturnsGetTeacherSettingsResponse()
     {
         // Arrange
         var curriculumSubjects = SubjectHelpers.CreateCurriculumSubjects();
@@ -34,9 +34,10 @@ public class GetTeacherSettingsQueryHandlerTests
         teacher.AddYearData(yearDataEntry);
         var calendarYear = 2023;
         var query = new GetTeacherSettings.Query(teacher.Id, calendarYear);
-        var handler = new GetTeacherSettings.Handler(_context, _unitOfWork);
+        var handler = new GetTeacherSettings.Handler(_teacherRepository, _yearDataRepository, _termPlannerRepository);
 
-        A.CallTo(() => _context.GetTeacherById(teacher.Id, new CancellationToken())).Returns(teacher);
+        A.CallTo(() => _teacherRepository.GetById(teacher.Id, new CancellationToken())).Returns(teacher);
+        A.CallTo(() => _yearDataRepository.GetByTeacherIdAndYear(teacher.Id, query.CalendarYear, default)).Returns(yearData);
 
         // Act
         var result = await handler.Handle(query, new CancellationToken());

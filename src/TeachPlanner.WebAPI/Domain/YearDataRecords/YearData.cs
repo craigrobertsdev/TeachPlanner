@@ -63,7 +63,7 @@ public class YearData : Entity<YearDataId>, IAggregateRoot
 
     public void AddSubjects(List<Subject> subjects)
     {
-        // CheckForNonCurriculumSubjects(subjects);
+        CheckForNonCurriculumSubjects(subjects);
 
         foreach (var subject in subjects)
         {
@@ -108,7 +108,7 @@ public class YearData : Entity<YearDataId>, IAggregateRoot
 
     private bool NotInStudents(Student student)
     {
-        return _students.Contains(student);
+        return !_students.Contains(student);
     }
 
     public void AddYearLevel(YearLevelValue yearLevel)

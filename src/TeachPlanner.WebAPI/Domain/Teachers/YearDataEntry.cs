@@ -2,7 +2,7 @@
 using TeachPlanner.Api.Domain.YearDataRecords;
 
 namespace TeachPlanner.Api.Domain.Teachers;
-public class YearDataEntry : ValueObject
+public record YearDataEntry
 {
     public int CalendarYear { get; private set; }
     public YearDataId YearDataId { get; private set; }
@@ -16,11 +16,5 @@ public class YearDataEntry : ValueObject
     public static YearDataEntry Create(int calendarYear, YearDataId yearDataId)
     {
         return new(calendarYear, yearDataId);
-    }
-
-    public override IEnumerable<object?> GetEqualityComponents()
-    {
-        yield return CalendarYear;
-        yield return YearDataId;
     }
 }

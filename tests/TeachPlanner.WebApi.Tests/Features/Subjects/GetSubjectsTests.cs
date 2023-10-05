@@ -10,22 +10,22 @@ using TeachPlanner.WebApi.Tests.Helpers;
 namespace TeachPlanner.WebApi.Tests.Features.Subjects;
 public class GetSubjectsTests
 {
-    private readonly ApplicationDbContext _context;
+    private readonly ISubjectRepository _subjectRepository;
 
     public GetSubjectsTests()
     {
-        _context = A.Fake<ApplicationDbContext>();
+        _subjectRepository = A.Fake<ISubjectRepository>();
     }
 
     [Fact]
-    public async void Handler_WhenNoElaborationsRequested_ShouldReturnCurruculumSubjectsWithoutElaborationsAsync()
+    public async void Handler_WhenNoElaborationsRequested_ShouldReturnCurriculumSubjectsWithoutElaborations()
     {
         // Arrange
         var subjects = SubjectHelpers.CreateCurriculumSubjects();
         var query = new GetCurriculumSubjects.Query(false);
-        var handler = new GetCurriculumSubjects.Handler(_context);
+        var handler = new GetCurriculumSubjects.Handler(_subjectRepository);
 
-        A.CallTo(() => _context.GetCurriculumSubjects(true, A<CancellationToken>._)).Returns(subjects);
+        A.CallTo(() => _subjectRepository.GetCurriculumSubjects(query.IncludeElaborations, A<CancellationToken>._)).Returns(subjects);
 
         // Act
         var result = await handler.Handle(query, new CancellationToken());

@@ -35,15 +35,18 @@ public static class Register
     {
         private readonly IJwtTokenGenerator _jwtTokenGenerator;
         private readonly IUserRepository _userRepository;
+        private readonly ITeacherRepository _teacherRepository;
         private readonly IUnitOfWork _unitOfWork;
 
         public Handler(
             IJwtTokenGenerator jwtTokenGenerator,
             IUserRepository userRepository,
+            ITeacherRepository teacherRepository,
             IUnitOfWork unitOfWork)
         {
             _jwtTokenGenerator = jwtTokenGenerator;
             _userRepository = userRepository;
+            _teacherRepository = teacherRepository;
             _unitOfWork = unitOfWork;
         }
 
@@ -61,10 +64,10 @@ public static class Register
             }
 
             user = new User(request.Email, PasswordService.HashPassword(request.Password));
-            _context.Users.Add(user);
+            _userRepository.Add(user);
 
             var teacher = Teacher.Create(user.Id, request.FirstName, request.LastName);
-            _context.Teachers.Add(teacher);
+            _teacherRepository.Add(teacher);
 
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 

@@ -1,10 +1,9 @@
 ﻿using OneOf;
 using TeachPlanner.Api.Domain.Common.Enums;
-using TeachPlanner.Api.Domain.Common.Primatives;
 
 namespace TeachPlanner.Api.Domain.Assessments;
 
-public class AssessmentGrade : ValueObject
+public record AssessmentGrade
 {
     public Grade Grade { get; private set; }
     public double? Percentage { get; private set; }
@@ -46,12 +45,6 @@ public class AssessmentGrade : ValueObject
             >= 50 => Grade.D,
             _ => Grade.E
         };
-    }
-
-    public override IEnumerable<object?> GetEqualityComponents()
-    {
-        yield return Grade;
-        yield return Percentage;
     }
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.

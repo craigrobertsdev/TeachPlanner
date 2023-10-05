@@ -1,8 +1,6 @@
-using TeachPlanner.Api.Domain.Common.Primatives;
-
 namespace TeachPlanner.Api.Domain.Subjects;
 
-public sealed class Elaboration : ValueObject
+public record Elaboration
 {
     public string Description { get; private set; }
     public ContentDescription ContentDescription { get; private set; }
@@ -16,11 +14,6 @@ public sealed class Elaboration : ValueObject
     public static Elaboration Create(string description, ContentDescription contentDescription)
     {
         return new(description, contentDescription);
-    }
-
-    public override IEnumerable<object?> GetEqualityComponents()
-    {
-        yield return Description;
     }
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.

@@ -3,7 +3,7 @@ using TeachPlanner.Api.Domain.Common.Primatives;
 
 namespace TeachPlanner.Api.Domain.Subjects;
 
-public sealed class Strand : ValueObject
+public record Strand
 {
     public string Name { get; private set; }
     public YearLevel YearLevel { get; private set; }
@@ -80,14 +80,6 @@ public sealed class Strand : ValueObject
         {
             _contentDescriptions!.Add(contentDescription);
         }
-    }
-
-    public override IEnumerable<object?> GetEqualityComponents()
-    {
-        yield return Name;
-        yield return _substrands?.AsReadOnly();
-        yield return _contentDescriptions?.AsReadOnly();
-
     }
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.

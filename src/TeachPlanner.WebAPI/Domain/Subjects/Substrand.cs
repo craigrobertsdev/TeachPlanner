@@ -1,8 +1,6 @@
-using TeachPlanner.Api.Domain.Common.Primatives;
-
 namespace TeachPlanner.Api.Domain.Subjects;
 
-public sealed class Substrand : ValueObject
+public record Substrand
 {
     private readonly List<ContentDescription> _contentDescriptions = new();
     public string Name { get; private set; }
@@ -24,12 +22,6 @@ public sealed class Substrand : ValueObject
     public void AddContentDescription(ContentDescription contentDescription)
     {
         _contentDescriptions.Add(contentDescription);
-    }
-
-    public override IEnumerable<object?> GetEqualityComponents()
-    {
-        yield return Name;
-        yield return ContentDescriptions;
     }
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.

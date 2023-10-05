@@ -1,8 +1,6 @@
-﻿using TeachPlanner.Api.Domain.Common.Primatives;
+﻿namespace TeachPlanner.Api.Domain.LessonPlans;
 
-namespace TeachPlanner.Api.Domain.LessonPlans;
-
-public sealed class LessonComment : ValueObject
+public record LessonComment
 {
     public string Content { get; private set; }
     public bool Completed { get; private set; }
@@ -62,13 +60,6 @@ public sealed class LessonComment : ValueObject
     public static LessonComment Create(string content)
     {
         return new LessonComment(content, false, false, DateTime.UtcNow, DateTime.UtcNow, null);
-    }
-    public override IEnumerable<object?> GetEqualityComponents()
-    {
-        yield return Content;
-        yield return Completed;
-        yield return StruckOut;
-        yield return CompletedDateTime;
     }
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.

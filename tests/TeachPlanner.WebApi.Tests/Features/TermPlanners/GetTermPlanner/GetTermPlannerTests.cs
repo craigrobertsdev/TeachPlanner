@@ -11,15 +11,18 @@ using TeachPlanner.Api.Domain.YearDataRecords;
 using TeachPlanner.WebApi.Tests.Helpers;
 using TeachPlanner.Api.Common.Exceptions;
 using TeachPlanner.Api.Database.QueryExtensions;
+using TeachPlanner.Api.Common.Interfaces.Persistence;
 
 namespace TeachPlanner.WebApi.Tests.Features.TermPlanners.GetTermPlannerTests;
 public class GetTermPlannerTests
 {
-    private readonly ApplicationDbContext _context;
+    private readonly ITermPlannerRepository _termPlannerRepository;
+    private readonly ITeacherRepository _teacherRepository;
 
     public GetTermPlannerTests()
     {
-        _context = A.Fake<ApplicationDbContext>();
+        _termPlannerRepository = A.Fake<ITermPlannerRepository>();
+        _teacherRepository = A.Fake<ITeacherRepository>();
     }
 
     [Fact]
@@ -28,12 +31,15 @@ public class GetTermPlannerTests
         // Arrange
         var query = new GetTermPlanner.Query(new TeacherId(Guid.NewGuid()), 2023);
         var teacher = Teacher.Create(new UserId(Guid.NewGuid()), "Test", "Teacher");
+        var yearData = YearData.Create(teacher.Id, 2023);
+        teacher.AddYearData(YearDataEntry.Create(2023, yearData.Id));
         var termPlanner = TermPlanner.Create(new YearDataId(Guid.NewGuid()), 2023, new List<YearLevelValue>());
         var subjects = SubjectHelpers.CreateCurriculumSubjects();
 
-        var handler = new GetTermPlanner.Handler(_context);
+        var handler = new GetTermPlanner.Handler(_termPlannerRepository, _teacherRepository);
 
-        A.CallTo(() => _context.GetTeacherById(query.TeacherId, default)).Returns(teacher);
+        A.CallTo(() => _teacherRepository.GetById(query.TeacherId, default)).Returns(teacher);
+        A.CallTo(() => _termPlannerRepository.GetByYearDataIdAndYear(yearData.Id, 2023, A<CancellationToken>._)).Returns(termPlanner);
 
         // Act
         var result = await handler.Handle(query, CancellationToken.None);
@@ -41,7 +47,6 @@ public class GetTermPlannerTests
         // Assert
         result.Should().BeOfType<GetTermPlannerResponse>();
         result.TermPlanner.Should().Be(termPlanner);
-        result.Subjects.Should().BeEquivalentTo(subjects);
     }
 
     [Fact]
@@ -49,8 +54,8 @@ public class GetTermPlannerTests
     {
         // Arrange
         var query = new GetTermPlanner.Query(new TeacherId(Guid.NewGuid()), 2023);
-        A.CallTo(() => _context.GetTeacherById(query.TeacherId, default)).Returns((Teacher)null!);
-        var handler = new GetTermPlanner.Handler(_context);
+        A.CallTo(() => _teacherRepository.GetById(query.TeacherId, default)).Returns((Teacher)null!);
+        var handler = new GetTermPlanner.Handler(_termPlannerRepository, _teacherRepository);
 
         // Act
         Func<Task> act = () => handler.Handle(query, CancellationToken.None);

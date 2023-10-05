@@ -24,7 +24,7 @@ public class TeacherTests
     //    var year = 2023;
     //    var students = new List<Student>
     //    {
-    //        Student.Create(teacher.Id, "Fred", "Smith")
+    //        Student.Add(teacher.Id, "Fred", "Smith")
     //    };
 
     //    // Act
@@ -41,7 +41,7 @@ public class TeacherTests
     //{
     //    // Arrange
     //    var teacher = TeacherHelpers.CreateTeacher();
-    //    var yearData = YearData.Create(2023);
+    //    var yearData = YearData.Add(2023);
 
     //    // Act
     //    teacher.AddYearData(yearData);
@@ -56,7 +56,7 @@ public class TeacherTests
     //{
     //    // Arrange
     //    var teacher = TeacherHelpers.CreateTeacher();
-    //    var yearData = YearData.Create(2023);
+    //    var yearData = YearData.Add(2023);
 
     //    // Act
     //    teacher.AddYearData(yearData);

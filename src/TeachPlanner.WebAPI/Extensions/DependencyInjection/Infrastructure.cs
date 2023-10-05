@@ -11,6 +11,7 @@ using TeachPlanner.Api.Common.Interfaces.Persistence;
 using TeachPlanner.Api.Database;
 using TeachPlanner.Api.Database.Converters;
 using TeachPlanner.Api.Database.Repositories;
+using TeachPlanner.Api.Domain.Assessments;
 using TeachPlanner.Api.Services.Authentication;
 using TeachPlanner.Api.Services.CurriculumParser;
 
@@ -42,10 +43,14 @@ public static class Infrastructure
 
 
         services.AddScoped<IUnitOfWork, UnitOfWork>();
+        services.AddScoped<IAssessmentRepository, AssessmentRepository>();
         services.AddScoped<ICurriculumRepository, CurriculumRepository>();
         services.AddScoped<ILessonPlanRepository, LessonPlanRepository>();
+        services.AddScoped<IResourceRepository, ResourceRepository>();
         services.AddScoped<ISubjectRepository, SubjectRepository>();
+        services.AddScoped<ITeacherRepository, TeacherRepository>();
         services.AddScoped<ITermPlannerRepository, TermPlannerRepository>();
+        services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IYearDataRepository, YearDataRepository>();
 
         return services;

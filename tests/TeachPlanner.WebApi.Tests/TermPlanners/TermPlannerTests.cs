@@ -92,8 +92,8 @@ public class TermPlannerTests
         Action act = () => termPlanner.AddTermPlan(termPlan);
 
         // Assert
-        termPlanner.TermPlans.Should().HaveCount(1);
         act.Should().Throw<DuplicateTermPlanException>();
+        termPlanner.TermPlans.Should().HaveCount(1);
     }
 
     [Fact]
@@ -135,7 +135,7 @@ public class TermPlannerTests
 
         // Assert
         termPlanner.TermPlans.Should().HaveCount(1);
-        termPlanner.TermPlans[0].Should().Be(termPlan);
+        termPlanner.TermPlans[0].Should().BeEquivalentTo(termPlan);
         act.Should().Throw<DuplicateTermNumberException>();
     }
 }

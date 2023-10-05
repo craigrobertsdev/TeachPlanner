@@ -1,13 +1,11 @@
 ﻿using FluentValidation;
 using Mapster;
 using MediatR;
-using Microsoft.AspNetCore.Mvc;
 using TeachPlanner.Api.Common.Exceptions;
 using TeachPlanner.Api.Common.Interfaces.Authentication;
 using TeachPlanner.Api.Common.Interfaces.Persistence;
 using TeachPlanner.Api.Contracts.Authentication;
 using TeachPlanner.Api.Contracts.Teachers;
-using TeachPlanner.Api.Database;
 using TeachPlanner.Api.Database.QueryExtensions;
 using TeachPlanner.Api.Services.Authentication;
 
@@ -30,13 +28,16 @@ public static class Login
     {
         private readonly IJwtTokenGenerator _jwtTokenGenerator;
         private readonly IUserRepository _userRepository;
+        private readonly ITeacherRepository _teacherRepository;
 
         public Handler(
             IJwtTokenGenerator jwtTokenGenerator,
-            IUserRepository userRepository)
+            IUserRepository userRepository,
+            ITeacherRepository teacherRepository)
         {
             _jwtTokenGenerator = jwtTokenGenerator;
             _userRepository = userRepository;
+            _teacherRepository = teacherRepository;
         }
 
         public async Task<AuthenticationResponse> Handle(Command request, CancellationToken cancellationToken)
@@ -47,7 +48,7 @@ public static class Login
                 throw new InvalidCredentialsException();
             }
 
-            var teacher = await _context.GetTeacherByUserId(user.Id);
+            var teacher = await _teacherRepository.GetByUserId(user.Id, cancellationToken);
             if (teacher == null)
             {
                 throw new TeacherNotFoundException();

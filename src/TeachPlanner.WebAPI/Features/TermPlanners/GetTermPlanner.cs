@@ -1,11 +1,7 @@
 ﻿using MediatR;
-using Microsoft.EntityFrameworkCore;
 using TeachPlanner.Api.Common.Exceptions;
 using TeachPlanner.Api.Common.Interfaces.Persistence;
 using TeachPlanner.Api.Contracts.TermPlanners.GetTermPlanner;
-using TeachPlanner.Api.Database;
-using TeachPlanner.Api.Database.QueryExtensions;
-using TeachPlanner.Api.Domain.Subjects;
 using TeachPlanner.Api.Domain.Teachers;
 
 namespace TeachPlanner.Api.Features.TermPlanners;
@@ -48,7 +44,7 @@ public static class GetTermPlanner
                 throw new TermPlannerNotFoundException();
             }
 
-            return new GetTermPlannerResponse(termPlanner, new List<Subject>());
+            return new GetTermPlannerResponse(termPlanner);
         }
     }
 

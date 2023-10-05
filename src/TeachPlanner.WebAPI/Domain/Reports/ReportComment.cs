@@ -1,10 +1,8 @@
 ﻿using TeachPlanner.Api.Domain.Common.Enums;
-using TeachPlanner.Api.Domain.Common.Primatives;
-using TeachPlanner.Api.Domain.Subjects;
 
 namespace TeachPlanner.Api.Domain.Reports;
 
-public sealed class ReportComment : ValueObject
+public record ReportComment
 {
     public Grade Grade { get; private set; }
     public string Comments { get; private set; }
@@ -29,13 +27,6 @@ public sealed class ReportComment : ValueObject
             grade,
             comments,
             characterLimit);
-    }
-
-    public override IEnumerable<object?> GetEqualityComponents()
-    {
-        yield return Grade;
-        yield return Comments;
-        yield return CharacterLimit;
     }
 
 #pragma warning disable CS8618

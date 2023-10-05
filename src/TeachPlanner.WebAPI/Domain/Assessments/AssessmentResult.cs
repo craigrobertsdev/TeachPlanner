@@ -1,8 +1,6 @@
-﻿using TeachPlanner.Api.Domain.Common.Primatives;
+﻿namespace TeachPlanner.Api.Domain.Assessments;
 
-namespace TeachPlanner.Api.Domain.Assessments;
-
-public class AssessmentResult : ValueObject
+public record AssessmentResult
 {
     public string Comments { get; private set; }
     public AssessmentGrade Grade { get; private set; }
@@ -31,13 +29,6 @@ public class AssessmentResult : ValueObject
             comments,
             grade,
             dateMarked);
-    }
-
-    public override IEnumerable<object?> GetEqualityComponents()
-    {
-        yield return Comments;
-        yield return Grade;
-        yield return DateMarked;
     }
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.

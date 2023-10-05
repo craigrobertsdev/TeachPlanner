@@ -14,11 +14,6 @@ public class SubjectRepository : ISubjectRepository
         _context = context;
     }
 
-    public Task<List<Subject>> GetSubjectsById(List<SubjectId> subjectIds, CancellationToken cancellationToken)
-    {
-        return _context.Subjects.Where(s => subjectIds.Contains(s.Id)).ToListAsync(cancellationToken);
-    }
-
     public async Task<List<Subject>> GetCurriculumSubjects(
         bool includeElaborations,
         CancellationToken cancellationToken)
@@ -44,12 +39,14 @@ public class SubjectRepository : ISubjectRepository
         bool includeElaborations,
         CancellationToken cancellationToken)
     {
+        Expression<Func<Subject, bool>> filter = s => subjects.Contains(s.Id);
+
         if (includeElaborations)
         {
-            return await GetSubjectsWithElaborations(subjects, cancellationToken);
+            return await GetSubjectsWithElaborations(subjects, cancellationToken, filter);
         }
 
-        return await GetSubjectsWithoutElaborations(subjects, cancellationToken);
+        return await GetSubjectsWithoutElaborations(subjects, cancellationToken, filter);
     }
 
     private async Task<List<Subject>> GetSubjectsWithElaborations(
@@ -59,13 +56,11 @@ public class SubjectRepository : ISubjectRepository
     {
         var subjectsQuery = _context.Subjects
             .AsNoTracking()
-            .Where(s => s.Name != "Mathematics")
-            .Where(s => subjectIds.Contains(s.Id));
+            .Where(s => s.Name != "Mathematics");
 
         var mathsQuery = _context.Subjects
             .AsNoTracking()
-            .Where(s => s.Name == "Mathematics")
-            .Where(s => subjectIds.Contains(s.Id));
+            .Where(s => s.Name == "Mathematics");
 
         if (filter != null)
         {
@@ -108,13 +103,11 @@ public class SubjectRepository : ISubjectRepository
     {
         var subjectsQuery = _context.Subjects
             .AsNoTracking()
-            .Where(s => s.Name != "Mathematics")
-            .Where(s => subjectIds.Contains(s.Id));
+            .Where(s => s.Name != "Mathematics");
 
         var mathsQuery = _context.Subjects
             .AsNoTracking()
-            .Where(s => s.Name == "Mathematics")
-            .Where(s => subjectIds.Contains(s.Id));
+            .Where(s => s.Name == "Mathematics");
 
         if (filter != null)
         {
@@ -133,7 +126,7 @@ public class SubjectRepository : ISubjectRepository
             .ThenInclude(s => s.ContentDescriptions!);
 
         var subjects = await subjectsQuery.ToListAsync(cancellationToken);
-        var maths = await mathsQuery.SingleOrDefaultAsync(cancellationToken);
+        var maths = await mathsQuery.FirstOrDefaultAsync(cancellationToken);
 
         if (maths != null)
         {

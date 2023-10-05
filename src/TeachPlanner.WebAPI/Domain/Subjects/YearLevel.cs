@@ -1,9 +1,8 @@
 using TeachPlanner.Api.Domain.Common.Enums;
-using TeachPlanner.Api.Domain.Common.Primatives;
 
 namespace TeachPlanner.Api.Domain.Subjects;
 
-public sealed class YearLevel : ValueObject
+public record YearLevel
 {
     private readonly List<Strand> _strands = new();
     public Subject Subject { get; private set; }
@@ -65,14 +64,6 @@ public sealed class YearLevel : ValueObject
     public void AddStrand(Strand strand)
     {
         _strands.Add(strand);
-    }
-
-    public override IEnumerable<object?> GetEqualityComponents()
-    {
-        yield return YearLevelValue;
-        yield return Strands;
-        yield return YearLevelDescription;
-        yield return AchievementStandard;
     }
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.

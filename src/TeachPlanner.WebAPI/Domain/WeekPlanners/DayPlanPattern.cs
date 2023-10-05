@@ -1,9 +1,8 @@
-using TeachPlanner.Api.Domain.Common.Primatives;
 using TeachPlanner.Api.Domain.LessonPlans;
 
 namespace TeachPlanner.Api.Domain.WeekPlanners;
 
-public class DayPlanPattern : ValueObject
+public record DayPlanPattern
 {
     public WeekPlannerId WeekPlannerId { get; private set; }
     public List<LessonPlan> LessonPlans { get; private set; }
@@ -28,11 +27,5 @@ public class DayPlanPattern : ValueObject
         return new DayPlanPattern(
             weekPlannerId,
             lessonPlans);
-    }
-
-    public override IEnumerable<object?> GetEqualityComponents()
-    {
-        yield return WeekPlannerId;
-        yield return LessonPlans;
     }
 }

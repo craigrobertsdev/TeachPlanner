@@ -1,9 +1,8 @@
 ﻿using TeachPlanner.Api.Common.Exceptions;
-using TeachPlanner.Api.Domain.Common.Primatives;
 using TeachPlanner.Api.Domain.Subjects;
 
 namespace TeachPlanner.Api.Domain.TermPlanners;
-public sealed class TermPlan : ValueObject
+public record TermPlan
 {
     private readonly List<Subject> _subjects = new();
     public IReadOnlyList<Subject> Subjects => _subjects.AsReadOnly();
@@ -88,14 +87,6 @@ public sealed class TermPlan : ValueObject
     {
         return new TermPlan(termPlanner, termNumber, subjects);
     }
-
-    public override IEnumerable<object?> GetEqualityComponents()
-    {
-        yield return TermPlanner;
-        yield return TermNumber;
-        yield return Subjects;
-    }
-
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
     private TermPlan() { }

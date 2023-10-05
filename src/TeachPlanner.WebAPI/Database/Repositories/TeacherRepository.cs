@@ -2,6 +2,7 @@
 using TeachPlanner.Api.Common.Interfaces.Persistence;
 using TeachPlanner.Api.Domain.Subjects;
 using TeachPlanner.Api.Domain.Teachers;
+using TeachPlanner.Api.Domain.Users;
 using TeachPlanner.Api.Domain.YearDataRecords;
 
 namespace TeachPlanner.Api.Database.Repositories;
@@ -14,9 +15,9 @@ public class TeacherRepository : ITeacherRepository
     {
         _context = context;
     }
-    public void Create(Teacher teacher)
+    public void Add(Teacher teacher)
     {
-        throw new NotImplementedException();
+        _context.Teachers.Add(teacher);
     }
 
     public Task<Teacher?> GetByEmail(string email, CancellationToken cancellationToken)
@@ -34,9 +35,11 @@ public class TeacherRepository : ITeacherRepository
                 .FirstOrDefaultAsync(cancellationToken);
     }
 
-    public Task<Teacher?> GetByUserId(Guid userId, CancellationToken cancellationToken)
+    public async Task<Teacher?> GetByUserId(UserId userId, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        return await _context.Teachers
+            .Where(t => t.UserId == userId)
+            .FirstOrDefaultAsync(cancellationToken);
     }
 
     public Task<List<Subject>> GetSubjectsTaughtByTeacherWithElaborations(TeacherId teacherId, CancellationToken cancellationToken)

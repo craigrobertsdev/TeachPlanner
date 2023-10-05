@@ -1,8 +1,6 @@
-﻿using TeachPlanner.Api.Domain.Common.Primatives;
+﻿namespace TeachPlanner.Api.Domain.Common.Planner;
 
-namespace TeachPlanner.Api.Domain.Common.Planner;
-
-public class Location : ValueObject
+public record Location
 {
     public string StreetNumber { get; set; }
     public string StreetName { get; set; }
@@ -13,12 +11,5 @@ public class Location : ValueObject
         StreetNumber = streetNumber;
         StreetName = streetName;
         Suburb = suburb;
-    }
-
-    public override IEnumerable<object?> GetEqualityComponents()
-    {
-        yield return StreetNumber;
-        yield return StreetName;
-        yield return Suburb;
     }
 }

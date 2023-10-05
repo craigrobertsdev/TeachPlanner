@@ -1,10 +1,7 @@
 ﻿using FluentValidation;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using TeachPlanner.Api.Common.Exceptions;
 using TeachPlanner.Api.Common.Interfaces.Persistence;
-using TeachPlanner.Api.Database;
-using TeachPlanner.Api.Database.QueryExtensions;
 using TeachPlanner.Api.Domain.Subjects;
 using TeachPlanner.Api.Domain.Teachers;
 
@@ -18,7 +15,7 @@ public static class SetSubjectsTaught
         int CalendarYear
         ) : IRequest;
 
-    public class Validator : AbstractValidator<Command>
+    private class Validator : AbstractValidator<Command>
     {
         public Validator()
         {
@@ -33,23 +30,16 @@ public static class SetSubjectsTaught
         private readonly IYearDataRepository _yearDataRepository;
         private readonly ISubjectRepository _subjectRepository;
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IValidator<Command> _validator;
 
-        public Handler(IYearDataRepository yearDataRepository, ISubjectRepository subjectRepository, IUnitOfWork unitOfWork, IValidator<Command> validator)
+        public Handler(IYearDataRepository yearDataRepository, ISubjectRepository subjectRepository, IUnitOfWork unitOfWork)
         {
             _yearDataRepository = yearDataRepository;
             _subjectRepository = subjectRepository;
             _unitOfWork = unitOfWork;
-            _validator = validator;
         }
 
         public async Task Handle(Command request, CancellationToken cancellationToken)
         {
-            var validationResult = _validator.Validate(request);
-            if (!validationResult.IsValid)
-            {
-                throw new ValidationException(validationResult.Errors);
-            }
 
             var yearData = await _yearDataRepository.GetByTeacherIdAndYear(request.TeacherId, request.CalendarYear, cancellationToken);
             if (yearData == null)
@@ -57,7 +47,7 @@ public static class SetSubjectsTaught
                 throw new YearDataNotFoundException();
             }
 
-            var subjects = await _subjectRepository.GetSubjectsById(request.SubjectIds, cancellationToken);
+            var subjects = await _subjectRepository.GetSubjectsById(request.SubjectIds, false, cancellationToken);
 
             if (subjects.Count != request.SubjectIds.Count)
             {
@@ -76,6 +66,12 @@ public static class SetSubjectsTaught
             new TeacherId(teacherId),
             new List<SubjectId>(),
             DateTime.Now.Year);
+
+        var validationResult = new Validator().Validate(command);
+        if (!validationResult.IsValid)
+        {
+            throw new ValidationException(validationResult.Errors);
+        }
 
         await sender.Send(command, cancellationToken);
 
