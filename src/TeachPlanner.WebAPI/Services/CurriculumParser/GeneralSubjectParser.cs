@@ -126,7 +126,7 @@ internal class GeneralSubjectParser
 
         while (contentArr[index].StartsWith("*"))
         {
-            var content = contentArr[index].Substring(2).TrimEnd();
+            var content = contentArr[index].Substring(2).TrimEnd().WithFirstLetterUpper();
             var elaboration = Elaboration.Create(content);
 
             contentDescription.AddElaboration(elaboration);

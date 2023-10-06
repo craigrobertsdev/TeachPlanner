@@ -22,10 +22,10 @@ public class SubjectRepository : ISubjectRepository
 
         if (includeElaborations)
         {
-            return await GetSubjectsWithElaborations(new List<SubjectId>(), cancellationToken, filter);
+            return await GetSubjectsWithElaborations(cancellationToken, filter);
         }
 
-        return await GetSubjectsWithoutElaborations(new List<SubjectId>(), cancellationToken, filter);
+        return await GetSubjectsWithoutElaborations(cancellationToken, filter);
     }
     public async Task<List<Subject>> GetCurriculumSubjectNamesAndIds(CancellationToken cancellationToken)
     {
@@ -43,29 +43,22 @@ public class SubjectRepository : ISubjectRepository
 
         if (includeElaborations)
         {
-            return await GetSubjectsWithElaborations(subjects, cancellationToken, filter);
+            return await GetSubjectsWithElaborations(cancellationToken, filter);
         }
 
-        return await GetSubjectsWithoutElaborations(subjects, cancellationToken, filter);
+        return await GetSubjectsWithoutElaborations(cancellationToken, filter);
     }
 
     private async Task<List<Subject>> GetSubjectsWithElaborations(
-        List<SubjectId> subjectIds,
         CancellationToken cancellationToken,
         Expression<Func<Subject, bool>>? filter = null)
     {
         var subjectsQuery = _context.Subjects
-            .AsNoTracking()
-            .Where(s => s.Name != "Mathematics");
-
-        var mathsQuery = _context.Subjects
-            .AsNoTracking()
-            .Where(s => s.Name == "Mathematics");
+            .AsNoTracking();
 
         if (filter != null)
         {
             subjectsQuery = subjectsQuery.Where(filter);
-            mathsQuery = mathsQuery.Where(filter);
         }
 
         subjectsQuery = subjectsQuery
@@ -74,18 +67,7 @@ public class SubjectRepository : ISubjectRepository
         .ThenInclude(s => s.ContentDescriptions)
         .ThenInclude(cd => cd.Elaborations);
 
-        mathsQuery.Include(s => s.YearLevels)
-            .ThenInclude(yl => yl.Strands)
-            .ThenInclude(s => s.ContentDescriptions!)
-            .ThenInclude(cd => cd.Elaborations);
-
         var subjects = await subjectsQuery.ToListAsync(cancellationToken);
-        var maths = await mathsQuery.SingleOrDefaultAsync(cancellationToken);
-
-        if (maths != null)
-        {
-            subjects.Add(maths);
-        }
 
         if (subjects.Count == 0)
         {
@@ -96,22 +78,15 @@ public class SubjectRepository : ISubjectRepository
     }
 
     private async Task<List<Subject>> GetSubjectsWithoutElaborations(
-        List<SubjectId> subjectIds,
         CancellationToken cancellationToken,
         Expression<Func<Subject, bool>>? filter = null)
     {
         var subjectsQuery = _context.Subjects
-            .AsNoTracking()
-            .Where(s => s.Name != "Mathematics");
-
-        var mathsQuery = _context.Subjects
-            .AsNoTracking()
-            .Where(s => s.Name == "Mathematics");
+            .AsNoTracking();
 
         if (filter != null)
         {
             subjectsQuery = subjectsQuery.Where(filter);
-            mathsQuery = mathsQuery.Where(filter);
         }
 
         subjectsQuery = subjectsQuery
@@ -119,17 +94,7 @@ public class SubjectRepository : ISubjectRepository
             .ThenInclude(yl => yl.Strands)
             .ThenInclude(s => s.ContentDescriptions);
 
-        mathsQuery.Include(s => s.YearLevels)
-            .ThenInclude(yl => yl.Strands)
-            .ThenInclude(s => s.ContentDescriptions!);
-
         var subjects = await subjectsQuery.ToListAsync(cancellationToken);
-        var maths = await mathsQuery.FirstOrDefaultAsync(cancellationToken);
-
-        if (maths != null)
-        {
-            subjects.Add(maths);
-        }
 
         if (subjects.Count == 0)
         {
