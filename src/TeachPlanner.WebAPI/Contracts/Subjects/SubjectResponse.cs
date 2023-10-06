@@ -1,4 +1,5 @@
-﻿using TeachPlanner.Api.Domain.Subjects;
+﻿using System.Collections.Specialized;
+using TeachPlanner.Api.Domain.Subjects;
 
 namespace TeachPlanner.Api.Contracts.Subjects;
 
@@ -37,20 +38,9 @@ public record SubjectResponse(
         List<StrandResponse> strandResponses = new();
         strandResponses = strands.Select(s => new StrandResponse(
             s.Name,
-            s.Substrands != null ? CreateSubstrandResponses(s.Substrands, withDetails) : null,
             s.ContentDescriptions != null ? CreateContentDescriptionResponses(s.ContentDescriptions, withDetails) : null)).ToList();
 
         return strandResponses;
-    }
-
-    private static List<SubstrandResponse> CreateSubstrandResponses(IEnumerable<Substrand> substrands, bool withDetails)
-    {
-        List<SubstrandResponse> substrandResponses = new();
-        substrandResponses = substrands.Select(ss => new SubstrandResponse(
-            ss.Name,
-            CreateContentDescriptionResponses(ss.ContentDescriptions, withDetails))).ToList();
-
-        return substrandResponses;
     }
 
     private static List<ContentDescriptionResponse> CreateContentDescriptionResponses(IEnumerable<ContentDescription> contentDescriptions, bool withDetails)
@@ -59,6 +49,7 @@ public record SubjectResponse(
         contentDescriptionResponses = contentDescriptions.Select(cd => new ContentDescriptionResponse(
             cd.Description,
             cd.CurriculumCode,
+            cd.Substrand,
             withDetails ? CreateElaborationResponses(cd.Elaborations) : null)).ToList();
 
         return contentDescriptionResponses;
@@ -83,16 +74,12 @@ public record class YearLevelResponse(
 
 public record StrandResponse(
     string Name,
-    List<SubstrandResponse>? Substrands,
     List<ContentDescriptionResponse>? ContentDescriptions);
-
-public record SubstrandResponse(
-    string Name,
-    List<ContentDescriptionResponse> ContentDescriptions);
 
 public record ContentDescriptionResponse(
     string Description,
     string CurriculumCode,
+    string Substrand,
     List<ElaborationResponse>? Elaborations);
 
 public record ElaborationResponse(

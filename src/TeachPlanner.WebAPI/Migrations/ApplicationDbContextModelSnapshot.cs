@@ -2,20 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TeachPlanner.Api.Database;
 
 #nullable disable
 
-namespace TeachPlanner.Api.Database
+namespace TeachPlanner.Api.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231004181236_ConfigureRelationshipsViaIds")]
-    partial class ConfigureRelationshipsViaIds
+    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -359,79 +356,6 @@ namespace TeachPlanner.Api.Database
                     b.ToTable("students", (string)null);
                 });
 
-            modelBuilder.Entity("TeachPlanner.Api.Domain.Subjects.ContentDescription", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
-
-                    b.Property<string>("CurriculumCode")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("varchar(50)");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(1000)
-                        .HasColumnType("varchar(1000)");
-
-                    b.Property<Guid?>("StrandId")
-                        .HasColumnType("char(36)");
-
-                    b.Property<Guid?>("SubstrandId")
-                        .HasColumnType("char(36)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("StrandId");
-
-                    b.HasIndex("SubstrandId");
-
-                    b.ToTable("content_descriptions", (string)null);
-                });
-
-            modelBuilder.Entity("TeachPlanner.Api.Domain.Subjects.Elaboration", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
-
-                    b.Property<Guid>("ContentDescriptionId")
-                        .HasColumnType("char(36)");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(1000)
-                        .HasColumnType("varchar(1000)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ContentDescriptionId");
-
-                    b.ToTable("elaborations", (string)null);
-                });
-
-            modelBuilder.Entity("TeachPlanner.Api.Domain.Subjects.Strand", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("varchar(50)");
-
-                    b.Property<Guid>("YearLevelId")
-                        .HasColumnType("char(36)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("YearLevelId");
-
-                    b.ToTable("strands", (string)null);
-                });
-
             modelBuilder.Entity("TeachPlanner.Api.Domain.Subjects.Subject", b =>
                 {
                     b.Property<Guid>("Id")
@@ -460,55 +384,6 @@ namespace TeachPlanner.Api.Database
                     b.HasIndex("TermPlanId");
 
                     b.ToTable("subjects", (string)null);
-                });
-
-            modelBuilder.Entity("TeachPlanner.Api.Domain.Subjects.Substrand", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("varchar(50)");
-
-                    b.Property<Guid>("StrandId")
-                        .HasColumnType("char(36)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("StrandId");
-
-                    b.ToTable("substrands", (string)null);
-                });
-
-            modelBuilder.Entity("TeachPlanner.Api.Domain.Subjects.YearLevel", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
-
-                    b.Property<string>("AchievementStandard")
-                        .HasColumnType("longtext");
-
-                    b.Property<int?>("BandLevelValue")
-                        .HasColumnType("int");
-
-                    b.Property<Guid>("SubjectId")
-                        .HasColumnType("char(36)");
-
-                    b.Property<string>("YearLevelDescription")
-                        .HasColumnType("longtext");
-
-                    b.Property<int?>("YearLevelValue")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("SubjectId");
-
-                    b.ToTable("year_levels", (string)null);
                 });
 
             modelBuilder.Entity("TeachPlanner.Api.Domain.Teachers.Teacher", b =>
@@ -585,7 +460,8 @@ namespace TeachPlanner.Api.Database
             modelBuilder.Entity("TeachPlanner.Api.Domain.Users.User", b =>
                 {
                     b.Property<Guid>("Id")
-                        .HasColumnType("char(36)");
+                        .HasColumnType("char(36)")
+                        .HasColumnName("Id");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -638,7 +514,8 @@ namespace TeachPlanner.Api.Database
             modelBuilder.Entity("TeachPlanner.Api.Domain.YearDataRecords.YearData", b =>
                 {
                     b.Property<Guid>("Id")
-                        .HasColumnType("char(36)");
+                        .HasColumnType("char(36)")
+                        .HasColumnName("Id");
 
                     b.Property<int>("CalendarYear")
                         .HasColumnType("int");
@@ -662,7 +539,7 @@ namespace TeachPlanner.Api.Database
                     b.HasIndex("TermPlannerId")
                         .IsUnique();
 
-                    b.ToTable("YearData");
+                    b.ToTable("yeardata", (string)null);
                 });
 
             modelBuilder.Entity("CalendarSchoolEvent", b =>
@@ -1001,72 +878,131 @@ namespace TeachPlanner.Api.Database
                         .HasForeignKey("YearDataId");
                 });
 
-            modelBuilder.Entity("TeachPlanner.Api.Domain.Subjects.ContentDescription", b =>
-                {
-                    b.HasOne("TeachPlanner.Api.Domain.Subjects.Strand", "Strand")
-                        .WithMany("ContentDescriptions")
-                        .HasForeignKey("StrandId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("TeachPlanner.Api.Domain.Subjects.Substrand", "Substrand")
-                        .WithMany("ContentDescriptions")
-                        .HasForeignKey("SubstrandId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.Navigation("Strand");
-
-                    b.Navigation("Substrand");
-                });
-
-            modelBuilder.Entity("TeachPlanner.Api.Domain.Subjects.Elaboration", b =>
-                {
-                    b.HasOne("TeachPlanner.Api.Domain.Subjects.ContentDescription", "ContentDescription")
-                        .WithMany("Elaborations")
-                        .HasForeignKey("ContentDescriptionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ContentDescription");
-                });
-
-            modelBuilder.Entity("TeachPlanner.Api.Domain.Subjects.Strand", b =>
-                {
-                    b.HasOne("TeachPlanner.Api.Domain.Subjects.YearLevel", "YearLevel")
-                        .WithMany("Strands")
-                        .HasForeignKey("YearLevelId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("YearLevel");
-                });
-
             modelBuilder.Entity("TeachPlanner.Api.Domain.Subjects.Subject", b =>
                 {
                     b.HasOne("TeachPlanner.Api.Domain.TermPlanners.TermPlan", null)
                         .WithMany("Subjects")
                         .HasForeignKey("TermPlanId");
-                });
 
-            modelBuilder.Entity("TeachPlanner.Api.Domain.Subjects.Substrand", b =>
-                {
-                    b.HasOne("TeachPlanner.Api.Domain.Subjects.Strand", "Strand")
-                        .WithMany("Substrands")
-                        .HasForeignKey("StrandId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.OwnsMany("TeachPlanner.Api.Domain.Subjects.YearLevel", "YearLevels", b1 =>
+                        {
+                            b1.Property<Guid>("Id")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("char(36)");
 
-                    b.Navigation("Strand");
-                });
+                            b1.Property<string>("AchievementStandard")
+                                .HasColumnType("longtext");
 
-            modelBuilder.Entity("TeachPlanner.Api.Domain.Subjects.YearLevel", b =>
-                {
-                    b.HasOne("TeachPlanner.Api.Domain.Subjects.Subject", "Subject")
-                        .WithMany("YearLevels")
-                        .HasForeignKey("SubjectId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                            b1.Property<int?>("BandLevelValue")
+                                .HasColumnType("int");
 
-                    b.Navigation("Subject");
+                            b1.Property<Guid>("SubjectId")
+                                .HasColumnType("char(36)");
+
+                            b1.Property<string>("YearLevelDescription")
+                                .HasColumnType("longtext");
+
+                            b1.Property<int?>("YearLevelValue")
+                                .HasColumnType("int");
+
+                            b1.HasKey("Id");
+
+                            b1.HasIndex("SubjectId");
+
+                            b1.ToTable("year_levels", (string)null);
+
+                            b1.WithOwner()
+                                .HasForeignKey("SubjectId");
+
+                            b1.OwnsMany("TeachPlanner.Api.Domain.Subjects.Strand", "Strands", b2 =>
+                                {
+                                    b2.Property<Guid>("Id")
+                                        .ValueGeneratedOnAdd()
+                                        .HasColumnType("char(36)");
+
+                                    b2.Property<string>("Name")
+                                        .IsRequired()
+                                        .HasMaxLength(50)
+                                        .HasColumnType("varchar(50)");
+
+                                    b2.Property<Guid>("YearLevelId")
+                                        .HasColumnType("char(36)");
+
+                                    b2.HasKey("Id");
+
+                                    b2.HasIndex("YearLevelId");
+
+                                    b2.ToTable("strands", (string)null);
+
+                                    b2.WithOwner()
+                                        .HasForeignKey("YearLevelId");
+
+                                    b2.OwnsMany("TeachPlanner.Api.Domain.Subjects.ContentDescription", "ContentDescriptions", b3 =>
+                                        {
+                                            b3.Property<Guid>("Id")
+                                                .ValueGeneratedOnAdd()
+                                                .HasColumnType("char(36)");
+
+                                            b3.Property<string>("CurriculumCode")
+                                                .IsRequired()
+                                                .HasMaxLength(50)
+                                                .HasColumnType("varchar(50)");
+
+                                            b3.Property<string>("Description")
+                                                .IsRequired()
+                                                .HasMaxLength(1000)
+                                                .HasColumnType("varchar(1000)");
+
+                                            b3.Property<Guid>("StrandId")
+                                                .HasColumnType("char(36)");
+
+                                            b3.Property<string>("Substrand")
+                                                .IsRequired()
+                                                .HasColumnType("longtext");
+
+                                            b3.HasKey("Id");
+
+                                            b3.HasIndex("StrandId");
+
+                                            b3.ToTable("content_descriptions", (string)null);
+
+                                            b3.WithOwner()
+                                                .HasForeignKey("StrandId");
+
+                                            b3.OwnsMany("TeachPlanner.Api.Domain.Subjects.Elaboration", "Elaborations", b4 =>
+                                                {
+                                                    b4.Property<Guid>("Id")
+                                                        .ValueGeneratedOnAdd()
+                                                        .HasColumnType("char(36)");
+
+                                                    b4.Property<Guid>("ContentDescriptionId")
+                                                        .HasColumnType("char(36)");
+
+                                                    b4.Property<string>("Description")
+                                                        .IsRequired()
+                                                        .HasMaxLength(1000)
+                                                        .HasColumnType("varchar(1000)");
+
+                                                    b4.HasKey("Id");
+
+                                                    b4.HasIndex("ContentDescriptionId");
+
+                                                    b4.ToTable("elaborations", (string)null);
+
+                                                    b4.WithOwner()
+                                                        .HasForeignKey("ContentDescriptionId");
+                                                });
+
+                                            b3.Navigation("Elaborations");
+                                        });
+
+                                    b2.Navigation("ContentDescriptions");
+                                });
+
+                            b1.Navigation("Strands");
+                        });
+
+                    b.Navigation("YearLevels");
                 });
 
             modelBuilder.Entity("TeachPlanner.Api.Domain.Teachers.Teacher", b =>
@@ -1175,33 +1111,6 @@ namespace TeachPlanner.Api.Database
                     b.Navigation("Assessments");
 
                     b.Navigation("Reports");
-                });
-
-            modelBuilder.Entity("TeachPlanner.Api.Domain.Subjects.ContentDescription", b =>
-                {
-                    b.Navigation("Elaborations");
-                });
-
-            modelBuilder.Entity("TeachPlanner.Api.Domain.Subjects.Strand", b =>
-                {
-                    b.Navigation("ContentDescriptions");
-
-                    b.Navigation("Substrands");
-                });
-
-            modelBuilder.Entity("TeachPlanner.Api.Domain.Subjects.Subject", b =>
-                {
-                    b.Navigation("YearLevels");
-                });
-
-            modelBuilder.Entity("TeachPlanner.Api.Domain.Subjects.Substrand", b =>
-                {
-                    b.Navigation("ContentDescriptions");
-                });
-
-            modelBuilder.Entity("TeachPlanner.Api.Domain.Subjects.YearLevel", b =>
-                {
-                    b.Navigation("Strands");
                 });
 
             modelBuilder.Entity("TeachPlanner.Api.Domain.Teachers.Teacher", b =>

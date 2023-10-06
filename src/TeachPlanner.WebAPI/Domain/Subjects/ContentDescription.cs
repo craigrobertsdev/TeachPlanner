@@ -5,22 +5,20 @@ public record ContentDescription
     private readonly List<Elaboration> _elaborations = new();
     public string Description { get; private set; }
     public string CurriculumCode { get; private set; }
+    public string Substrand { get; private set; } = string.Empty;
     public IReadOnlyList<Elaboration> Elaborations => _elaborations.AsReadOnly();
-    public Substrand? Substrand { get; private set; }
-    public Strand? Strand { get; private set; }
 
-    private ContentDescription(string description, string curriculumCode, List<Elaboration> elaborations, Strand? strand, Substrand? substrand)
+    private ContentDescription(string description, string curriculumCode, List<Elaboration> elaborations, string substrand)
     {
         Description = description;
         CurriculumCode = curriculumCode;
         _elaborations = elaborations;
-        Strand = strand;
         Substrand = substrand;
     }
 
-    public static ContentDescription Create(string description, string curriculumCode, List<Elaboration> elaborations, Strand? strand = null, Substrand? substrand = null)
+    public static ContentDescription Create(string description, string curriculumCode, List<Elaboration> elaborations, string substrand = "")
     {
-        return new(description, curriculumCode, elaborations, strand, substrand);
+        return new(description, curriculumCode, elaborations, substrand);
     }
 
     public void AddElaboration(Elaboration elaboration)

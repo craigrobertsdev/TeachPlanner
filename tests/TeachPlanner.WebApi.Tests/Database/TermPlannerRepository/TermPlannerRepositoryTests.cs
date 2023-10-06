@@ -35,10 +35,10 @@ public class TermPlannerRepositoryTests
             termPlanner.AddTermPlan(termPlan);
 
             var subject = Subject.Create("English", new List<YearLevel>());
-            var yearLevel = YearLevel.Create(subject, new List<Strand>(), "Description", "Achievement Standard", YearLevelValue.Foundation, null);
-            var strand = Strand.Create(yearLevel, "Grammar", new List<Substrand>(), null);
-            var substrand = Substrand.Create("Grammar constructs", new List<ContentDescription>(), strand);
-            var contentDescription = ContentDescription.Create("Description", "ENG001", new List<Elaboration>(), substrand: substrand);
+            var yearLevel = YearLevel.Create(new List<Strand>(), "Description", "Achievement Standard", YearLevelValue.Foundation, null);
+            var strand = Strand.Create("Grammar", new List<Substrand>(), null);
+            var substrand = Substrand.Create("Grammar constructs", new List<ContentDescription>());
+            var contentDescription = ContentDescription.Create("Description", "ENG001", new List<Elaboration>());
 
             subject.AddYearLevel(yearLevel);
             yearLevel.AddStrand(strand);

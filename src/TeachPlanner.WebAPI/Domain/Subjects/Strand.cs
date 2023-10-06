@@ -6,59 +6,24 @@ namespace TeachPlanner.Api.Domain.Subjects;
 public record Strand
 {
     public string Name { get; private set; }
-    public YearLevel YearLevel { get; private set; }
-    // one of these properties will be null depending on the subject
-    private readonly List<Substrand>? _substrands = new();
-    private readonly List<ContentDescription>? _contentDescriptions = new();
-    public IReadOnlyList<Substrand>? Substrands => _substrands?.AsReadOnly();
-    public IReadOnlyList<ContentDescription>? ContentDescriptions => _contentDescriptions?.AsReadOnly();
-    public bool HasSubstrands => _substrands is not null;
+    private readonly List<ContentDescription> _contentDescriptions = new();
+    public IReadOnlyList<ContentDescription> ContentDescriptions => _contentDescriptions.AsReadOnly();
 
     private Strand(
-        YearLevel yearLevel,
         string name,
-        List<Substrand>? substrands = null,
-        List<ContentDescription>? contentDescriptions = null
+        List<ContentDescription> contentDescriptions
     )
     {
-        YearLevel = yearLevel;
         Name = name;
-        _substrands = substrands;
         _contentDescriptions = contentDescriptions;
     }
 
     public static Strand Create(
-        YearLevel yearLevel,
         string name,
-        List<Substrand>? substrands = null,
-        List<ContentDescription>? contentDescriptions = null
+        List<ContentDescription> contentDescriptions
     )
     {
-        if (substrands is null && contentDescriptions is null)
-        {
-            throw new StrandCreationException();
-        }
-
-        return new Strand(yearLevel, name, substrands, contentDescriptions);
-    }
-
-    public List<ContentDescription> GetContentDescriptions()
-    {
-        if (_substrands is null)
-        {
-            return _contentDescriptions!;
-        }
-
-        var contentDescriptions = _substrands!
-            .SelectMany(substrand => substrand.ContentDescriptions)
-            .ToList();
-
-        return contentDescriptions;
-    }
-
-    public void AddSubstrand(Substrand substrand)
-    {
-        _substrands!.Add(substrand);
+        return new Strand(name, contentDescriptions);
     }
 
     public void AddContentDescriptions(List<ContentDescription> contentDescriptions)
@@ -71,11 +36,6 @@ public record Strand
 
     public void AddContentDescription(ContentDescription contentDescription)
     {
-        if (HasSubstrands)
-        {
-            throw new StrandHasSubstrandsException();
-        }
-
         if (!_contentDescriptions!.Contains(contentDescription))
         {
             _contentDescriptions!.Add(contentDescription);

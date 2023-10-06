@@ -69,11 +69,10 @@ public class SubjectRepository : ISubjectRepository
         }
 
         subjectsQuery = subjectsQuery
-            .Include(s => s.YearLevels)
-            .ThenInclude(yl => yl.Strands)
-            .ThenInclude(s => s.Substrands!)
-            .ThenInclude(s => s.ContentDescriptions)
-            .ThenInclude(cd => cd.Elaborations);
+        .Include(s => s.YearLevels)
+        .ThenInclude(yl => yl.Strands)
+        .ThenInclude(s => s.ContentDescriptions)
+        .ThenInclude(cd => cd.Elaborations);
 
         mathsQuery.Include(s => s.YearLevels)
             .ThenInclude(yl => yl.Strands)
@@ -118,7 +117,6 @@ public class SubjectRepository : ISubjectRepository
         subjectsQuery = subjectsQuery
             .Include(s => s.YearLevels)
             .ThenInclude(yl => yl.Strands)
-            .ThenInclude(s => s.Substrands!)
             .ThenInclude(s => s.ContentDescriptions);
 
         mathsQuery.Include(s => s.YearLevels)

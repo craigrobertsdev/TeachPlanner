@@ -61,7 +61,7 @@ internal class GeneralSubjectParser
         }
         while (!contentArr[index].StartsWith("Strand"));
 
-        var yearLevel = YearLevel.Create(subject, new List<Strand>(), description, achievementStandard, yearLevelValue, null);
+        var yearLevel = YearLevel.Create(new List<Strand>(), description, achievementStandard, yearLevelValue, null);
 
         // continue parsing document until the next line doesn't begin with strand.
 
@@ -82,44 +82,39 @@ internal class GeneralSubjectParser
         string name = contentArr[index].Substring(8).TrimEnd();
         index += 2;
 
-        var strand = Strand.Create(yearLevel, name, substrands: new List<Substrand>());
+        var strand = Strand.Create(name, new List<ContentDescription>());
 
         while (contentArr[index].StartsWith("Sub-strand"))
         {
-            var substrand = GetSubstrand(contentArr, ref index, strand);
-            strand.AddSubstrand(substrand);
+            var substrandName = GetSubstrand(contentArr, index);
+
+            if (contentArr[index + 1] == "Content descriptions")
+            {
+                index += 5;
+            }
+            else
+            {
+                index++;
+            }
+
+            // each time GetContentDescription returns, check whether the next line starts with AC9 (instead of another header) and repeat if so.
+            while (contentArr[index + 1].StartsWith("AC9"))
+            {
+                var contentDescription = GetContentDescription(contentArr, ref index, substrandName);
+                strand.AddContentDescription(contentDescription);
+            }
         }
 
         return strand;
     }
 
-    private Substrand GetSubstrand(string[] contentArr, ref int index, Strand strand)
+    private static string GetSubstrand(string[] contentArr, int index)
     {
         // remove "Sub-strand:" from name
-        var name = contentArr[index].Substring(12).TrimEnd();
-        var substrand = Substrand.Create(name, new List<ContentDescription>(), strand);
-
-        if (contentArr[index + 1] == "Content descriptions")
-        {
-            index += 5;
-        }
-        else
-        {
-            index++;
-        }
-
-        // each time GetContentDescriptions returns, check whether the next line starts with AC9 (instead of another header) and repeat if so.
-        while (contentArr[index + 1].StartsWith("AC9"))
-        {
-            var contentDescription = GetContentDescriptions(contentArr, ref index, substrand);
-
-            substrand.AddContentDescription(contentDescription);
-        }
-
-        return substrand;
+        return contentArr[index].Substring(12).TrimEnd();
     }
 
-    private ContentDescription GetContentDescriptions(string[] contentArr, ref int index, Substrand substrand)
+    private ContentDescription GetContentDescription(string[] contentArr, ref int index, string substrandName)
     {
         var description = contentArr[index].WithFirstLetterUpper().TrimEnd();
         index++;
@@ -127,12 +122,12 @@ internal class GeneralSubjectParser
         var curriculumCode = contentArr[index].TrimEnd();
         index++;
 
-        var contentDescription = ContentDescription.Create(description, curriculumCode, new List<Elaboration>(), substrand: substrand);
+        var contentDescription = ContentDescription.Create(description, curriculumCode, new List<Elaboration>(), substrandName);
 
         while (contentArr[index].StartsWith("*"))
         {
             var content = contentArr[index].Substring(2).TrimEnd();
-            var elaboration = Elaboration.Create(content, contentDescription);
+            var elaboration = Elaboration.Create(content);
 
             contentDescription.AddElaboration(elaboration);
             index++;

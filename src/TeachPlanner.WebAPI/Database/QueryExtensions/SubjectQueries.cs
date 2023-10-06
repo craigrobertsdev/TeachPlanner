@@ -44,39 +44,20 @@ public static class SubjectQueries
     {
         var subjectsQuery = context.Subjects
             .AsNoTracking()
-            .Where(s => s.Name != "Mathematics")
-            .Where(s => subjectIds.Contains(s.Id));
-
-        var mathsQuery = context.Subjects
-            .AsNoTracking()
-            .Where(s => s.Name == "Mathematics")
             .Where(s => subjectIds.Contains(s.Id));
 
         if (filter != null)
         {
             subjectsQuery = subjectsQuery.Where(filter);
-            mathsQuery = mathsQuery.Where(filter);
         }
 
         subjectsQuery = subjectsQuery
             .Include(s => s.YearLevels)
             .ThenInclude(yl => yl.Strands)
-            .ThenInclude(s => s.Substrands!)
             .ThenInclude(s => s.ContentDescriptions)
             .ThenInclude(cd => cd.Elaborations);
 
-        mathsQuery.Include(s => s.YearLevels)
-            .ThenInclude(yl => yl.Strands)
-            .ThenInclude(s => s.ContentDescriptions!)
-            .ThenInclude(cd => cd.Elaborations);
-
         var subjects = await subjectsQuery.ToListAsync(cancellationToken);
-        var maths = await mathsQuery.SingleOrDefaultAsync(cancellationToken);
-
-        if (maths != null)
-        {
-            subjects.Add(maths);
-        }
 
         if (subjects.Count == 0)
         {
@@ -94,37 +75,19 @@ public static class SubjectQueries
     {
         var subjectsQuery = context.Subjects
             .AsNoTracking()
-            .Where(s => s.Name != "Mathematics")
-            .Where(s => subjectIds.Contains(s.Id));
-
-        var mathsQuery = context.Subjects
-            .AsNoTracking()
-            .Where(s => s.Name == "Mathematics")
             .Where(s => subjectIds.Contains(s.Id));
 
         if (filter != null)
         {
             subjectsQuery = subjectsQuery.Where(filter);
-            mathsQuery = mathsQuery.Where(filter);
         }
 
         subjectsQuery = subjectsQuery
             .Include(s => s.YearLevels)
             .ThenInclude(yl => yl.Strands)
-            .ThenInclude(s => s.Substrands!)
             .ThenInclude(s => s.ContentDescriptions);
 
-        mathsQuery.Include(s => s.YearLevels)
-            .ThenInclude(yl => yl.Strands)
-            .ThenInclude(s => s.ContentDescriptions!);
-
         var subjects = await subjectsQuery.ToListAsync(cancellationToken);
-        var maths = await mathsQuery.SingleOrDefaultAsync(cancellationToken);
-
-        if (maths != null)
-        {
-            subjects.Add(maths);
-        }
 
         if (subjects.Count == 0)
         {

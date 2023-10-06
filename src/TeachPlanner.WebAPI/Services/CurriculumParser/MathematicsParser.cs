@@ -59,7 +59,7 @@ internal class MathematicsParser
             index++;
         } while (!contentArr[index].StartsWith("Strand"));
 
-        var yearLevel = YearLevel.Create(subject, new List<Strand>(), description, achievementStandard, yearLevelValue, null);
+        var yearLevel = YearLevel.Create(new List<Strand>(), description, achievementStandard, yearLevelValue, null);
 
         // continue parsing document until the next line doesn't begin with strand.
 
@@ -80,7 +80,7 @@ internal class MathematicsParser
         string name = contentArr[index].Substring(8).TrimEnd();
         index += 2;
 
-        var strand = Strand.Create(yearLevel, name, contentDescriptions: new List<ContentDescription>());
+        var strand = Strand.Create(name, contentDescriptions: new List<ContentDescription>());
 
         while (contentArr[index].StartsWith("Content descriptions"))
         {
@@ -104,12 +104,12 @@ internal class MathematicsParser
             var curriculumCode = contentArr[index].TrimEnd();
             index++;
 
-            var contentDescription = ContentDescription.Create(description, curriculumCode, new List<Elaboration>(), strand: strand);
+            var contentDescription = ContentDescription.Create(description, curriculumCode, new List<Elaboration>());
 
             while (contentArr[index].StartsWith("*"))
             {
                 var content = contentArr[index].Substring(2).TrimEnd();
-                var elaboration = Elaboration.Create(content, contentDescription);
+                var elaboration = Elaboration.Create(content);
 
                 contentDescription.AddElaboration(elaboration);
                 index++;

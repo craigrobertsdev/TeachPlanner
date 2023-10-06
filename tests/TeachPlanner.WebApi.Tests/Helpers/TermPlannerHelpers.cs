@@ -23,10 +23,10 @@ internal static class TermPlannerHelpers
     internal static Subject CreateSubject(string name, string curriculumCode)
     {
         var subject = Subject.Create(name, new List<YearLevel>());
-        var yearLevel = YearLevel.Create(subject, new List<Strand>(), "Description", "Achievement Standard", YearLevelValue.Foundation, null);
-        var strand = Strand.Create(yearLevel, "Grammar", new List<Substrand>(), null);
-        var substrand = Substrand.Create("Grammar constructs", new List<ContentDescription>(), strand);
-        var contentDescription = ContentDescription.Create("Description", curriculumCode, new List<Elaboration>(), substrand: substrand);
+        var yearLevel = YearLevel.Create(new List<Strand>(), "Description", "Achievement Standard", YearLevelValue.Foundation, null);
+        var strand = Strand.Create("Grammar", new List<Substrand>(), null);
+        var substrand = Substrand.Create("Grammar constructs", new List<ContentDescription>());
+        var contentDescription = ContentDescription.Create("Description", curriculumCode, new List<Elaboration>());
 
         subject.AddYearLevel(yearLevel);
         yearLevel.AddStrand(strand);
@@ -39,9 +39,9 @@ internal static class TermPlannerHelpers
     internal static Subject CreateSubjectWithoutSubstrands(string name, string curriculumCode)
     {
         var subject = Subject.Create(name, new List<YearLevel>());
-        var yearLevel = YearLevel.Create(subject, new List<Strand>(), "Description", "Achievement Standard", YearLevelValue.Foundation, null);
-        var strand = Strand.Create(yearLevel, "Grammar", null, new List<ContentDescription>());
-        var contentDescription = ContentDescription.Create("Description", curriculumCode, new List<Elaboration>(), strand: strand);
+        var yearLevel = YearLevel.Create(new List<Strand>(), "Description", "Achievement Standard", YearLevelValue.Foundation, null);
+        var strand = Strand.Create("Grammar", null, new List<ContentDescription>());
+        var contentDescription = ContentDescription.Create("Description", curriculumCode, new List<Elaboration>());
 
         subject.AddYearLevel(yearLevel);
         yearLevel.AddStrand(strand);
@@ -53,10 +53,10 @@ internal static class TermPlannerHelpers
     internal static Subject CreateSubject(string name, string curriculumCode, YearLevelValue subjectYearLevel)
     {
         var subject = Subject.Create(name, new List<YearLevel>());
-        var yearLevel = YearLevel.Create(subject, new List<Strand>(), "Description", "Achievement Standard", subjectYearLevel, null);
-        var strand = Strand.Create(yearLevel, "Grammar", new List<Substrand>(), null);
-        var substrand = Substrand.Create("Grammar constructs", new List<ContentDescription>(), strand);
-        var contentDescription = ContentDescription.Create("Description", curriculumCode, new List<Elaboration>(), substrand: substrand);
+        var yearLevel = YearLevel.Create(new List<Strand>(), "Description", "Achievement Standard", subjectYearLevel, null);
+        var strand = Strand.Create("Grammar", new List<Substrand>(), null);
+        var substrand = Substrand.Create("Grammar constructs", new List<ContentDescription>());
+        var contentDescription = ContentDescription.Create("Description", curriculumCode, new List<Elaboration>());
 
         subject.AddYearLevel(yearLevel);
         yearLevel.AddStrand(strand);
@@ -69,10 +69,10 @@ internal static class TermPlannerHelpers
     internal static Subject CreateSubject(string name, string curriculumCode, string strandName)
     {
         var subject = Subject.Create(name, new List<YearLevel>());
-        var yearLevel = YearLevel.Create(subject, new List<Strand>(), "Description", "Achievement Standard", YearLevelValue.Foundation, null);
-        var strand = Strand.Create(yearLevel, strandName, new List<Substrand>(), null);
-        var substrand = Substrand.Create("Grammar constructs", new List<ContentDescription>(), strand);
-        var contentDescription = ContentDescription.Create("Description", curriculumCode, new List<Elaboration>(), substrand: substrand);
+        var yearLevel = YearLevel.Create(new List<Strand>(), "Description", "Achievement Standard", YearLevelValue.Foundation, null);
+        var strand = Strand.Create(strandName, new List<Substrand>(), null);
+        var substrand = Substrand.Create("Grammar constructs", new List<ContentDescription>());
+        var contentDescription = ContentDescription.Create("Description", curriculumCode, new List<Elaboration>());
 
         subject.AddYearLevel(yearLevel);
         yearLevel.AddStrand(strand);
@@ -85,10 +85,10 @@ internal static class TermPlannerHelpers
     internal static Subject CreateSubject(string name, string curriculumCode, string strandName, string substrandName)
     {
         var subject = Subject.Create(name, new List<YearLevel>());
-        var yearLevel = YearLevel.Create(subject, new List<Strand>(), "Description", "Achievement Standard", YearLevelValue.Foundation, null);
-        var strand = Strand.Create(yearLevel, strandName, new List<Substrand>(), null);
-        var substrand = Substrand.Create(substrandName, new List<ContentDescription>(), strand);
-        var contentDescription = ContentDescription.Create("Description", curriculumCode, new List<Elaboration>(), substrand: substrand);
+        var yearLevel = YearLevel.Create(new List<Strand>(), "Description", "Achievement Standard", YearLevelValue.Foundation, null);
+        var strand = Strand.Create(strandName, new List<Substrand>(), null);
+        var substrand = Substrand.Create(substrandName, new List<ContentDescription>());
+        var contentDescription = ContentDescription.Create("Description", curriculumCode, new List<Elaboration>());
 
         subject.AddYearLevel(yearLevel);
         yearLevel.AddStrand(strand);
