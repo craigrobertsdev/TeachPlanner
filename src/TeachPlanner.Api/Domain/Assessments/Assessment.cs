@@ -11,21 +11,21 @@ namespace TeachPlanner.Api.Domain.Assessments;
 public class Assessment : Entity<AssessmentId>, IAggregateRoot
 {
     public TeacherId TeacherId { get; private set; }
-    public CurriculumSubjectId SubjectId { get; private set; }
+    public SubjectId SubjectId { get; private set; }
     public StudentId StudentId { get; private set; }
     public LessonPlanId LessonPlanId { get; private set; }
     public YearLevelValue YearLevel { get; private set; }
     public AssessmentType AssessmentType { get; private set; }
     public AssessmentResult? AssessmentResult { get; private set; }
     public string PlanningNotes { get; private set; }
-    public DateTime ConductedDateTime { get; private set; }
+    public DateTime DateConducted { get; private set; }
     public DateTime CreatedDateTime { get; private set; }
     public DateTime UpdatedDateTime { get; private set; }
 
     protected Assessment(
         AssessmentId id,
         TeacherId teacherId,
-        CurriculumSubjectId subjectId,
+        SubjectId subjectId,
         StudentId studentId,
         LessonPlanId lessonPlanId,
         YearLevelValue yearLevel,
@@ -39,7 +39,7 @@ public class Assessment : Entity<AssessmentId>, IAggregateRoot
         LessonPlanId = lessonPlanId;
         YearLevel = yearLevel;
         PlanningNotes = planningNotes;
-        ConductedDateTime = conductedDateTime;
+        DateConducted = conductedDateTime;
     }
 
     public void SetAssessmentResult(AssessmentResult result)
@@ -53,7 +53,7 @@ public class Assessment : Entity<AssessmentId>, IAggregateRoot
 
     public Assessment Create(
         TeacherId teacherId,
-        CurriculumSubjectId subjectId,
+        SubjectId subjectId,
         StudentId studentId,
         LessonPlanId lessonPlanId,
         YearLevelValue yearLevel,

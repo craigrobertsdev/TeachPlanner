@@ -12,7 +12,7 @@ public sealed class Resource : Entity<ResourceId>, IAggregateRoot
     public string Url { get; private set; }
     public bool IsAssessment { get; private set; }
     public IReadOnlyList<LessonPlanResource> LessonPlanResources => _lessonPlanResources.AsReadOnly();
-    public CurriculumSubjectId SubjectId { get; private set; }
+    public SubjectId SubjectId { get; private set; }
     public List<string> AssociatedStrands { get; private set; } = new();
     public DateTime CreatedDateTime { get; private set; }
     public DateTime UpdatedDateTime { get; private set; }
@@ -22,7 +22,7 @@ public sealed class Resource : Entity<ResourceId>, IAggregateRoot
         string name,
         string url,
         bool isAssessment,
-        CurriculumSubjectId subjectId,
+        SubjectId subjectId,
         List<string>? associatedStrands = null) : base(id)
     {
         Name = name;
@@ -43,7 +43,7 @@ public sealed class Resource : Entity<ResourceId>, IAggregateRoot
         string name,
         string url,
         bool isAssessment,
-        CurriculumSubjectId subjectId,
+        SubjectId subjectId,
         List<string>? strandNames)
     {
         return new(

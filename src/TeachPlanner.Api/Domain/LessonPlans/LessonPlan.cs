@@ -3,7 +3,6 @@ using TeachPlanner.Api.Domain.Common.Interfaces;
 using TeachPlanner.Api.Domain.Common.Primatives;
 using TeachPlanner.Api.Domain.Resources;
 using TeachPlanner.Api.Domain.CurriculumSubjects;
-using TeachPlanner.Api.Domain.Teachers;
 using TeachPlanner.Api.Domain.YearDataRecords;
 
 namespace TeachPlanner.Api.Domain.LessonPlans;
@@ -13,8 +12,9 @@ public sealed class LessonPlan : Entity<LessonPlanId>, IAggregateRoot
     private readonly List<LessonPlanResource> _lessonPlanResources = new();
     private readonly List<Assessment> _assessments = new();
     private readonly List<LessonComment> _comments = new();
+    private readonly List<string> _curriculumCodes = new();
     public YearDataId YearDataId { get; private set; }
-    public CurriculumSubjectId SubjectId { get; private set; }
+    public SubjectId SubjectId { get; private set; }
     public string PlanningNotes { get; private set; }
     public DateOnly LessonDate { get; private set; }
     public int NumberOfPeriods { get; private set; }
@@ -25,6 +25,8 @@ public sealed class LessonPlan : Entity<LessonPlanId>, IAggregateRoot
     public IReadOnlyList<LessonPlanResource> LessonPlanResources => _lessonPlanResources.AsReadOnly();
     public IReadOnlyList<Assessment> Assessments => _assessments.AsReadOnly();
     public IReadOnlyList<LessonComment> Comments => _comments.AsReadOnly();
+    public IReadOnlyList<string> CurriculumCodes => _curriculumCodes.AsReadOnly();
+
 
     public void AddLessonComment(LessonComment comment)
     {
@@ -65,7 +67,8 @@ public sealed class LessonPlan : Entity<LessonPlanId>, IAggregateRoot
     private LessonPlan(
         LessonPlanId id,
         YearDataId yearDataId,
-        CurriculumSubjectId subjectId,
+        SubjectId subjectId,
+        List<string> curriculumCodes,
         string planningNotes,
         int numberOfPeriods,
         int startPeriod,
@@ -77,6 +80,7 @@ public sealed class LessonPlan : Entity<LessonPlanId>, IAggregateRoot
     {
         YearDataId = yearDataId;
         SubjectId = subjectId;
+        _curriculumCodes = curriculumCodes;
         PlanningNotes = planningNotes;
         NumberOfPeriods = numberOfPeriods;
         StartPeriod = startPeriod;
@@ -96,7 +100,8 @@ public sealed class LessonPlan : Entity<LessonPlanId>, IAggregateRoot
 
     public static LessonPlan Create(
         YearDataId yearDataId,
-        CurriculumSubjectId subjectId,
+        SubjectId subjectId,
+        List<string> curriculumCodes,
         string planningNotes,
         int numberOfPeriods,
         int startPeriod,
@@ -108,6 +113,7 @@ public sealed class LessonPlan : Entity<LessonPlanId>, IAggregateRoot
             new LessonPlanId(Guid.NewGuid()),
             yearDataId,
             subjectId,
+            curriculumCodes,
             planningNotes,
             numberOfPeriods,
             startPeriod,

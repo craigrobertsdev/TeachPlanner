@@ -3,14 +3,14 @@ using TeachPlanner.Api.Domain.Common.Primatives;
 
 namespace TeachPlanner.Api.Domain.CurriculumSubjects;
 
-public sealed class CurriculumSubject : Entity<CurriculumSubjectId>, IAggregateRoot
+public sealed class CurriculumSubject : Entity<SubjectId>, IAggregateRoot
 {
     private readonly List<YearLevel> _yearLevels = new();
     public string Name { get; private set; }
     public IReadOnlyList<YearLevel> YearLevels => _yearLevels.AsReadOnly();
 
     private CurriculumSubject(
-        CurriculumSubjectId id,
+        SubjectId id,
         List<YearLevel> yearLevels,
         string name
     )
@@ -25,7 +25,7 @@ public sealed class CurriculumSubject : Entity<CurriculumSubjectId>, IAggregateR
         List<YearLevel> yearLevels)
     {
         return new CurriculumSubject(
-            new CurriculumSubjectId(Guid.NewGuid()),
+            new SubjectId(Guid.NewGuid()),
             yearLevels,
             name);
     }

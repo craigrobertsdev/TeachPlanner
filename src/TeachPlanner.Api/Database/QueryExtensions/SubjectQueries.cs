@@ -14,15 +14,15 @@ public static class SubjectQueries
     {
         if (includeElaborations)
         {
-            return await GetSubjectsWithElaborations(context, new List<CurriculumSubjectId>(), cancellationToken);
+            return await GetSubjectsWithElaborations(context, new List<SubjectId>(), cancellationToken);
         }
 
-        return await GetSubjectsWithoutElaborations(context, new List<CurriculumSubjectId>(), cancellationToken);
+        return await GetSubjectsWithoutElaborations(context, new List<SubjectId>(), cancellationToken);
     }
 
     public static async Task<List<CurriculumSubject>?> GetSubjectsById(
         this ApplicationDbContext context,
-        List<CurriculumSubjectId> subjects,
+        List<SubjectId> subjects,
         bool includeElaborations,
         CancellationToken cancellationToken)
     {
@@ -36,7 +36,7 @@ public static class SubjectQueries
 
     private static async Task<List<CurriculumSubject>> GetSubjectsWithElaborations(
         this ApplicationDbContext context,
-        List<CurriculumSubjectId> subjectIds,
+        List<SubjectId> subjectIds,
         CancellationToken cancellationToken,
         Expression<Func<CurriculumSubject, bool>>? filter = null)
     {
@@ -67,7 +67,7 @@ public static class SubjectQueries
 
     private static async Task<List<CurriculumSubject>> GetSubjectsWithoutElaborations(
         this ApplicationDbContext context,
-        List<CurriculumSubjectId> subjectIds,
+        List<SubjectId> subjectIds,
         CancellationToken cancellationToken,
         Expression<Func<CurriculumSubject, bool>>? filter = null)
     {

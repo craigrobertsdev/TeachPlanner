@@ -600,7 +600,7 @@ namespace TeachPlanner.Api.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_assessments_SubjectId",
                 table: "assessments",
-                column: "CurriculumSubjectId");
+                column: "SubjectId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_assessments_TeacherId",
@@ -635,7 +635,7 @@ namespace TeachPlanner.Api.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_lesson_plans_SubjectId",
                 table: "lesson_plans",
-                column: "CurriculumSubjectId");
+                column: "SubjectId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_lesson_plans_TeacherId",
@@ -665,7 +665,7 @@ namespace TeachPlanner.Api.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_reports_SubjectId",
                 table: "reports",
-                column: "CurriculumSubjectId");
+                column: "SubjectId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_reports_TeacherId",
@@ -680,7 +680,7 @@ namespace TeachPlanner.Api.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_resources_SubjectId",
                 table: "resources",
-                column: "CurriculumSubjectId");
+                column: "SubjectId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_resources_TeacherId",
@@ -747,7 +747,7 @@ namespace TeachPlanner.Api.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_year_levels_SubjectId",
                 table: "year_levels",
-                column: "CurriculumSubjectId");
+                column: "SubjectId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_yeardata_TeacherId",
@@ -786,7 +786,7 @@ namespace TeachPlanner.Api.Migrations
             migrationBuilder.AddForeignKey(
                 name: "FK_assessments_subjects_SubjectId",
                 table: "assessments",
-                column: "CurriculumSubjectId",
+                column: "SubjectId",
                 principalTable: "subjects",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Cascade);
@@ -826,7 +826,7 @@ namespace TeachPlanner.Api.Migrations
             migrationBuilder.AddForeignKey(
                 name: "FK_lesson_plans_subjects_SubjectId",
                 table: "lesson_plans",
-                column: "CurriculumSubjectId",
+                column: "SubjectId",
                 principalTable: "subjects",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Cascade);
@@ -865,7 +865,7 @@ namespace TeachPlanner.Api.Migrations
             migrationBuilder.AddForeignKey(
                 name: "FK_reports_subjects_SubjectId",
                 table: "reports",
-                column: "CurriculumSubjectId",
+                column: "SubjectId",
                 principalTable: "subjects",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Cascade);
@@ -881,7 +881,7 @@ namespace TeachPlanner.Api.Migrations
             migrationBuilder.AddForeignKey(
                 name: "FK_resources_subjects_SubjectId",
                 table: "resources",
-                column: "CurriculumSubjectId",
+                column: "SubjectId",
                 principalTable: "subjects",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Cascade);

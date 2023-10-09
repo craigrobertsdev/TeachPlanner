@@ -11,7 +11,7 @@ public static class SetSubjectsTaught
 {
     public record Command(
         TeacherId TeacherId,
-        List<CurriculumSubjectId> SubjectIds,
+        List<SubjectId> SubjectIds,
         int CalendarYear
         ) : IRequest;
 
@@ -64,7 +64,7 @@ public static class SetSubjectsTaught
     {
         var command = new Command(
             new TeacherId(teacherId),
-            new List<CurriculumSubjectId>(),
+            new List<SubjectId>(),
             DateTime.Now.Year);
 
         var validationResult = new Validator().Validate(command);

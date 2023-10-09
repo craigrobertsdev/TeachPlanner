@@ -27,7 +27,7 @@ public class SubjectRepository : ISubjectRepository
     }
 
     public async Task<List<CurriculumSubject>> GetSubjectsById(
-        List<CurriculumSubjectId> subjects,
+        List<SubjectId> subjects,
         bool includeElaborations,
         CancellationToken cancellationToken)
     {

@@ -95,7 +95,7 @@ namespace TeachPlanner.Api.Migrations
                     b.Property<Guid>("StudentId")
                         .HasColumnType("char(36)");
 
-                    b.Property<Guid>("CurriculumSubjectId")
+                    b.Property<Guid>("SubjectId")
                         .HasColumnType("char(36)");
 
                     b.Property<Guid>("TeacherId")
@@ -115,7 +115,7 @@ namespace TeachPlanner.Api.Migrations
 
                     b.HasIndex("StudentId");
 
-                    b.HasIndex("CurriculumSubjectId");
+                    b.HasIndex("SubjectId");
 
                     b.HasIndex("TeacherId");
 
@@ -201,7 +201,7 @@ namespace TeachPlanner.Api.Migrations
                     b.Property<DateTime>("StartTime")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<Guid>("CurriculumSubjectId")
+                    b.Property<Guid>("SubjectId")
                         .HasColumnType("char(36)");
 
                     b.Property<Guid>("TeacherId")
@@ -218,7 +218,7 @@ namespace TeachPlanner.Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CurriculumSubjectId");
+                    b.HasIndex("SubjectId");
 
                     b.HasIndex("TeacherId");
 
@@ -256,7 +256,7 @@ namespace TeachPlanner.Api.Migrations
                     b.Property<Guid>("StudentId")
                         .HasColumnType("char(36)");
 
-                    b.Property<Guid>("CurriculumSubjectId")
+                    b.Property<Guid>("SubjectId")
                         .HasColumnType("char(36)");
 
                     b.Property<Guid>("TeacherId")
@@ -277,7 +277,7 @@ namespace TeachPlanner.Api.Migrations
 
                     b.HasIndex("StudentId");
 
-                    b.HasIndex("CurriculumSubjectId");
+                    b.HasIndex("SubjectId");
 
                     b.HasIndex("TeacherId");
 
@@ -307,7 +307,7 @@ namespace TeachPlanner.Api.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("varchar(100)");
 
-                    b.Property<Guid>("CurriculumSubjectId")
+                    b.Property<Guid>("SubjectId")
                         .HasColumnType("char(36)");
 
                     b.Property<Guid?>("TeacherId")
@@ -323,7 +323,7 @@ namespace TeachPlanner.Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CurriculumSubjectId");
+                    b.HasIndex("SubjectId");
 
                     b.HasIndex("TeacherId");
 
@@ -604,7 +604,7 @@ namespace TeachPlanner.Api.Migrations
 
                     b.HasOne("TeachPlanner.Api.Domain.CurriculumSubjects.Subject", null)
                         .WithMany()
-                        .HasForeignKey("CurriculumSubjectId")
+                        .HasForeignKey("SubjectId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -718,7 +718,7 @@ namespace TeachPlanner.Api.Migrations
                 {
                     b.HasOne("TeachPlanner.Api.Domain.CurriculumSubjects.Subject", null)
                         .WithMany()
-                        .HasForeignKey("CurriculumSubjectId")
+                        .HasForeignKey("SubjectId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -804,7 +804,7 @@ namespace TeachPlanner.Api.Migrations
 
                     b.HasOne("TeachPlanner.Api.Domain.CurriculumSubjects.Subject", null)
                         .WithMany()
-                        .HasForeignKey("CurriculumSubjectId")
+                        .HasForeignKey("SubjectId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -859,7 +859,7 @@ namespace TeachPlanner.Api.Migrations
                 {
                     b.HasOne("TeachPlanner.Api.Domain.CurriculumSubjects.Subject", null)
                         .WithMany()
-                        .HasForeignKey("CurriculumSubjectId")
+                        .HasForeignKey("SubjectId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -899,7 +899,7 @@ namespace TeachPlanner.Api.Migrations
                             b1.Property<int?>("BandLevelValue")
                                 .HasColumnType("int");
 
-                            b1.Property<Guid>("CurriculumSubjectId")
+                            b1.Property<Guid>("SubjectId")
                                 .HasColumnType("char(36)");
 
                             b1.Property<string>("YearLevelDescription")
@@ -910,12 +910,12 @@ namespace TeachPlanner.Api.Migrations
 
                             b1.HasKey("Id");
 
-                            b1.HasIndex("CurriculumSubjectId");
+                            b1.HasIndex("SubjectId");
 
                             b1.ToTable("year_levels", (string)null);
 
                             b1.WithOwner()
-                                .HasForeignKey("CurriculumSubjectId");
+                                .HasForeignKey("SubjectId");
 
                             b1.OwnsMany("TeachPlanner.Api.Domain.CurriculumSubjects.Strand", "Strands", b2 =>
                                 {

@@ -1,11 +1,12 @@
-﻿using TeachPlanner.Api.Contracts.Subjects;
+﻿using TeachPlanner.Api.Domain.CurriculumSubjects;
 using TeachPlanner.Api.Domain.LessonPlans;
 
 namespace TeachPlanner.Api.Contracts.LessonPlans.CreateLessonPlan;
 
 public record CreateLessonPlanRequest(
     Guid YearDataId,
-    SubjectRequest Subject,
+    SubjectId SubjectId,
+    List<string> CurriculumCodes,
     string PlanningNotes,
     List<LessonPlanResource>? LessonPlanResources,
     List<Guid>? AssessmentIds,

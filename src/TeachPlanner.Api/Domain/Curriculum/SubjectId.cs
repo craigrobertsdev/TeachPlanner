@@ -1,19 +1,19 @@
 ﻿using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace TeachPlanner.Api.Domain.CurriculumSubjects;
-public record CurriculumSubjectId
+public record SubjectId
 {
     public Guid Value;
 
-    public CurriculumSubjectId(Guid value)
+    public SubjectId(Guid value)
     {
         Value = value;
     }
 
-    public class StronglyTypedIdEfValueConverter : ValueConverter<CurriculumSubjectId, Guid>
+    public class StronglyTypedIdEfValueConverter : ValueConverter<SubjectId, Guid>
     {
         public StronglyTypedIdEfValueConverter(ConverterMappingHints? mappingHints = null)
-            : base(id => id.Value, value => new CurriculumSubjectId(value), mappingHints)
+            : base(id => id.Value, value => new SubjectId(value), mappingHints)
         {
         }
     }

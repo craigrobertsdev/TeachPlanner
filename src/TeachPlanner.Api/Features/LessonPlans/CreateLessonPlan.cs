@@ -1,8 +1,10 @@
 ﻿using FluentValidation;
 using MediatR;
+using TeachPlanner.Api.Common.Exceptions;
 using TeachPlanner.Api.Common.Interfaces.Persistence;
 using TeachPlanner.Api.Contracts.LessonPlans.CreateLessonPlan;
 using TeachPlanner.Api.Domain.Assessments;
+using TeachPlanner.Api.Domain.CurriculumSubjects;
 using TeachPlanner.Api.Domain.LessonPlans;
 using TeachPlanner.Api.Domain.YearDataRecords;
 
@@ -12,7 +14,8 @@ public static class CreateLessonPlan
 {
     public record Command(
         YearDataId YearDataId,
-        Subject Subject,
+        SubjectId SubjectId,
+        List<string> CurriculumCodes,
         string PlanningNotes,
         List<LessonPlanResource> LessonPlanResources,
         List<AssessmentId> AssessmentIds,
@@ -25,7 +28,7 @@ public static class CreateLessonPlan
         public Validator()
         {
             RuleFor(x => x.YearDataId).NotNull();
-            RuleFor(x => x.Subject).NotNull();
+            RuleFor(x => x.SubjectId).NotNull();
             RuleFor(x => x.NumberOfPeriods).NotEmpty();
             RuleFor(x => x.StartPeriod).NotNull();
         }
@@ -58,11 +61,14 @@ public static class CreateLessonPlan
                 assessments = await _assessmentRepository.GetAssessmentsById(request.AssessmentIds, cancellationToken);
             }
 
-            // Add lesson date to request and command. Do validation to make sure that no overlapping lesson plans exist.
+            var lessonPlans = await _lessonPlanRepository.GetByYearDataAndDate(request.YearDataId, request.LessonDate, cancellationToken);
+
+            CheckForConflictingLessonPlans(lessonPlans, request.StartPeriod, request.NumberOfPeriods);
 
             var lesson = LessonPlan.Create(
                 request.YearDataId,
-                request.Subject,
+                request.SubjectId,
+                request.CurriculumCodes,
                 request.PlanningNotes,
                 request.NumberOfPeriods,
                 request.StartPeriod,
@@ -76,28 +82,38 @@ public static class CreateLessonPlan
 
             return new CreateLessonPlanResponse(lesson.Id.Value);
         }
-    }
+        public static async Task<IResult> Delegate(ISender sender, CreateLessonPlanRequest request, CancellationToken cancellationToken)
+        {
+            var command = new Command(
+                new YearDataId(request.YearDataId),
+                request.SubjectId,
+                request.CurriculumCodes,
+                request.PlanningNotes,
+                request.LessonPlanResources ?? new(),
+                request.AssessmentIds?.Select(id => new AssessmentId(id)).ToList() ?? new(),
+                request.LessonDate,
+                request.NumberOfPeriods,
+                request.StartPeriod);
 
-    public static async Task<IResult> Delegate(ISender sender, CreateLessonPlanRequest request, CancellationToken cancellationToken)
-    {
-        var subject = Subject.Create(
-                request.Subject.Name,
-                request.Subject.ContentDescriptionIds.Select(
-                    curriculumCode => YearDataContentDescription.Create(curriculumCode)).ToList()
-                .ToList());
+            var response = await sender.Send(command, cancellationToken);
 
-        var command = new Command(
-            new YearDataId(request.YearDataId),
-            subject,
-            request.PlanningNotes,
-            request.LessonPlanResources ?? new(),
-            request.AssessmentIds?.Select(id => new AssessmentId(id)).ToList() ?? new(),
-            request.LessonDate,
-            request.NumberOfPeriods,
-            request.StartPeriod);
+            return TypedResults.Ok(response);
+        }
 
-        var response = await sender.Send(command, cancellationToken);
+        private static void CheckForConflictingLessonPlans(List<LessonPlan> lessonPlans, int startPeriod, int numberOfPeriods)
+        {
+            foreach (var lp in lessonPlans)
+            {
+                if (lp.StartPeriod == startPeriod)
+                {
+                    throw new ConflictingLessonPlansException(lp.StartPeriod);
+                }
 
-        return TypedResults.Ok(response);
+                if (startPeriod < lp.StartPeriod && startPeriod + numberOfPeriods > lp.StartPeriod)
+                {
+                    throw new ConflictingLessonPlansException(lp.StartPeriod);
+                }
+            }
+        }
     }
 }

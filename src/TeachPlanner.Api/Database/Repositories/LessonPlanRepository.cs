@@ -20,6 +20,14 @@ public class LessonPlanRepository : ILessonPlanRepository
         _context.Add(lessonPlan);
     }
 
+    public async Task<List<LessonPlan>> GetByYearDataAndDate(YearDataId yearDataId, DateOnly date, CancellationToken cancellationToken)
+    {
+        return await _context.LessonPlans
+            .Where(lp => lp.YearDataId == yearDataId)
+            .Where(lp => lp.LessonDate == date)
+            .ToListAsync(cancellationToken);
+    }
+
     public async Task<List<LessonPlan>?> GetLessonsByYearDataId(YearDataId yearDataId, CancellationToken cancellationToken)
     {
         return await _context.LessonPlans

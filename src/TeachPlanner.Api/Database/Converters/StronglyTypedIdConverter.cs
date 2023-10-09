@@ -73,10 +73,10 @@ public static class StronglyTypedIdConverter
         }
     }
 
-    public class CurriculumSubjectIdConverter : ValueConverter<CurriculumSubjectId, Guid>
+    public class CurriculumSubjectIdConverter : ValueConverter<SubjectId, Guid>
     {
         public CurriculumSubjectIdConverter()
-            : base(id => id.Value, value => new CurriculumSubjectId(value), null)
+            : base(id => id.Value, value => new SubjectId(value), null)
         {
         }
     }
