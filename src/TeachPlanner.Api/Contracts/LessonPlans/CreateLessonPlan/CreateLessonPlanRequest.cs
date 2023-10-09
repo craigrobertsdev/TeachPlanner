@@ -1,0 +1,15 @@
+﻿using TeachPlanner.Api.Domain.LessonPlans;
+
+namespace TeachPlanner.Api.Contracts.LessonPlans.CreateLessonPlan;
+
+public record CreateLessonPlanRequest(
+    Guid YearDataId,
+    Guid SubjectId,
+    string PlanningNotes,
+    List<LessonPlanResource>? LessonPlanResources,
+    List<Guid>? AssessmentIds,
+    DateTime StartTime,
+    DateTime EndTime,
+    int NumberOfPeriods,
+    int StartPeriod);
+

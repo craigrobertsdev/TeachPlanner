@@ -5,11 +5,11 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{C8351487-90F8-4B15-88EF-FD6BE9AD55BC}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeachPlanner.Api", "src\TeachPlanner.WebAPI\TeachPlanner.Api.csproj", "{3A24EB4D-B547-4A81-9160-D2682CE56267}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeachPlanner.Api", "src\TeachPlanner.Api\TeachPlanner.Api.csproj", "{3A24EB4D-B547-4A81-9160-D2682CE56267}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{3DD1FB48-BC0E-4880-8B5B-45E89E600270}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeachPlanner.WebApi.Tests", "tests\TeachPlanner.WebApi.Tests\TeachPlanner.WebApi.Tests.csproj", "{16C56DA5-CA43-4E31-AD95-7307677A68A1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeachPlanner.Api.UnitTests", "tests\TeachPlanner.Api.UnitTests\TeachPlanner.Api.UnitTests.csproj", "{16C56DA5-CA43-4E31-AD95-7307677A68A1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
