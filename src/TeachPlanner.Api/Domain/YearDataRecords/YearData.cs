@@ -2,6 +2,7 @@ using TeachPlanner.Api.Common.Exceptions;
 using TeachPlanner.Api.Domain.Common.Enums;
 using TeachPlanner.Api.Domain.Common.Interfaces;
 using TeachPlanner.Api.Domain.Common.Primatives;
+using TeachPlanner.Api.Domain.CurriculumSubjects;
 using TeachPlanner.Api.Domain.LessonPlans;
 using TeachPlanner.Api.Domain.Reports;
 using TeachPlanner.Api.Domain.Students;
@@ -58,7 +59,7 @@ public class YearData : Entity<YearDataId>, IAggregateRoot
         return yearData;
     }
 
-    public void AddSubjects(List<Subject> subjects)
+    public void AddSubjects(List<CurriculumSubject> subjects)
     {
         foreach (var subject in subjects)
         {
@@ -67,11 +68,11 @@ public class YearData : Entity<YearDataId>, IAggregateRoot
                 return;
             }
 
-            _subjects.Add(subject);
+            _subjects.Add(Subject.Create(subject.Name, new List<YearDataContentDescription>()));
         }
     }
 
-    private bool IsInSubjects(Subject subject)
+    private bool IsInSubjects(CurriculumSubject subject)
     {
         return _subjects.FirstOrDefault(s => s.Name == subject.Name) != null;
     }

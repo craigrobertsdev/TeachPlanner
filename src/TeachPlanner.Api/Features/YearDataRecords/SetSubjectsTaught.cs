@@ -1,6 +1,7 @@
 ﻿using FluentValidation;
 using MediatR;
 using TeachPlanner.Api.Common.Exceptions;
+using TeachPlanner.Api.Common.Interfaces.Curriculum;
 using TeachPlanner.Api.Common.Interfaces.Persistence;
 using TeachPlanner.Api.Domain.CurriculumSubjects;
 using TeachPlanner.Api.Domain.Teachers;
@@ -29,29 +30,31 @@ public static class SetSubjectsTaught
     {
         private readonly IYearDataRepository _yearDataRepository;
         private readonly ISubjectRepository _subjectRepository;
+        private readonly ICurriculumService _curriculumService;
         private readonly IUnitOfWork _unitOfWork;
 
-        public Handler(IYearDataRepository yearDataRepository, ISubjectRepository subjectRepository, IUnitOfWork unitOfWork)
+        public Handler(IYearDataRepository yearDataRepository, ISubjectRepository subjectRepository, IUnitOfWork unitOfWork, ICurriculumService curriculumService)
         {
             _yearDataRepository = yearDataRepository;
             _subjectRepository = subjectRepository;
             _unitOfWork = unitOfWork;
+            _curriculumService = curriculumService;
         }
 
         public async Task Handle(Command request, CancellationToken cancellationToken)
         {
-
             var yearData = await _yearDataRepository.GetByTeacherIdAndYear(request.TeacherId, request.CalendarYear, cancellationToken);
             if (yearData == null)
             {
                 throw new YearDataNotFoundException();
             }
 
-            var subjects = await _subjectRepository.GetSubjectsById(request.SubjectIds, false, cancellationToken);
+            var subjects = _curriculumService.CurriculumSubjects
+                .Where(subject => request.SubjectIds.Contains(subject.Id)).ToList();
 
             if (subjects.Count != request.SubjectIds.Count)
             {
-                throw new SubjectNotFoundException();
+                throw new InvalidCurriculumSubjectIdException();
             }
 
             yearData.AddSubjects(subjects);

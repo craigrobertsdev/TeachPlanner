@@ -1,11 +1,9 @@
 ﻿using TeachPlanner.Api.Contracts.LessonPlans;
-using TeachPlanner.Api.Contracts.Subjects;
 using TeachPlanner.Api.Contracts.TermPlanners;
 using TeachPlanner.Api.Contracts.WeekPlanners;
 using TeachPlanner.Api.Domain.Common.Enums;
 using TeachPlanner.Api.Domain.LessonPlans;
 using TeachPlanner.Api.Domain.Students;
-using TeachPlanner.Api.Domain.CurriculumSubjects;
 using TeachPlanner.Api.Domain.TermPlanners;
 using TeachPlanner.Api.Domain.WeekPlanners;
 using TeachPlanner.Api.Domain.YearDataRecords;
@@ -15,20 +13,20 @@ public record GetTeacherSettingsResponse
 {
     public GetTeacherSettingsResponse(
     YearDataId yearDataId,
-    IEnumerable<CurriculumSubject> subjects,
+    IEnumerable<Subject> subjects,
     IEnumerable<Student> students,
     IEnumerable<YearLevelValue> yearLevelsTaught,
     TermPlanner? termPlanner)
     {
         this.YearDataId = yearDataId.Value;
-        Subjects = SubjectResponse.CreateSubjectResponses(subjects, false);
+        Subjects = subjects.ToList();
         Students = students.Select(s => new SettingsStudentResponse(s.FirstName, s.LastName)).ToList();
         YearLevelsTaught = yearLevelsTaught.ToList();
         TermPlanner = termPlanner != null ? TermPlannerResponse.Create(termPlanner) : null;
     }
 
     public Guid YearDataId { get; }
-    public List<SubjectResponse> Subjects { get; }
+    public List<Subject> Subjects { get; }
     public List<SettingsStudentResponse> Students { get; }
     public List<YearLevelValue> YearLevelsTaught { get; }
     public TermPlannerResponse? TermPlanner { get; }

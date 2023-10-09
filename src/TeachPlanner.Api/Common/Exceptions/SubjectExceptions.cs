@@ -19,9 +19,9 @@ public class IsNonCurriculumSubjectException : BaseException
     { }
 }
 
-public class SubjectNotFoundException : BaseException
+public class InvalidCurriculumSubjectIdException : BaseException
 {
-    public SubjectNotFoundException() :
-        base("One of the subjects was not found", 404, "Subject.NotFound")
+    public InvalidCurriculumSubjectIdException() :
+        base("One of the subject IDs was not a curriculum subject", 404, "Subject.NotFound")
     { }
 }
