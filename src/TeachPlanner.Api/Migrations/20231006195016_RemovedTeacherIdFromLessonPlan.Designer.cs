@@ -95,7 +95,7 @@ namespace TeachPlanner.Api.Migrations
                     b.Property<Guid>("StudentId")
                         .HasColumnType("char(36)");
 
-                    b.Property<Guid>("SubjectId")
+                    b.Property<Guid>("CurriculumSubjectId")
                         .HasColumnType("char(36)");
 
                     b.Property<Guid>("TeacherId")
@@ -115,7 +115,7 @@ namespace TeachPlanner.Api.Migrations
 
                     b.HasIndex("StudentId");
 
-                    b.HasIndex("SubjectId");
+                    b.HasIndex("CurriculumSubjectId");
 
                     b.HasIndex("TeacherId");
 
@@ -201,7 +201,7 @@ namespace TeachPlanner.Api.Migrations
                     b.Property<DateTime>("StartTime")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<Guid>("SubjectId")
+                    b.Property<Guid>("CurriculumSubjectId")
                         .HasColumnType("char(36)");
 
                     b.Property<DateTime>("UpdatedDateTime")
@@ -215,7 +215,7 @@ namespace TeachPlanner.Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("SubjectId");
+                    b.HasIndex("CurriculumSubjectId");
 
                     b.HasIndex("WeekPlannerId");
 
@@ -251,7 +251,7 @@ namespace TeachPlanner.Api.Migrations
                     b.Property<Guid>("StudentId")
                         .HasColumnType("char(36)");
 
-                    b.Property<Guid>("SubjectId")
+                    b.Property<Guid>("CurriculumSubjectId")
                         .HasColumnType("char(36)");
 
                     b.Property<Guid>("TeacherId")
@@ -272,7 +272,7 @@ namespace TeachPlanner.Api.Migrations
 
                     b.HasIndex("StudentId");
 
-                    b.HasIndex("SubjectId");
+                    b.HasIndex("CurriculumSubjectId");
 
                     b.HasIndex("TeacherId");
 
@@ -302,7 +302,7 @@ namespace TeachPlanner.Api.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("varchar(100)");
 
-                    b.Property<Guid>("SubjectId")
+                    b.Property<Guid>("CurriculumSubjectId")
                         .HasColumnType("char(36)");
 
                     b.Property<Guid?>("TeacherId")
@@ -318,7 +318,7 @@ namespace TeachPlanner.Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("SubjectId");
+                    b.HasIndex("CurriculumSubjectId");
 
                     b.HasIndex("TeacherId");
 
@@ -354,7 +354,7 @@ namespace TeachPlanner.Api.Migrations
                     b.ToTable("students", (string)null);
                 });
 
-            modelBuilder.Entity("TeachPlanner.Api.Domain.Subjects.ContentDescription", b =>
+            modelBuilder.Entity("TeachPlanner.Api.Domain.CurriculumSubjects.ContentDescription", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -384,7 +384,7 @@ namespace TeachPlanner.Api.Migrations
                     b.ToTable("content_descriptions", (string)null);
                 });
 
-            modelBuilder.Entity("TeachPlanner.Api.Domain.Subjects.Elaboration", b =>
+            modelBuilder.Entity("TeachPlanner.Api.Domain.CurriculumSubjects.Elaboration", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -405,7 +405,7 @@ namespace TeachPlanner.Api.Migrations
                     b.ToTable("elaborations", (string)null);
                 });
 
-            modelBuilder.Entity("TeachPlanner.Api.Domain.Subjects.Strand", b =>
+            modelBuilder.Entity("TeachPlanner.Api.Domain.CurriculumSubjects.Strand", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -426,7 +426,7 @@ namespace TeachPlanner.Api.Migrations
                     b.ToTable("strands", (string)null);
                 });
 
-            modelBuilder.Entity("TeachPlanner.Api.Domain.Subjects.Subject", b =>
+            modelBuilder.Entity("TeachPlanner.Api.Domain.CurriculumSubjects.Subject", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("char(36)")
@@ -456,7 +456,7 @@ namespace TeachPlanner.Api.Migrations
                     b.ToTable("subjects", (string)null);
                 });
 
-            modelBuilder.Entity("TeachPlanner.Api.Domain.Subjects.YearLevel", b =>
+            modelBuilder.Entity("TeachPlanner.Api.Domain.CurriculumSubjects.YearLevel", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -468,7 +468,7 @@ namespace TeachPlanner.Api.Migrations
                     b.Property<int?>("BandLevelValue")
                         .HasColumnType("int");
 
-                    b.Property<Guid>("SubjectId")
+                    b.Property<Guid>("CurriculumSubjectId")
                         .HasColumnType("char(36)");
 
                     b.Property<string>("YearLevelDescription")
@@ -479,7 +479,7 @@ namespace TeachPlanner.Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("SubjectId");
+                    b.HasIndex("CurriculumSubjectId");
 
                     b.ToTable("year_levels", (string)null);
                 });
@@ -672,7 +672,7 @@ namespace TeachPlanner.Api.Migrations
 
             modelBuilder.Entity("SubjectYearData", b =>
                 {
-                    b.HasOne("TeachPlanner.Api.Domain.Subjects.Subject", null)
+                    b.HasOne("TeachPlanner.Api.Domain.CurriculumSubjects.Subject", null)
                         .WithMany()
                         .HasForeignKey("SubjectsId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -699,9 +699,9 @@ namespace TeachPlanner.Api.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TeachPlanner.Api.Domain.Subjects.Subject", null)
+                    b.HasOne("TeachPlanner.Api.Domain.CurriculumSubjects.Subject", null)
                         .WithMany()
-                        .HasForeignKey("SubjectId")
+                        .HasForeignKey("CurriculumSubjectId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -813,9 +813,9 @@ namespace TeachPlanner.Api.Migrations
 
             modelBuilder.Entity("TeachPlanner.Api.Domain.LessonPlans.LessonPlan", b =>
                 {
-                    b.HasOne("TeachPlanner.Api.Domain.Subjects.Subject", null)
+                    b.HasOne("TeachPlanner.Api.Domain.CurriculumSubjects.Subject", null)
                         .WithMany()
-                        .HasForeignKey("SubjectId")
+                        .HasForeignKey("CurriculumSubjectId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -893,9 +893,9 @@ namespace TeachPlanner.Api.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TeachPlanner.Api.Domain.Subjects.Subject", null)
+                    b.HasOne("TeachPlanner.Api.Domain.CurriculumSubjects.Subject", null)
                         .WithMany()
-                        .HasForeignKey("SubjectId")
+                        .HasForeignKey("CurriculumSubjectId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -948,9 +948,9 @@ namespace TeachPlanner.Api.Migrations
 
             modelBuilder.Entity("TeachPlanner.Api.Domain.Resources.Resource", b =>
                 {
-                    b.HasOne("TeachPlanner.Api.Domain.Subjects.Subject", null)
+                    b.HasOne("TeachPlanner.Api.Domain.CurriculumSubjects.Subject", null)
                         .WithMany()
-                        .HasForeignKey("SubjectId")
+                        .HasForeignKey("CurriculumSubjectId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -972,43 +972,43 @@ namespace TeachPlanner.Api.Migrations
                         .HasForeignKey("YearDataId");
                 });
 
-            modelBuilder.Entity("TeachPlanner.Api.Domain.Subjects.ContentDescription", b =>
+            modelBuilder.Entity("TeachPlanner.Api.Domain.CurriculumSubjects.ContentDescription", b =>
                 {
-                    b.HasOne("TeachPlanner.Api.Domain.Subjects.Strand", null)
+                    b.HasOne("TeachPlanner.Api.Domain.CurriculumSubjects.Strand", null)
                         .WithMany("ContentDescriptions")
                         .HasForeignKey("StrandId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("TeachPlanner.Api.Domain.Subjects.Elaboration", b =>
+            modelBuilder.Entity("TeachPlanner.Api.Domain.CurriculumSubjects.Elaboration", b =>
                 {
-                    b.HasOne("TeachPlanner.Api.Domain.Subjects.ContentDescription", null)
+                    b.HasOne("TeachPlanner.Api.Domain.CurriculumSubjects.ContentDescription", null)
                         .WithMany("Elaborations")
                         .HasForeignKey("ContentDescriptionId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("TeachPlanner.Api.Domain.Subjects.Strand", b =>
+            modelBuilder.Entity("TeachPlanner.Api.Domain.CurriculumSubjects.Strand", b =>
                 {
-                    b.HasOne("TeachPlanner.Api.Domain.Subjects.YearLevel", null)
+                    b.HasOne("TeachPlanner.Api.Domain.CurriculumSubjects.YearLevel", null)
                         .WithMany("Strands")
                         .HasForeignKey("YearLevelId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("TeachPlanner.Api.Domain.Subjects.Subject", b =>
+            modelBuilder.Entity("TeachPlanner.Api.Domain.CurriculumSubjects.Subject", b =>
                 {
                     b.HasOne("TeachPlanner.Api.Domain.TermPlanners.TermPlan", null)
-                        .WithMany("Subjects")
+                        .WithMany("CurriculumSubjects")
                         .HasForeignKey("TermPlanId");
                 });
 
-            modelBuilder.Entity("TeachPlanner.Api.Domain.Subjects.YearLevel", b =>
+            modelBuilder.Entity("TeachPlanner.Api.Domain.CurriculumSubjects.YearLevel", b =>
                 {
-                    b.HasOne("TeachPlanner.Api.Domain.Subjects.Subject", null)
+                    b.HasOne("TeachPlanner.Api.Domain.CurriculumSubjects.Subject", null)
                         .WithMany("YearLevels")
-                        .HasForeignKey("SubjectId")
+                        .HasForeignKey("CurriculumSubjectId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -1121,22 +1121,22 @@ namespace TeachPlanner.Api.Migrations
                     b.Navigation("Reports");
                 });
 
-            modelBuilder.Entity("TeachPlanner.Api.Domain.Subjects.ContentDescription", b =>
+            modelBuilder.Entity("TeachPlanner.Api.Domain.CurriculumSubjects.ContentDescription", b =>
                 {
                     b.Navigation("Elaborations");
                 });
 
-            modelBuilder.Entity("TeachPlanner.Api.Domain.Subjects.Strand", b =>
+            modelBuilder.Entity("TeachPlanner.Api.Domain.CurriculumSubjects.Strand", b =>
                 {
                     b.Navigation("ContentDescriptions");
                 });
 
-            modelBuilder.Entity("TeachPlanner.Api.Domain.Subjects.Subject", b =>
+            modelBuilder.Entity("TeachPlanner.Api.Domain.CurriculumSubjects.Subject", b =>
                 {
                     b.Navigation("YearLevels");
                 });
 
-            modelBuilder.Entity("TeachPlanner.Api.Domain.Subjects.YearLevel", b =>
+            modelBuilder.Entity("TeachPlanner.Api.Domain.CurriculumSubjects.YearLevel", b =>
                 {
                     b.Navigation("Strands");
                 });
@@ -1150,7 +1150,7 @@ namespace TeachPlanner.Api.Migrations
 
             modelBuilder.Entity("TeachPlanner.Api.Domain.TermPlanners.TermPlan", b =>
                 {
-                    b.Navigation("Subjects");
+                    b.Navigation("CurriculumSubjects");
                 });
 
             modelBuilder.Entity("TeachPlanner.Api.Domain.TermPlanners.TermPlanner", b =>

@@ -3,12 +3,11 @@ using Microsoft.EntityFrameworkCore;
 using TeachPlanner.Api.Domain.Assessments;
 using TeachPlanner.Api.Domain.Calendar;
 using TeachPlanner.Api.Domain.Common.Interfaces;
-using TeachPlanner.Api.Domain.Common.Primatives;
 using TeachPlanner.Api.Domain.LessonPlans;
 using TeachPlanner.Api.Domain.Reports;
 using TeachPlanner.Api.Domain.Resources;
 using TeachPlanner.Api.Domain.Students;
-using TeachPlanner.Api.Domain.Subjects;
+using TeachPlanner.Api.Domain.CurriculumSubjects;
 using TeachPlanner.Api.Domain.Teachers;
 using TeachPlanner.Api.Domain.TermPlanners;
 using TeachPlanner.Api.Domain.Users;
@@ -32,7 +31,7 @@ public class ApplicationDbContext : DbContext
     }
 
     public DbSet<User> Users { get; set; } = null!;
-    public DbSet<Subject> Subjects { get; set; } = null!;
+    public DbSet<CurriculumSubject> CurriculumSubjects { get; set; } = null!;
     public DbSet<Resource> Resources { get; set; } = null!;
     public DbSet<Teacher> Teachers { get; set; } = null!;
     public DbSet<Student> Students { get; set; } = null!;

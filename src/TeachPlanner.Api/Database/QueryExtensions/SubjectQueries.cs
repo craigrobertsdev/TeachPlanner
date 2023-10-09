@@ -1,30 +1,28 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 using TeachPlanner.Api.Common.Exceptions;
-using TeachPlanner.Api.Domain.Subjects;
+using TeachPlanner.Api.Domain.CurriculumSubjects;
 
 namespace TeachPlanner.Api.Database.QueryExtensions;
 
 public static class SubjectQueries
 {
-    public static async Task<List<Subject>> GetCurriculumSubjects(
+    public static async Task<List<CurriculumSubject>> GetCurriculumSubjects(
         this ApplicationDbContext context,
         bool includeElaborations,
         CancellationToken cancellationToken)
     {
-        Expression<Func<Subject, bool>> filter = s => s.IsCurriculumSubject;
-
         if (includeElaborations)
         {
-            return await GetSubjectsWithElaborations(context, new List<SubjectId>(), cancellationToken, filter);
+            return await GetSubjectsWithElaborations(context, new List<CurriculumSubjectId>(), cancellationToken);
         }
 
-        return await GetSubjectsWithoutElaborations(context, new List<SubjectId>(), cancellationToken, filter);
+        return await GetSubjectsWithoutElaborations(context, new List<CurriculumSubjectId>(), cancellationToken);
     }
 
-    public static async Task<List<Subject>?> GetSubjectsById(
+    public static async Task<List<CurriculumSubject>?> GetSubjectsById(
         this ApplicationDbContext context,
-        List<SubjectId> subjects,
+        List<CurriculumSubjectId> subjects,
         bool includeElaborations,
         CancellationToken cancellationToken)
     {
@@ -36,13 +34,13 @@ public static class SubjectQueries
         return await context.GetSubjectsWithoutElaborations(subjects, cancellationToken);
     }
 
-    private static async Task<List<Subject>> GetSubjectsWithElaborations(
+    private static async Task<List<CurriculumSubject>> GetSubjectsWithElaborations(
         this ApplicationDbContext context,
-        List<SubjectId> subjectIds,
+        List<CurriculumSubjectId> subjectIds,
         CancellationToken cancellationToken,
-        Expression<Func<Subject, bool>>? filter = null)
+        Expression<Func<CurriculumSubject, bool>>? filter = null)
     {
-        var subjectsQuery = context.Subjects
+        var subjectsQuery = context.CurriculumSubjects
             .AsNoTracking()
             .Where(s => subjectIds.Contains(s.Id));
 
@@ -67,13 +65,13 @@ public static class SubjectQueries
         return subjects;
     }
 
-    private static async Task<List<Subject>> GetSubjectsWithoutElaborations(
+    private static async Task<List<CurriculumSubject>> GetSubjectsWithoutElaborations(
         this ApplicationDbContext context,
-        List<SubjectId> subjectIds,
+        List<CurriculumSubjectId> subjectIds,
         CancellationToken cancellationToken,
-        Expression<Func<Subject, bool>>? filter = null)
+        Expression<Func<CurriculumSubject, bool>>? filter = null)
     {
-        var subjectsQuery = context.Subjects
+        var subjectsQuery = context.CurriculumSubjects
             .AsNoTracking()
             .Where(s => subjectIds.Contains(s.Id));
 

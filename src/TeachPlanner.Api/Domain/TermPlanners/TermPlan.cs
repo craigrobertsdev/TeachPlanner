@@ -1,22 +1,22 @@
 ﻿using TeachPlanner.Api.Common.Exceptions;
-using TeachPlanner.Api.Domain.Subjects;
+using TeachPlanner.Api.Domain.CurriculumSubjects;
 
 namespace TeachPlanner.Api.Domain.TermPlanners;
 public record TermPlan
 {
-    private readonly List<Subject> _subjects = new();
-    public IReadOnlyList<Subject> Subjects => _subjects.AsReadOnly();
+    private readonly List<CurriculumSubject> _subjects = new();
+    public IReadOnlyList<CurriculumSubject> Subjects => _subjects.AsReadOnly();
     public TermPlanner TermPlanner { get; private set; } = null!;
     public int TermNumber { get; private set; }
 
-    private TermPlan(TermPlanner termPlanner, int termNumber, List<Subject> subjects)
+    private TermPlan(TermPlanner termPlanner, int termNumber, List<CurriculumSubject> subjects)
     {
         TermPlanner = termPlanner;
         TermNumber = termNumber;
         _subjects = subjects;
     }
 
-    public void AddSubject(Subject subject)
+    public void AddSubject(CurriculumSubject subject)
     {
         if (!_subjects.Contains(subject))
         {
@@ -24,7 +24,7 @@ public record TermPlan
         }
     }
 
-    public void AddSubjects(List<Subject> subjects)
+    public void AddSubjects(List<CurriculumSubject> subjects)
     {
         if (_subjects.Count > 0)
         {
@@ -34,12 +34,12 @@ public record TermPlan
         _subjects.AddRange(subjects);
     }
 
-    public void SetSubjectAtIndex(Subject subject, int index)
+    public void SetSubjectAtIndex(CurriculumSubject subject, int index)
     {
         _subjects[index] = subject;
     }
 
-    public void UpdateSubject(Subject subject)
+    public void UpdateSubject(CurriculumSubject subject)
     {
         var subjectToUpdate = _subjects.FirstOrDefault(s => s.Id == subject.Id);
 
@@ -63,7 +63,7 @@ public record TermPlan
         }
     }
 
-    public static TermPlan Create(TermPlanner termPlanner, int termNumber, List<Subject> subjects)
+    public static TermPlan Create(TermPlanner termPlanner, int termNumber, List<CurriculumSubject> subjects)
     {
         return new TermPlan(termPlanner, termNumber, subjects);
     }

@@ -1,7 +1,7 @@
-﻿using TeachPlanner.Api.Domain.Subjects;
+﻿using TeachPlanner.Api.Domain.CurriculumSubjects;
 
 namespace TeachPlanner.Api.Common.Interfaces.Curriculum;
 public interface ICurriculumParser
 {
-    List<Subject> ParseCurriculum();
+    List<CurriculumSubject> ParseCurriculum();
 }

@@ -4,7 +4,7 @@ using TeachPlanner.Api.Common.Interfaces.Persistence;
 using TeachPlanner.Api.Contracts.LessonPlans.CreateLessonPlan;
 using TeachPlanner.Api.Domain.Assessments;
 using TeachPlanner.Api.Domain.LessonPlans;
-using TeachPlanner.Api.Domain.Subjects;
+using TeachPlanner.Api.Domain.CurriculumSubjects;
 using TeachPlanner.Api.Domain.YearDataRecords;
 
 namespace TeachPlanner.Api.Features.LessonPlans;
@@ -13,10 +13,11 @@ public static class CreateLessonPlan
 {
     public record Command(
         YearDataId YearDataId,
-        SubjectId SubjectId,
+        List<Subject> Subjects,
         string PlanningNotes,
         List<LessonPlanResource> LessonPlanResources,
         List<AssessmentId> AssessmentIds,
+        DateOnly LessonDate,
         int NumberOfPeriods,
         int StartPeriod) : IRequest<CreateLessonPlanResponse>;
 
@@ -25,7 +26,7 @@ public static class CreateLessonPlan
         public Validator()
         {
             RuleFor(x => x.YearDataId).NotEmpty();
-            RuleFor(x => x.SubjectId).NotEmpty();
+            RuleFor(x => x.Subjects).NotEmpty();
             RuleFor(x => x.NumberOfPeriods).NotEmpty();
             RuleFor(x => x.StartPeriod).NotEmpty();
         }
@@ -78,14 +79,21 @@ public static class CreateLessonPlan
 
     public static async Task<IResult> Delegate(ISender sender, CreateLessonPlanRequest request, CancellationToken cancellationToken)
     {
+        var subjects = request.Subjects.Select(
+            s => Subject.Create(
+                s.Name,
+                s.ContentDescriptionIds.Select(
+                    curriculumCode => YearDataContentDescription.Create(curriculumCode)).ToList()
+                .ToList()))
+            .ToList();
+
         var command = new Command(
             new YearDataId(request.YearDataId),
-            new SubjectId(request.SubjectId),
+            subjects,
             request.PlanningNotes,
             request.LessonPlanResources ?? new(),
             request.AssessmentIds?.Select(id => new AssessmentId(id)).ToList() ?? new(),
-            request.StartTime,
-            request.EndTime,
+            request.LessonDate,
             request.NumberOfPeriods,
             request.StartPeriod);
 

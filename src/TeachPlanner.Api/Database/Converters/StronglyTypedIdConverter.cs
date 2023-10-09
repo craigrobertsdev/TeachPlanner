@@ -6,7 +6,7 @@ using TeachPlanner.Api.Domain.LessonPlans;
 using TeachPlanner.Api.Domain.Reports;
 using TeachPlanner.Api.Domain.Resources;
 using TeachPlanner.Api.Domain.Students;
-using TeachPlanner.Api.Domain.Subjects;
+using TeachPlanner.Api.Domain.CurriculumSubjects;
 using TeachPlanner.Api.Domain.Teachers;
 using TeachPlanner.Api.Domain.TermPlanners;
 using TeachPlanner.Api.Domain.Users;
@@ -73,10 +73,10 @@ public static class StronglyTypedIdConverter
         }
     }
 
-    public class SubjectIdConverter : ValueConverter<SubjectId, Guid>
+    public class CurriculumSubjectIdConverter : ValueConverter<CurriculumSubjectId, Guid>
     {
-        public SubjectIdConverter()
-            : base(id => id.Value, value => new SubjectId(value), null)
+        public CurriculumSubjectIdConverter()
+            : base(id => id.Value, value => new CurriculumSubjectId(value), null)
         {
         }
     }

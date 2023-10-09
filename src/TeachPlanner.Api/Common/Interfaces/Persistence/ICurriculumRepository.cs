@@ -1,7 +1,7 @@
-﻿using TeachPlanner.Api.Domain.Subjects;
+﻿using TeachPlanner.Api.Domain.CurriculumSubjects;
 
 namespace TeachPlanner.Api.Common.Interfaces.Persistence;
 public interface ICurriculumRepository
 {
-    Task AddCurriculum(List<Subject> subjects, CancellationToken cancellationToken);
+    Task AddCurriculum(List<CurriculumSubject> subjects, CancellationToken cancellationToken);
 }

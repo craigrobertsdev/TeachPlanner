@@ -2,8 +2,7 @@
 using TeachPlanner.Api.Database;
 using TeachPlanner.Api.Domain.Assessments;
 using TeachPlanner.Api.Domain.LessonPlans;
-using TeachPlanner.Api.Domain.Subjects;
-using TeachPlanner.Api.Domain.Teachers;
+using TeachPlanner.Api.Domain.CurriculumSubjects;
 using TeachPlanner.Api.Domain.YearDataRecords;
 
 namespace TeachPlanner.Api.UnitTests.Database;
@@ -23,11 +22,11 @@ public class LessonPlanRespositoryTests
         {
             var lessonPlan = LessonPlan.Create(
                 new YearDataId(Guid.NewGuid()),
-                new SubjectId(Guid.NewGuid()),
+                new CurriculumSubjectId(Guid.NewGuid()),
                 "Planning Notes",
-                DateTime.Now,
-                DateTime.Now.AddHours(1),
                 1,
+                1,
+                new DateOnly(2023, 10, 9),
                 new List<LessonPlanResource>(),
                 new List<Assessment>());
 

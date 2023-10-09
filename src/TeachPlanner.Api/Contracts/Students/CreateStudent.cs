@@ -1,4 +1,4 @@
-﻿using TeachPlanner.Api.Domain.Subjects;
+﻿using TeachPlanner.Api.Domain.CurriculumSubjects;
 
 namespace TeachPlanner.Api.Contracts.Students;
 public record CreateStudentRequest(

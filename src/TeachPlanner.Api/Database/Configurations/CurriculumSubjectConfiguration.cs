@@ -2,20 +2,20 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using TeachPlanner.Api.Database.Converters;
 using TeachPlanner.Api.Domain.Common.Enums;
-using TeachPlanner.Api.Domain.Subjects;
+using TeachPlanner.Api.Domain.CurriculumSubjects;
 
 namespace TeachPlanner.Api.Database.Configurations;
 
-public class SubjectConfiguration : IEntityTypeConfiguration<Subject>
+public class CurriculumSubjectConfiguration : IEntityTypeConfiguration<CurriculumSubject>
 {
-    public void Configure(EntityTypeBuilder<Subject> builder)
+    public void Configure(EntityTypeBuilder<CurriculumSubject> builder)
     {
-        builder.ToTable("subjects");
+        builder.ToTable("curriculum_subjects");
         builder.HasKey(s => s.Id);
 
         builder.Property(s => s.Id)
             .HasColumnName("Id")
-            .HasConversion(new StronglyTypedIdConverter.SubjectIdConverter());
+            .HasConversion(new StronglyTypedIdConverter.CurriculumSubjectIdConverter());
 
         builder.Property(s => s.Name)
             .HasMaxLength(50);
@@ -25,66 +25,6 @@ public class SubjectConfiguration : IEntityTypeConfiguration<Subject>
             .IsRequired()
             .OnDelete(DeleteBehavior.Cascade);
 
-        //    builder.OwnsMany(s => s.YearLevels, ylb =>
-        //    {
-        //        ylb.ToTable("year_levels");
-        //        ylb.WithOwner().HasForeignKey("SubjectId");
-
-        //        ylb.Property<Guid>("Id");
-        //        ylb.HasKey("Id");
-
-        //        ylb.Ignore(yl => yl.Name);
-
-        //        ylb.Property(yl => yl.YearLevelValue)
-        //            .HasConversion(
-        //                v => (int?)v,
-        //                v => (YearLevelValue?)v);
-
-        //        ylb.Property(yl => yl.BandLevelValue)
-        //            .HasConversion(
-        //                v => (int?)v,
-        //                v => (BandLevelValue?)v);
-
-        //        ylb.OwnsMany(yl => yl.Strands, sb =>
-        //        {
-        //            sb.ToTable("strands");
-        //            sb.WithOwner().HasForeignKey("YearLevelId");
-
-        //            sb.Property<Guid>("Id");
-        //            sb.HasKey("Id");
-
-        //            sb.Property(s => s.Name)
-        //                .HasMaxLength(50);
-
-        //            sb.OwnsMany(s => s.ContentDescriptions, cdb =>
-        //            {
-        //                cdb.ToTable("content_descriptions");
-        //                cdb.WithOwner().HasForeignKey("StrandId");
-
-        //                cdb.Property<Guid>("Id");
-        //                cdb.HasKey("Id");
-
-        //                cdb.Property(cd => cd.Description)
-        //                    .HasMaxLength(1000);
-
-        //                cdb.Property(cd => cd.CurriculumCode)
-        //                .HasMaxLength(50);
-
-        //                cdb.OwnsMany(cd => cd.Elaborations, elb =>
-        //                {
-        //                    elb.ToTable("elaborations");
-        //                    elb.WithOwner().HasForeignKey("ContentDescriptionId");
-
-        //                    elb.Property<Guid>("Id");
-        //                    elb.HasKey("Id");
-
-        //                    elb.Property(e => e.Description)
-        //                        .HasMaxLength(1000);
-        //                });
-        //            });
-        //        });
-        //    });
-        //}
     }
 }
 

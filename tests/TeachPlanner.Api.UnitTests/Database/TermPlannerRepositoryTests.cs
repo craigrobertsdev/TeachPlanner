@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using TeachPlanner.Api.Database;
 using TeachPlanner.Api.Database.QueryExtensions;
 using TeachPlanner.Api.Domain.Common.Enums;
-using TeachPlanner.Api.Domain.Subjects;
+using TeachPlanner.Api.Domain.CurriculumSubjects;
 using TeachPlanner.Api.Domain.TermPlanners;
 using TeachPlanner.Api.Domain.YearDataRecords;
 
@@ -30,11 +30,11 @@ public class TermPlannerRepositoryTests
         if (await databaseContext.TermPlanners.AnyAsync())
         {
             var termPlanner = TermPlanner.Create(new YearDataId(Guid.NewGuid()), 2023, new List<YearLevelValue> { YearLevelValue.Foundation, YearLevelValue.Year1 });
-            var termPlan = TermPlan.Create(termPlanner, 1, new List<Subject>());
+            var termPlan = TermPlan.Create(termPlanner, 1, new List<CurriculumSubject>());
 
             termPlanner.AddTermPlan(termPlan);
 
-            var subject = Subject.Create("English", new List<YearLevel>());
+            var subject = CurriculumSubject.Create("English", new List<YearLevel>());
             var yearLevel = YearLevel.Create(new List<Strand>(), "Description", "Achievement Standard", YearLevelValue.Foundation, null);
             var strand = Strand.Create("Grammar", new List<ContentDescription>());
             var contentDescription = ContentDescription.Create("Description", "ENG001", new List<Elaboration>());

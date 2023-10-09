@@ -1,13 +1,13 @@
 ﻿using TeachPlanner.Api.Extensions;
-using TeachPlanner.Api.Domain.Subjects;
+using TeachPlanner.Api.Domain.CurriculumSubjects;
 using TeachPlanner.Api.Domain.Common.Enums;
 
 namespace TeachPlanner.Api.Services.CurriculumParser;
 internal class GeneralSubjectParser
 {
-    internal Subject ParseSubject(string[] contentArr, string subjectName, int index)
+    internal CurriculumSubject ParseSubject(string[] contentArr, string subjectName, int index)
     {
-        var subject = Subject.CreateCurriculumSubject(subjectName, new List<YearLevel>());
+        var subject = CurriculumSubject.Create(subjectName, new List<YearLevel>());
 
         try
         {
@@ -26,7 +26,7 @@ internal class GeneralSubjectParser
         return subject;
     }
 
-    private YearLevel ParseYearLevel(string[] contentArr, ref int index, Subject subject)
+    private YearLevel ParseYearLevel(string[] contentArr, ref int index, CurriculumSubject subject)
     {
         YearLevelValue yearLevelValue = contentArr[index] == "Foundation"
             ? YearLevelValue.Foundation

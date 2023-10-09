@@ -58,5 +58,30 @@ public class YearDataConfiguration : IEntityTypeConfiguration<YearData>
                     c => c.Aggregate(0, (a, v) => HashCode.Combine(a, v.GetHashCode())),
                     c => c.ToList()));
 
+
+        builder.OwnsMany(yd => yd.Subjects, sb =>
+        {
+            sb.ToTable("subjects");
+            sb.WithOwner().HasForeignKey("YearDataId");
+
+            sb.Property<Guid>("Id");
+            sb.HasKey("Id");
+
+            sb.Property(s => s.Name)
+                .HasColumnName("Name")
+                .HasMaxLength(50);
+
+            sb.OwnsMany(s => s.ContentDescriptions, cdb =>
+            {
+                cdb.ToTable("year_data_content_descriptions");
+                cdb.WithOwner().HasForeignKey("SubjectId");
+
+                cdb.Property<Guid>("Id");
+                cdb.HasKey("Id");
+
+                cdb.Property(cd => cd.CurriculumCode)
+                    .HasMaxLength(15);
+            });
+        });
     }
 }

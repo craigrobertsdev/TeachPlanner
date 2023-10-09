@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using TeachPlanner.Api.Database.Converters;
 using TeachPlanner.Api.Domain.Resources;
-using TeachPlanner.Api.Domain.Subjects;
+using TeachPlanner.Api.Domain.CurriculumSubjects;
 
 namespace TeachPlanner.Api.Database.Configurations;
 
@@ -30,7 +30,7 @@ public class ResourceConfiguration : IEntityTypeConfiguration<Resource>
                 v => v.Split(',', StringSplitOptions.RemoveEmptyEntries).ToList(),
                 null);
 
-        builder.HasOne<Subject>()
+        builder.HasOne<CurriculumSubject>()
             .WithMany()
             .HasForeignKey(r => r.SubjectId)
             .IsRequired();

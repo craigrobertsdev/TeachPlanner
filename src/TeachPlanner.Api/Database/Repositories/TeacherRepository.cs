@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TeachPlanner.Api.Common.Interfaces.Persistence;
-using TeachPlanner.Api.Domain.Subjects;
+using TeachPlanner.Api.Domain.CurriculumSubjects;
 using TeachPlanner.Api.Domain.Teachers;
 using TeachPlanner.Api.Domain.Users;
 using TeachPlanner.Api.Domain.YearDataRecords;
@@ -42,12 +42,12 @@ public class TeacherRepository : ITeacherRepository
             .FirstOrDefaultAsync(cancellationToken);
     }
 
-    public Task<List<Subject>> GetSubjectsTaughtByTeacherWithElaborations(TeacherId teacherId, CancellationToken cancellationToken)
+    public Task<List<CurriculumSubject>> GetSubjectsTaughtByTeacherWithElaborations(TeacherId teacherId, CancellationToken cancellationToken)
     {
         throw new NotImplementedException();
     }
 
-    public Task<List<Subject>> GetSubjectsTaughtByTeacherWithoutElaborations(TeacherId teacherId, CancellationToken cancellationToken)
+    public Task<List<CurriculumSubject>> GetSubjectsTaughtByTeacherWithoutElaborations(TeacherId teacherId, CancellationToken cancellationToken)
     {
         throw new NotImplementedException();
     }

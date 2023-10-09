@@ -3,7 +3,7 @@ using TeachPlanner.Api.Domain.Common.Interfaces;
 using TeachPlanner.Api.Domain.Common.Primatives;
 using TeachPlanner.Api.Domain.LessonPlans;
 using TeachPlanner.Api.Domain.Students;
-using TeachPlanner.Api.Domain.Subjects;
+using TeachPlanner.Api.Domain.CurriculumSubjects;
 using TeachPlanner.Api.Domain.Teachers;
 
 namespace TeachPlanner.Api.Domain.Assessments;
@@ -11,7 +11,7 @@ namespace TeachPlanner.Api.Domain.Assessments;
 public class Assessment : Entity<AssessmentId>, IAggregateRoot
 {
     public TeacherId TeacherId { get; private set; }
-    public SubjectId SubjectId { get; private set; }
+    public CurriculumSubjectId SubjectId { get; private set; }
     public StudentId StudentId { get; private set; }
     public LessonPlanId LessonPlanId { get; private set; }
     public YearLevelValue YearLevel { get; private set; }
@@ -25,7 +25,7 @@ public class Assessment : Entity<AssessmentId>, IAggregateRoot
     protected Assessment(
         AssessmentId id,
         TeacherId teacherId,
-        SubjectId subjectId,
+        CurriculumSubjectId subjectId,
         StudentId studentId,
         LessonPlanId lessonPlanId,
         YearLevelValue yearLevel,
@@ -53,7 +53,7 @@ public class Assessment : Entity<AssessmentId>, IAggregateRoot
 
     public Assessment Create(
         TeacherId teacherId,
-        SubjectId subjectId,
+        CurriculumSubjectId subjectId,
         StudentId studentId,
         LessonPlanId lessonPlanId,
         YearLevelValue yearLevel,

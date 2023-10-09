@@ -2,7 +2,7 @@
 using System.Linq.Expressions;
 using TeachPlanner.Api.Common.Exceptions;
 using TeachPlanner.Api.Common.Interfaces.Persistence;
-using TeachPlanner.Api.Domain.Subjects;
+using TeachPlanner.Api.Domain.CurriculumSubjects;
 
 namespace TeachPlanner.Api.Database.Repositories;
 public class SubjectRepository : ISubjectRepository
@@ -14,32 +14,24 @@ public class SubjectRepository : ISubjectRepository
         _context = context;
     }
 
-    public async Task<List<Subject>> GetCurriculumSubjects(
+    public async Task<List<CurriculumSubject>> GetCurriculumSubjects(
         bool includeElaborations,
         CancellationToken cancellationToken)
     {
-        Expression<Func<Subject, bool>> filter = s => s.IsCurriculumSubject;
-
         if (includeElaborations)
         {
-            return await GetSubjectsWithElaborations(cancellationToken, filter);
+            return await GetSubjectsWithElaborations(cancellationToken);
         }
 
-        return await GetSubjectsWithoutElaborations(cancellationToken, filter);
-    }
-    public async Task<List<Subject>> GetCurriculumSubjectNamesAndIds(CancellationToken cancellationToken)
-    {
-        return await _context.Subjects
-            .Where(s => s.IsCurriculumSubject)
-            .ToListAsync(cancellationToken);
+        return await GetSubjectsWithoutElaborations(cancellationToken);
     }
 
-    public async Task<List<Subject>> GetSubjectsById(
-        List<SubjectId> subjects,
+    public async Task<List<CurriculumSubject>> GetSubjectsById(
+        List<CurriculumSubjectId> subjects,
         bool includeElaborations,
         CancellationToken cancellationToken)
     {
-        Expression<Func<Subject, bool>> filter = s => subjects.Contains(s.Id);
+        Expression<Func<CurriculumSubject, bool>> filter = s => subjects.Contains(s.Id);
 
         if (includeElaborations)
         {
@@ -49,11 +41,11 @@ public class SubjectRepository : ISubjectRepository
         return await GetSubjectsWithoutElaborations(cancellationToken, filter);
     }
 
-    private async Task<List<Subject>> GetSubjectsWithElaborations(
+    private async Task<List<CurriculumSubject>> GetSubjectsWithElaborations(
         CancellationToken cancellationToken,
-        Expression<Func<Subject, bool>>? filter = null)
+        Expression<Func<CurriculumSubject, bool>>? filter = null)
     {
-        var subjectsQuery = _context.Subjects
+        var subjectsQuery = _context.CurriculumSubjects
             .AsNoTracking();
 
         if (filter != null)
@@ -77,11 +69,11 @@ public class SubjectRepository : ISubjectRepository
         return subjects;
     }
 
-    private async Task<List<Subject>> GetSubjectsWithoutElaborations(
+    private async Task<List<CurriculumSubject>> GetSubjectsWithoutElaborations(
         CancellationToken cancellationToken,
-        Expression<Func<Subject, bool>>? filter = null)
+        Expression<Func<CurriculumSubject, bool>>? filter = null)
     {
-        var subjectsQuery = _context.Subjects
+        var subjectsQuery = _context.CurriculumSubjects
             .AsNoTracking();
 
         if (filter != null)

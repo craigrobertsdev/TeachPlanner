@@ -4,7 +4,7 @@ using TeachPlanner.Api.Database.Converters;
 using TeachPlanner.Api.Domain.Assessments;
 using TeachPlanner.Api.Domain.LessonPlans;
 using TeachPlanner.Api.Domain.Resources;
-using TeachPlanner.Api.Domain.Subjects;
+using TeachPlanner.Api.Domain.CurriculumSubjects;
 using TeachPlanner.Api.Domain.Teachers;
 using TeachPlanner.Api.Domain.WeekPlanners;
 using TeachPlanner.Api.Domain.YearDataRecords;
@@ -28,7 +28,7 @@ public class LessonPlanConfiguration : IEntityTypeConfiguration<LessonPlan>
             .HasForeignKey(lp => lp.YearDataId)
             .IsRequired();
 
-        builder.HasOne<Subject>()
+        builder.HasOne<CurriculumSubject>()
             .WithMany()
             .HasForeignKey(lp => lp.SubjectId)
             .IsRequired();

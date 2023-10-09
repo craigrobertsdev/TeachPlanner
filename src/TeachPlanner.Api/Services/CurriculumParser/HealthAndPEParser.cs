@@ -1,13 +1,13 @@
 ﻿using TeachPlanner.Api.Domain.Common.Enums;
-using TeachPlanner.Api.Domain.Subjects;
+using TeachPlanner.Api.Domain.CurriculumSubjects;
 using TeachPlanner.Api.Extensions;
 
 namespace TeachPlanner.Api.Services.CurriculumParser;
 internal class HealthAndPEParser
 {
-    internal Subject ParseHealthAndPE(string[] contentArr, string subjectName, int index)
+    internal CurriculumSubject ParseHealthAndPE(string[] contentArr, string subjectName, int index)
     {
-        var subject = Subject.CreateCurriculumSubject(subjectName, new List<YearLevel>());
+        var subject = CurriculumSubject.Create(subjectName, new List<YearLevel>());
 
         try
         {
@@ -26,7 +26,7 @@ internal class HealthAndPEParser
         return subject;
     }
 
-    private YearLevel ParseYearLevel(string[] contentArr, ref int index, Subject subject)
+    private YearLevel ParseYearLevel(string[] contentArr, ref int index, CurriculumSubject subject)
     {
         BandLevelValue bandLevelValue;
 

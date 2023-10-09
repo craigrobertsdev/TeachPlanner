@@ -2,7 +2,7 @@
 using MediatR;
 using TeachPlanner.Api.Common.Exceptions;
 using TeachPlanner.Api.Common.Interfaces.Persistence;
-using TeachPlanner.Api.Domain.Subjects;
+using TeachPlanner.Api.Domain.CurriculumSubjects;
 using TeachPlanner.Api.Domain.Teachers;
 
 namespace TeachPlanner.Api.Features.YearDataRecords;
@@ -11,7 +11,7 @@ public static class SetSubjectsTaught
 {
     public record Command(
         TeacherId TeacherId,
-        List<SubjectId> SubjectIds,
+        List<CurriculumSubjectId> SubjectIds,
         int CalendarYear
         ) : IRequest;
 
@@ -64,7 +64,7 @@ public static class SetSubjectsTaught
     {
         var command = new Command(
             new TeacherId(teacherId),
-            new List<SubjectId>(),
+            new List<CurriculumSubjectId>(),
             DateTime.Now.Year);
 
         var validationResult = new Validator().Validate(command);

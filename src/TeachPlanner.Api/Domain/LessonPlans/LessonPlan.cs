@@ -2,7 +2,7 @@
 using TeachPlanner.Api.Domain.Common.Interfaces;
 using TeachPlanner.Api.Domain.Common.Primatives;
 using TeachPlanner.Api.Domain.Resources;
-using TeachPlanner.Api.Domain.Subjects;
+using TeachPlanner.Api.Domain.CurriculumSubjects;
 using TeachPlanner.Api.Domain.Teachers;
 using TeachPlanner.Api.Domain.YearDataRecords;
 
@@ -14,7 +14,7 @@ public sealed class LessonPlan : Entity<LessonPlanId>, IAggregateRoot
     private readonly List<Assessment> _assessments = new();
     private readonly List<LessonComment> _comments = new();
     public YearDataId YearDataId { get; private set; }
-    public SubjectId SubjectId { get; private set; }
+    public CurriculumSubjectId SubjectId { get; private set; }
     public string PlanningNotes { get; private set; }
     public DateOnly LessonDate { get; private set; }
     public int NumberOfPeriods { get; private set; }
@@ -65,11 +65,11 @@ public sealed class LessonPlan : Entity<LessonPlanId>, IAggregateRoot
     private LessonPlan(
         LessonPlanId id,
         YearDataId yearDataId,
-        SubjectId subjectId,
+        CurriculumSubjectId subjectId,
         string planningNotes,
         int numberOfPeriods,
         int startPeriod,
-        DateTime lessonDate,
+        DateOnly lessonDate,
         DateTime createdDateTime,
         DateTime updatedDateTime,
         List<LessonPlanResource>? lessonPlanResources,
@@ -96,11 +96,11 @@ public sealed class LessonPlan : Entity<LessonPlanId>, IAggregateRoot
 
     public static LessonPlan Create(
         YearDataId yearDataId,
-        SubjectId subjectId,
+        CurriculumSubjectId subjectId,
         string planningNotes,
         int numberOfPeriods,
         int startPeriod,
-        DateTime lessonDate,
+        DateOnly lessonDate,
         List<LessonPlanResource>? lessonPlanResources,
         List<Assessment>? assessments)
     {

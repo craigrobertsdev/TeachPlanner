@@ -1,4 +1,4 @@
-﻿using TeachPlanner.Api.Domain.Subjects;
+﻿using TeachPlanner.Api.Domain.CurriculumSubjects;
 
 namespace TeachPlanner.Api.Common.Exceptions;
 public class StrandCreationException : BaseException
@@ -12,7 +12,7 @@ public class StrandCreationException : BaseException
 
 public class IsNonCurriculumSubjectException : BaseException
 {
-    public IsNonCurriculumSubjectException(Subject subject) :
+    public IsNonCurriculumSubjectException(CurriculumSubject subject) :
         base($"Subject: {subject.Name}, {subject.Id} is not a curriculum subject",
         400,
         "Subject.IsNonCurriculumSubject")

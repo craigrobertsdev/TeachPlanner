@@ -1,12 +1,12 @@
 ﻿using Syncfusion.DocIO.DLS;
 using Syncfusion.DocIO;
 using TeachPlanner.Api.Common.Interfaces.Curriculum;
-using TeachPlanner.Api.Domain.Subjects;
+using TeachPlanner.Api.Domain.CurriculumSubjects;
 
 namespace TeachPlanner.Api.Services.CurriculumParser;
 public class CurriculumParser : ICurriculumParser
 {
-    private readonly List<Subject> _subjects;
+    private readonly List<CurriculumSubject> _subjects;
     private readonly GeneralSubjectParser _generalSubjectParser;
     private readonly MathematicsParser _mathematicsParser;
     private readonly HealthAndPEParser _healthAndPEParser;
@@ -20,7 +20,7 @@ public class CurriculumParser : ICurriculumParser
     }
 
     // Read values from each curriculum document and add appropriate information to the database if not already populated.
-    public List<Subject> ParseCurriculum()
+    public List<CurriculumSubject> ParseCurriculum()
     {
         string[] filePaths = Directory.GetFiles(
             "C:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\TeachPlanner.Curriculum Files");

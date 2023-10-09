@@ -1,16 +1,16 @@
 ﻿using TeachPlanner.Api.Domain.Common.Enums;
-using TeachPlanner.Api.Domain.Subjects;
+using TeachPlanner.Api.Domain.CurriculumSubjects;
 
 namespace TeachPlanner.Api.UnitTests.Helpers;
 public static class SubjectHelpers
 {
-    public static List<Subject> CreateCurriculumSubjects()
+    public static List<CurriculumSubject> CreateCurriculumSubjects()
     {
-        List<Subject> subjects = new();
+        List<CurriculumSubject> subjects = new();
 
         for (int i = 0; i < 10; i++)
         {
-            var subject = Subject.CreateCurriculumSubject("English" + i, new List<YearLevel>());
+            var subject = CurriculumSubject.Create("English" + i, new List<YearLevel>());
             var yearLevel = YearLevel.Create(new List<Strand>(), "Description" + i, "Achievement Standard", YearLevelValue.Foundation, null);
             var strand = Strand.Create("Grammar" + i, new List<ContentDescription>());
             var contentDescription = ContentDescription.Create("Description", "ENG001" + i, new List<Elaboration>());
@@ -24,13 +24,13 @@ public static class SubjectHelpers
 
         return subjects;
     }
-    public static List<Subject> CreateSubjects()
+    public static List<CurriculumSubject> CreateSubjects()
     {
-        List<Subject> subjects = new();
+        List<CurriculumSubject> subjects = new();
 
         for (int i = 0; i < 10; i++)
         {
-            var subject = Subject.Create("English" + i, new List<YearLevel>());
+            var subject = CurriculumSubject.Create("English" + i, new List<YearLevel>());
             var yearLevel = YearLevel.Create(new List<Strand>(), "Description" + i, "Achievement Standard", YearLevelValue.Foundation, null);
             var strand = Strand.Create("Grammar" + i, new List<ContentDescription>());
             var contentDescription = ContentDescription.Create("Description", "ENG001" + i, new List<Elaboration>());

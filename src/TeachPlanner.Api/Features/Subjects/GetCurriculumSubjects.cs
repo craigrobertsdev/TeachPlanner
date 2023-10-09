@@ -3,15 +3,15 @@ using Microsoft.EntityFrameworkCore;
 using TeachPlanner.Api.Common.Interfaces.Persistence;
 using TeachPlanner.Api.Database;
 using TeachPlanner.Api.Database.QueryExtensions;
-using TeachPlanner.Api.Domain.Subjects;
+using TeachPlanner.Api.Domain.CurriculumSubjects;
 
 namespace TeachPlanner.Api.Features.Subjects;
 
 public static class GetCurriculumSubjects
 {
-    public record Query(bool IncludeElaborations) : IRequest<List<Subject>>;
+    public record Query(bool IncludeElaborations) : IRequest<List<CurriculumSubject>>;
 
-    public sealed class Handler : IRequestHandler<Query, List<Subject>>
+    public sealed class Handler : IRequestHandler<Query, List<CurriculumSubject>>
     {
         private readonly ISubjectRepository _subjectRepository;
 
@@ -20,7 +20,7 @@ public static class GetCurriculumSubjects
             _subjectRepository = subjectRepository;
         }
 
-        public async Task<List<Subject>> Handle(Query request, CancellationToken cancellationToken)
+        public async Task<List<CurriculumSubject>> Handle(Query request, CancellationToken cancellationToken)
         {
             var subjects = await _subjectRepository.GetCurriculumSubjects(request.IncludeElaborations, cancellationToken);
 

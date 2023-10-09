@@ -1,5 +1,5 @@
 ﻿using System.Collections.Specialized;
-using TeachPlanner.Api.Domain.Subjects;
+using TeachPlanner.Api.Domain.CurriculumSubjects;
 
 namespace TeachPlanner.Api.Contracts.Subjects;
 
@@ -8,7 +8,7 @@ public record SubjectResponse(
     string Name,
     List<YearLevelResponse> YearLevels)
 {
-    public static List<SubjectResponse> CreateSubjectResponses(IEnumerable<Subject> subjects, bool withDetails)
+    public static List<SubjectResponse> CreateSubjectResponses(IEnumerable<CurriculumSubject> subjects, bool withDetails)
     {
         List<SubjectResponse> subjectResponses = new();
         subjectResponses = subjects.Select(s => new SubjectResponse(

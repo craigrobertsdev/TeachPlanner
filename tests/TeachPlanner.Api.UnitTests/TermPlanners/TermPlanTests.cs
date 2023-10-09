@@ -13,8 +13,8 @@
 
 //        // Assert
 //        termPlan.Should().BeOfType<TermPlan>();
-//        termPlan.Subjects.Should().HaveCount(1);
-//        termPlan.Subjects[0].Name.Should().Be("English");
+//        termPlan.CurriculumSubjects.Should().HaveCount(1);
+//        termPlan.CurriculumSubjects[0].Name.Should().Be("English");
 //        termPlan.TermNumber.Should().Be(1);
 //    }
 
@@ -30,7 +30,7 @@
 //        termPlan.AddContentDescription(contentDescription);
 
 //        // Assert
-//        var contentDescriptions = termPlan.Subjects[0].YearLevels[0].Strands[0].Substrands![0].ContentDescriptions;
+//        var contentDescriptions = termPlan.CurriculumSubjects[0].YearLevels[0].Strands[0].Substrands![0].ContentDescriptions;
 //        contentDescriptions.Should().HaveCount(2);
 //        contentDescriptions[1].Should().BeEquivalentTo(contentDescription);
 //    }
@@ -47,7 +47,7 @@
 //        termPlan.AddContentDescription(contentDescription);
 
 //        // Assert
-//        var contentDescriptions = termPlan.Subjects[0].YearLevels[0].Strands[0].ContentDescriptions!;
+//        var contentDescriptions = termPlan.CurriculumSubjects[0].YearLevels[0].Strands[0].ContentDescriptions!;
 //        contentDescriptions.Should().HaveCount(2);
 //        contentDescriptions[1].Should().BeEquivalentTo(contentDescription);
 //    }
@@ -64,7 +64,7 @@
 //        Action act = () => termPlan.AddContentDescription(contentDescription);
 
 //        // Assert
-//        var contentDescriptions = termPlan.Subjects[0].YearLevels[0].Strands[0].Substrands![0].ContentDescriptions;
+//        var contentDescriptions = termPlan.CurriculumSubjects[0].YearLevels[0].Strands[0].Substrands![0].ContentDescriptions;
 //        contentDescriptions.Should().HaveCount(1);
 //    }
 
@@ -80,9 +80,9 @@
 //        termPlan.AddContentDescription(contentDescription);
 
 //        // Assert
-//        var contentDescriptions = termPlan.Subjects[0].YearLevels[0].Strands[0].Substrands![0].ContentDescriptions;
+//        var contentDescriptions = termPlan.CurriculumSubjects[0].YearLevels[0].Strands[0].Substrands![0].ContentDescriptions;
 //        contentDescriptions.Should().HaveCount(1);
-//        termPlan.Subjects.Should().HaveCount(2);
+//        termPlan.CurriculumSubjects.Should().HaveCount(2);
 //    }
 
 //    [Fact]
@@ -97,8 +97,8 @@
 //        termPlan.AddContentDescription(contentDescription);
 
 //        // Assert
-//        termPlan.Subjects[0].YearLevels.Should().HaveCount(2);
-//        termPlan.Subjects[0].YearLevels[1].Should().BeEquivalentTo(contentDescription.Substrand!.Strand.YearLevel);
+//        termPlan.CurriculumSubjects[0].YearLevels.Should().HaveCount(2);
+//        termPlan.CurriculumSubjects[0].YearLevels[1].Should().BeEquivalentTo(contentDescription.Substrand!.Strand.YearLevel);
 //    }
 
 //    [Fact]
@@ -113,8 +113,8 @@
 //        termPlan.AddContentDescription(contentDescription);
 
 //        // Assert
-//        termPlan.Subjects[0].YearLevels[0].Strands.Should().HaveCount(2);
-//        termPlan.Subjects[0].YearLevels[0].Strands[1].Should().BeEquivalentTo(contentDescription.Substrand!.Strand);
+//        termPlan.CurriculumSubjects[0].YearLevels[0].Strands.Should().HaveCount(2);
+//        termPlan.CurriculumSubjects[0].YearLevels[0].Strands[1].Should().BeEquivalentTo(contentDescription.Substrand!.Strand);
 //    }
 
 //    [Fact]
@@ -129,7 +129,7 @@
 //        termPlan.AddContentDescription(contentDescription);
 
 //        // Assert
-//        termPlan.Subjects[0].YearLevels[0].Strands[0].Substrands!.Should().HaveCount(2);
-//        termPlan.Subjects[0].YearLevels[0].Strands[0].Substrands![1].Should().BeEquivalentTo(contentDescription.Substrand!);
+//        termPlan.CurriculumSubjects[0].YearLevels[0].Strands[0].Substrands!.Should().HaveCount(2);
+//        termPlan.CurriculumSubjects[0].YearLevels[0].Strands[0].Substrands![1].Should().BeEquivalentTo(contentDescription.Substrand!);
 //    }
 //}

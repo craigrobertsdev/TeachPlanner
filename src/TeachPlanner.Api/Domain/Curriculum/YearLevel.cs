@@ -1,6 +1,6 @@
 using TeachPlanner.Api.Domain.Common.Enums;
 
-namespace TeachPlanner.Api.Domain.Subjects;
+namespace TeachPlanner.Api.Domain.CurriculumSubjects;
 
 public record YearLevel
 {

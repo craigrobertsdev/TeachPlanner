@@ -5,7 +5,7 @@ using TeachPlanner.Api.Contracts.WeekPlanners;
 using TeachPlanner.Api.Domain.Common.Enums;
 using TeachPlanner.Api.Domain.LessonPlans;
 using TeachPlanner.Api.Domain.Students;
-using TeachPlanner.Api.Domain.Subjects;
+using TeachPlanner.Api.Domain.CurriculumSubjects;
 using TeachPlanner.Api.Domain.TermPlanners;
 using TeachPlanner.Api.Domain.WeekPlanners;
 using TeachPlanner.Api.Domain.YearDataRecords;
@@ -15,7 +15,7 @@ public record GetTeacherSettingsResponse
 {
     public GetTeacherSettingsResponse(
     YearDataId yearDataId,
-    IEnumerable<Subject> subjects,
+    IEnumerable<CurriculumSubject> subjects,
     IEnumerable<Student> students,
     IEnumerable<YearLevelValue> yearLevelsTaught,
     TermPlanner? termPlanner)

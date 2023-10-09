@@ -2,7 +2,7 @@
 using TeachPlanner.Api.Domain.Common.Enums;
 using TeachPlanner.Api.Domain.Common.Interfaces;
 using TeachPlanner.Api.Domain.Common.Primatives;
-using TeachPlanner.Api.Domain.Subjects;
+using TeachPlanner.Api.Domain.CurriculumSubjects;
 using TeachPlanner.Api.Domain.TermPlanners.DomainEvents;
 using TeachPlanner.Api.Domain.YearDataRecords;
 
@@ -85,7 +85,7 @@ public sealed class TermPlanner : Entity<TermPlannerId>, IAggregateRoot
         _termPlans.Add(termPlan);
     }
 
-    public void PopulateSubjectsForTerms(List<Subject> subjects)
+    public void PopulateSubjectsForTerms(List<CurriculumSubject> subjects)
     {
         var subjectNumbersForTerms = TermPlans.
             Select(tp => tp.Subjects.Count)

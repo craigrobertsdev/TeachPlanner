@@ -4,7 +4,7 @@ using TeachPlanner.Api.Common.Exceptions;
 using TeachPlanner.Api.Common.Interfaces.Curriculum;
 using TeachPlanner.Api.Common.Interfaces.Persistence;
 using TeachPlanner.Api.Database;
-using TeachPlanner.Api.Domain.Subjects;
+using TeachPlanner.Api.Domain.CurriculumSubjects;
 
 namespace TeachPlanner.Api.Features.Curriculum;
 

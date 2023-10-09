@@ -35,5 +35,5 @@ public class TermPlannerNotFoundException : BaseException
 
 public class TermPlanSubjectsAlreadySetException : BaseException
 {
-    public TermPlanSubjectsAlreadySetException() : base("Subjects have already been set for TermPlan", 404, "TermPlanner.SubjectsAlreadySet") { }
+    public TermPlanSubjectsAlreadySetException() : base("CurriculumSubjects have already been set for TermPlan", 404, "TermPlanner.SubjectsAlreadySet") { }
 }

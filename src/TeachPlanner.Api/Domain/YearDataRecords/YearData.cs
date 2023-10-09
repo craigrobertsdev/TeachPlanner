@@ -5,7 +5,7 @@ using TeachPlanner.Api.Domain.Common.Primatives;
 using TeachPlanner.Api.Domain.LessonPlans;
 using TeachPlanner.Api.Domain.Reports;
 using TeachPlanner.Api.Domain.Students;
-using TeachPlanner.Api.Domain.Subjects;
+using TeachPlanner.Api.Domain.CurriculumSubjects;
 using TeachPlanner.Api.Domain.Teachers;
 using TeachPlanner.Api.Domain.TermPlanners;
 using TeachPlanner.Api.Domain.WeekPlanners;
@@ -63,31 +63,20 @@ public class YearData : Entity<YearDataId>, IAggregateRoot
 
     public void AddSubjects(List<Subject> subjects)
     {
-        CheckForNonCurriculumSubjects(subjects);
-
         foreach (var subject in subjects)
         {
-            if (NotInSubjects(subject))
+            if (IsInSubjects(subject))
             {
-                _subjects.Add(subject);
+                return;
             }
+
+            _subjects.Add(subject);
         }
     }
 
-    private static void CheckForNonCurriculumSubjects(List<Subject> subjects)
+    private bool IsInSubjects(Subject subject)
     {
-        foreach (var subject in subjects)
-        {
-            if (subject.IsCurriculumSubject == false)
-            {
-                throw new IsNonCurriculumSubjectException(subject);
-            }
-        }
-    }
-
-    private bool NotInSubjects(Subject subject)
-    {
-        return !_subjects.Contains(subject);
+        return _subjects.FirstOrDefault(s => s.Name == subject.Name) != null;
     }
 
     public void AddStudents(List<Student> students)

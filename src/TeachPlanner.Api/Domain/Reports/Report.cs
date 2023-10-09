@@ -2,7 +2,7 @@
 using TeachPlanner.Api.Domain.Common.Interfaces;
 using TeachPlanner.Api.Domain.Common.Primatives;
 using TeachPlanner.Api.Domain.Students;
-using TeachPlanner.Api.Domain.Subjects;
+using TeachPlanner.Api.Domain.CurriculumSubjects;
 using TeachPlanner.Api.Domain.Teachers;
 using TeachPlanner.Api.Domain.YearDataRecords;
 
@@ -13,7 +13,7 @@ public sealed class Report : Entity<ReportId>, IAggregateRoot
     private readonly List<ReportComment> _reportComments = new();
     public TeacherId TeacherId { get; private set; }
     public StudentId StudentId { get; private set; }
-    public SubjectId SubjectId { get; private set; }
+    public CurriculumSubjectId SubjectId { get; private set; }
     public YearDataId YearDataId { get; private set; }
     public YearLevelValue YearLevel { get; private set; }
     public IReadOnlyList<ReportComment> ReportComments => _reportComments.AsReadOnly();
@@ -26,7 +26,7 @@ public sealed class Report : Entity<ReportId>, IAggregateRoot
         TeacherId teacherId,
         StudentId studentId,
         YearDataId yearDataId,
-        SubjectId subjectId,
+        CurriculumSubjectId subjectId,
         YearLevelValue yearLevel,
         DateTime createdDateTime,
         DateTime updatedDateTime) : base(id)
@@ -45,7 +45,7 @@ public sealed class Report : Entity<ReportId>, IAggregateRoot
         TeacherId teacherId,
         StudentId studentId,
         YearDataId yearDataId,
-        SubjectId subjectId,
+        CurriculumSubjectId subjectId,
         YearLevelValue yearLevel,
         DateTime createdDateTime,
         DateTime updatedDateTime)

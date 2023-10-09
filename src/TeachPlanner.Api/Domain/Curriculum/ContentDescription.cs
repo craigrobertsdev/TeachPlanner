@@ -1,4 +1,4 @@
-namespace TeachPlanner.Api.Domain.Subjects;
+namespace TeachPlanner.Api.Domain.CurriculumSubjects;
 
 public record ContentDescription
 {

@@ -5,7 +5,7 @@ using TeachPlanner.Api.Database.Converters;
 using TeachPlanner.Api.Domain.Assessments;
 using TeachPlanner.Api.Domain.LessonPlans;
 using TeachPlanner.Api.Domain.Students;
-using TeachPlanner.Api.Domain.Subjects;
+using TeachPlanner.Api.Domain.CurriculumSubjects;
 using TeachPlanner.Api.Domain.Teachers;
 
 namespace TeachPlanner.Api.Database.Configurations;
@@ -32,7 +32,7 @@ internal class AssessmentConfiguration : IEntityTypeConfiguration<Assessment>
             .HasConversion<string>()
             .HasMaxLength(15);
 
-        builder.HasOne<Subject>()
+        builder.HasOne<CurriculumSubject>()
             .WithMany()
             .HasForeignKey(a => a.SubjectId)
             .IsRequired();
