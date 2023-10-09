@@ -4,7 +4,6 @@ using TeachPlanner.Api.Common.Interfaces.Persistence;
 using TeachPlanner.Api.Contracts.LessonPlans.CreateLessonPlan;
 using TeachPlanner.Api.Domain.Assessments;
 using TeachPlanner.Api.Domain.LessonPlans;
-using TeachPlanner.Api.Domain.CurriculumSubjects;
 using TeachPlanner.Api.Domain.YearDataRecords;
 
 namespace TeachPlanner.Api.Features.LessonPlans;
@@ -13,7 +12,7 @@ public static class CreateLessonPlan
 {
     public record Command(
         YearDataId YearDataId,
-        List<Subject> Subjects,
+        Subject Subject,
         string PlanningNotes,
         List<LessonPlanResource> LessonPlanResources,
         List<AssessmentId> AssessmentIds,
@@ -25,10 +24,10 @@ public static class CreateLessonPlan
     {
         public Validator()
         {
-            RuleFor(x => x.YearDataId).NotEmpty();
-            RuleFor(x => x.Subjects).NotEmpty();
+            RuleFor(x => x.YearDataId).NotNull();
+            RuleFor(x => x.Subject).NotNull();
             RuleFor(x => x.NumberOfPeriods).NotEmpty();
-            RuleFor(x => x.StartPeriod).NotEmpty();
+            RuleFor(x => x.StartPeriod).NotNull();
         }
     }
 
@@ -63,9 +62,11 @@ public static class CreateLessonPlan
 
             var lesson = LessonPlan.Create(
                 request.YearDataId,
-                request.SubjectId,
+                request.Subject,
                 request.PlanningNotes,
                 request.NumberOfPeriods,
+                request.StartPeriod,
+                request.LessonDate,
                 request.LessonPlanResources,
                 assessments);
 
@@ -79,17 +80,15 @@ public static class CreateLessonPlan
 
     public static async Task<IResult> Delegate(ISender sender, CreateLessonPlanRequest request, CancellationToken cancellationToken)
     {
-        var subjects = request.Subjects.Select(
-            s => Subject.Create(
-                s.Name,
-                s.ContentDescriptionIds.Select(
+        var subject = Subject.Create(
+                request.Subject.Name,
+                request.Subject.ContentDescriptionIds.Select(
                     curriculumCode => YearDataContentDescription.Create(curriculumCode)).ToList()
-                .ToList()))
-            .ToList();
+                .ToList());
 
         var command = new Command(
             new YearDataId(request.YearDataId),
-            subjects,
+            subject,
             request.PlanningNotes,
             request.LessonPlanResources ?? new(),
             request.AssessmentIds?.Select(id => new AssessmentId(id)).ToList() ?? new(),

@@ -5,7 +5,6 @@ using TeachPlanner.Api.Domain.Common.Primatives;
 using TeachPlanner.Api.Domain.LessonPlans;
 using TeachPlanner.Api.Domain.Reports;
 using TeachPlanner.Api.Domain.Students;
-using TeachPlanner.Api.Domain.CurriculumSubjects;
 using TeachPlanner.Api.Domain.Teachers;
 using TeachPlanner.Api.Domain.TermPlanners;
 using TeachPlanner.Api.Domain.WeekPlanners;
@@ -17,7 +16,6 @@ public class YearData : Entity<YearDataId>, IAggregateRoot
     private readonly List<Student> _students = new();
     private readonly List<Subject> _subjects = new();
     private readonly List<YearLevelValue> _yearLevelsTaught = new();
-    private readonly List<Report> _reports = new();
     private readonly List<LessonPlan> _lessonPlans = new();
     private readonly List<WeekPlanner> _weekPlanners = new();
     public TeacherId TeacherId { get; private set; }
@@ -26,7 +24,6 @@ public class YearData : Entity<YearDataId>, IAggregateRoot
     public IReadOnlyList<Student> Students => _students.AsReadOnly();
     public IReadOnlyList<YearLevelValue> YearLevelsTaught => _yearLevelsTaught.AsReadOnly();
     public IReadOnlyList<Subject> Subjects => _subjects.AsReadOnly();
-    public IReadOnlyList<Report> Reports => _reports.AsReadOnly();
     public IReadOnlyList<LessonPlan> LessonPlans => _lessonPlans.AsReadOnly();
     public IReadOnlyList<WeekPlanner> WeekPlanners => _weekPlanners.AsReadOnly();
 

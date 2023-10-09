@@ -5,7 +5,7 @@ namespace TeachPlanner.Api.Contracts.LessonPlans.CreateLessonPlan;
 
 public record CreateLessonPlanRequest(
     Guid YearDataId,
-    List<SubjectRequest> Subjects,
+    SubjectRequest Subject,
     string PlanningNotes,
     List<LessonPlanResource>? LessonPlanResources,
     List<Guid>? AssessmentIds,
