@@ -9,18 +9,20 @@ namespace TeachPlanner.Api.Services;
 /// </summary>
 public sealed class CurriculumService : ICurriculumService
 {
-    private readonly ISubjectRepository _subjectRepository;
+    private readonly IServiceProvider _serviceProvider;
+
     public List<CurriculumSubject> CurriculumSubjects { get; } = new();
 
-    public CurriculumService(ISubjectRepository subjectRepository)
+    public CurriculumService(IServiceProvider serviceProvider)
     {
-        _subjectRepository = subjectRepository;
+        _serviceProvider = serviceProvider;
         LoadCurriculumSubjects();
     }
 
     private async void LoadCurriculumSubjects()
     {
-        var subjects = await _subjectRepository.GetCurriculumSubjects(true, CancellationToken.None);
+        var subjectRepository = _serviceProvider.GetRequiredService<ISubjectRepository>();
+        var subjects = await subjectRepository.GetCurriculumSubjects(true, CancellationToken.None);
 
         CurriculumSubjects.AddRange(subjects);
     }

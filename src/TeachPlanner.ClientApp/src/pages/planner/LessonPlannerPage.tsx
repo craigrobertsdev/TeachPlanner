@@ -161,11 +161,9 @@ const LessonPlannerPage = ({ numLessons, numBreaks, lessonLength, weekNumber, da
               key={uuidv1()}
               lessonPlan={dayPlan.lessonPlans[lessonPlanPos]}
               columnIndex={colIdx}
-              selectLessonEntry={(e: React.MouseEvent<HTMLDivElement, MouseEvent>) =>
-                handleLessonPlanEntryClicked(e, { row: rowIdx, column: colIdx })
-              }
+              selectLessonEntry={() => handleLessonPlanEntryClicked({ row: rowIdx, column: colIdx })}
               isSelected={selectedLessonEntryIndex.row === rowIdx && selectedLessonEntryIndex.column === colIdx}
-              editLessonPlan={(e) => handleEditLessonPlan(e, { row: rowIdx, column: colIdx })}
+              viewLessonPlan={() => handleViewLessonPlan({ row: rowIdx, column: colIdx })}
             />
           );
 
@@ -198,13 +196,13 @@ const LessonPlannerPage = ({ numLessons, numBreaks, lessonLength, weekNumber, da
     return renderedDayPlansList;
   }
 
-  function handleLessonPlanEntryClicked(e: React.MouseEvent<HTMLDivElement, MouseEvent>, cell: GridCellLocation) {
+  function handleLessonPlanEntryClicked(cell: GridCellLocation) {
     cell.column === selectedLessonEntryIndex.column && cell.row === selectedLessonEntryIndex.row
       ? setSelectedLessonEntryIndex({ row: -1, column: -1 })
       : setSelectedLessonEntryIndex(cell);
   }
 
-  function handleEditLessonPlan(e: React.MouseEvent<HTMLButtonElement, MouseEvent>, cell: GridCellLocation) {
+  function handleViewLessonPlan(cell: GridCellLocation) {
     const lessonPlan = dayPlans[cell.column].lessonPlans[cell.row];
     navigate(`/teacher/lesson-plans/${lessonPlan.id}`);
   }

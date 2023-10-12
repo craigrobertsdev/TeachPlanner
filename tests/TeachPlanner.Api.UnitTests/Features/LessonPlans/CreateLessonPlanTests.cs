@@ -1,10 +1,11 @@
 ﻿using FakeItEasy;
 using FluentAssertions;
-using Humanizer;
 using TeachPlanner.Api.Common.Interfaces.Persistence;
 using TeachPlanner.Api.Contracts.LessonPlans.CreateLessonPlan;
 using TeachPlanner.Api.Domain.Assessments;
+using TeachPlanner.Api.Domain.CurriculumSubjects;
 using TeachPlanner.Api.Domain.LessonPlans;
+using TeachPlanner.Api.Domain.YearDataRecords;
 using TeachPlanner.Api.Features.LessonPlans;
 
 namespace TeachPlanner.Api.UnitTests.Features.LessonPlans;
@@ -28,14 +29,15 @@ public class CreateLessonPlanTests
     {
         // Arrange
         var command = new CreateLessonPlan.Command(
-            Guid.NewGuid(),
-            Guid.NewGuid(),
+            new YearDataId(Guid.NewGuid()),
+            new SubjectId(Guid.NewGuid()),
+            new List<string>(),
             "Planning Notes",
+            new DateOnly(2023, 10, 10),
+            1,
+            1,
             new List<LessonPlanResource>(),
-            new List<AssessmentId>(),
-            DateTime.Now,
-            DateTime.Now.AddHours(1),
-            1);
+            new List<AssessmentId>());
 
 
         var handler = new CreateLessonPlan.Handler(_lessonPlanRepository, _assessmentRepository, _resourceRepository, _unitOfWork);

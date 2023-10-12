@@ -1,6 +1,7 @@
 ﻿using FakeItEasy;
 using FluentAssertions;
 using TeachPlanner.Api.Common.Exceptions;
+using TeachPlanner.Api.Common.Interfaces.Curriculum;
 using TeachPlanner.Api.Common.Interfaces.Persistence;
 using TeachPlanner.Api.Domain.Teachers;
 using TeachPlanner.Api.Domain.YearDataRecords;
@@ -12,6 +13,7 @@ public class SetSubjectsTaughtTests
 {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IYearDataRepository _yearDataRepository;
+    private readonly ICurriculumService _curriculumService;
     private readonly ISubjectRepository _subjectRepository;
 
     public SetSubjectsTaughtTests()
@@ -19,6 +21,7 @@ public class SetSubjectsTaughtTests
         _unitOfWork = A.Fake<IUnitOfWork>();
         _subjectRepository = A.Fake<ISubjectRepository>();
         _yearDataRepository = A.Fake<IYearDataRepository>();
+        _curriculumService = A.Fake<ICurriculumService>();
 
     }
     [Fact]
@@ -28,7 +31,7 @@ public class SetSubjectsTaughtTests
         var subjects = SubjectHelpers.CreateCurriculumSubjects();
         var yearData = YearDataHelpers.CreateYearData();
         var teacher = TeacherHelpers.CreateTeacher();
-        var handler = new SetSubjectsTaught.Handler(_yearDataRepository, _subjectRepository, _unitOfWork);
+        var handler = new SetSubjectsTaught.Handler(_yearDataRepository, _subjectRepository, _unitOfWork, _curriculumService);
         var command = new SetSubjectsTaught.Command(teacher.Id, subjects.Select(s => s.Id).ToList(), 2023);
 
         A.CallTo(() => _yearDataRepository.GetByTeacherIdAndYear(teacher.Id, 2023, A<CancellationToken>._)).Returns(yearData);
@@ -52,7 +55,7 @@ public class SetSubjectsTaughtTests
         teacher.AddYearData(YearDataEntry.Create(2023, yearData.Id));
         yearData.AddSubjects(subjects.Take(3).ToList());
 
-        var handler = new SetSubjectsTaught.Handler(_yearDataRepository, _subjectRepository, _unitOfWork);
+        var handler = new SetSubjectsTaught.Handler(_yearDataRepository, _subjectRepository, _unitOfWork, _curriculumService);
         var command = new SetSubjectsTaught.Command(teacher.Id, subjects.Select(s => s.Id).ToList(), 2023);
 
         A.CallTo(() => _yearDataRepository.GetByTeacherIdAndYear(teacher.Id, 2023, A<CancellationToken>._)).Returns(yearData);

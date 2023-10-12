@@ -10,7 +10,7 @@ import TermPlannerPage from "./pages/planner/TermPlannerPage.tsx";
 import YearPlannerPage from "./pages/planner/YearPlannerPage.tsx";
 import AuthLayout, { getTeacherData } from "./components/layouts/AuthLayout.tsx";
 import HomeLayout from "./components/layouts/HomeLayout.tsx";
-import EditLessonPlanPage, { lessonPlanLoader } from "./pages/planner/EditLessonPlanPage.tsx";
+import LessonPlanPage, { lessonPlanLoader } from "./pages/planner/LessonPlanPage.tsx";
 import LessonPlansPage from "./pages/planner/LessonPlansPage.tsx";
 import SettingsPage from "./pages/SettingsPage.tsx";
 import RegisterPage from "./pages/RegisterPage.tsx";
@@ -40,7 +40,7 @@ export const router = createBrowserRouter(
         />
         <Route path="lesson-plans">
           <Route element={<LessonPlansPage />} index />
-          <Route path=":lessonPlanId" element={<EditLessonPlanPage />} loader={lessonPlanLoader} />
+          <Route path=":lessonPlanId" element={<LessonPlanPage />} loader={lessonPlanLoader} />
         </Route>
         {/* <Route path="/weekplanner" element={<WeekPlanner />} /> */}
         <Route path="term-planner" element={<TermPlannerPage />} />

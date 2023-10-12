@@ -17,11 +17,11 @@ public static class CreateLessonPlan
         SubjectId SubjectId,
         List<string> CurriculumCodes,
         string PlanningNotes,
-        List<LessonPlanResource> LessonPlanResources,
-        List<AssessmentId> AssessmentIds,
         DateOnly LessonDate,
         int NumberOfPeriods,
-        int StartPeriod) : IRequest<CreateLessonPlanResponse>;
+        int StartPeriod,
+        List<LessonPlanResource> LessonPlanResources,
+        List<AssessmentId> AssessmentIds) : IRequest<CreateLessonPlanResponse>;
 
     public class Validator : AbstractValidator<Command>
     {
@@ -82,37 +82,37 @@ public static class CreateLessonPlan
 
             return new CreateLessonPlanResponse(lesson.Id.Value);
         }
-        public static async Task<IResult> Delegate(ISender sender, CreateLessonPlanRequest request, CancellationToken cancellationToken)
+    }
+    public static async Task<IResult> Delegate(ISender sender, CreateLessonPlanRequest request, CancellationToken cancellationToken)
+    {
+        var command = new Command(
+            new YearDataId(request.YearDataId),
+            request.SubjectId,
+            request.CurriculumCodes,
+            request.PlanningNotes,
+            request.LessonDate,
+            request.NumberOfPeriods,
+            request.StartPeriod,
+            request.LessonPlanResources ?? new(),
+            request.AssessmentIds?.Select(id => new AssessmentId(id)).ToList() ?? new());
+
+        var response = await sender.Send(command, cancellationToken);
+
+        return TypedResults.Ok(response);
+    }
+
+    private static void CheckForConflictingLessonPlans(List<LessonPlan> lessonPlans, int startPeriod, int numberOfPeriods)
+    {
+        foreach (var lp in lessonPlans)
         {
-            var command = new Command(
-                new YearDataId(request.YearDataId),
-                request.SubjectId,
-                request.CurriculumCodes,
-                request.PlanningNotes,
-                request.LessonPlanResources ?? new(),
-                request.AssessmentIds?.Select(id => new AssessmentId(id)).ToList() ?? new(),
-                request.LessonDate,
-                request.NumberOfPeriods,
-                request.StartPeriod);
-
-            var response = await sender.Send(command, cancellationToken);
-
-            return TypedResults.Ok(response);
-        }
-
-        private static void CheckForConflictingLessonPlans(List<LessonPlan> lessonPlans, int startPeriod, int numberOfPeriods)
-        {
-            foreach (var lp in lessonPlans)
+            if (lp.StartPeriod == startPeriod)
             {
-                if (lp.StartPeriod == startPeriod)
-                {
-                    throw new ConflictingLessonPlansException(lp.StartPeriod);
-                }
+                throw new ConflictingLessonPlansException(lp.StartPeriod);
+            }
 
-                if (startPeriod < lp.StartPeriod && startPeriod + numberOfPeriods > lp.StartPeriod)
-                {
-                    throw new ConflictingLessonPlansException(lp.StartPeriod);
-                }
+            if (startPeriod < lp.StartPeriod && startPeriod + numberOfPeriods > lp.StartPeriod)
+            {
+                throw new ConflictingLessonPlansException(lp.StartPeriod);
             }
         }
     }

@@ -23,7 +23,6 @@ public class YearDataRepository : IYearDataRepository
         .Include(yd => yd.YearLevelsTaught)
         .Include(yd => yd.WeekPlanners)
         .Include(yd => yd.LessonPlans)
-        .Include(yd => yd.Reports)
         .AsSplitQuery()
         .AsNoTracking()
         .FirstOrDefaultAsync(cancellationToken);

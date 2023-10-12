@@ -1,16 +1,26 @@
 import { useLoaderData, useNavigate } from "react-router-dom";
 import { getCalendarDate, getCalendarTime } from "../../utils/dateUtils";
-import { usePlannerContext } from "../../contexts/PlannerContext";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import Button from "../../components/common/Button";
+import CancelButton from "../../components/common/CancelButton";
+import AddContentDescriptionDialogContent from "../../components/planner/AddContentDescriptionDialogContent";
 
-function EditLessonPlanPage() {
+type PlannerSubject = {
+  name: string;
+  contentDescriptions: ContentDescription[];
+};
+
+function LessonPlanPage() {
   const lessonPlan = useLoaderData() as LessonPlan;
-  const { dayPlanPattern, subjects } = usePlannerContext();
   const [planningNotes, setPlanningNotes] = useState<string>(lessonPlan.planningNotes.join("\n\n"));
+  const [contentDescriptions, setContentDescriptions] = useState<ContentDescription[]>(lessonPlan.contentDescriptions);
+  const [resources, setResources] = useState<Resource[]>(lessonPlan.resources);
+  const [assessments, setAssessments] = useState<Assessment[]>(lessonPlan.assessments);
   const [originalPlanningNotes] = useState<string>(lessonPlan.planningNotes.join("\n\n"));
   const [unsavedChanges, setUnsavedChanges] = useState<boolean>(false);
-  const dialogRef = useRef<HTMLDialogElement>(null);
+  const unsavedChangesDialog = useRef<HTMLDialogElement>(null);
+  const addContentDescriptionsDialog = useRef<HTMLDialogElement>(null);
+  const addResourcesDialog = useRef<HTMLDialogElement>(null);
   const navigate = useNavigate();
 
   function handlePlanningNotesChange(event: React.ChangeEvent<HTMLTextAreaElement>) {
@@ -26,10 +36,18 @@ function EditLessonPlanPage() {
 
   function handleAddResource() {}
 
+  function handleAddContentDescriptions() {
+    addContentDescriptionsDialog!.current!.showModal();
+  }
+
+  function handleRemoveContentDescription(curriculumCode: string) {
+    setContentDescriptions(contentDescriptions.filter((cd) => cd.curriculumCode !== curriculumCode));
+  }
+
   function handleCancel() {
     if (unsavedChanges) {
       // Show a modal asking the user if they want to save their changes before navigating away
-      dialogRef!.current!.showModal();
+      unsavedChangesDialog!.current!.showModal();
     } else {
       navigate(-1);
     }
@@ -45,7 +63,6 @@ function EditLessonPlanPage() {
       should be done in the day plan pattern in settings. On load, fetch the content descriptors applicable to the subject and year level(s) of the
       lesson. The user should be able to select the content descriptors that are applicable to the subject and add them as aims for the lesson.
       Resources should be fetched for the subject and year level(s) of the lesson. Same for assessments.
-      <h1 className="text-3xl font-semibold text-center">Edit Lesson Plan</h1>
       <div className={`flex justify-between items-center mb-3 border border-darkGreen p-2 bg-${lessonPlan.subject.name.toLowerCase()}`}>
         <p className="text-center">Subject: {lessonPlan.subject.name}</p>
         <p className="text-center">Start Time: {getCalendarTime(lessonPlan.startTime)}</p>
@@ -64,16 +81,25 @@ function EditLessonPlanPage() {
         {/* Resources and content descriptions contianer*/}
         <div className="flex flex-col gap-3 flex-grow w-1/3 items-center">
           {/* Resources */}
+          <dialog ref={addResourcesDialog} className="p-3 text-lg border border-darkGreen max-w-xl">
+            <AddResourcesDialogContent
+              dialogRef={addContentDescriptionsDialog}
+              initialSelectedResources={contentDescriptions}
+              setResources={setResources}
+            />
+          </dialog>
           <div className="flex flex-col items-center w-full flex-grow h-1/2 ">
-            <h2 className="text-lg font-semibold">Resources and Assessments</h2>
-            <div className="flex-grow w-full border border-darkGreen p-2 flex flex-col">
+            <div className="flex w-full items-center justify-between px-2 py-1">
+              <h2 className="text-lg font-semibold">Resources and Assessments</h2>
               <Button variant="add" classList="self-end" onClick={handleAddResource}>
-                Add Resource
+                Add
               </Button>
-              {lessonPlan.resources && <h3 className="text-lg text-center underline">Resources</h3>}
-              {lessonPlan.resources && (
+            </div>
+            <div className="flex-grow w-full border border-darkGreen p-2 flex flex-col">
+              {resources && <h3 className="text-lg text-center underline">Resources</h3>}
+              {resources && (
                 <ul>
-                  {lessonPlan.resources.map((resource) => (
+                  {resources.map((resource) => (
                     <li key={resource.url} className="text-center">
                       <a target="_blank" href={resource.url} className="text-peach underline">
                         {resource.name}
@@ -82,10 +108,10 @@ function EditLessonPlanPage() {
                   ))}
                 </ul>
               )}
-              {lessonPlan.assessments && <h3 className="text-lg text-center underline">Assessments</h3>}
-              {lessonPlan.assessments && (
+              {assessments && <h3 className="text-lg text-center underline">Assessments</h3>}
+              {assessments && (
                 <ul>
-                  {lessonPlan.assessments.map((assessment) => (
+                  {assessments.map((assessment) => (
                     <li key={assessment.url} className="text-center">
                       <a target="_blank" href={assessment.url} className="text-peach underline">
                         {assessment.name}
@@ -94,6 +120,36 @@ function EditLessonPlanPage() {
                   ))}
                 </ul>
               )}
+            </div>
+          </div>
+          {/* Content descriptions */}
+          <dialog ref={addContentDescriptionsDialog} className="p-3 text-lg border border-darkGreen max-w-xl">
+            <AddContentDescriptionDialogContent
+              dialogRef={addContentDescriptionsDialog}
+              initialSelectedContentDescriptions={contentDescriptions}
+              setContentDescriptions={setContentDescriptions}
+              availableContentDescriptions={lessonPlan.subject.contentDescriptions}
+            />
+          </dialog>
+          <div className="flex flex-col items-center w-full flex-grow h-1/2">
+            <div className="flex w-full items-center justify-between px-2 py-1">
+              <h2 className="text-lg font-semibold">Content Descriptions</h2>
+              <Button variant="add" classList="self-end" onClick={() => handleAddContentDescriptions()}>
+                Add
+              </Button>
+            </div>
+            <div className="flex-grow w-full border border-darkGreen flex flex-col">
+              <ul>
+                {contentDescriptions &&
+                  contentDescriptions.map((cd) => (
+                    <li key={cd.curriculumCode} className="p-2 mb-2 hover:bg-sageHover group relative">
+                      <div className="invisible group-hover:visible">
+                        <CancelButton onClick={() => handleRemoveContentDescription(cd.curriculumCode)} />
+                      </div>
+                      <span className="underline">{cd.curriculumCode}:</span> {cd.description}
+                    </li>
+                  ))}
+              </ul>
             </div>
           </div>
         </div>
@@ -106,13 +162,13 @@ function EditLessonPlanPage() {
           Go Back
         </Button>
       </div>
-      <dialog ref={dialogRef} className="p-3 text-lg border border-darkGreen">
+      <dialog ref={unsavedChangesDialog} className="p-3 text-lg border border-darkGreen">
         <p>You have unsaved changes. Continue without saving?</p>
         <div className="flex justify-around">
           <Button variant="submit" onClick={handleDiscardChanges}>
             Yes
           </Button>
-          <Button variant="cancel" onClick={() => dialogRef.current!.close()}>
+          <Button variant="cancel" onClick={() => unsavedChangesDialog.current!.close()}>
             Cancel
           </Button>
         </div>
@@ -121,7 +177,7 @@ function EditLessonPlanPage() {
   );
 }
 
-export default EditLessonPlanPage;
+export default LessonPlanPage;
 
 export async function lessonPlanLoader(): Promise<LessonPlan> {
   // const response = await fetch(`${baseUrl}/lesson-plans/${params.lessonPlanId}`);
@@ -134,28 +190,45 @@ export async function lessonPlanLoader(): Promise<LessonPlan> {
       resources: [
         {
           name: "Rounding to the nearest 10 and 100",
-          url: "https://www.youtube.com/watch?v=9zXqjxu6J6g",
+          url: "https://www.youtube.com/watch?v=qjxu6J6g",
         },
         {
           name: "Quadratics",
-          url: "https://www.youtube.com/watch?v=9zXqjxu6J6g",
+          url: "https://www.youtube.com/watch?v=9zXqjxJ6g",
         },
       ] as Resource[],
       assessments: [
         {
           name: "Algebra assessment",
-          url: "https://www.youtube.com/watch?v=9zXqjxu6J6g",
+          url: "https://www.youtube.com/watch?v=9zXu6J6g",
         },
       ] as Assessment[],
-      targetContentDescriptions: [
+      contentDescriptions: [
         {
-          id: "1",
-          description:
-            "Content Description 1tnhaoeutnsahoeutnsaohe utnshaoeutnshaoetnsuhaoetns uhaotnsuhaoehuaotnsehu aotnshunsaot oheutnsaoeehu nstaohu tnsaoehunst aoneuhsnt aotnsuhnsth sh aonestuhaoensthu.g2,romeausk nt',h.k gcrsak,.prkm,agrs,",
+          curriculumCode: "AC9EFLA03",
+          description: "Understand that texts can take many forms such as signs, books and digital texts'",
+        },
+        {
+          curriculumCode: "AC9EFLA04",
+          description: "Understand conventions of print and screen, including how books and simple digital texts are usually organised",
         },
       ] as ContentDescription[],
       subject: {
         name: "Maths",
+        contentDescriptions: [
+          {
+            curriculumCode: "AC9EFLA03",
+            description: "Understand that texts can take many forms such as signs, books and digital texts'",
+          },
+          {
+            curriculumCode: "AC9EFLA04",
+            description: "Understand conventions of print and screen, including how books and simple digital texts are usually organised",
+          },
+          {
+            curriculumCode: "AC9EFLA05",
+            description: "Recognise that sentences are key units for expressing ideas",
+          },
+        ] as ContentDescription[],
       } as PlannerSubject,
       startTime: new Date(2023, 8, 7, 9, 10, 0),
       endTime: new Date(2023, 8, 7, 10, 50, 0),

@@ -103,5 +103,4 @@ export default {
       pattern: /text-(right|center)/,
     },
   ],
-  plugins: ["prettier-plugin-tailwindcss"],
 };

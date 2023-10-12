@@ -23,6 +23,7 @@ public class LessonPlanRespositoryTests
             var lessonPlan = LessonPlan.Create(
                 new YearDataId(Guid.NewGuid()),
                 new SubjectId(Guid.NewGuid()),
+                new List<string>(),
                 "Planning Notes",
                 1,
                 1,

@@ -14,7 +14,6 @@ public sealed class Report : Entity<ReportId>, IAggregateRoot
     public TeacherId TeacherId { get; private set; }
     public StudentId StudentId { get; private set; }
     public SubjectId SubjectId { get; private set; }
-    public YearDataId YearDataId { get; private set; }
     public YearLevelValue YearLevel { get; private set; }
     public IReadOnlyList<ReportComment> ReportComments => _reportComments.AsReadOnly();
     public DateTime CreatedDateTime { get; private set; }
@@ -25,7 +24,6 @@ public sealed class Report : Entity<ReportId>, IAggregateRoot
         List<ReportComment> reportComments,
         TeacherId teacherId,
         StudentId studentId,
-        YearDataId yearDataId,
         SubjectId subjectId,
         YearLevelValue yearLevel,
         DateTime createdDateTime,
@@ -34,7 +32,6 @@ public sealed class Report : Entity<ReportId>, IAggregateRoot
         _reportComments = reportComments;
         TeacherId = teacherId;
         StudentId = studentId;
-        YearDataId = yearDataId;
         SubjectId = subjectId;
         YearLevel = yearLevel;
         CreatedDateTime = createdDateTime;
@@ -55,7 +52,6 @@ public sealed class Report : Entity<ReportId>, IAggregateRoot
             new List<ReportComment>(),
             teacherId,
             studentId,
-            yearDataId,
             subjectId,
             yearLevel,
             createdDateTime,

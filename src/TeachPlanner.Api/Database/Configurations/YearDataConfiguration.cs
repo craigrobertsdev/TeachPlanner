@@ -23,9 +23,6 @@ public class YearDataConfiguration : IEntityTypeConfiguration<YearData>
         builder.HasMany(yd => yd.Students)
             .WithOne();
 
-        builder.HasMany(yd => yd.Subjects)
-            .WithMany();
-
         builder.HasOne<Teacher>()
             .WithMany()
             .HasForeignKey(yd => yd.TeacherId);

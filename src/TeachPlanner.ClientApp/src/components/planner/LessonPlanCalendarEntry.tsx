@@ -6,7 +6,7 @@ type LessonPlanCalendarEntryProps = {
   columnIndex: number;
   selectLessonEntry: (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => void;
   isSelected: boolean;
-  editLessonPlan: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+  viewLessonPlan: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
 };
 
 export default function LessonPlanCalendarEntry({
@@ -14,7 +14,7 @@ export default function LessonPlanCalendarEntry({
   columnIndex,
   selectLessonEntry,
   isSelected,
-  editLessonPlan,
+  viewLessonPlan: view,
 }: LessonPlanCalendarEntryProps) {
   const selectedClassNames = "bg-primaryFocus";
   const [isHovering, setIsHovering] = useState<boolean>(false);
@@ -46,8 +46,8 @@ export default function LessonPlanCalendarEntry({
       <div className="flex mb-2 justify-between items-center">
         <p className="text-lg font-semibold">{lessonPlan.subject.name}</p>
         {(isSelected || isHovering) && (
-          <button className="text-sm font-semibold text-center text-primary bg-darkGreen px-2 py-1 rounded-md" onClick={editLessonPlan}>
-            Edit
+          <button className="text-sm font-semibold text-center text-primary bg-darkGreen px-2 py-1 rounded-md" onClick={view}>
+            View
           </button>
         )}
       </div>

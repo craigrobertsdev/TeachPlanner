@@ -39,10 +39,10 @@ declare type LessonPlan = {
   endTime: Date;
   numberOfPeriods: number;
   periodNumber: number;
-  resources?: Resource[];
-  assessments?: Assessment[];
-  lessonComments?: LessonComment[];
-  targetContentDescriptions?: ContentDescription[];
+  resources: Resource[];
+  assessments: Assessment[];
+  lessonComments: LessonComment[];
+  contentDescriptions: ContentDescription[];
 };
 
 declare type DayPlan = {
@@ -86,10 +86,6 @@ declare type LessonComment = {
 };
 
 declare type CalendarEntry = LessonPlan | Break | SchoolEvent;
-
-declare type PlannerSubject = {
-  name: string;
-};
 
 declare type PlannerPeriod = {
   type: "lesson" | "break" | "afterschool";
