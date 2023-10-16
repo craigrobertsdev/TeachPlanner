@@ -1,9 +1,7 @@
-﻿using Microsoft.AspNetCore.Components.Authorization;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using TeachPlanner.Api.Database.Converters;
 using TeachPlanner.Api.Domain.Assessments;
-using TeachPlanner.Api.Domain.LessonPlans;
 using TeachPlanner.Api.Domain.Students;
 using TeachPlanner.Api.Domain.CurriculumSubjects;
 using TeachPlanner.Api.Domain.Teachers;

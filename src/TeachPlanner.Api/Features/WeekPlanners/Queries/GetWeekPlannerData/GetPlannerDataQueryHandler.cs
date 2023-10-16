@@ -1,4 +1,3 @@
-using MediatR;
 using TeachPlanner.Api.Common.Interfaces.Persistence;
 
 namespace TeachPlanner.Api.Features.WeekPlanners.Queries.GetWeekPlannerData;

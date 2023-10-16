@@ -1,8 +1,5 @@
 ﻿using MediatR;
-using Microsoft.EntityFrameworkCore;
 using TeachPlanner.Api.Common.Interfaces.Persistence;
-using TeachPlanner.Api.Database;
-using TeachPlanner.Api.Database.QueryExtensions;
 using TeachPlanner.Api.Domain.CurriculumSubjects;
 
 namespace TeachPlanner.Api.Features.Subjects;

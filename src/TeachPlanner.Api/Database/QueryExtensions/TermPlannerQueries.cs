@@ -1,8 +1,5 @@
-﻿using MediatR;
-using Microsoft.EntityFrameworkCore;
-using TeachPlanner.Api.Common.Exceptions;
+﻿using Microsoft.EntityFrameworkCore;
 using TeachPlanner.Api.Domain.TermPlanners;
-using TeachPlanner.Api.Domain.YearDataRecords;
 
 namespace TeachPlanner.Api.Database.QueryExtensions;
 

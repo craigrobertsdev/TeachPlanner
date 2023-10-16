@@ -1,11 +1,8 @@
 ﻿using FluentValidation;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using TeachPlanner.Api.Common.Exceptions;
 using TeachPlanner.Api.Common.Interfaces.Persistence;
 using TeachPlanner.Api.Contracts.Teachers.GetTeacherSettings;
-using TeachPlanner.Api.Database;
-using TeachPlanner.Api.Database.QueryExtensions;
 using TeachPlanner.Api.Domain.Teachers;
 using TeachPlanner.Api.Domain.TermPlanners;
 using TeachPlanner.Api.Domain.YearDataRecords;

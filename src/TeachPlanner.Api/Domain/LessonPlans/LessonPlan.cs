@@ -1,8 +1,8 @@
 ﻿using TeachPlanner.Api.Domain.Assessments;
 using TeachPlanner.Api.Domain.Common.Interfaces;
 using TeachPlanner.Api.Domain.Common.Primatives;
-using TeachPlanner.Api.Domain.Resources;
 using TeachPlanner.Api.Domain.CurriculumSubjects;
+using TeachPlanner.Api.Domain.Teachers;
 using TeachPlanner.Api.Domain.YearDataRecords;
 
 namespace TeachPlanner.Api.Domain.LessonPlans;

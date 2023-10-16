@@ -1,7 +1,6 @@
 ﻿using TeachPlanner.Api.Domain.Assessments;
 using TeachPlanner.Api.Domain.Common.Interfaces;
 using TeachPlanner.Api.Domain.Common.Primatives;
-using TeachPlanner.Api.Domain.Resources;
 using TeachPlanner.Api.Domain.Teachers.DomainEvents;
 using TeachPlanner.Api.Domain.Users;
 using TeachPlanner.Api.Domain.YearDataRecords;

@@ -1,13 +1,11 @@
 ﻿using FluentValidation;
 using Mapster;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using TeachPlanner.Api.Common.Exceptions;
 using TeachPlanner.Api.Common.Interfaces.Authentication;
 using TeachPlanner.Api.Common.Interfaces.Persistence;
 using TeachPlanner.Api.Contracts.Authentication;
 using TeachPlanner.Api.Contracts.Teachers;
-using TeachPlanner.Api.Database;
 using TeachPlanner.Api.Domain.Teachers;
 using TeachPlanner.Api.Domain.Users;
 using TeachPlanner.Api.Services.Authentication;
@@ -75,8 +73,7 @@ public static class Register
             var response = new TeacherResponse(
                 teacher.Id.Value,
                 teacher.FirstName,
-                teacher.LastName,
-                teacher.Resources.Select(r => r.Id.Value).ToList());
+                teacher.LastName);
 
             return new AuthenticationResponse(response, token);
         }

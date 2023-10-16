@@ -1,6 +1,4 @@
-﻿using System.Runtime.CompilerServices;
-using Microsoft.AspNetCore.Mvc.TagHelpers;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using TeachPlanner.Api.Common.Interfaces.Persistence;
 using TeachPlanner.Api.Domain.CurriculumSubjects;
 using TeachPlanner.Api.Domain.Teachers;
@@ -44,7 +42,7 @@ public class TeacherRepository : ITeacherRepository
             .FirstOrDefaultAsync(cancellationToken);
     }
 
-    public async Task<List<Resource>> GetResourcesBySubject(TeacherId teacherId, SubjectId subjectId, CancellationToken cancellationToken)
+    public async Task<IEnumerable<Resource>> GetResourcesBySubject(TeacherId teacherId, SubjectId subjectId, CancellationToken cancellationToken)
     {
         var teacher = await _context.Teachers
             .Where(t => t.Id == teacherId)

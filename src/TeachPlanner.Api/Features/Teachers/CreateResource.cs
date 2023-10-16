@@ -5,7 +5,7 @@ using TeachPlanner.Api.Contracts.Resources;
 using TeachPlanner.Api.Domain.CurriculumSubjects;
 using TeachPlanner.Api.Domain.Teachers;
 
-namespace TeachPlanner.Api.Features.Resources;
+namespace TeachPlanner.Api.Features.Teachers;
 
 public static class CreateResource
 {

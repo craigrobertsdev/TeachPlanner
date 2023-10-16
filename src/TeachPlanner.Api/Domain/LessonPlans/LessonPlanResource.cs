@@ -1,4 +1,4 @@
-﻿using TeachPlanner.Api.Domain.Resources;
+﻿using TeachPlanner.Api.Domain.Teachers;
 
 namespace TeachPlanner.Api.Domain.LessonPlans;
 

@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TeachPlanner.Api.Common.Interfaces.Persistence;
 using TeachPlanner.Api.Domain.LessonPlans;
-using TeachPlanner.Api.Domain.Teachers;
 using TeachPlanner.Api.Domain.YearDataRecords;
 
 namespace TeachPlanner.Api.Database.Repositories;

@@ -1,6 +1,3 @@
-using TeachPlanner.Api.Common.Exceptions;
-using TeachPlanner.Api.Domain.Common.Primatives;
-
 namespace TeachPlanner.Api.Domain.CurriculumSubjects;
 
 public record Strand

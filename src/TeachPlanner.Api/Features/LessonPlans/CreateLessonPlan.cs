@@ -39,18 +39,15 @@ public static class CreateLessonPlan
         private readonly ILessonPlanRepository _lessonPlanRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IAssessmentRepository _assessmentRepository;
-        private readonly IResourceRepository _resourceRepository;
 
         public Handler(
             ILessonPlanRepository lessonPlanRepository,
             IAssessmentRepository assessmentRepository,
-            IResourceRepository resourceRepository,
             IUnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
             _lessonPlanRepository = lessonPlanRepository;
             _assessmentRepository = assessmentRepository;
-            _resourceRepository = resourceRepository;
         }
 
         public async Task<CreateLessonPlanResponse> Handle(Command request, CancellationToken cancellationToken)

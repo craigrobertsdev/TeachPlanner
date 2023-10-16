@@ -5,7 +5,6 @@ using TeachPlanner.Api.Domain.Calendar;
 using TeachPlanner.Api.Domain.Common.Interfaces;
 using TeachPlanner.Api.Domain.LessonPlans;
 using TeachPlanner.Api.Domain.Reports;
-using TeachPlanner.Api.Domain.Resources;
 using TeachPlanner.Api.Domain.Students;
 using TeachPlanner.Api.Domain.CurriculumSubjects;
 using TeachPlanner.Api.Domain.Teachers;

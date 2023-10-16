@@ -4,7 +4,7 @@ using TeachPlanner.Api.Contracts.Resources;
 using TeachPlanner.Api.Domain.CurriculumSubjects;
 using TeachPlanner.Api.Domain.Teachers;
 
-namespace TeachPlanner.Api.Features.Resources;
+namespace TeachPlanner.Api.Features.Teachers;
 
 public static class GetResources
 {
@@ -13,11 +13,11 @@ public static class GetResources
 
     public sealed class Handler : IRequestHandler<Query, List<ResourceResponse>>
     {
-        private readonly IResourceRepository _resourceRepository;
+        private readonly ITeacherRepository _teacherRepository;
 
-        public Handler(IResourceRepository resourceRepository, ITeacherRepository teacherRepository)
+        public Handler(ITeacherRepository teacherRepository)
         {
-            _resourceRepository = resourceRepository;
+            _teacherRepository = teacherRepository;
         }
 
         public async Task<List<ResourceResponse>> Handle(
@@ -25,7 +25,7 @@ public static class GetResources
             CancellationToken cancellationToken
         )
         {
-            var resources = await _resourceRepository.GetByTeacherAndSubject(
+            var resources = await _teacherRepository.GetResourcesBySubject(
                 request.TeacherId,
                 request.SubjectId,
                 cancellationToken
@@ -40,5 +40,14 @@ public static class GetResources
 
             return response;
         }
+    }
+
+    public static async Task<IResult> Delegate(ISender sender, TeacherId teacherId, SubjectId subjectId, CancellationToken cancellationToken)
+    {
+        var query = new Query(teacherId, subjectId);
+
+        var result = await sender.Send(query, cancellationToken);
+    
+        return Results.Ok(result);
     }
 }

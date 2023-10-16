@@ -2,7 +2,6 @@
 using TeachPlanner.Api.Domain.Common.Planner;
 using TeachPlanner.Api.Domain.Common.Primatives;
 using TeachPlanner.Api.Domain.LessonPlans;
-using TeachPlanner.Api.Domain.Teachers;
 using TeachPlanner.Api.Domain.YearDataRecords;
 
 namespace TeachPlanner.Api.Domain.WeekPlanners;

@@ -6,7 +6,6 @@ using TeachPlanner.Api.Common.Interfaces.Authentication;
 using TeachPlanner.Api.Common.Interfaces.Persistence;
 using TeachPlanner.Api.Contracts.Authentication;
 using TeachPlanner.Api.Contracts.Teachers;
-using TeachPlanner.Api.Database.QueryExtensions;
 using TeachPlanner.Api.Services.Authentication;
 
 namespace TeachPlanner.Api.Features.Authentication;
@@ -57,8 +56,7 @@ public static class Login
             var response = new TeacherResponse(
                 teacher.Id.Value,
                 teacher.FirstName,
-                teacher.LastName,
-                teacher.Resources.Select(r => r.Id.Value).ToList());
+                teacher.LastName);
 
             return new AuthenticationResponse(response, _jwtTokenGenerator.GenerateToken(teacher));
         }
