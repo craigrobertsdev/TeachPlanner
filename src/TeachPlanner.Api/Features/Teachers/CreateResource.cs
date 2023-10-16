@@ -3,7 +3,6 @@ using TeachPlanner.Api.Common.Exceptions;
 using TeachPlanner.Api.Common.Interfaces.Persistence;
 using TeachPlanner.Api.Contracts.Resources;
 using TeachPlanner.Api.Domain.CurriculumSubjects;
-using TeachPlanner.Api.Domain.Resources;
 using TeachPlanner.Api.Domain.Teachers;
 
 namespace TeachPlanner.Api.Features.Resources;
@@ -14,15 +13,13 @@ public static class CreateResource
 
   public sealed class Handler : IRequestHandler<Command, string>
   {
-    private readonly IResourceRepository _resourceRepository;
     private readonly ITeacherRepository _teacherRepository;
     private readonly IUnitOfWork _unitOfWork;
 
-    public Handler(IResourceRepository resourceRepository, IUnitOfWork unitOfWork, ITeacherRepository teacherRepository)
+    public Handler(ITeacherRepository teacherRepository, IUnitOfWork unitOfWork)
     {
-      _resourceRepository = resourceRepository;
-      _unitOfWork = unitOfWork;
       _teacherRepository = teacherRepository;
+      _unitOfWork = unitOfWork;
     }
 
     public async Task<string> Handle(Command request, CancellationToken cancellationToken)
@@ -45,7 +42,7 @@ public static class CreateResource
           request.SubjectId,
           request.AssociatedStrands);
 
-      _resourceRepository.Add(resource);
+      teacher.AddResource(resource);
 
       await _unitOfWork.SaveChangesAsync(cancellationToken);
 

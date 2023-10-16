@@ -1,13 +1,10 @@
-﻿using TeachPlanner.Api.Domain.Common.Interfaces;
-using TeachPlanner.Api.Domain.Common.Primatives;
+﻿using TeachPlanner.Api.Domain.Common.Primatives;
 using TeachPlanner.Api.Domain.LessonPlans;
 using TeachPlanner.Api.Domain.CurriculumSubjects;
-using TeachPlanner.Api.Domain.Teachers;
-using TeachPlanner.Api.Domain.Resources.DomainEvents;
 
-namespace TeachPlanner.Api.Domain.Resources;
+namespace TeachPlanner.Api.Domain.Teachers;
 
-public sealed class Resource : Entity<ResourceId>, IAggregateRoot
+public sealed class Resource : Entity<ResourceId>
 {
     private readonly List<LessonPlanResource> _lessonPlanResources = new();
     public string Name { get; private set; }
@@ -57,12 +54,10 @@ public sealed class Resource : Entity<ResourceId>, IAggregateRoot
             subjectId,
             strandNames);
 
-        resource.AddDomainEvent(new ResourceCreatedDomainEvent(resource.Id, teacherId));
-
         return resource;
     }
 
-#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+#pragma warning disable CS8618 // non-nullable field must contain a non-null value when exiting constructor. consider declaring as nullable.
     private Resource() { }
 
 }

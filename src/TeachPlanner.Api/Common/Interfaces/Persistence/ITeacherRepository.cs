@@ -10,6 +10,7 @@ public interface ITeacherRepository
     Task<Teacher?> GetByEmail(string email, CancellationToken cancellationToken);
     Task<Teacher?> GetByUserId(UserId userId, CancellationToken cancellationToken);
     Task<Teacher?> GetById(TeacherId teacherId, CancellationToken cancellationToken);
+    Task<List<Resource>> GetResourcesBySubject(TeacherId teacherId, SubjectId subjectId, CancellationToken cancellationToken);
     Task<List<CurriculumSubject>> GetSubjectsTaughtByTeacherWithoutElaborations(TeacherId teacherId, CancellationToken cancellationToken);
     Task<List<CurriculumSubject>> GetSubjectsTaughtByTeacherWithElaborations(TeacherId teacherId, CancellationToken cancellationToken);
     Task<YearData?> GetYearDataByTeacherIdAndYear(TeacherId teacherId, int calendarYear, CancellationToken cancellationToken);

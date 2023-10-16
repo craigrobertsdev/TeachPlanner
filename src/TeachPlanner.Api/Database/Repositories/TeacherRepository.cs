@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Runtime.CompilerServices;
+using Microsoft.AspNetCore.Mvc.TagHelpers;
+using Microsoft.EntityFrameworkCore;
 using TeachPlanner.Api.Common.Interfaces.Persistence;
 using TeachPlanner.Api.Domain.CurriculumSubjects;
 using TeachPlanner.Api.Domain.Teachers;
@@ -40,6 +42,17 @@ public class TeacherRepository : ITeacherRepository
         return await _context.Teachers
             .Where(t => t.UserId == userId)
             .FirstOrDefaultAsync(cancellationToken);
+    }
+
+    public async Task<List<Resource>> GetResourcesBySubject(TeacherId teacherId, SubjectId subjectId, CancellationToken cancellationToken)
+    {
+        var teacher = await _context.Teachers
+            .Where(t => t.Id == teacherId)
+            .Include(t => t.Resources
+                    .Where(r => r.SubjectId == subjectId))
+            .FirstOrDefaultAsync(cancellationToken);
+
+        return teacher != null ? teacher.Resources : new List<Resource>();
     }
 
     public Task<List<CurriculumSubject>> GetSubjectsTaughtByTeacherWithElaborations(TeacherId teacherId, CancellationToken cancellationToken)
