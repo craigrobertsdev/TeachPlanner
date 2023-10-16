@@ -1,5 +1,5 @@
-﻿using Syncfusion.DocIO.DLS;
-using Syncfusion.DocIO;
+﻿using Syncfusion.DocIO;
+using Syncfusion.DocIO.DLS;
 using TeachPlanner.Api.Common.Interfaces.Curriculum;
 using TeachPlanner.Api.Domain.CurriculumSubjects;
 
@@ -23,7 +23,8 @@ public class CurriculumParser : ICurriculumParser
     public List<CurriculumSubject> ParseCurriculum()
     {
         string[] filePaths = Directory.GetFiles(
-            "C:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\TeachPlanner.Curriculum Files");
+            //"C:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\TeachPlanner.Curriculum Files");
+            "/home/craig/source/TeachPlanner/src/TeachPlanner.Curriculum Files");
 
         foreach (string file in filePaths)
         {
@@ -31,9 +32,11 @@ public class CurriculumParser : ICurriculumParser
             string[] contentArr = LoadFile(file);
             Console.WriteLine(file);
 
-            string subjectName = file.Split("C:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\TeachPlanner.Curriculum Files")[1];
+            //string subjectName = file.Split("C:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\TeachPlanner.Curriculum Files")[1];
+            string subjectName = file.Split("/home/craig/source/TeachPlanner/src/TeachPlanner.Curriculum Files")[1];
 
-            subjectName = subjectName.Replace("\\", "").Replace(".docx", "");
+            //subjectName = subjectName.Replace("\\", "").Replace(".docx", "");
+            subjectName = subjectName.Replace("/", "").Replace(".docx", "");
 
             string currElements = "";
             foreach (string content in contentArr)

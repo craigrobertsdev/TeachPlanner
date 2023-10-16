@@ -35,10 +35,9 @@ public static class GetResources
 
             foreach (var resource in resources)
             {
-                response.Add(
-                    new ResourceResponse(resource.Name, resource.Url, resource.IsAssessment)
-                );
+                response.Add(new ResourceResponse(resource.Name, resource.Url, resource.IsAssessment));
             }
+
 
             return response;
         }

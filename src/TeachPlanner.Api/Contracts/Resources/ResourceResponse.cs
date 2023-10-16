@@ -3,5 +3,4 @@
 public record ResourceResponse(
     string Name,
     string Url,
-    bool IsAssessment,
-    Guid SubjectId);
+    bool IsAssessment);
