@@ -6,14 +6,16 @@ namespace TeachPlanner.Api.Common.Interfaces.Persistence;
 
 public interface IResourceRepository : IRepository<Resource>
 {
-    public Task<List<Resource>> GetResourcesById(
+    Task<List<Resource>> GetResourcesById(
         List<ResourceId> resourceIds,
         CancellationToken cancellationToken
     );
 
-    public Task<IEnumerable<Resource>> GetByTeacherAndSubject(
+    Task<IEnumerable<Resource>> GetByTeacherAndSubject(
             TeacherId teacherId,
             SubjectId subjectId,
             CancellationToken cancellationToken
             );
+
+    void Add(Resource resource);
 }

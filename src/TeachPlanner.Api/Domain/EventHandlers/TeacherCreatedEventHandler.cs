@@ -6,12 +6,12 @@ using TeachPlanner.Api.Domain.YearDataRecords;
 
 namespace TeachPlanner.Api.Domain.EventHandlers;
 
-public class TeacherCreatedEventHandler : INotificationHandler<TeacherCreatedDomainEvent>
+public class TeacherCreatedDomainEventHandler : INotificationHandler<TeacherCreatedDomainEvent>
 {
     private readonly ApplicationDbContext _context;
     private readonly IUnitOfWork _unitOfWork;
 
-    public TeacherCreatedEventHandler(ApplicationDbContext context, IUnitOfWork unitOfWork)
+    public TeacherCreatedDomainEventHandler(ApplicationDbContext context, IUnitOfWork unitOfWork)
     {
         _context = context;
         _unitOfWork = unitOfWork;

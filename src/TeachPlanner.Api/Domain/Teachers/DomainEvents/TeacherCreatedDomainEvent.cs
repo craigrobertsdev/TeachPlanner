@@ -1,5 +1,4 @@
-﻿using MediatR;
-using TeachPlanner.Api.Domain.Common.Primatives;
+﻿using TeachPlanner.Api.Domain.Common.Primatives;
 
 namespace TeachPlanner.Api.Domain.Teachers.DomainEvents;
 

@@ -38,4 +38,9 @@ public class ResourceRepository : IResourceRepository
 
         return teacher != null ? teacher.Resources : new List<Resource>();
     }
+
+    public void Add(Resource resource)
+    {
+        _context.Resources.Add(resource);
+    }
 }

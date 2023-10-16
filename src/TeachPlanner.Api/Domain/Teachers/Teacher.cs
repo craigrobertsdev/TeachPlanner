@@ -2,7 +2,6 @@
 using TeachPlanner.Api.Domain.Common.Interfaces;
 using TeachPlanner.Api.Domain.Common.Primatives;
 using TeachPlanner.Api.Domain.Resources;
-using TeachPlanner.Api.Domain.CurriculumSubjects;
 using TeachPlanner.Api.Domain.Teachers.DomainEvents;
 using TeachPlanner.Api.Domain.Users;
 using TeachPlanner.Api.Domain.YearDataRecords;
@@ -64,6 +63,16 @@ public sealed class Teacher : Entity<TeacherId>, IAggregateRoot
     private bool YearDataExists(int year)
     {
         return _yearDataHistory.FirstOrDefault(yd => yd.CalendarYear == year) is not null;
+    }
+
+    public void AddResource(Resource resource)
+    {
+        if (_resources.Contains(resource))
+        {
+            return;
+        }
+
+        _resources.Add(resource);
     }
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.

@@ -2,6 +2,8 @@
 using TeachPlanner.Api.Domain.Common.Primatives;
 using TeachPlanner.Api.Domain.LessonPlans;
 using TeachPlanner.Api.Domain.CurriculumSubjects;
+using TeachPlanner.Api.Domain.Teachers;
+using TeachPlanner.Api.Domain.Resources.DomainEvents;
 
 namespace TeachPlanner.Api.Domain.Resources;
 
@@ -40,19 +42,24 @@ public sealed class Resource : Entity<ResourceId>, IAggregateRoot
     }
 
     public static Resource Create(
+        TeacherId teacherId,
         string name,
         string url,
         bool isAssessment,
         SubjectId subjectId,
         List<string>? strandNames)
     {
-        return new(
+        var resource = new Resource(
             new ResourceId(Guid.NewGuid()),
             name,
             url,
             isAssessment,
             subjectId,
             strandNames);
+
+        resource.AddDomainEvent(new ResourceCreatedDomainEvent(resource.Id, teacherId));
+
+        return resource;
     }
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.

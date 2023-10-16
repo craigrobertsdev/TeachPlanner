@@ -38,7 +38,6 @@ public static class GetResources
                 response.Add(new ResourceResponse(resource.Name, resource.Url, resource.IsAssessment));
             }
 
-
             return response;
         }
     }
