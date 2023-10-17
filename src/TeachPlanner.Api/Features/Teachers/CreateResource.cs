@@ -1,4 +1,5 @@
 using MediatR;
+using Microsoft.AspNetCore.Mvc;
 using TeachPlanner.Api.Common.Exceptions;
 using TeachPlanner.Api.Common.Interfaces.Persistence;
 using TeachPlanner.Api.Contracts.Resources;
@@ -50,9 +51,9 @@ public static class CreateResource
     }
   }
 
-  public static async Task<IResult> Delegate(ISender sender, TeacherId teacherId, CreateResourceRequest request, CancellationToken cancellationToken)
+  public static async Task<IResult> Delegate(ISender sender, Guid teacherId, CreateResourceRequest request, CancellationToken cancellationToken)
   {
-    var command = new Command(teacherId, request.Name, request.SubjectId, request.AssociatedStrands, request.IsAssessment);
+    var command = new Command(new TeacherId(teacherId), request.Name, new SubjectId(request.SubjectId), request.AssociatedStrands, request.IsAssessment);
 
     var result = await sender.Send(command, cancellationToken);
 

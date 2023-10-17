@@ -1,4 +1,5 @@
 using MediatR;
+using Microsoft.AspNetCore.Mvc;
 using TeachPlanner.Api.Common.Interfaces.Persistence;
 using TeachPlanner.Api.Contracts.Resources;
 using TeachPlanner.Api.Domain.CurriculumSubjects;
@@ -42,9 +43,9 @@ public static class GetResources
         }
     }
 
-    public static async Task<IResult> Delegate(ISender sender, TeacherId teacherId, SubjectId subjectId, CancellationToken cancellationToken)
+    public static async Task<IResult> Delegate([FromRoute] Guid teacherId, [FromRoute] Guid subjectId, ISender sender, CancellationToken cancellationToken)
     {
-        var query = new Query(teacherId, subjectId);
+        var query = new Query(new TeacherId(teacherId), new SubjectId(subjectId));
 
         var result = await sender.Send(query, cancellationToken);
     

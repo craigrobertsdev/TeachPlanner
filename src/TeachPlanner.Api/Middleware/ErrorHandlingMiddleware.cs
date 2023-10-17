@@ -6,13 +6,13 @@ namespace TeachPlanner.Api.Middleware;
 
 public class ErrorHandlingMiddleware
 {
-    private readonly RequestDelegate _next;
     private readonly ILogger<ErrorHandlingMiddleware> _logger;
+    private readonly RequestDelegate _next;
 
-    public ErrorHandlingMiddleware(RequestDelegate next, ILogger<ErrorHandlingMiddleware> logger)
+    public ErrorHandlingMiddleware(ILogger<ErrorHandlingMiddleware> logger, RequestDelegate next)
     {
-        _next = next;
         _logger = logger;
+        _next = next;
     }
 
     public async Task InvokeAsync(HttpContext context)

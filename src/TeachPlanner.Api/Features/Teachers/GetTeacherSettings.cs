@@ -65,9 +65,11 @@ public static class GetTeacherSettings
         }
 
     }
-    public async static Task<GetTeacherSettingsResponse> Delegate(Guid teacherId, int calendarYear, ISender sender, CancellationToken cancellationToken)
+    public async static Task<IResult> Delegate(Guid teacherId, int calendarYear, ISender sender, CancellationToken cancellationToken)
     {
         var query = new Query(new TeacherId(teacherId), calendarYear);
-        return await sender.Send(query, cancellationToken);
+        var result = await sender.Send(query, cancellationToken);
+
+        return Results.Ok(result);
     }
 }

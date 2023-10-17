@@ -46,8 +46,8 @@ public class TeacherRepository : ITeacherRepository
     {
         var teacher = await _context.Teachers
             .Where(t => t.Id == teacherId)
-            .Include(t => t.Resources
-                    .Where(r => r.SubjectId == subjectId))
+            .Include(t => t.Resources)
+                    // .Where(r => r.SubjectId == subjectId))
             .FirstOrDefaultAsync(cancellationToken);
 
         return teacher != null ? teacher.Resources : new List<Resource>();

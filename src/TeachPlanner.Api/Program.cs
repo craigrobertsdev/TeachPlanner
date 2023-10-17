@@ -22,7 +22,6 @@ var app = builder.Build();
 app.UseSwagger();
 app.UseSwaggerUI();
 
-//app.UseMiddleware<ErrorHandlingMiddleware>();
 
 // enable cors
 app.UseCors(builder => builder
