@@ -5,7 +5,7 @@ namespace TeachPlanner.Api.Contracts.WeekPlanners;
 
 public record WeekPlannerResponse(
     List<DayPlan> DayPlans,
-    DayPlanTemplate DayPlanPattern,
+    WeekPlannerTemplate WeekPlanPattern,
     DateTime WeekStart,
     int WeekNumber);
 

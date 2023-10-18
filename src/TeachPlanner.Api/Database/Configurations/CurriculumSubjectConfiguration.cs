@@ -24,7 +24,6 @@ public class CurriculumSubjectConfiguration : IEntityTypeConfiguration<Curriculu
             .WithOne()
             .IsRequired()
             .OnDelete(DeleteBehavior.Cascade);
-
     }
 }
 
@@ -53,7 +52,6 @@ public class YearLevelConfiguration : IEntityTypeConfiguration<YearLevel>
             .IsRequired()
             .HasForeignKey("YearLevelId")
             .OnDelete(DeleteBehavior.Cascade);
-
     }
 }
 

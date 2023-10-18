@@ -4,51 +4,50 @@ using TeachPlanner.Api.Common.Interfaces.Curriculum;
 using TeachPlanner.Api.Domain.CurriculumSubjects;
 
 namespace TeachPlanner.Api.Services.CurriculumParser;
+
 public class CurriculumParser : ICurriculumParser
 {
-    private readonly List<CurriculumSubject> _subjects;
     private readonly GeneralSubjectParser _generalSubjectParser;
-    private readonly MathematicsParser _mathematicsParser;
     private readonly HealthAndPEParser _healthAndPEParser;
+    private readonly MathematicsParser _mathematicsParser;
+    private readonly List<CurriculumSubject> _subjects;
 
     public CurriculumParser()
     {
-        _subjects = new();
-        _generalSubjectParser = new();
-        _mathematicsParser = new();
-        _healthAndPEParser = new();
+        _subjects = new List<CurriculumSubject>();
+        _generalSubjectParser = new GeneralSubjectParser();
+        _mathematicsParser = new MathematicsParser();
+        _healthAndPEParser = new HealthAndPEParser();
     }
 
     // Read values from each curriculum document and add appropriate information to the database if not already populated.
     public List<CurriculumSubject> ParseCurriculum()
     {
-        string[] filePaths = Directory.GetFiles(
+        var filePaths = Directory.GetFiles(
             //"C:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\TeachPlanner.Curriculum Files");
             "/home/craig/source/TeachPlanner/src/TeachPlanner.Curriculum Files");
 
-        foreach (string file in filePaths)
+        foreach (var file in filePaths)
         {
-
-            string[] contentArr = LoadFile(file);
+            var contentArr = LoadFile(file);
             Console.WriteLine(file);
 
             //string subjectName = file.Split("C:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\TeachPlanner.Curriculum Files")[1];
-            string subjectName = file.Split("/home/craig/source/TeachPlanner/src/TeachPlanner.Curriculum Files")[1];
+            var subjectName = file.Split("/home/craig/source/TeachPlanner/src/TeachPlanner.Curriculum Files")[1];
 
             //subjectName = subjectName.Replace("\\", "").Replace(".docx", "");
             subjectName = subjectName.Replace("/", "").Replace(".docx", "");
 
-            string currElements = "";
-            foreach (string content in contentArr)
-            {
-                if (content == "CURRICULUM ELEMENTS" || content == "Curriculum Elements" || content == "Curriculum elements")
+            var currElements = "";
+            foreach (var content in contentArr)
+                if (content == "CURRICULUM ELEMENTS" || content == "Curriculum Elements" ||
+                    content == "Curriculum elements")
                 {
                     currElements = content;
                     break;
                 }
-            }
 
-            int index = Array.IndexOf(contentArr, currElements) + 1;
+            var index = Array.IndexOf(contentArr, currElements) + 1;
 
             if (subjectName == "Mathematics")
             {
@@ -73,20 +72,17 @@ public class CurriculumParser : ICurriculumParser
     private static string[] LoadFile(string filePath)
     {
         WordDocument document = new();
-        using FileStream stream = File.Open(filePath, FileMode.Open, FileAccess.Read);
+        using var stream = File.Open(filePath, FileMode.Open, FileAccess.Read);
         document.Open(stream, FormatType.Docx);
 
         // parse entire document into string
-        string content = document.GetText();
+        var content = document.GetText();
 
         // create array of individual lines
-        string[] contentArr = content.Split("\n");
+        var contentArr = content.Split("\n");
 
         // remove all carriage returns from created array
-        for (int i = 0; i < contentArr.Length; i++)
-        {
-            contentArr[i] = contentArr[i].Trim('\r').Trim('\t');
-        }
+        for (var i = 0; i < contentArr.Length; i++) contentArr[i] = contentArr[i].Trim('\r').Trim('\t');
 
         // remove all empty array entires
         contentArr = contentArr.Where(item => !string.IsNullOrEmpty(item)).ToArray();

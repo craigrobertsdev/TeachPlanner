@@ -12,12 +12,6 @@ public sealed class Teacher : Entity<TeacherId>, IAggregateRoot
     private readonly List<Assessment> _assessments = new();
     private readonly List<Resource> _resources = new();
     private readonly List<YearDataEntry> _yearDataHistory = new();
-    public UserId UserId { get; private set; }
-    public string FirstName { get; private set; }
-    public string LastName { get; private set; }
-    public IReadOnlyList<Assessment> Assessments => _assessments.AsReadOnly();
-    public IReadOnlyList<Resource> Resources => _resources.AsReadOnly();
-    public IReadOnlyList<YearDataEntry> YearDataHistory => _yearDataHistory.AsReadOnly();
 
     private Teacher(TeacherId id, UserId userId, string firstName, string lastName) : base(id)
     {
@@ -25,6 +19,13 @@ public sealed class Teacher : Entity<TeacherId>, IAggregateRoot
         LastName = lastName;
         UserId = userId;
     }
+
+    public UserId UserId { get; private set; }
+    public string FirstName { get; private set; }
+    public string LastName { get; private set; }
+    public IReadOnlyList<Assessment> Assessments => _assessments.AsReadOnly();
+    public IReadOnlyList<Resource> Resources => _resources.AsReadOnly();
+    public IReadOnlyList<YearDataEntry> YearDataHistory => _yearDataHistory.AsReadOnly();
 
     public static Teacher Create(UserId userId, string firstName, string lastName)
     {
@@ -38,10 +39,7 @@ public sealed class Teacher : Entity<TeacherId>, IAggregateRoot
     {
         var yearDataEntry = _yearDataHistory.FirstOrDefault(yd => yd.CalendarYear == year);
 
-        if (yearDataEntry is null)
-        {
-            return null;
-        }
+        if (yearDataEntry is null) return null;
 
         return yearDataEntry.YearDataId;
     }
@@ -49,9 +47,7 @@ public sealed class Teacher : Entity<TeacherId>, IAggregateRoot
     public void AddYearData(YearDataEntry yearDataEntry)
     {
         if (!YearDataExists(yearDataEntry))
-        {
             _yearDataHistory.Add(YearDataEntry.Create(yearDataEntry.CalendarYear, yearDataEntry.YearDataId));
-        }
     }
 
     private bool YearDataExists(YearDataEntry yearDataEntry)
@@ -66,14 +62,12 @@ public sealed class Teacher : Entity<TeacherId>, IAggregateRoot
 
     public void AddResource(Resource resource)
     {
-        if (_resources.Contains(resource))
-        {
-            return;
-        }
+        if (_resources.Contains(resource)) return;
 
         _resources.Add(resource);
     }
-
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-    private Teacher() { }
+    private Teacher()
+    {
+    }
 }

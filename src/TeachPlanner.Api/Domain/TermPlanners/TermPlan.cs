@@ -2,12 +2,10 @@
 using TeachPlanner.Api.Domain.CurriculumSubjects;
 
 namespace TeachPlanner.Api.Domain.TermPlanners;
+
 public record TermPlan
 {
     private readonly List<CurriculumSubject> _subjects = new();
-    public IReadOnlyList<CurriculumSubject> Subjects => _subjects.AsReadOnly();
-    public TermPlanner TermPlanner { get; private set; } = null!;
-    public int TermNumber { get; private set; }
 
     private TermPlan(TermPlanner termPlanner, int termNumber, List<CurriculumSubject> subjects)
     {
@@ -16,20 +14,18 @@ public record TermPlan
         _subjects = subjects;
     }
 
+    public IReadOnlyList<CurriculumSubject> Subjects => _subjects.AsReadOnly();
+    public TermPlanner TermPlanner { get; private set; } = null!;
+    public int TermNumber { get; private set; }
+
     public void AddSubject(CurriculumSubject subject)
     {
-        if (!_subjects.Contains(subject))
-        {
-            _subjects.Add(subject);
-        }
+        if (!_subjects.Contains(subject)) _subjects.Add(subject);
     }
 
     public void AddSubjects(List<CurriculumSubject> subjects)
     {
-        if (_subjects.Count > 0)
-        {
-            throw new TermPlanSubjectsAlreadySetException();
-        }
+        if (_subjects.Count > 0) throw new TermPlanSubjectsAlreadySetException();
 
         _subjects.AddRange(subjects);
     }
@@ -57,17 +53,15 @@ public record TermPlan
         {
             subject.AddYearLevel(yearLevel);
         }
-        else
-        {
-            // TODO:
-        }
+        // TODO:
     }
 
     public static TermPlan Create(TermPlanner termPlanner, int termNumber, List<CurriculumSubject> subjects)
     {
         return new TermPlan(termPlanner, termNumber, subjects);
     }
-
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-    private TermPlan() { }
+    private TermPlan()
+    {
+    }
 }

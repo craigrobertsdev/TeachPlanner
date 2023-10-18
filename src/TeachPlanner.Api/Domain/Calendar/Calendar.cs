@@ -13,12 +13,6 @@ namespace TeachPlanner.Api.Domain.Calendar;
 public sealed class Calendar : Entity<CalendarId>, IAggregateRoot
 {
     private readonly List<SchoolEvent> _schoolEvents = new();
-    public int TermNumber { get; private set; }
-    public DateTime TermStart { get; private set; }
-    public DateTime TermEnd { get; private set; }
-    public IReadOnlyList<SchoolEvent> SchoolEvents => _schoolEvents.AsReadOnly();
-    public DateTime CreatedDateTime { get; private set; }
-    public DateTime UpdatedDateTime { get; private set; }
 
     private Calendar(
         CalendarId id,
@@ -29,10 +23,7 @@ public sealed class Calendar : Entity<CalendarId>, IAggregateRoot
         DateTime createdDateTime,
         DateTime updatedDateTime) : base(id)
     {
-        if (schoolEvents is not null)
-        {
-            _schoolEvents = schoolEvents;
-        }
+        if (schoolEvents is not null) _schoolEvents = schoolEvents;
 
         TermNumber = termNumber;
         TermStart = termStart;
@@ -40,6 +31,13 @@ public sealed class Calendar : Entity<CalendarId>, IAggregateRoot
         CreatedDateTime = createdDateTime;
         UpdatedDateTime = updatedDateTime;
     }
+
+    public int TermNumber { get; private set; }
+    public DateTime TermStart { get; private set; }
+    public DateTime TermEnd { get; private set; }
+    public IReadOnlyList<SchoolEvent> SchoolEvents => _schoolEvents.AsReadOnly();
+    public DateTime CreatedDateTime { get; private set; }
+    public DateTime UpdatedDateTime { get; private set; }
 
     public static Calendar Create(
         List<SchoolEvent>? schoolEvents,
@@ -58,7 +56,8 @@ public sealed class Calendar : Entity<CalendarId>, IAggregateRoot
             createdDateTime,
             updatedDateTime);
     }
-
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-    private Calendar() { }
+    private Calendar()
+    {
+    }
 }

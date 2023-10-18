@@ -3,14 +3,14 @@ using Microsoft.EntityFrameworkCore;
 using TeachPlanner.Api.Domain.Assessments;
 using TeachPlanner.Api.Domain.Calendar;
 using TeachPlanner.Api.Domain.Common.Interfaces;
+using TeachPlanner.Api.Domain.CurriculumSubjects;
 using TeachPlanner.Api.Domain.LessonPlans;
+using TeachPlanner.Api.Domain.PlannerTemplates;
 using TeachPlanner.Api.Domain.Reports;
 using TeachPlanner.Api.Domain.Students;
-using TeachPlanner.Api.Domain.CurriculumSubjects;
 using TeachPlanner.Api.Domain.Teachers;
 using TeachPlanner.Api.Domain.TermPlanners;
 using TeachPlanner.Api.Domain.Users;
-using TeachPlanner.Api.Domain.PlannerTemplates;
 using TeachPlanner.Api.Domain.YearDataRecords;
 
 namespace TeachPlanner.Api.Database;
@@ -24,6 +24,7 @@ public class ApplicationDbContext : DbContext
     {
         _publisher = publisher;
     }
+
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)
     {
@@ -52,7 +53,7 @@ public class ApplicationDbContext : DbContext
         base.OnModelCreating(modelBuilder);
     }
 
-    public async override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
+    public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new())
     {
         var entitiesWithDomainEvents = ChangeTracker.Entries<IHasDomainEvents>()
             .Select(e => e.Entity)
@@ -67,10 +68,7 @@ public class ApplicationDbContext : DbContext
 
         var result = await base.SaveChangesAsync(cancellationToken);
 
-        foreach (var domainEvent in domainEvents)
-        {
-            await _publisher.Publish(domainEvent, cancellationToken);
-        }
+        foreach (var domainEvent in domainEvents) await _publisher.Publish(domainEvent, cancellationToken);
         return result;
     }
 }

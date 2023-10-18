@@ -1,7 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Text.Json;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System.Text.Json;
 using TeachPlanner.Api.Database.Converters;
 using TeachPlanner.Api.Domain.Common.Enums;
 using TeachPlanner.Api.Domain.Teachers;
@@ -9,6 +9,7 @@ using TeachPlanner.Api.Domain.TermPlanners;
 using TeachPlanner.Api.Domain.YearDataRecords;
 
 namespace TeachPlanner.Api.Database.Configurations;
+
 public class YearDataConfiguration : IEntityTypeConfiguration<YearData>
 {
     public void Configure(EntityTypeBuilder<YearData> builder)

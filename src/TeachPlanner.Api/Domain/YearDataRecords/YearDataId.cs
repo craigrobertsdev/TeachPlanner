@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace TeachPlanner.Api.Domain.YearDataRecords;
+
 public record YearDataId
 {
     public Guid Value;

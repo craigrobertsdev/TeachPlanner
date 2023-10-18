@@ -1,6 +1,7 @@
 ﻿using TeachPlanner.Api.Common.Interfaces.Persistence;
 
 namespace TeachPlanner.Api.Database;
+
 internal sealed class UnitOfWork : IUnitOfWork
 {
     private readonly ApplicationDbContext _context;
@@ -10,6 +11,8 @@ internal sealed class UnitOfWork : IUnitOfWork
         _context = context;
     }
 
-    public Task SaveChangesAsync(CancellationToken cancellationToken = default) =>
-        _context.SaveChangesAsync(cancellationToken);
+    public Task SaveChangesAsync(CancellationToken cancellationToken = default)
+    {
+        return _context.SaveChangesAsync(cancellationToken);
+    }
 }

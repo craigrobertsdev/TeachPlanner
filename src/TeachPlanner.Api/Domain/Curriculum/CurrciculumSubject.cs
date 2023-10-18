@@ -6,8 +6,6 @@ namespace TeachPlanner.Api.Domain.CurriculumSubjects;
 public sealed class CurriculumSubject : Entity<SubjectId>, IAggregateRoot
 {
     private readonly List<YearLevel> _yearLevels = new();
-    public string Name { get; private set; }
-    public IReadOnlyList<YearLevel> YearLevels => _yearLevels.AsReadOnly();
 
     private CurriculumSubject(
         SubjectId id,
@@ -19,6 +17,9 @@ public sealed class CurriculumSubject : Entity<SubjectId>, IAggregateRoot
         _yearLevels = yearLevels;
         Name = name;
     }
+
+    public string Name { get; private set; }
+    public IReadOnlyList<YearLevel> YearLevels => _yearLevels.AsReadOnly();
 
     public static CurriculumSubject Create(
         string name,
@@ -39,8 +40,8 @@ public sealed class CurriculumSubject : Entity<SubjectId>, IAggregateRoot
     {
         _yearLevels.Add(yearLevel);
     }
-
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-    private CurriculumSubject() { }
+    private CurriculumSubject()
+    {
+    }
 }
-

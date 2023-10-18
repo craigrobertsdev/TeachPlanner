@@ -8,5 +8,5 @@ public enum YearLevelValue
     Year3 = 3,
     Year4 = 4,
     Year5 = 5,
-    Year6 = 6,
+    Year6 = 6
 }

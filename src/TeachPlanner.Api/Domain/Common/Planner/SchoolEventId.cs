@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace TeachPlanner.Api.Domain.Common.Planner;
+
 public record SchoolEventId
 {
     public Guid Value;

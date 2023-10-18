@@ -1,5 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.Linq.Expressions;
+﻿using System.Linq.Expressions;
+using Microsoft.EntityFrameworkCore;
 using TeachPlanner.Api.Common.Exceptions;
 using TeachPlanner.Api.Domain.CurriculumSubjects;
 
@@ -13,9 +13,7 @@ public static class SubjectQueries
         CancellationToken cancellationToken)
     {
         if (includeElaborations)
-        {
             return await GetSubjectsWithElaborations(context, new List<SubjectId>(), cancellationToken);
-        }
 
         return await GetSubjectsWithoutElaborations(context, new List<SubjectId>(), cancellationToken);
     }
@@ -26,10 +24,7 @@ public static class SubjectQueries
         bool includeElaborations,
         CancellationToken cancellationToken)
     {
-        if (includeElaborations)
-        {
-            return await context.GetSubjectsWithElaborations(subjects, cancellationToken);
-        }
+        if (includeElaborations) return await context.GetSubjectsWithElaborations(subjects, cancellationToken);
 
         return await context.GetSubjectsWithoutElaborations(subjects, cancellationToken);
     }
@@ -44,10 +39,7 @@ public static class SubjectQueries
             .AsNoTracking()
             .Where(s => subjectIds.Contains(s.Id));
 
-        if (filter != null)
-        {
-            subjectsQuery = subjectsQuery.Where(filter);
-        }
+        if (filter != null) subjectsQuery = subjectsQuery.Where(filter);
 
         subjectsQuery = subjectsQuery
             .Include(s => s.YearLevels)
@@ -57,10 +49,7 @@ public static class SubjectQueries
 
         var subjects = await subjectsQuery.ToListAsync(cancellationToken);
 
-        if (subjects.Count == 0)
-        {
-            throw new NoSubjectsFoundException();
-        }
+        if (subjects.Count == 0) throw new NoSubjectsFoundException();
 
         return subjects;
     }
@@ -75,10 +64,7 @@ public static class SubjectQueries
             .AsNoTracking()
             .Where(s => subjectIds.Contains(s.Id));
 
-        if (filter != null)
-        {
-            subjectsQuery = subjectsQuery.Where(filter);
-        }
+        if (filter != null) subjectsQuery = subjectsQuery.Where(filter);
 
         subjectsQuery = subjectsQuery
             .Include(s => s.YearLevels)
@@ -87,10 +73,7 @@ public static class SubjectQueries
 
         var subjects = await subjectsQuery.ToListAsync(cancellationToken);
 
-        if (subjects.Count == 0)
-        {
-            throw new NoSubjectsFoundException();
-        }
+        if (subjects.Count == 0) throw new NoSubjectsFoundException();
 
         return subjects;
     }

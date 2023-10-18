@@ -5,32 +5,22 @@ namespace TeachPlanner.Api.Domain.Assessments;
 
 public record AssessmentGrade
 {
-    public Grade Grade { get; private set; }
-    public double? Percentage { get; private set; }
-
     private AssessmentGrade(Grade? grade, double? percentage)
     {
-        if (percentage is not null)
-        {
-            Percentage = percentage;
-        }
+        if (percentage is not null) Percentage = percentage;
 
         if (grade is not null)
-        {
             Grade = (Grade)grade;
-        }
         else
-        {
             Grade = FromPercentage();
-        }
     }
+
+    public Grade Grade { get; private set; }
+    public double? Percentage { get; }
 
     public static OneOf<AssessmentGrade, ArgumentException> Create(Grade? grade, double? percentage)
     {
-        if (grade is null && percentage is null)
-        {
-            return new ArgumentException("Grade or Percentage must be provided");
-        }
+        if (grade is null && percentage is null) return new ArgumentException("Grade or Percentage must be provided");
 
         return new AssessmentGrade(grade, percentage);
     }
@@ -46,7 +36,8 @@ public record AssessmentGrade
             _ => Grade.E
         };
     }
-
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-    private AssessmentGrade() { }
+    private AssessmentGrade()
+    {
+    }
 }

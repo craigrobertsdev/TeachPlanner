@@ -25,16 +25,14 @@ public static class GetWeekPlanner
         {
             var teacher = await _teacherRepository.GetById(request.TeacherId, cancellationToken);
 
-            if (teacher is null)
-            {
-                throw new TeacherNotFoundException();
-            }
+            if (teacher is null) throw new TeacherNotFoundException();
 
-            var weekPlanner = await _weekPlannerRepository.GetWeekPlanner(request.TeacherId, request.WeekNumber, request.TermNumber, request.Year, cancellationToken);
+            var weekPlanner = await _weekPlannerRepository.GetWeekPlanner(request.TeacherId, request.WeekNumber,
+                request.TermNumber, request.Year, cancellationToken);
 
             return new WeekPlannerResponse(
                 weekPlanner.DayPlans.ToList(),
-                weekPlanner.DayPlanPattern,
+                weekPlanner.WeekPlanPattern,
                 weekPlanner.WeekStart,
                 weekPlanner.WeekNumber
             );

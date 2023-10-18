@@ -2,15 +2,16 @@
 
 public record YearDataContentDescription
 {
-    public string CurriculumCode { get; private set; }
     private readonly List<int> _termsTaughtIn = new();
-    public IReadOnlyList<int> TermsTaughtIn => _termsTaughtIn.AsReadOnly();
-    public bool Scheduled => _termsTaughtIn.Any();
 
     private YearDataContentDescription(string curriculumCode)
     {
         CurriculumCode = curriculumCode;
     }
+
+    public string CurriculumCode { get; private set; }
+    public IReadOnlyList<int> TermsTaughtIn => _termsTaughtIn.AsReadOnly();
+    public bool Scheduled => _termsTaughtIn.Any();
 
     public static YearDataContentDescription Create(string curriculumCode)
     {

@@ -7,16 +7,17 @@ using TeachPlanner.Api.Domain.TermPlanners;
 using TeachPlanner.Api.Domain.YearDataRecords;
 
 namespace TeachPlanner.Api.Contracts.Teachers.GetTeacherSettings;
+
 public record GetTeacherSettingsResponse
 {
     public GetTeacherSettingsResponse(
-    YearDataId yearDataId,
-    IEnumerable<Subject> subjects,
-    IEnumerable<Student> students,
-    IEnumerable<YearLevelValue> yearLevelsTaught,
-    TermPlanner? termPlanner)
+        YearDataId yearDataId,
+        IEnumerable<Subject> subjects,
+        IEnumerable<Student> students,
+        IEnumerable<YearLevelValue> yearLevelsTaught,
+        TermPlanner? termPlanner)
     {
-        this.YearDataId = yearDataId.Value;
+        YearDataId = yearDataId.Value;
         Subjects = subjects.ToList();
         Students = students.Select(s => new SettingsStudentResponse(s.FirstName, s.LastName)).ToList();
         YearLevelsTaught = yearLevelsTaught.ToList();
@@ -28,7 +29,6 @@ public record GetTeacherSettingsResponse
     public List<SettingsStudentResponse> Students { get; }
     public List<YearLevelValue> YearLevelsTaught { get; }
     public TermPlannerResponse? TermPlanner { get; }
-
 }
 
 public record SettingsStudentResponse(

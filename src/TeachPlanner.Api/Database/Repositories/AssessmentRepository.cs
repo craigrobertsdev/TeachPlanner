@@ -13,10 +13,11 @@ public class AssessmentRepository : IAssessmentRepository
         _context = context;
     }
 
-    public async Task<List<Assessment>> GetAssessmentsById(List<AssessmentId> assessmentIds, CancellationToken cancellationToken)
+    public async Task<List<Assessment>> GetAssessmentsById(List<AssessmentId> assessmentIds,
+        CancellationToken cancellationToken)
     {
         return await _context.Assessments
-                    .Where(x => assessmentIds.Contains(x.Id))
-                    .ToListAsync(cancellationToken);
+            .Where(x => assessmentIds.Contains(x.Id))
+            .ToListAsync(cancellationToken);
     }
 }

@@ -2,12 +2,6 @@
 
 public record AssessmentResult
 {
-    public string Comments { get; private set; }
-    public AssessmentGrade Grade { get; private set; }
-    public DateTime DateMarked { get; private set; }
-    public DateTime CreatedDateTime { get; private set; }
-    public DateTime UpdatedDateTime { get; private set; }
-
     private AssessmentResult(
         string comments,
         AssessmentGrade grade,
@@ -20,6 +14,12 @@ public record AssessmentResult
         UpdatedDateTime = DateTime.UtcNow;
     }
 
+    public string Comments { get; private set; }
+    public AssessmentGrade Grade { get; private set; }
+    public DateTime DateMarked { get; private set; }
+    public DateTime CreatedDateTime { get; private set; }
+    public DateTime UpdatedDateTime { get; private set; }
+
     public static AssessmentResult Create(
         string comments,
         AssessmentGrade grade,
@@ -30,7 +30,8 @@ public record AssessmentResult
             grade,
             dateMarked);
     }
-
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-    private AssessmentResult() { }
+    private AssessmentResult()
+    {
+    }
 }

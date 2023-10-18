@@ -7,7 +7,8 @@ public record SubjectResponse(
     string Name,
     List<YearLevelResponse> YearLevels)
 {
-    public static List<SubjectResponse> CreateCurriculumSubjectResponses(IEnumerable<CurriculumSubject> subjects, bool withDetails)
+    public static List<SubjectResponse> CreateCurriculumSubjectResponses(IEnumerable<CurriculumSubject> subjects,
+        bool withDetails)
     {
         List<SubjectResponse> subjectResponses = new();
         subjectResponses = subjects.Select(s => new SubjectResponse(
@@ -37,12 +38,15 @@ public record SubjectResponse(
         List<StrandResponse> strandResponses = new();
         strandResponses = strands.Select(s => new StrandResponse(
             s.Name,
-            s.ContentDescriptions != null ? CreateContentDescriptionResponses(s.ContentDescriptions, withDetails) : null)).ToList();
+            s.ContentDescriptions != null
+                ? CreateContentDescriptionResponses(s.ContentDescriptions, withDetails)
+                : null)).ToList();
 
         return strandResponses;
     }
 
-    private static List<ContentDescriptionResponse> CreateContentDescriptionResponses(IEnumerable<ContentDescription> contentDescriptions, bool withDetails)
+    private static List<ContentDescriptionResponse> CreateContentDescriptionResponses(
+        IEnumerable<ContentDescription> contentDescriptions, bool withDetails)
     {
         List<ContentDescriptionResponse> contentDescriptionResponses = new();
         contentDescriptionResponses = contentDescriptions.Select(cd => new ContentDescriptionResponse(
@@ -61,7 +65,7 @@ public record SubjectResponse(
 
         return elaborationResponses;
     }
-};
+}
 
 public record class YearLevelResponse(
     string Name,

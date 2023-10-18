@@ -4,5 +4,5 @@ namespace TeachPlanner.Api.Common.Interfaces.Curriculum;
 
 public interface ICurriculumService
 {
-  List<CurriculumSubject> CurriculumSubjects { get; }
+    List<CurriculumSubject> CurriculumSubjects { get; }
 }

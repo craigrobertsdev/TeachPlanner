@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace TeachPlanner.Api.Domain.CurriculumSubjects;
+
 public record SubjectId
 {
     public Guid Value;

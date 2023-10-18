@@ -14,14 +14,12 @@ public class CreateLessonPlanTests
     private readonly IUnitOfWork _unitOfWork;
     private readonly ILessonPlanRepository _lessonPlanRepository;
     private readonly IAssessmentRepository _assessmentRepository;
-    private readonly IResourceRepository _resourceRepository;
 
     public CreateLessonPlanTests()
     {
         _unitOfWork = A.Fake<IUnitOfWork>();
         _lessonPlanRepository = A.Fake<ILessonPlanRepository>();
         _assessmentRepository = A.Fake<IAssessmentRepository>();
-        _resourceRepository = A.Fake<IResourceRepository>();
     }
 
     [Fact]
@@ -40,7 +38,7 @@ public class CreateLessonPlanTests
             new List<AssessmentId>());
 
 
-        var handler = new CreateLessonPlan.Handler(_lessonPlanRepository, _assessmentRepository, _resourceRepository, _unitOfWork);
+        var handler = new CreateLessonPlan.Handler(_lessonPlanRepository, _assessmentRepository, _unitOfWork);
         var cancellationToken = CancellationToken.None;
         // Act
         var result = await handler.Handle(command, cancellationToken);

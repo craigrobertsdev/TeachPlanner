@@ -1,10 +1,11 @@
+using Syncfusion.Licensing;
 using TeachPlanner.Api;
 using TeachPlanner.Api.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
 var syncfusionLicenceKey = builder.Configuration["Syncfusion:LicenseKey"];
-Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense(syncfusionLicenceKey);
+SyncfusionLicenseProvider.RegisterLicense(syncfusionLicenceKey);
 
 builder.Services
     .AddInfrastructure(builder.Configuration)
@@ -25,9 +26,9 @@ app.UseSwaggerUI();
 
 // enable cors
 app.UseCors(builder => builder
-   .AllowAnyOrigin()
-   .AllowAnyMethod()
-   .AllowAnyHeader());
+    .AllowAnyOrigin()
+    .AllowAnyMethod()
+    .AllowAnyHeader());
 
 app.UseHttpsRedirection();
 app.UseAuthentication();

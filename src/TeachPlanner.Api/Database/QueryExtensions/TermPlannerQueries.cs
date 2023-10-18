@@ -5,8 +5,7 @@ namespace TeachPlanner.Api.Database.QueryExtensions;
 
 public static class TermPlannerQueries
 {
-
-    public async static Task<TermPlanner?> GetTermPlannerById(this ApplicationDbContext context,
+    public static async Task<TermPlanner?> GetTermPlannerById(this ApplicationDbContext context,
         TermPlannerId termPlannerId, CancellationToken cancellationToken)
     {
         return await context.TermPlanners

@@ -11,6 +11,15 @@ namespace TeachPlanner.Api.Features.Teachers;
 
 public static class GetTeacherSettings
 {
+    public static async Task<IResult> Delegate(Guid teacherId, int calendarYear, ISender sender,
+        CancellationToken cancellationToken)
+    {
+        var query = new Query(new TeacherId(teacherId), calendarYear);
+        var result = await sender.Send(query, cancellationToken);
+
+        return Results.Ok(result);
+    }
+
     public record Query(TeacherId TeacherId, int CalendarYear) : IRequest<GetTeacherSettingsResponse>;
 
     public class Validator : AbstractValidator<Query>
@@ -24,10 +33,11 @@ public static class GetTeacherSettings
     public sealed class Handler : IRequestHandler<Query, GetTeacherSettingsResponse>
     {
         private readonly ITeacherRepository _teacherRepository;
-        private readonly IYearDataRepository _yearDataRepository;
         private readonly ITermPlannerRepository _termPlannerRepository;
+        private readonly IYearDataRepository _yearDataRepository;
 
-        public Handler(ITeacherRepository teacherRepository, IYearDataRepository yearDataRepository, ITermPlannerRepository termPlannerRepository)
+        public Handler(ITeacherRepository teacherRepository, IYearDataRepository yearDataRepository,
+            ITermPlannerRepository termPlannerRepository)
         {
             _teacherRepository = teacherRepository;
             _yearDataRepository = yearDataRepository;
@@ -37,24 +47,20 @@ public static class GetTeacherSettings
         public async Task<GetTeacherSettingsResponse> Handle(Query request, CancellationToken cancellationToken)
         {
             var teacher = await _teacherRepository.GetById(request.TeacherId, cancellationToken);
-            if (teacher == null)
-            {
-                throw new TeacherNotFoundException();
-            }
+            if (teacher == null) throw new TeacherNotFoundException();
 
-            var yearData = await _yearDataRepository.GetByTeacherIdAndYear(request.TeacherId, request.CalendarYear, cancellationToken);
+            var yearData =
+                await _yearDataRepository.GetByTeacherIdAndYear(request.TeacherId, request.CalendarYear,
+                    cancellationToken);
 
-            if (yearData == null)
-            {
-                yearData = YearData.Create(request.TeacherId, request.CalendarYear);
-            }
+            if (yearData == null) yearData = YearData.Create(request.TeacherId, request.CalendarYear);
 
-            var termPlanner = await _termPlannerRepository.GetByYearDataIdAndYear(yearData.Id, request.CalendarYear, cancellationToken);
+            var termPlanner =
+                await _termPlannerRepository.GetByYearDataIdAndYear(yearData.Id, request.CalendarYear,
+                    cancellationToken);
 
             if (termPlanner is null)
-            {
                 termPlanner = TermPlanner.Create(yearData.Id, request.CalendarYear, yearData.YearLevelsTaught.ToList());
-            }
 
             return new GetTeacherSettingsResponse(
                 yearData.Id,
@@ -63,13 +69,5 @@ public static class GetTeacherSettings
                 yearData.YearLevelsTaught,
                 termPlanner);
         }
-
-    }
-    public async static Task<IResult> Delegate(Guid teacherId, int calendarYear, ISender sender, CancellationToken cancellationToken)
-    {
-        var query = new Query(new TeacherId(teacherId), calendarYear);
-        var result = await sender.Send(query, cancellationToken);
-
-        return Results.Ok(result);
     }
 }

@@ -72,6 +72,7 @@ public static class RouteMapper
         var assessmentGroup = group.MapGroup("/assessments");
         return group;
     }
+
     private static RouteGroupBuilder MapStudents(this RouteGroupBuilder group)
     {
         var studentGroup = group.MapGroup("/students");

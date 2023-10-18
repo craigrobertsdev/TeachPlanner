@@ -4,8 +4,8 @@ namespace TeachPlanner.Api.Features.WeekPlanners.Queries.GetWeekPlannerData;
 
 public class GetPlannerDataQueryHandler //: IRequestHandler<GetPlannerDataQuery, ErrorOr<GetPlannerDataResult>>
 {
-    private readonly ITeacherRepository _teacherRepository;
     private readonly ISubjectRepository _subjectRepository;
+    private readonly ITeacherRepository _teacherRepository;
 
     public GetPlannerDataQueryHandler(
         ITeacherRepository teacherRepository,

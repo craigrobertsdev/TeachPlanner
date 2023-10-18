@@ -1,10 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.Linq.Expressions;
+﻿using System.Linq.Expressions;
+using Microsoft.EntityFrameworkCore;
 using TeachPlanner.Api.Common.Exceptions;
 using TeachPlanner.Api.Common.Interfaces.Persistence;
 using TeachPlanner.Api.Domain.CurriculumSubjects;
 
 namespace TeachPlanner.Api.Database.Repositories;
+
 public class SubjectRepository : ISubjectRepository
 {
     private readonly ApplicationDbContext _context;
@@ -18,10 +19,7 @@ public class SubjectRepository : ISubjectRepository
         bool includeElaborations,
         CancellationToken cancellationToken)
     {
-        if (includeElaborations)
-        {
-            return await GetSubjectsWithElaborations(cancellationToken);
-        }
+        if (includeElaborations) return await GetSubjectsWithElaborations(cancellationToken);
 
         return await GetSubjectsWithoutElaborations(cancellationToken);
     }
@@ -33,10 +31,7 @@ public class SubjectRepository : ISubjectRepository
     {
         Expression<Func<CurriculumSubject, bool>> filter = s => subjects.Contains(s.Id);
 
-        if (includeElaborations)
-        {
-            return await GetSubjectsWithElaborations(cancellationToken, filter);
-        }
+        if (includeElaborations) return await GetSubjectsWithElaborations(cancellationToken, filter);
 
         return await GetSubjectsWithoutElaborations(cancellationToken, filter);
     }
@@ -48,23 +43,17 @@ public class SubjectRepository : ISubjectRepository
         var subjectsQuery = _context.CurriculumSubjects
             .AsNoTracking();
 
-        if (filter != null)
-        {
-            subjectsQuery = subjectsQuery.Where(filter);
-        }
+        if (filter != null) subjectsQuery = subjectsQuery.Where(filter);
 
         subjectsQuery = subjectsQuery
-        .Include(s => s.YearLevels)
-        .ThenInclude(yl => yl.Strands)
-        .ThenInclude(s => s.ContentDescriptions)
-        .ThenInclude(cd => cd.Elaborations);
+            .Include(s => s.YearLevels)
+            .ThenInclude(yl => yl.Strands)
+            .ThenInclude(s => s.ContentDescriptions)
+            .ThenInclude(cd => cd.Elaborations);
 
         var subjects = await subjectsQuery.ToListAsync(cancellationToken);
 
-        if (subjects.Count == 0)
-        {
-            throw new NoSubjectsFoundException();
-        }
+        if (subjects.Count == 0) throw new NoSubjectsFoundException();
 
         return subjects;
     }
@@ -76,10 +65,7 @@ public class SubjectRepository : ISubjectRepository
         var subjectsQuery = _context.CurriculumSubjects
             .AsNoTracking();
 
-        if (filter != null)
-        {
-            subjectsQuery = subjectsQuery.Where(filter);
-        }
+        if (filter != null) subjectsQuery = subjectsQuery.Where(filter);
 
         subjectsQuery = subjectsQuery
             .Include(s => s.YearLevels)
@@ -88,10 +74,7 @@ public class SubjectRepository : ISubjectRepository
 
         var subjects = await subjectsQuery.ToListAsync(cancellationToken);
 
-        if (subjects.Count == 0)
-        {
-            throw new NoSubjectsFoundException();
-        }
+        if (subjects.Count == 0) throw new NoSubjectsFoundException();
 
         return subjects;
     }

@@ -4,10 +4,6 @@ namespace TeachPlanner.Api.Domain.Reports;
 
 public record ReportComment
 {
-    public Grade Grade { get; private set; }
-    public string Comments { get; private set; }
-    public int CharacterLimit { get; private set; }
-
     private ReportComment(
         Grade grade,
         string comments,
@@ -17,6 +13,10 @@ public record ReportComment
         Comments = comments;
         CharacterLimit = characterLimit;
     }
+
+    public Grade Grade { get; private set; }
+    public string Comments { get; private set; }
+    public int CharacterLimit { get; private set; }
 
     public static ReportComment Create(
         Grade grade,
@@ -28,7 +28,8 @@ public record ReportComment
             comments,
             characterLimit);
     }
-
 #pragma warning disable CS8618
-    private ReportComment() { }
+    private ReportComment()
+    {
+    }
 }

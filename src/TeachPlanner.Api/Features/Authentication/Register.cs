@@ -14,6 +14,14 @@ namespace TeachPlanner.Api.Features.Authentication;
 
 public static class Register
 {
+    public static async Task<IResult> Delegate(RegisterRequest request, ISender sender,
+        CancellationToken cancellationToken)
+    {
+        var command = request.Adapt<Command>();
+        var result = await sender.Send(command, cancellationToken);
+        return Results.Ok(result);
+    }
+
     public record Command(string FirstName, string LastName, string Email, string Password, string ConfirmedPassword)
         : IRequest<AuthenticationResponse>;
 
@@ -32,9 +40,9 @@ public static class Register
     internal sealed class Handler : IRequestHandler<Command, AuthenticationResponse>
     {
         private readonly IJwtTokenGenerator _jwtTokenGenerator;
-        private readonly IUserRepository _userRepository;
         private readonly ITeacherRepository _teacherRepository;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IUserRepository _userRepository;
 
         public Handler(
             IJwtTokenGenerator jwtTokenGenerator,
@@ -50,16 +58,10 @@ public static class Register
 
         public async Task<AuthenticationResponse> Handle(Command request, CancellationToken cancellationToken)
         {
-            if (request.Password != request.ConfirmedPassword)
-            {
-                throw new PasswordsDoNotMatchException();
-            }
+            if (request.Password != request.ConfirmedPassword) throw new PasswordsDoNotMatchException();
 
             var user = await _userRepository.GetByEmail(request.Email, cancellationToken);
-            if (user is not null)
-            {
-                throw new DuplicateEmailException();
-            }
+            if (user is not null) throw new DuplicateEmailException();
 
             user = new User(request.Email, PasswordService.HashPassword(request.Password));
             _userRepository.Add(user);
@@ -78,12 +80,4 @@ public static class Register
             return new AuthenticationResponse(response, token);
         }
     }
-
-    public static async Task<IResult> Delegate(RegisterRequest request, ISender sender, CancellationToken cancellationToken)
-    {
-        var command = request.Adapt<Command>();
-        var result = await sender.Send(command, cancellationToken);
-        return Results.Ok(result);
-    }
 }
-

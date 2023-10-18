@@ -12,6 +12,19 @@ namespace TeachPlanner.Api.Features.Authentication;
 
 public static class Login
 {
+    public static async Task<IResult> Delegate(LoginRequest request, ISender sender,
+        CancellationToken cancellationToken)
+    {
+        var command = request.Adapt<Command>();
+        var result = await sender.Send(command, cancellationToken);
+        return Results.Ok(result);
+    }
+
+    private static string NormaliseEmail(string email)
+    {
+        return email.Trim().ToUpper();
+    }
+
     public record Command(string Email, string Password) : IRequest<AuthenticationResponse>;
 
     public class Validator : AbstractValidator<Command>
@@ -26,8 +39,8 @@ public static class Login
     internal sealed class Handler : IRequestHandler<Command, AuthenticationResponse>
     {
         private readonly IJwtTokenGenerator _jwtTokenGenerator;
-        private readonly IUserRepository _userRepository;
         private readonly ITeacherRepository _teacherRepository;
+        private readonly IUserRepository _userRepository;
 
         public Handler(
             IJwtTokenGenerator jwtTokenGenerator,
@@ -43,15 +56,10 @@ public static class Login
         {
             var user = await _userRepository.GetByEmail(NormaliseEmail(request.Email), cancellationToken);
             if (user == null || !PasswordService.VerifyPassword(request.Password, user.Password))
-            {
                 throw new InvalidCredentialsException();
-            }
 
             var teacher = await _teacherRepository.GetByUserId(user.Id, cancellationToken);
-            if (teacher == null)
-            {
-                throw new TeacherNotFoundException();
-            }
+            if (teacher == null) throw new TeacherNotFoundException();
 
             var response = new TeacherResponse(
                 teacher.Id.Value,
@@ -61,15 +69,4 @@ public static class Login
             return new AuthenticationResponse(response, _jwtTokenGenerator.GenerateToken(teacher));
         }
     }
-    public static async Task<IResult> Delegate(LoginRequest request, ISender sender, CancellationToken cancellationToken)
-    {
-        var command = request.Adapt<Command>();
-        var result = await sender.Send(command, cancellationToken);
-        return Results.Ok(result);
-    }
-    private static string NormaliseEmail(string email)
-    {
-        return email.Trim().ToUpper();
-    }
 }
-

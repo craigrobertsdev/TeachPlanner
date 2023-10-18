@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using TeachPlanner.Api.Database.Converters;
-using TeachPlanner.Api.Domain.LessonPlans;
 using TeachPlanner.Api.Domain.CurriculumSubjects;
+using TeachPlanner.Api.Domain.LessonPlans;
 using TeachPlanner.Api.Domain.Teachers;
 using TeachPlanner.Api.Domain.YearDataRecords;
 

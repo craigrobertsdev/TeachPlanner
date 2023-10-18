@@ -19,7 +19,7 @@ public record TermPlannerResponse(
 
     private static List<TermPlanResponse> CreateTermPlanResponses(IEnumerable<TermPlan> termPlans)
     {
-        List<TermPlanResponse> termPlanResponses = termPlans.Select(tp => new TermPlanResponse(
+        var termPlanResponses = termPlans.Select(tp => new TermPlanResponse(
             SubjectResponse.CreateCurriculumSubjectResponses(tp.Subjects, false),
             tp.TermNumber)).ToList();
 

@@ -15,6 +15,7 @@ public class TeacherRepository : ITeacherRepository
     {
         _context = context;
     }
+
     public void Add(Teacher teacher)
     {
         _context.Teachers.Add(teacher);
@@ -28,10 +29,10 @@ public class TeacherRepository : ITeacherRepository
     public async Task<Teacher?> GetById(TeacherId teacherId, CancellationToken cancellationToken)
     {
         return await _context.Teachers
-                .Where(t => t.Id == teacherId)
-                .Include(t => t.Resources)
-                .AsSplitQuery()
-                .FirstOrDefaultAsync(cancellationToken);
+            .Where(t => t.Id == teacherId)
+            .Include(t => t.Resources)
+            .AsSplitQuery()
+            .FirstOrDefaultAsync(cancellationToken);
     }
 
     public async Task<Teacher?> GetByUserId(UserId userId, CancellationToken cancellationToken)
@@ -41,7 +42,8 @@ public class TeacherRepository : ITeacherRepository
             .FirstOrDefaultAsync(cancellationToken);
     }
 
-    public async Task<IEnumerable<Resource>> GetResourcesBySubject(TeacherId teacherId, SubjectId subjectId, CancellationToken cancellationToken)
+    public async Task<IEnumerable<Resource>> GetResourcesBySubject(TeacherId teacherId, SubjectId subjectId,
+        CancellationToken cancellationToken)
     {
         var teacher = await _context.Teachers
             .Where(t => t.Id == teacherId)
@@ -52,17 +54,20 @@ public class TeacherRepository : ITeacherRepository
         return teacher != null ? teacher.Resources : new List<Resource>();
     }
 
-    public Task<List<CurriculumSubject>> GetSubjectsTaughtByTeacherWithElaborations(TeacherId teacherId, CancellationToken cancellationToken)
+    public Task<List<CurriculumSubject>> GetSubjectsTaughtByTeacherWithElaborations(TeacherId teacherId,
+        CancellationToken cancellationToken)
     {
         throw new NotImplementedException();
     }
 
-    public Task<List<CurriculumSubject>> GetSubjectsTaughtByTeacherWithoutElaborations(TeacherId teacherId, CancellationToken cancellationToken)
+    public Task<List<CurriculumSubject>> GetSubjectsTaughtByTeacherWithoutElaborations(TeacherId teacherId,
+        CancellationToken cancellationToken)
     {
         throw new NotImplementedException();
     }
 
-    public Task<YearData?> GetYearDataByTeacherIdAndYear(TeacherId teacherId, int calendarYear, CancellationToken cancellationToken)
+    public Task<YearData?> GetYearDataByTeacherIdAndYear(TeacherId teacherId, int calendarYear,
+        CancellationToken cancellationToken)
     {
         throw new NotImplementedException();
     }

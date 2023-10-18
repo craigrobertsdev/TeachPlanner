@@ -1,6 +1,6 @@
-﻿using TeachPlanner.Api.Extensions;
+﻿using TeachPlanner.Api.Domain.Common.Enums;
 using TeachPlanner.Api.Domain.CurriculumSubjects;
-using TeachPlanner.Api.Domain.Common.Enums;
+using TeachPlanner.Api.Extensions;
 
 namespace TeachPlanner.Api.Services.CurriculumParser;
 
@@ -14,45 +14,43 @@ internal class MathematicsParser
         {
             while (index < contentArr.Length)
             {
-                YearLevel yearLevel = ParseYearLevel(contentArr, ref index, subject);
+                var yearLevel = ParseYearLevel(contentArr, ref index, subject);
                 subject.AddYearLevel(yearLevel);
                 // "Australian Curriculum:" appears after all curriculum content for each subject.
-                if (contentArr[index].StartsWith("Australian Curriculum:"))
-                {
-                    break;
-                }
+                if (contentArr[index].StartsWith("Australian Curriculum:")) break;
             }
         }
-        catch { Console.WriteLine("Index: " + index); }
+        catch
+        {
+            Console.WriteLine("Index: " + index);
+        }
+
         return subject;
     }
 
     private YearLevel ParseYearLevel(string[] contentArr, ref int index, CurriculumSubject subject)
     {
-        YearLevelValue yearLevelValue = contentArr[index] == "Foundation" ? YearLevelValue.Foundation : (YearLevelValue)Enum.Parse(typeof(YearLevelValue), contentArr[index].Replace(" ", ""));
+        var yearLevelValue = contentArr[index] == "Foundation"
+            ? YearLevelValue.Foundation
+            : (YearLevelValue)Enum.Parse(typeof(YearLevelValue), contentArr[index].Replace(" ", ""));
 
         index += 2;
-        string description = "";
+        var description = "";
 
         do
         {
             if (contentArr[index].StartsWith("*"))
-            {
                 description += contentArr[index] + "\n";
-            }
             else
-            {
                 description += contentArr[index] + "\n\n";
-            }
 
             index++;
-        }
-        while (!contentArr[index].StartsWith("Achievement standard"));
+        } while (!contentArr[index].StartsWith("Achievement standard"));
 
         index++;
 
         // iterate over next x lines to capture the entire achievement standard
-        string achievementStandard = "";
+        var achievementStandard = "";
         do
         {
             achievementStandard += contentArr[index] + "\n\n";
@@ -68,7 +66,6 @@ internal class MathematicsParser
             var strand = GetStrand(contentArr, ref index, yearLevel);
 
             yearLevel.AddStrand(strand);
-
         }
 
         return yearLevel;
@@ -77,10 +74,10 @@ internal class MathematicsParser
     private Strand GetStrand(string[] contentArr, ref int index, YearLevel yearLevel)
     {
         // remove "Strand:" from name
-        string name = contentArr[index].Substring(8).TrimEnd();
+        var name = contentArr[index].Substring(8).TrimEnd();
         index += 2;
 
-        var strand = Strand.Create(name, contentDescriptions: new List<ContentDescription>());
+        var strand = Strand.Create(name, new List<ContentDescription>());
 
         while (contentArr[index].StartsWith("Content descriptions"))
         {

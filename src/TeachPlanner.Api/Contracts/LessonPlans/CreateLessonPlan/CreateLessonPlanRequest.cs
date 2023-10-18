@@ -13,4 +13,3 @@ public record CreateLessonPlanRequest(
     DateOnly LessonDate,
     int NumberOfPeriods,
     int StartPeriod);
-

@@ -3,6 +3,7 @@ using TeachPlanner.Api.Common.Interfaces.Persistence;
 using TeachPlanner.Api.Domain.CurriculumSubjects;
 
 namespace TeachPlanner.Api.Database.Repositories;
+
 public class CurriculumRepository : ICurriculumRepository
 {
     private readonly ApplicationDbContext _context;
@@ -22,9 +23,6 @@ public class CurriculumRepository : ICurriculumRepository
         await _context.SaveChangesAsync(cancellationToken);
 
         // add new subjects
-        foreach (var subject in subjects)
-        {
-            _context.CurriculumSubjects.Add(subject);
-        }
+        foreach (var subject in subjects) _context.CurriculumSubjects.Add(subject);
     }
 }

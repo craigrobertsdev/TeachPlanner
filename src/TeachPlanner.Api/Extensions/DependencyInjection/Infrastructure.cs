@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using System.Text;
 using TeachPlanner.Api.Common.Interfaces.Authentication;
 using TeachPlanner.Api.Common.Interfaces.Curriculum;
 using TeachPlanner.Api.Common.Interfaces.Persistence;
@@ -46,6 +46,7 @@ public static class Infrastructure
         services.AddScoped<ITeacherRepository, TeacherRepository>();
         services.AddScoped<ITermPlannerRepository, TermPlannerRepository>();
         services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<IWeekPlannerRepository, IWeekPlannerRepository>();
         services.AddScoped<IYearDataRepository, YearDataRepository>();
         services.AddSingleton<ICurriculumService, CurriculumService>();
 
@@ -54,7 +55,6 @@ public static class Infrastructure
 
     private static IServiceCollection AddAuth(this IServiceCollection services, IConfiguration configuration)
     {
-
         //services.AddIdentity<IdentityUser, IdentityRole>(options =>
         //{
         //    options.Password.RequireDigit = true;
@@ -71,12 +71,12 @@ public static class Infrastructure
         services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
 
         services.AddAuthentication(x =>
-        {
-            x.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-            x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-            x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-        })
-            .AddJwtBearer(options => options.TokenValidationParameters = new TokenValidationParameters()
+            {
+                x.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(options => options.TokenValidationParameters = new TokenValidationParameters
             {
                 ValidIssuer = jwtSettings.Issuer,
                 ValidAudience = jwtSettings.Audience,
@@ -84,7 +84,7 @@ public static class Infrastructure
                 ValidateIssuer = true,
                 ValidateAudience = true,
                 ValidateIssuerSigningKey = true,
-                ValidateLifetime = true,
+                ValidateLifetime = true
             });
 
         return services;

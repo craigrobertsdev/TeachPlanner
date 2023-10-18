@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace TeachPlanner.Api.Domain.PlannerTemplates;
+
 public record WeekPlannerId
 {
     public Guid Value;

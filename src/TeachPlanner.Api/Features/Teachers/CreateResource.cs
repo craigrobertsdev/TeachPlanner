@@ -9,53 +9,53 @@ namespace TeachPlanner.Api.Features.Teachers;
 
 public static class CreateResource
 {
-  public record Command(TeacherId TeacherId, string Name, SubjectId SubjectId, List<string> AssociatedStrands, bool IsAssessment) : IRequest<string>;
-
-  public sealed class Handler : IRequestHandler<Command, string>
-  {
-    private readonly ITeacherRepository _teacherRepository;
-    private readonly IUnitOfWork _unitOfWork;
-
-    public Handler(ITeacherRepository teacherRepository, IUnitOfWork unitOfWork)
+    public static async Task<IResult> Delegate(ISender sender, Guid teacherId, CreateResourceRequest request,
+        CancellationToken cancellationToken)
     {
-      _teacherRepository = teacherRepository;
-      _unitOfWork = unitOfWork;
+        var command = new Command(new TeacherId(teacherId), request.Name, new SubjectId(request.SubjectId),
+            request.AssociatedStrands, request.IsAssessment);
+
+        var result = await sender.Send(command, cancellationToken);
+
+        return Results.Ok(result);
     }
 
-    public async Task<string> Handle(Command request, CancellationToken cancellationToken)
+    public record Command(TeacherId TeacherId, string Name, SubjectId SubjectId, List<string> AssociatedStrands,
+        bool IsAssessment) : IRequest<string>;
+
+    public sealed class Handler : IRequestHandler<Command, string>
     {
-      // TODO: Add method to upload files to storage and generate URL
-      var url = "https://www.placeholder.com";
+        private readonly ITeacherRepository _teacherRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-      var teacher = await _teacherRepository.GetById(request.TeacherId, cancellationToken);
+        public Handler(ITeacherRepository teacherRepository, IUnitOfWork unitOfWork)
+        {
+            _teacherRepository = teacherRepository;
+            _unitOfWork = unitOfWork;
+        }
 
-      if (teacher is null)
-      {
-        throw new TeacherNotFoundException();
-      }
+        public async Task<string> Handle(Command request, CancellationToken cancellationToken)
+        {
+            // TODO: Add method to upload files to storage and generate URL
+            var url = "https://www.placeholder.com";
 
-      var resource = Resource.Create(
-          request.TeacherId,
-          request.Name,
-          url,
-          request.IsAssessment,
-          request.SubjectId,
-          request.AssociatedStrands);
+            var teacher = await _teacherRepository.GetById(request.TeacherId, cancellationToken);
 
-      teacher.AddResource(resource);
+            if (teacher is null) throw new TeacherNotFoundException();
 
-      await _unitOfWork.SaveChangesAsync(cancellationToken);
+            var resource = Resource.Create(
+                request.TeacherId,
+                request.Name,
+                url,
+                request.IsAssessment,
+                request.SubjectId,
+                request.AssociatedStrands);
 
-      return url;
+            teacher.AddResource(resource);
+
+            await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+            return url;
+        }
     }
-  }
-
-  public static async Task<IResult> Delegate(ISender sender, Guid teacherId, CreateResourceRequest request, CancellationToken cancellationToken)
-  {
-    var command = new Command(new TeacherId(teacherId), request.Name, new SubjectId(request.SubjectId), request.AssociatedStrands, request.IsAssessment);
-
-    var result = await sender.Send(command, cancellationToken);
-
-    return Results.Ok(result);
-  }
 }

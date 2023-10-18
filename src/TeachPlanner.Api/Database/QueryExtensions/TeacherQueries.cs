@@ -13,16 +13,15 @@ public static class TeacherQueries
             .AsNoTracking()
             .FirstOrDefaultAsync(t => t.UserId == userId);
     }
-    public static async Task<Teacher?> GetTeacherByEmail(this ApplicationDbContext context, string email, CancellationToken cancellationToken)
+
+    public static async Task<Teacher?> GetTeacherByEmail(this ApplicationDbContext context, string email,
+        CancellationToken cancellationToken)
     {
         var user = await context.Users
             .Where(u => u.Email == email)
             .FirstOrDefaultAsync(cancellationToken);
 
-        if (user == null)
-        {
-            throw new InvalidCredentialsException();
-        }
+        if (user == null) throw new InvalidCredentialsException();
 
         return await context.Teachers
             .Where(t => t.UserId == user.Id)
@@ -30,7 +29,8 @@ public static class TeacherQueries
             .FirstOrDefaultAsync(cancellationToken);
     }
 
-    public static async Task<Teacher?> GetTeacherById(this ApplicationDbContext context, TeacherId teacherId, CancellationToken cancellationToken)
+    public static async Task<Teacher?> GetTeacherById(this ApplicationDbContext context, TeacherId teacherId,
+        CancellationToken cancellationToken)
     {
         return await context.Teachers
             .AsNoTracking()

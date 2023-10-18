@@ -9,6 +9,16 @@ namespace TeachPlanner.Api.Features.Teachers;
 
 public static class GetResources
 {
+    public static async Task<IResult> Delegate([FromRoute] Guid teacherId, [FromRoute] Guid subjectId, ISender sender,
+        CancellationToken cancellationToken)
+    {
+        var query = new Query(new TeacherId(teacherId), new SubjectId(subjectId));
+
+        var result = await sender.Send(query, cancellationToken);
+
+        return Results.Ok(result);
+    }
+
     public record Query(TeacherId TeacherId, SubjectId SubjectId)
         : IRequest<List<ResourceResponse>>;
 
@@ -35,20 +45,9 @@ public static class GetResources
             var response = new List<ResourceResponse>();
 
             foreach (var resource in resources)
-            {
                 response.Add(new ResourceResponse(resource.Name, resource.Url, resource.IsAssessment));
-            }
 
             return response;
         }
-    }
-
-    public static async Task<IResult> Delegate([FromRoute] Guid teacherId, [FromRoute] Guid subjectId, ISender sender, CancellationToken cancellationToken)
-    {
-        var query = new Query(new TeacherId(teacherId), new SubjectId(subjectId));
-
-        var result = await sender.Send(query, cancellationToken);
-    
-        return Results.Ok(result);
     }
 }

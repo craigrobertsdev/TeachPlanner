@@ -40,7 +40,6 @@ public class TeacherConfiguration : IEntityTypeConfiguration<Teacher>
             ydb.Property(yd => yd.YearDataId)
                 .HasColumnName("YearDataId")
                 .HasConversion(new StronglyTypedIdConverter.YearDataIdConverter());
-
         });
     }
 }

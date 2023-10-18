@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace TeachPlanner.Api.Domain.TermPlanners;
+
 public record TermPlannerId
 {
     public Guid Value;

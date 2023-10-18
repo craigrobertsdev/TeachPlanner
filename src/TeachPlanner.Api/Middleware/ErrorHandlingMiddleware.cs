@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System.Net;
+﻿using System.Net;
+using Microsoft.AspNetCore.Mvc;
 using TeachPlanner.Api.Common.Exceptions;
 
 namespace TeachPlanner.Api.Middleware;
@@ -43,17 +43,17 @@ public class ErrorHandlingMiddleware
             type = "https://tools.ietf.org/html/rfc7231#section-6.6.1";
         }
 
-        var problemDetails = new ProblemDetails()
+        var problemDetails = new ProblemDetails
         {
             Type = type,
             Title = ex.Message,
             Status = context.Response.StatusCode,
-            Detail = ex.Message + " --- Make sure to change this in production!",
+            Detail = ex.Message + " --- Make sure to change this in production!"
             // Detail = context.Response.StatusCode == (int)HttpStatusCode.InternalServerError ? "Internal Server Error" : ex.Message
         };
 
-        await context.Response.WriteAsync(problemDetails.Detail.ToString() != null
-            ? (problemDetails.Detail.ToString())!
+        await context.Response.WriteAsync(problemDetails.Detail != null
+            ? problemDetails.Detail!
             : "An internal server error has occurred");
     }
 }
