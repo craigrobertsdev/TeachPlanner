@@ -4,6 +4,7 @@ import { useRef, useState } from "react";
 import Button from "../../components/common/Button";
 import CancelButton from "../../components/common/CancelButton";
 import AddContentDescriptionDialogContent from "../../components/planner/AddContentDescriptionDialogContent";
+import AddResourcesDialogContent from "../../components/planner/AddResourcesDialogContent";
 
 type PlannerSubject = {
   name: string;
@@ -34,7 +35,9 @@ function LessonPlanPage() {
 
   function handleUpdateLesson() {}
 
-  function handleAddResource() {}
+  function handleAddResource() {
+    addResourcesDialog!.current!.showModal();
+  }
 
   function handleAddContentDescriptions() {
     addContentDescriptionsDialog!.current!.showModal();
@@ -83,8 +86,9 @@ function LessonPlanPage() {
           {/* Resources */}
           <dialog ref={addResourcesDialog} className="p-3 text-lg border border-darkGreen max-w-xl">
             <AddResourcesDialogContent
+              subjectId={lessonPlan.subject.id}
               dialogRef={addContentDescriptionsDialog}
-              initialSelectedResources={contentDescriptions}
+              initialSelectedResources={resources}
               setResources={setResources}
             />
           </dialog>

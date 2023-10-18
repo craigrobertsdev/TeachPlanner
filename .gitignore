@@ -9,8 +9,8 @@
 *.user
 *.userosscache
 *.sln.docstates
-CurriculumFiles/
-src/WebAPI/appsettings.*
+**/appsettings.*
+**/Uploads
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs

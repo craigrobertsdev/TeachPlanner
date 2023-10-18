@@ -3,7 +3,7 @@ import HomePage from "./pages/HomePage.tsx";
 import LoginPage from "./pages/LoginPage.tsx";
 import ProtectedLayout from "./components/layouts/ProtectedLayout.tsx";
 import ErrorPage from "./pages/ErrorPage.tsx";
-import LessonPlannerPage from "./pages/planner/LessonPlannerPage.tsx";
+import WeekPlannerPage, { weekPlannerLoader } from "./pages/planner/WeekPlannerPage.tsx";
 import ReportsPage from "./pages/ReportsPage.tsx";
 import ResourcesPage from "./pages/ResourcesPage.tsx";
 import TermPlannerPage from "./pages/planner/TermPlannerPage.tsx";
@@ -25,19 +25,7 @@ export const router = createBrowserRouter(
       </Route>
 
       <Route path="/teacher" element={<ProtectedLayout />}>
-        <Route
-          path="lesson-planner"
-          element={
-            <LessonPlannerPage
-              dayPlans={[] as DayPlan[]}
-              dayPlanPattern={{} as DayPlanPattern}
-              lessonLength={30}
-              numBreaks={2}
-              numLessons={7}
-              weekNumber={1}
-            />
-          }
-        />
+        <Route path="week-planner" loader={weekPlannerLoader} element={<WeekPlannerPage />} />
         <Route path="lesson-plans">
           <Route element={<LessonPlansPage />} index />
           <Route path=":lessonPlanId" element={<LessonPlanPage />} loader={lessonPlanLoader} />

@@ -1,23 +1,27 @@
 import { useEffect, useState } from "react";
 import Button from "../common/Button";
 import CancelButton from "../common/CancelButton";
+import resourceService from "../../services/ResourceService";
+import useAuth from "../../contexts/AuthContext";
 
 type Props = {
-  subject: Subject;
+  subjectId: string;
   dialogRef: React.RefObject<HTMLDialogElement>;
   initialSelectedResources: Resource[];
   setResources: React.Dispatch<React.SetStateAction<Resource[]>>;
 };
 
-function AddResourcesDialogContent({ subject, dialogRef, initialSelectedResources, setResources }: Props) {
+function AddResourcesDialogContent({ subjectId, dialogRef, initialSelectedResources, setResources }: Props) {
+  const { teacher, token } = useAuth();
   const [selectedResources, setSelectedResources] = useState<Resource[]>(initialSelectedResources);
   const [availableResources, setAvailableResources] = useState<Resource[]>([]);
 
   useEffect(() => {
     const getResources = async () => {
-      const abortController = new AbortController();
-      const resources = await resourceService.getResources(subject, teacher!, token!);
+      const resources = await resourceService.getResources(subjectId, teacher!.id, token!);
     };
+
+    getResources();
   }, []);
 
   function handleSelectResources() {
