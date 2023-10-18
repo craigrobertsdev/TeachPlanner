@@ -1,10 +1,10 @@
 using TeachPlanner.Api.Domain.CurriculumSubjects;
-using TeachPlanner.Api.Domain.WeekPlanners;
+using TeachPlanner.Api.Domain.PlannerTemplates;
 
 namespace TeachPlanner.Api.Features.WeekPlanners.Queries.GetWeekPlannerData;
 
 public record GetPlannerDataResult(
   WeekPlanner WeekPlanner,
-  DayPlanPattern DayPlanPattern,
+  DayPlanTemplate DayPlanPattern,
   List<CurriculumSubject> Subjects
 );

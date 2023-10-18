@@ -7,7 +7,7 @@ using TeachPlanner.Api.Domain.LessonPlans;
 using TeachPlanner.Api.Domain.Students;
 using TeachPlanner.Api.Domain.Teachers;
 using TeachPlanner.Api.Domain.TermPlanners;
-using TeachPlanner.Api.Domain.WeekPlanners;
+using TeachPlanner.Api.Domain.PlannerTemplates;
 using TeachPlanner.Api.Domain.YearDataRecords.DomainEvents;
 
 namespace TeachPlanner.Api.Domain.YearDataRecords;

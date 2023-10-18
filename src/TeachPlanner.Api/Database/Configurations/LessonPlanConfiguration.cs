@@ -4,7 +4,6 @@ using TeachPlanner.Api.Database.Converters;
 using TeachPlanner.Api.Domain.LessonPlans;
 using TeachPlanner.Api.Domain.CurriculumSubjects;
 using TeachPlanner.Api.Domain.Teachers;
-using TeachPlanner.Api.Domain.WeekPlanners;
 using TeachPlanner.Api.Domain.YearDataRecords;
 
 namespace TeachPlanner.Api.Database.Configurations;
@@ -45,10 +44,6 @@ public class LessonPlanConfiguration : IEntityTypeConfiguration<LessonPlan>
 
             lcb.HasKey("Id", "LessonPlanId");
         });
-
-        builder.HasOne<WeekPlanner>()
-            .WithMany(wp => wp.LessonPlans)
-            .HasForeignKey("WeekPlannerId");
     }
 }
 

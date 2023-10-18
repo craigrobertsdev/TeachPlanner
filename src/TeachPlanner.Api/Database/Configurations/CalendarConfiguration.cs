@@ -16,11 +16,8 @@ public class CalendarConfiguration : IEntityTypeConfiguration<Calendar>
             .HasColumnName("Id")
             .HasConversion(new StronglyTypedIdConverter.CalendarIdConverter());
 
-        builder.HasMany(c => c.WeekPlanners)
-            .WithOne()
-            .IsRequired();
-
         builder.HasMany(tp => tp.SchoolEvents)
             .WithMany();
     }
 }
+

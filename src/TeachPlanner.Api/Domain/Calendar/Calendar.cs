@@ -1,25 +1,27 @@
 ﻿using TeachPlanner.Api.Domain.Common.Interfaces;
 using TeachPlanner.Api.Domain.Common.Planner;
 using TeachPlanner.Api.Domain.Common.Primatives;
-using TeachPlanner.Api.Domain.WeekPlanners;
 
 namespace TeachPlanner.Api.Domain.Calendar;
 
+// TODO: fix the shit ambiguous name of this class
+
+// The calendar provides data for a high level overview of what the school year looks like
+// It will show in a calendar format, anything of interest for each day outside of the usual lesson planning
+// Things like events (sports day, camp, aquatics), report due dates, parent-teacher interviews etc.
+
 public sealed class Calendar : Entity<CalendarId>, IAggregateRoot
 {
-    private readonly List<WeekPlanner> _weekPlanners = new();
     private readonly List<SchoolEvent> _schoolEvents = new();
     public int TermNumber { get; private set; }
     public DateTime TermStart { get; private set; }
     public DateTime TermEnd { get; private set; }
-    public IReadOnlyList<WeekPlanner> WeekPlanners => _weekPlanners.AsReadOnly();
     public IReadOnlyList<SchoolEvent> SchoolEvents => _schoolEvents.AsReadOnly();
     public DateTime CreatedDateTime { get; private set; }
     public DateTime UpdatedDateTime { get; private set; }
 
     private Calendar(
         CalendarId id,
-        List<WeekPlanner>? weekPlanners,
         List<SchoolEvent>? schoolEvents,
         int termNumber,
         DateTime termStart,
@@ -27,11 +29,6 @@ public sealed class Calendar : Entity<CalendarId>, IAggregateRoot
         DateTime createdDateTime,
         DateTime updatedDateTime) : base(id)
     {
-        if (weekPlanners is not null)
-        {
-            _weekPlanners = weekPlanners;
-        }
-
         if (schoolEvents is not null)
         {
             _schoolEvents = schoolEvents;
@@ -45,7 +42,6 @@ public sealed class Calendar : Entity<CalendarId>, IAggregateRoot
     }
 
     public static Calendar Create(
-        List<WeekPlanner> weekPlanners,
         List<SchoolEvent>? schoolEvents,
         int termNumber,
         DateTime termStart,
@@ -55,7 +51,6 @@ public sealed class Calendar : Entity<CalendarId>, IAggregateRoot
     {
         return new Calendar(
             new CalendarId(Guid.NewGuid()),
-            weekPlanners,
             schoolEvents,
             termNumber,
             termStart,

@@ -261,7 +261,11 @@ export async function weekPlannerLoader(): Promise<WeekPlannerData> {
   const teacher = JSON.parse(localStorage.getItem("teacher")!);
   const token = JSON.parse(localStorage.getItem("token")!);
 
-  const response = await fetch(`${baseUrl}/${teacher!.id}/week-planner`, {
+  const weekNumber = 1;
+  const termNumber = 1;
+  const year = 2023;
+
+  const response = await fetch(`${baseUrl}/${teacher!.id}/week-planner/?week=${weekNumber}&term=${termNumber}&year=${year}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },

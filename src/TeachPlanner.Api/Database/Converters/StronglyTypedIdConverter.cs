@@ -9,7 +9,7 @@ using TeachPlanner.Api.Domain.CurriculumSubjects;
 using TeachPlanner.Api.Domain.Teachers;
 using TeachPlanner.Api.Domain.TermPlanners;
 using TeachPlanner.Api.Domain.Users;
-using TeachPlanner.Api.Domain.WeekPlanners;
+using TeachPlanner.Api.Domain.PlannerTemplates;
 using TeachPlanner.Api.Domain.YearDataRecords;
 
 namespace TeachPlanner.Api.Database.Converters;

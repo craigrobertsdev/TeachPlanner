@@ -10,7 +10,7 @@ using TeachPlanner.Api.Domain.CurriculumSubjects;
 using TeachPlanner.Api.Domain.Teachers;
 using TeachPlanner.Api.Domain.TermPlanners;
 using TeachPlanner.Api.Domain.Users;
-using TeachPlanner.Api.Domain.WeekPlanners;
+using TeachPlanner.Api.Domain.PlannerTemplates;
 using TeachPlanner.Api.Domain.YearDataRecords;
 
 namespace TeachPlanner.Api.Database;
@@ -38,6 +38,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<Report> Reports { get; set; } = null!;
     public DbSet<LessonPlan> LessonPlans { get; set; } = null!;
     public DbSet<WeekPlanner> WeekPlanners { get; set; } = null!;
+    public DbSet<WeekPlannerTemplate> WeekPlannerTemplates { get; set; } = null!;
     public DbSet<TermPlanner> TermPlanners { get; set; } = null!;
     public DbSet<Calendar> Calendar { get; set; } = null!;
     public DbSet<YearData> YearData { get; set; } = null!;

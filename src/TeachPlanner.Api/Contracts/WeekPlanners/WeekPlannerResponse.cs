@@ -1,11 +1,11 @@
-﻿using TeachPlanner.Api.Contracts.LessonPlans;
-using TeachPlanner.Api.Domain.Common.Planner;
+﻿using TeachPlanner.Api.Domain.Common.Planner;
+using TeachPlanner.Api.Domain.PlannerTemplates;
 
 namespace TeachPlanner.Api.Contracts.WeekPlanners;
 
 public record WeekPlannerResponse(
-    List<LessonPlanResponse> LessonPlans,
-    List<SchoolEventResponse> SchoolEvents,
+    List<DayPlan> DayPlans,
+    DayPlanTemplate DayPlanPattern,
     DateTime WeekStart,
     int WeekNumber);
 

@@ -1,11 +1,9 @@
 ﻿using TeachPlanner.Api.Contracts.LessonPlans;
 using TeachPlanner.Api.Contracts.TermPlanners;
-using TeachPlanner.Api.Contracts.WeekPlanners;
 using TeachPlanner.Api.Domain.Common.Enums;
 using TeachPlanner.Api.Domain.LessonPlans;
 using TeachPlanner.Api.Domain.Students;
 using TeachPlanner.Api.Domain.TermPlanners;
-using TeachPlanner.Api.Domain.WeekPlanners;
 using TeachPlanner.Api.Domain.YearDataRecords;
 
 namespace TeachPlanner.Api.Contracts.Teachers.GetTeacherSettings;
@@ -65,18 +63,18 @@ public record SettingsLessonPlanResponse(
     }
 }
 
-public record SettingsWeekPlannerResponse(
-    List<SettingsLessonPlanResponse> LessonPlans,
-    List<SchoolEventResponse> SchoolEvents,
-    DateTime WeekStart,
-    int WeekNumber)
-{
-    public static List<SettingsWeekPlannerResponse> CreateMany(IEnumerable<WeekPlanner> weekPlanners)
-    {
-        return weekPlanners.Select(wp => new SettingsWeekPlannerResponse(
-            SettingsLessonPlanResponse.CreateMany(wp.LessonPlans),
-            SchoolEventResponse.CreateMany(wp.SchoolEvents),
-            wp.WeekStart,
-            wp.WeekNumber)).ToList();
-    }
-}
+// public record SettingsWeekPlannerResponse(
+//     List<SettingsLessonPlanResponse> LessonPlans,
+//     List<SchoolEventResponse> SchoolEvents,
+//     DateTime WeekStart,
+//     int WeekNumber)
+// {
+//     public static List<SettingsWeekPlannerResponse> CreateMany(IEnumerable<WeekPlanner> weekPlanners)
+//     {
+//         return weekPlanners.Select(wp => new SettingsWeekPlannerResponse(
+//             SettingsLessonPlanResponse.CreateMany(wp.LessonPlans),
+//             SchoolEventResponse.CreateMany(wp.SchoolEvents),
+//             wp.WeekStart,
+//             wp.WeekNumber)).ToList();
+//     }
+// }
