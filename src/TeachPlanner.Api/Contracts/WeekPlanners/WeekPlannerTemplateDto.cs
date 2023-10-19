@@ -2,19 +2,18 @@ using TeachPlanner.Api.Domain.PlannerTemplates;
 
 namespace TeachPlanner.Api.Contracts.WeekPlanners;
 
-public record WeekPlannerTemplateDto(List<DayPlanDto> DayPlans)
+public record WeekPlannerTemplateDto(DayPlanDto DayPlanTemplate)
 {
     public static WeekPlannerTemplateDto Create(WeekPlannerTemplate template)
     {
-        var dayPlans = template.DayPlanTemplates.Select(dayPlan => new DayPlanDto(
-            dayPlan.Periods.Select(period => new PeriodDto(
+        var dayPlan = new DayPlanDto(
+            template.DayPlanTemplate.Periods.Select(period => new PeriodDto(
                 period.PeriodType.ToString(),
                 period.StartTime,
                 period.EndTime
-            )).ToList()
-        )).ToList();
+            )).ToList());
 
-        return new WeekPlannerTemplateDto(dayPlans);
+        return new WeekPlannerTemplateDto(dayPlan);
     } 
 }
 

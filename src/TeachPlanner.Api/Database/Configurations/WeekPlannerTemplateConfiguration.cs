@@ -13,7 +13,7 @@ public class WeekPlannerTemplateConfiguration : IEntityTypeConfiguration<WeekPla
         builder.Property(wp => wp.Id)
             .HasConversion(new WeekPlannerTemplateId.StronglyTypedIdEfValueConverter());
 
-        builder.OwnsMany(wp => wp.DayPlanTemplates, dpb =>
+        builder.OwnsOne(wp => wp.DayPlanTemplate, dpb =>
         {
             dpb.ToTable("day_plan_templates");
             dpb.Property<Guid>("Id");
@@ -22,6 +22,9 @@ public class WeekPlannerTemplateConfiguration : IEntityTypeConfiguration<WeekPla
 
             dpb.OwnsMany(dp => dp.Periods, pb =>
             {
+                pb.ToTable("template_periods");
+                pb.Property<Guid>("Id");
+                pb.HasKey("Id");
                 pb.Property(p => p.PeriodType)
                     .HasConversion(
                         v => v.ToString(),

@@ -11,8 +11,8 @@ using TeachPlanner.Api.Database;
 namespace TeachPlanner.Api.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231019190919_UpdatedTemplateStructure2")]
-    partial class UpdatedTemplateStructure2
+    [Migration("20231019201651_UpdatedTemplateStructure3")]
+    partial class UpdatedTemplateStructure3
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -931,7 +931,7 @@ namespace TeachPlanner.Api.Migrations
 
             modelBuilder.Entity("TeachPlanner.Api.Domain.PlannerTemplates.WeekPlannerTemplate", b =>
                 {
-                    b.OwnsMany("TeachPlanner.Api.Domain.PlannerTemplatesPe.DayPlanTemplate", "DayPlanTemplates", b1 =>
+                    b.OwnsOne("TeachPlanner.Api.Domain.PlannerTemplates.DayPlanTemplate", "DayPlanTemplate", b1 =>
                         {
                             b1.Property<Guid>("Id")
                                 .ValueGeneratedOnAdd()
@@ -942,21 +942,22 @@ namespace TeachPlanner.Api.Migrations
 
                             b1.HasKey("Id");
 
-                            b1.HasIndex("WeekPlannerTemplateId");
+                            b1.HasIndex("WeekPlannerTemplateId")
+                                .IsUnique();
 
                             b1.ToTable("day_plan_templates", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("WeekPlannerTemplateId");
 
-                            b1.OwnsMany("TeachPlanner.Api.Domain.PlannerTemplates.Period", "Periods", b2 =>
+                            b1.OwnsMany("TeachPlanner.Api.Domain.PlannerTemplates.TemplatePeriod", "Periods", b2 =>
                                 {
-                                    b2.Property<Guid>("DayPlanTemplateId")
+                                    b2.Property<Guid>("Id")
+                                        .ValueGeneratedOnAdd()
                                         .HasColumnType("char(36)");
 
-                                    b2.Property<int>("Id")
-                                        .ValueGeneratedOnAdd()
-                                        .HasColumnType("int");
+                                    b2.Property<Guid>("DayPlanTemplateId")
+                                        .HasColumnType("char(36)");
 
                                     b2.Property<DateTime>("EndTime")
                                         .HasColumnType("datetime(6)");
@@ -969,9 +970,11 @@ namespace TeachPlanner.Api.Migrations
                                     b2.Property<DateTime>("StartTime")
                                         .HasColumnType("datetime(6)");
 
-                                    b2.HasKey("DayPlanTemplateId", "Id");
+                                    b2.HasKey("Id");
 
-                                    b2.ToTable("Period");
+                                    b2.HasIndex("DayPlanTemplateId");
+
+                                    b2.ToTable("template_periods", (string)null);
 
                                     b2.WithOwner()
                                         .HasForeignKey("DayPlanTemplateId");
@@ -980,7 +983,8 @@ namespace TeachPlanner.Api.Migrations
                             b1.Navigation("Periods");
                         });
 
-                    b.Navigation("DayPlanTemplates");
+                    b.Navigation("DayPlanTemplate")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("TeachPlanner.Api.Domain.Reports.Report", b =>

@@ -68,6 +68,7 @@ function WeekPlannerPage() {
       } else {
         rows += "0.3fr";
       }
+      dayPlans[0].lessonPlans.reduce((acc, curr) => acc + curr.numberOfPeriods, 0);
 
       if (i === entries.length - 1) {
         rows += " 0.3fr"; // after school row
@@ -81,7 +82,7 @@ function WeekPlannerPage() {
 
   function renderCalendarHeaders(dayPlans: DayPlan[]): React.ReactNode[] {
     const renderedCalendarHeaders = [] as React.ReactNode[];
-    const numberOfLessons = dayPlans[0].lessonPlans.reduce((acc, curr) => acc + curr.numberOfPeriods, 0);
+    const numberOfLessons = getNumberOfPeriods(dayPlanPattern);
     const iterations = numberOfLessons + dayPlans[0].breaks.length + dayPlans[0].events.length;
 
     let lessonNumber = 1;
@@ -271,6 +272,7 @@ export async function weekPlannerLoader(): Promise<WeekPlannerData> {
     },
     signal: abortController.signal,
   });
+  console.log(await response.json());
 
   return response.json() as Promise<WeekPlannerData>;
 }

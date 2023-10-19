@@ -3,7 +3,6 @@ using TeachPlanner.Api.Common.Exceptions;
 using TeachPlanner.Api.Common.Interfaces.Persistence;
 using TeachPlanner.Api.Contracts.WeekPlanners;
 using TeachPlanner.Api.Domain.PlannerTemplates;
-using TeachPlanner.Api.Domain.PlannerTemplatesPe;
 using TeachPlanner.Api.Domain.Teachers;
 using TeachPlanner.Api.Domain.WeekPlanners;
 
@@ -68,14 +67,13 @@ public static class CreateWeekPlanner
         CancellationToken cancellationToken)
     {
         var weekPlannerTemplate = WeekPlannerTemplate.Create(
-            request.WeekPlannerTemplate.DayPlans
-                .Select(x => DayPlanTemplate.Create(
-                    x.Periods.Select(y => new Period(
-                        Enum.Parse<PeriodType>(y.PeriodType),
-                        y.StartTime,
-                        y.EndTime))
-                        .ToList()))
-                .ToList());
+            DayPlanTemplate.Create(
+                request.WeekPlannerTemplate.DayPlanTemplate.Periods
+                    .Select(x => new TemplatePeriod(
+                        Enum.Parse<PeriodType>(x.PeriodType),
+                        x.StartTime,
+                        x.EndTime))
+                    .ToList())); 
         
         var command = new Command(
             new TeacherId(teacherId),

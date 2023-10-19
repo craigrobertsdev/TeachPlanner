@@ -1,30 +1,28 @@
 using TeachPlanner.Api.Domain.Common.Primatives;
-using TeachPlanner.Api.Domain.PlannerTemplatesPe;
 
 namespace TeachPlanner.Api.Domain.PlannerTemplates;
 
 public class WeekPlannerTemplate : Entity<WeekPlannerTemplateId>
 {
-    private readonly List<DayPlanTemplate> _dayPlanTemplates = new();
+    public DayPlanTemplate DayPlanTemplate { get; private set; }
 
     private WeekPlannerTemplate(
         WeekPlannerTemplateId id,
-        List<DayPlanTemplate> dayPlanTemplates) : base(id)
+        DayPlanTemplate dayPlanTemplate) : base(id)
     {
-        _dayPlanTemplates = dayPlanTemplates;
+        DayPlanTemplate = dayPlanTemplate;
         CreatedDateTime = DateTime.UtcNow;
         UpdatedDateTime = DateTime.UtcNow;
     }
 
-    public IReadOnlyList<DayPlanTemplate> DayPlanTemplates => _dayPlanTemplates.AsReadOnly();
     public DateTime CreatedDateTime { get; private set; }
     public DateTime UpdatedDateTime { get; private set; }
 
-    public static WeekPlannerTemplate Create(List<DayPlanTemplate> dayPlanTemplates)
+    public static WeekPlannerTemplate Create(DayPlanTemplate dayPlanTemplate)
     {
         return new WeekPlannerTemplate(
             new WeekPlannerTemplateId(Guid.NewGuid()),
-            dayPlanTemplates);
+            dayPlanTemplate);
     }
     
     #pragma warning disable CS8618
