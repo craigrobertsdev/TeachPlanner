@@ -23,4 +23,9 @@ public class WeekPlannerRepository : IWeekPlannerRepository
             .Include(wp => wp.WeekPlanPattern)
             .FirstOrDefaultAsync(cancellationToken);
     }
+
+    public void Add(WeekPlanner weekPlanner)
+    {
+        _context.WeekPlanners.Add(weekPlanner);
+    }
 }

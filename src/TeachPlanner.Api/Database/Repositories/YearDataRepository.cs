@@ -22,7 +22,6 @@ public class YearDataRepository : IYearDataRepository
             .Where(yd => yd.CalendarYear == calendarYear)
             .Include(yd => yd.Subjects)
             .Include(yd => yd.Students)
-            .Include(yd => yd.YearLevelsTaught)
             .Include(yd => yd.WeekPlanners)
             .Include(yd => yd.LessonPlans)
             .AsSplitQuery()

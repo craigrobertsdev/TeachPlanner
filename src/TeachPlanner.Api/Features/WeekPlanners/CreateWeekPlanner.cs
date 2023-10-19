@@ -13,7 +13,7 @@ public static class CreateWeekPlanner
     public record Command(
         TeacherId TeacherId,
         WeekPlannerTemplate WeekPlannerTemplate,
-        DateOnly WeekStart,
+        DateTime WeekStart,
         int WeekNumber,
         int TermNumber,
         int Year) : IRequest<WeekPlanner>;
@@ -21,41 +21,62 @@ public static class CreateWeekPlanner
     public sealed class Handler : IRequestHandler<Command, WeekPlanner>
     {
         private readonly IWeekPlannerRepository _weekPlannerRepository;
-        private readonly IYearDataRepository _yearDataRepository;
+        private readonly ITeacherRepository _teacherRepository;
+        private readonly IUnitOfWork _unitOfWork;
         
-        public Handler(IWeekPlannerRepository weekPlannerRepository, ITermPlannerRepository termPlannerRepository, IYearDataRepository yearDataRepository)
+        public Handler(IWeekPlannerRepository weekPlannerRepository, ITeacherRepository teacherRepository, IUnitOfWork unitOfWork)
         {
             _weekPlannerRepository = weekPlannerRepository;
-            _yearDataRepository = yearDataRepository;
+            _teacherRepository = teacherRepository;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<WeekPlanner> Handle(Command request, CancellationToken cancellationToken)
         {
-            var yearData = await _yearDataRepository.GetByTeacherIdAndYear(request.TeacherId, request.Year, cancellationToken);
+            var teacher = await _teacherRepository.GetById(request.TeacherId, cancellationToken);
 
-            if (yearData is null)
+            if (teacher is null)
             {
-                throw new TermPlannerNotFoundException();
+                throw new TeacherNotFoundException();
+            }
+
+            var yearDataId = teacher.GetYearData(request.Year);
+
+            if (yearDataId is null)
+            {
+                throw new YearDataNotFoundException();
             }
 
             var weekPlanner = WeekPlanner.Create(
-                yearData.Id,
+                yearDataId,
                 request.WeekNumber,
                 request.TermNumber,
                 request.Year,
                 request.WeekPlannerTemplate,
                 request.WeekStart);
+            
+            _weekPlannerRepository.Add(weekPlanner);
+            
+            await _unitOfWork.SaveChangesAsync(cancellationToken);
 
             return weekPlanner;
         }
     }
 
-    public static async Task<IResult> Delegate(CreateWeekPlannerRequest request, ISender sender,
+    public static async Task<IResult> Delegate(Guid teacherId, CreateWeekPlannerRequest request, ISender sender,
         CancellationToken cancellationToken)
     {
+        var weekPlannerTemplate = WeekPlannerTemplate.Create(
+            request.WeekPlannerTemplate.DayPlans
+                .Select(x => DayPlanTemplate.Create(
+                    x.Periods
+                        .Select(Enum.Parse<PeriodType>)
+                        .ToList()))
+                .ToList());
+        
         var command = new Command(
-            request.TeacherId,
-            request.WeekPlannerTemplate,
+            new TeacherId(teacherId),
+            weekPlannerTemplate,
             request.WeekStart,
             request.WeekNumber,
             request.TermNumber,

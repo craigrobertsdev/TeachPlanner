@@ -31,6 +31,7 @@ public class TeacherRepository : ITeacherRepository
         return await _context.Teachers
             .Where(t => t.Id == teacherId)
             .Include(t => t.Resources)
+            .Include(t => t.YearDataHistory)
             .AsSplitQuery()
             .FirstOrDefaultAsync(cancellationToken);
     }
