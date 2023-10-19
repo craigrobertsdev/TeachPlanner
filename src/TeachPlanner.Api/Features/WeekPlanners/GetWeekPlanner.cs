@@ -39,17 +39,17 @@ public static class GetWeekPlanner
 
             return new WeekPlannerResponse(
                 weekPlanner.DayPlans.ToList(),
-                weekPlanner.WeekPlanPattern,
+                WeekPlannerTemplateDto.Create(weekPlanner.WeekPlannerTemplate),
                 weekPlanner.WeekStart,
                 weekPlanner.WeekNumber
             );
         }
     }
 
-    public static async Task<IResult> Delegate(int weekNumber, int termNumber, int year, ISender sender,
+    public static async Task<IResult> Delegate(Guid teacherId, int week, int term, int year, ISender sender,
         CancellationToken cancellationToken)
     {
-        var query = new Query(new TeacherId(Guid.Empty), weekNumber, termNumber, year);
+        var query = new Query(new TeacherId(teacherId), week, term, year);
 
         var result = await sender.Send(query, cancellationToken);
 

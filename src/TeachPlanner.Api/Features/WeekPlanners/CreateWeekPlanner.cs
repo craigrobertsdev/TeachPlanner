@@ -3,6 +3,7 @@ using TeachPlanner.Api.Common.Exceptions;
 using TeachPlanner.Api.Common.Interfaces.Persistence;
 using TeachPlanner.Api.Contracts.WeekPlanners;
 using TeachPlanner.Api.Domain.PlannerTemplates;
+using TeachPlanner.Api.Domain.PlannerTemplatesPe;
 using TeachPlanner.Api.Domain.Teachers;
 using TeachPlanner.Api.Domain.WeekPlanners;
 
@@ -69,8 +70,10 @@ public static class CreateWeekPlanner
         var weekPlannerTemplate = WeekPlannerTemplate.Create(
             request.WeekPlannerTemplate.DayPlans
                 .Select(x => DayPlanTemplate.Create(
-                    x.Periods
-                        .Select(Enum.Parse<PeriodType>)
+                    x.Periods.Select(y => new Period(
+                        Enum.Parse<PeriodType>(y.PeriodType),
+                        y.StartTime,
+                        y.EndTime))
                         .ToList()))
                 .ToList());
         

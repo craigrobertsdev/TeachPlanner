@@ -57,7 +57,7 @@ function WeekPlannerPage() {
 
   function setGridDimensions(sortedCalendarEntries: CalendarEntry[][]): void {
     let rows = "0.5fr "; // week and day header row
-    let entries = sortedCalendarEntries[0];
+    let entries = sortedCalendarEntries[0]; // the grid is uniform for each column so we only work out dimensions for the first one
 
     for (let i = 0; i < entries.length; i++) {
       const entry = entries[i];

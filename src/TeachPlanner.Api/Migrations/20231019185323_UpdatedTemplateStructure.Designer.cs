@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TeachPlanner.Api.Database;
 
@@ -10,9 +11,11 @@ using TeachPlanner.Api.Database;
 namespace TeachPlanner.Api.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231019185323_UpdatedTemplateStructure")]
+    partial class UpdatedTemplateStructure
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -594,7 +597,7 @@ namespace TeachPlanner.Api.Migrations
                     b.Property<int>("WeekNumber")
                         .HasColumnType("int");
 
-                    b.Property<Guid>("WeekPlannerTemplateId")
+                    b.Property<Guid>("WeekPlanPatternId")
                         .HasColumnType("char(36)");
 
                     b.Property<DateTime>("WeekStart")
@@ -608,7 +611,7 @@ namespace TeachPlanner.Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("WeekPlannerTemplateId");
+                    b.HasIndex("WeekPlanPatternId");
 
                     b.HasIndex("YearDataId");
 
@@ -955,16 +958,16 @@ namespace TeachPlanner.Api.Migrations
                                         .ValueGeneratedOnAdd()
                                         .HasColumnType("int");
 
-                                    b2.Property<DateTime>("EndTime")
-                                        .HasColumnType("datetime(6)");
+                                    b2.Property<TimeOnly>("EndTime")
+                                        .HasColumnType("time(6)");
 
                                     b2.Property<string>("PeriodType")
                                         .IsRequired()
                                         .HasMaxLength(20)
                                         .HasColumnType("varchar(20)");
 
-                                    b2.Property<DateTime>("StartTime")
-                                        .HasColumnType("datetime(6)");
+                                    b2.Property<TimeOnly>("StartTime")
+                                        .HasColumnType("time(6)");
 
                                     b2.HasKey("DayPlanTemplateId", "Id");
 
@@ -1119,9 +1122,9 @@ namespace TeachPlanner.Api.Migrations
 
             modelBuilder.Entity("TeachPlanner.Api.Domain.WeekPlanners.WeekPlanner", b =>
                 {
-                    b.HasOne("TeachPlanner.Api.Domain.PlannerTemplates.WeekPlannerTemplate", "WeekPlannerTemplate")
+                    b.HasOne("TeachPlanner.Api.Domain.PlannerTemplates.WeekPlannerTemplate", "WeekPlanPattern")
                         .WithMany()
-                        .HasForeignKey("WeekPlannerTemplateId")
+                        .HasForeignKey("WeekPlanPatternId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -1131,7 +1134,7 @@ namespace TeachPlanner.Api.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("WeekPlannerTemplate");
+                    b.Navigation("WeekPlanPattern");
                 });
 
             modelBuilder.Entity("TeachPlanner.Api.Domain.YearDataRecords.YearData", b =>

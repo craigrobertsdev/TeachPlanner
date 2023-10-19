@@ -99,7 +99,7 @@ public static class RouteMapper
 
     private static RouteGroupBuilder MapWeekPlanners(this RouteGroupBuilder group)
     {
-        var weekPlannerGroup = group.MapGroup("/week-planners");
+        var weekPlannerGroup = group.MapGroup("/week-planner");
         weekPlannerGroup.MapGet("/", GetWeekPlanner.Delegate);
         weekPlannerGroup.MapPost("/", CreateWeekPlanner.Delegate);
         return group;
