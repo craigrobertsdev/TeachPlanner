@@ -4,6 +4,7 @@ using TeachPlanner.Api.Features.LessonPlans;
 using TeachPlanner.Api.Features.Subjects;
 using TeachPlanner.Api.Features.Teachers;
 using TeachPlanner.Api.Features.TermPlanners;
+using TeachPlanner.Api.Features.WeekPlanners;
 using TeachPlanner.Api.Features.YearDataRecords;
 
 namespace TeachPlanner.Api;
@@ -90,6 +91,8 @@ public static class RouteMapper
     private static RouteGroupBuilder MapWeekPlanners(this RouteGroupBuilder group)
     {
         var weekPlannerGroup = group.MapGroup("/week-planners");
+        weekPlannerGroup.MapGet("/", GetWeekPlanner.Delegate);
+        weekPlannerGroup.MapPost("/", CreateWeekPlanner.Delegate);
         return group;
     }
 

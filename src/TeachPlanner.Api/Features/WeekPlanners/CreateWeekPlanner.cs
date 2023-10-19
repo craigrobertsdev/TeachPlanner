@@ -53,7 +53,7 @@ public static class CreateWeekPlanner
     public static async Task<IResult> Delegate(CreateWeekPlannerRequest request, ISender sender,
         CancellationToken cancellationToken)
     {
-        var command = new CreateWeekPlanner.Command(
+        var command = new Command(
             request.TeacherId,
             request.WeekPlannerTemplate,
             request.WeekStart,

@@ -2,7 +2,9 @@ using MediatR;
 using TeachPlanner.Api.Common.Exceptions;
 using TeachPlanner.Api.Common.Interfaces.Persistence;
 using TeachPlanner.Api.Contracts.WeekPlanners;
+using TeachPlanner.Api.Domain.PlannerTemplates;
 using TeachPlanner.Api.Domain.Teachers;
+using TeachPlanner.Api.Domain.WeekPlanners;
 
 namespace TeachPlanner.Api.Features.WeekPlanners;
 
@@ -30,6 +32,11 @@ public static class GetWeekPlanner
             var weekPlanner = await _weekPlannerRepository.GetWeekPlanner(request.TeacherId, request.WeekNumber,
                 request.TermNumber, request.Year, cancellationToken);
 
+            if (weekPlanner is null)
+            {
+                throw new WeekPlannerNotFoundException();
+            }
+
             return new WeekPlannerResponse(
                 weekPlanner.DayPlans.ToList(),
                 weekPlanner.WeekPlanPattern,
@@ -37,5 +44,15 @@ public static class GetWeekPlanner
                 weekPlanner.WeekNumber
             );
         }
+    }
+
+    public static async Task<IResult> Delegate(int weekNumber, int termNumber, int year, ISender sender,
+        CancellationToken cancellationToken)
+    {
+        var query = new Query(new TeacherId(Guid.Empty), weekNumber, termNumber, year);
+
+        var result = await sender.Send(query, cancellationToken);
+
+        return Results.Ok(result);
     }
 }

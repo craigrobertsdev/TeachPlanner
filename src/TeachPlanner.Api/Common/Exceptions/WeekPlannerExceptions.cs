@@ -7,3 +7,11 @@ public class TooManyDayPlansInWeekPlannerException : BaseException
     {
     }
 }
+
+public class WeekPlannerNotFoundException : BaseException
+{
+    public WeekPlannerNotFoundException() :
+        base("Week Planner not found", 404, "WeekPlanner.NotFound")
+    {
+    }
+}
