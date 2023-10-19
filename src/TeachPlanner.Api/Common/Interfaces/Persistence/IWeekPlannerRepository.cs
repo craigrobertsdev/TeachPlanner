@@ -1,5 +1,6 @@
 using TeachPlanner.Api.Domain.PlannerTemplates;
 using TeachPlanner.Api.Domain.Teachers;
+using TeachPlanner.Api.Domain.WeekPlanners;
 
 namespace TeachPlanner.Api.Common.Interfaces.Persistence;
 

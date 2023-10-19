@@ -4,7 +4,7 @@ public record DayPlanTemplate
 {
     private readonly List<PeriodType> _periods = new();
 
-    public DayPlanTemplate(List<PeriodType> periods)
+    private DayPlanTemplate(List<PeriodType> periods)
     {
         _periods = periods;
     }
@@ -15,4 +15,7 @@ public record DayPlanTemplate
     {
         return new DayPlanTemplate(periods);
     }
+    
+    #pragma warning disable CS8618
+    private DayPlanTemplate() { }
 }

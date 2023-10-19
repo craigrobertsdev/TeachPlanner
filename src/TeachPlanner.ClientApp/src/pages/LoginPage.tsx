@@ -22,7 +22,7 @@ export default function LoginPage() {
     await login(formData.get("email") as string, formData.get("password") as string);
 
     if (error) {
-      setPassword("");
+      // setPassword("");
     }
   }
 

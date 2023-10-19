@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using TeachPlanner.Api.Common.Interfaces.Persistence;
 using TeachPlanner.Api.Domain.PlannerTemplates;
 using TeachPlanner.Api.Domain.Teachers;
+using TeachPlanner.Api.Domain.WeekPlanners;
 
 namespace TeachPlanner.Api.Database.Repositories;
 

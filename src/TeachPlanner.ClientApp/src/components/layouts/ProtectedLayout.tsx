@@ -3,7 +3,6 @@ import { Navigate, Outlet } from "react-router-dom";
 import Navbar from "../common/Navbar";
 import Footer from "../common/Footer";
 import { PlannerProvider } from "../../contexts/PlannerContext";
-import { useThemeContext } from "../../contexts/ThemeContext";
 import { useRef } from "react";
 
 function ProtectedLayout() {

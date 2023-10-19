@@ -46,7 +46,7 @@ public static class Infrastructure
         services.AddScoped<ITeacherRepository, TeacherRepository>();
         services.AddScoped<ITermPlannerRepository, TermPlannerRepository>();
         services.AddScoped<IUserRepository, UserRepository>();
-        services.AddScoped<IWeekPlannerRepository, IWeekPlannerRepository>();
+        services.AddScoped<IWeekPlannerRepository, WeekPlannerRepository>();
         services.AddScoped<IYearDataRepository, YearDataRepository>();
         services.AddSingleton<ICurriculumService, CurriculumService>();
 

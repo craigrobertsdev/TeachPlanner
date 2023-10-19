@@ -25,4 +25,7 @@ public class WeekPlannerTemplate : Entity<WeekPlannerTemplateId>
             new WeekPlannerTemplateId(Guid.NewGuid()),
             dayPlans);
     }
+    
+    #pragma warning disable CS8618
+    private WeekPlannerTemplate() { }
 }

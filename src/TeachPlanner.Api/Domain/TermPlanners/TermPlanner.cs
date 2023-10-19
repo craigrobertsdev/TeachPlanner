@@ -13,6 +13,11 @@ public sealed class TermPlanner : Entity<TermPlannerId>, IAggregateRoot
     private readonly List<TermPlan> _termPlans = new();
     private readonly List<YearLevelValue> _yearLevels = new();
 
+    public IReadOnlyList<TermPlan> TermPlans => _termPlans.AsReadOnly();
+    public IReadOnlyList<YearLevelValue> YearLevels => _yearLevels.AsReadOnly();
+    public YearDataId YearDataId { get; private set; }
+    public int CalendarYear { get; private set; }
+
     private TermPlanner(TermPlannerId id, YearDataId yearDataId, int calendarYear,
         List<YearLevelValue> yearLevels) : base(id)
     {
@@ -22,11 +27,6 @@ public sealed class TermPlanner : Entity<TermPlannerId>, IAggregateRoot
 
         SortYearLevels();
     }
-
-    public IReadOnlyList<TermPlan> TermPlans => _termPlans.AsReadOnly();
-    public IReadOnlyList<YearLevelValue> YearLevels => _yearLevels.AsReadOnly();
-    public YearDataId YearDataId { get; private set; }
-    public int CalendarYear { get; private set; }
 
     public static TermPlanner Create(YearDataId yearDataId, int calendarYear, List<YearLevelValue> yearLevels)
     {

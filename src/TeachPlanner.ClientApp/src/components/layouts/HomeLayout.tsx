@@ -6,7 +6,7 @@ function HomeLayout() {
   const { teacher } = useAuth();
 
   if (teacher) {
-    return <Navigate to="/teacher/lesson-planner" replace />;
+    return <Navigate to="/teacher/week-planner" replace />;
   }
 
   return (

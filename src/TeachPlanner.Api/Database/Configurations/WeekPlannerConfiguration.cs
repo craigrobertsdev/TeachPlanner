@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using TeachPlanner.Api.Database.Converters;
 using TeachPlanner.Api.Domain.PlannerTemplates;
+using TeachPlanner.Api.Domain.WeekPlanners;
 
 namespace TeachPlanner.Api.Database.Configurations;
 

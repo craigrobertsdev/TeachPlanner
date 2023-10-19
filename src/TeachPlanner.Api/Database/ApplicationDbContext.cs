@@ -11,6 +11,7 @@ using TeachPlanner.Api.Domain.Students;
 using TeachPlanner.Api.Domain.Teachers;
 using TeachPlanner.Api.Domain.TermPlanners;
 using TeachPlanner.Api.Domain.Users;
+using TeachPlanner.Api.Domain.WeekPlanners;
 using TeachPlanner.Api.Domain.YearDataRecords;
 
 namespace TeachPlanner.Api.Database;
