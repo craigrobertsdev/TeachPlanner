@@ -183,3 +183,13 @@ declare type TermPlan = {
   termNumber: number;
   subjects: Subject[];
 };
+
+declare type DayPlanTemplate = {
+  calendarEntries: Period[];
+};
+
+declare type Period = {
+  type: "lesson" | "break" | "afterschool" | "beforeschool";
+  startTime: Date;
+  endTime: Date;
+};

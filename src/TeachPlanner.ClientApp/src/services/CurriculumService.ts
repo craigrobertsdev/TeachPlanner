@@ -18,7 +18,7 @@ class CurriculumService {
     controller: AbortController
   ) {
     const request = new Request(
-      `${baseUrl}/curriculum/?teacherId=${teacher.id}&elaborations=${elaborations}&taughtSubjectsOnly=${taughtSubjectsOnly}`,
+      `${baseUrl}/${teacher.id}/subjects/curriculum/?includeElaborations=${elaborations}&taughtSubjectsOnly=${taughtSubjectsOnly}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -31,7 +31,7 @@ class CurriculumService {
 
     const data = await response.json();
 
-    return data as SubjectResponse;
+    return data as Subject[];
   }
 
   async getTermPlannerSubjects({ year = new Date().getFullYear(), elaborations = true }: CurriculumVariables, teacher: Teacher, token: string) {

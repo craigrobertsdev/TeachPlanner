@@ -51,9 +51,8 @@ public static class RouteMapper
     private static RouteGroupBuilder MapCurriculum(this RouteGroupBuilder group)
     {
         var curriculumGroup = group.MapGroup("/curriculum");
-
         curriculumGroup.MapPost("/parse-curriculum", ParseCurriculum.Delegate);
-
+        
         return group;
     }
 
@@ -74,7 +73,7 @@ public static class RouteMapper
     private static RouteGroupBuilder MapSubjects(this RouteGroupBuilder group)
     {
         var subjectGroup = group.MapGroup("/subjects");
-        subjectGroup.MapGet("/curriculum/{includeElaborations}", GetCurriculumSubjects.Delegate);
+        subjectGroup.MapGet("/curriculum", GetCurriculumSubjects.Delegate);
 
         return group;
     }

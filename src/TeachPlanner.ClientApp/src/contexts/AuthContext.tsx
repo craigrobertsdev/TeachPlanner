@@ -61,7 +61,7 @@ export function AuthProvider({ children, teacherData }: AuthProviderProps) {
       setToken(response.token);
 
       setLoading(false);
-      navigate("/", { replace: true });
+      navigate("/teacher/account", { replace: true });
     } catch (error) {
       setError(error);
       setLoading(false);

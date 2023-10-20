@@ -250,7 +250,7 @@ type LessonPlanData = {
 };
 
 type WeekPlannerData = {
-  dayPlanPattern: DayPlanPattern;
+  weekPlanPattern: DayPlanPattern;
   dayPlans: DayPlan[];
   weekNumber: number;
   termNumber: number;
@@ -272,7 +272,6 @@ export async function weekPlannerLoader(): Promise<WeekPlannerData> {
     },
     signal: abortController.signal,
   });
-  console.log(await response.json());
 
   return response.json() as Promise<WeekPlannerData>;
 }

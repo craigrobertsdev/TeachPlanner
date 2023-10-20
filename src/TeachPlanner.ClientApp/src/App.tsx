@@ -14,6 +14,7 @@ import LessonPlanPage, { lessonPlanLoader } from "./pages/planner/LessonPlanPage
 import LessonPlansPage from "./pages/planner/LessonPlansPage.tsx";
 import SettingsPage from "./pages/SettingsPage.tsx";
 import RegisterPage from "./pages/RegisterPage.tsx";
+import AccountPage from "./pages/AccountPage.tsx";
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
@@ -25,6 +26,7 @@ export const router = createBrowserRouter(
       </Route>
 
       <Route path="/teacher" element={<ProtectedLayout />}>
+        <Route path="account" element={<AccountPage />} />
         <Route path="week-planner" loader={weekPlannerLoader} element={<WeekPlannerPage />} />
         <Route path="lesson-plans">
           <Route element={<LessonPlansPage />} index />
