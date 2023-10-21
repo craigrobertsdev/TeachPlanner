@@ -20,14 +20,15 @@ builder.Services.AddSwaggerGen(opt =>
 {
     opt.SwaggerDoc("v1", new OpenApiInfo
     {
-        Title = "TeachPlanner Api", Version = "v1"
+        Title = "TeachPlanner Api",
+        Version = "v1"
     });
     opt.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
         Name = "Authorization",
         Type = SecuritySchemeType.ApiKey
     });
-    
+
     opt.AddSecurityRequirement(new OpenApiSecurityRequirement
     {
         {
@@ -41,7 +42,7 @@ builder.Services.AddSwaggerGen(opt =>
             },
             Array.Empty<string>()
         }
-    });   
+    });
 });
 builder.Services.AddCors();
 

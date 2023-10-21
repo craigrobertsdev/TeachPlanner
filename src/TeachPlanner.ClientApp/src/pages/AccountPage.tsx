@@ -45,11 +45,12 @@ function AccountPage() {
           <Dropdown placeholder="Select all subjects you teach" onChange={handleSubjectChange} options={subjects} multiSelect />
         </div>
       </div>
+      <br />
+      <br />
       <div className="w-full flex-col items-center  p-2 pb-4 border-b border-darkGreen">
         <h3 className="text-xl pb-2">How is your day structured?</h3>
-        <p className="text-lg">For example, how many lessons do you have a day, how many breaks, and what order do they go in?</p>
-        <p className="text-lg">Below is an example day template. Please modify the it to match your school</p>
-        <DayPlanTemplateCreator dayPlanTemplate={dayPlan} setDayPlanTemplate={setDayPlan} />
+        <p className="text-lg">For example, how many lessons do you have a day, how many breaks, and what times do they start and finish?</p>
+        <DayPlanTemplateCreator dayPlan={dayPlan} setDayPlan={setDayPlan} />
       </div>
     </div>
   );
