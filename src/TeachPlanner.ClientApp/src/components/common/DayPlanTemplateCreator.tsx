@@ -90,7 +90,9 @@ function DayPlanTemplateCreator({ dayPlan, setDayPlan }: DayPlanTemplateCreatorP
 
   function onValueChange(value: HeaderData, index: number) {
     if (isBreakTemplate(value)) {
+      console.log("here");
       setBreakTemplates((breakTemplates) => {
+        console.log(breakTemplates);
         const updatedBreakTemplates = [...breakTemplates];
         updatedBreakTemplates[index] = value;
         return updatedBreakTemplates;
@@ -107,9 +109,9 @@ function DayPlanTemplateCreator({ dayPlan, setDayPlan }: DayPlanTemplateCreatorP
   }
 
   function onNumberOfLessonsChange(value: number) {
-    if (numberOfLessons > lessonTemplates.length) {
+    if (value > lessonTemplates.length) {
       const updatedLessonTemplates = [...lessonTemplates];
-      for (let i = lessonTemplates.length; i < numberOfLessons; i++) {
+      for (let i = lessonTemplates.length; i < value; i++) {
         updatedLessonTemplates.push({
           startTime: "00:00",
           endTime: "00:00",
@@ -118,9 +120,9 @@ function DayPlanTemplateCreator({ dayPlan, setDayPlan }: DayPlanTemplateCreatorP
       setLessonTemplates(updatedLessonTemplates);
     }
 
-    if (numberOfLessons < lessonTemplates.length) {
+    if (value < lessonTemplates.length) {
       const updatedLessonTemplates = [...lessonTemplates];
-      updatedLessonTemplates.splice(numberOfLessons, lessonTemplates.length - numberOfLessons);
+      updatedLessonTemplates.splice(value, lessonTemplates.length - value);
       setLessonTemplates(updatedLessonTemplates);
     }
   }
@@ -194,7 +196,7 @@ function DayPlanTemplateCreator({ dayPlan, setDayPlan }: DayPlanTemplateCreatorP
           <div>
             <h5 className="text-lg pb-2">Breaks</h5>
             {breakTemplates.map((template, i) => (
-              <TemplateBreakHeader key={`break${i}`} value={template} onChange={() => onValueChange(template, i)} index={i} />
+              <TemplateBreakHeader key={`break${i}`} value={template} onChange={(e) => onValueChange(e, i)} index={i} />
             ))}
           </div>
         </div>
