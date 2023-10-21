@@ -1,3 +1,4 @@
+import { TimePicker } from "@mui/x-date-pickers";
 import Button from "./Button";
 import React, { useEffect, useState } from "react";
 
@@ -88,9 +89,10 @@ function DayPlanTemplateCreator({ dayPlan, setDayPlan }: DayPlanTemplateCreatorP
     return breakValues;
   }
 
-  function onValueChange(value: HeaderData, index: number) {
+  function onValueChange(value: { $H: string; $m: string }, index: number) {
+    console.log("here");
+    console.log(value);
     if (isBreakTemplate(value)) {
-      console.log("here");
       setBreakTemplates((breakTemplates) => {
         console.log(breakTemplates);
         const updatedBreakTemplates = [...breakTemplates];
@@ -189,14 +191,14 @@ function DayPlanTemplateCreator({ dayPlan, setDayPlan }: DayPlanTemplateCreatorP
             <h5 className="text-lg pb-2">Lessons</h5>
             <div className="grid grid-cols-3 auto-rows-auto pb-2">
               {lessonTemplates.map((template, i) => (
-                <TemplateLessonHeader key={`lesson${i}`} value={template} onChange={() => onValueChange(template, i)} index={i} />
+                <TemplateLessonHeader key={`lesson${i}`} value={template} onChange={(e) => onValueChange(e, i)} index={i} />
               ))}
             </div>
           </div>
           <div>
             <h5 className="text-lg pb-2">Breaks</h5>
             {breakTemplates.map((template, i) => (
-              <TemplateBreakHeader key={`break${i}`} value={template} onChange={(e) => onValueChange(e, i)} index={i} />
+              <TemplateBreakHeader key={`break${i}`} value={template} onChange={onValueChange} index={i} />
             ))}
           </div>
         </div>
@@ -208,6 +210,10 @@ function DayPlanTemplateCreator({ dayPlan, setDayPlan }: DayPlanTemplateCreatorP
   );
 
   function TemplateLessonHeader({ index, value, onChange }: TemplateHeaderProps) {
+    // function onValueChange(value: HeaderData, index: number) {
+    //   console.log(value);
+    // }
+
     return (
       <div id={`lesson-${index}`} className={`flex items-center justify-center border-2 m-1 border-darkGreen text-center text-lg font-semibold p-2`}>
         <div>
@@ -215,13 +221,14 @@ function DayPlanTemplateCreator({ dayPlan, setDayPlan }: DayPlanTemplateCreatorP
           <div className="flex gap-y-5">
             <div className="p-2">
               <p>Start Time</p>
-              <input
+              <TimePicker value={value.startTime} onChange={(e) => onValueChange({ ...value, startTime: e! }, index)} />
+              {/* <input
                 id="startTime"
                 className="text-center"
                 type="time"
                 value={value.startTime}
                 onChange={(e) => onChange({ ...value, startTime: e.target.value }, index)}
-              />
+              /> */}
             </div>
             <div className="p-2">
               <p>End Time</p>
