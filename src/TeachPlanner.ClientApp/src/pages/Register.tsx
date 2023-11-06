@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import useAuth from "../contexts/AuthContext";
 import Button from "../components/common/Button";
 
-function RegisterPage() {
+function Register() {
   const { loading, error, register } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -83,4 +83,4 @@ function RegisterPage() {
   );
 }
 
-export default RegisterPage;
+export default Register;

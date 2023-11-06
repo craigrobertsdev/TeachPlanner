@@ -4,7 +4,7 @@ import useAuth from "../contexts/AuthContext";
 import curriculumService from "../services/CurriculumService";
 import DayPlanTemplateCreator from "../components/common/DayPlanTemplateCreator";
 
-function AccountPage() {
+function Account() {
   const { teacher, token } = useAuth();
   const [subjectsTaught, setSubjectsTaught] = useState<string[]>([]);
   const [subjects, setSubjects] = useState<string[]>([]);
@@ -56,4 +56,4 @@ function AccountPage() {
   );
 }
 
-export default AccountPage;
+export default Account;

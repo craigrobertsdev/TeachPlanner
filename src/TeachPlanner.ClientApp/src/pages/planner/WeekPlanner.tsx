@@ -12,7 +12,7 @@ import { useLoaderData, useNavigate } from "react-router-dom";
 import { isLessonPlan, isSchoolEvent } from "../../utils/typeGuards";
 import { baseUrl } from "../../utils/constants";
 
-function WeekPlannerPage() {
+function WeekPlanner() {
   const { teacher } = useAuth();
   const [gridRows, setGridRows] = useState<string>("");
   const [selectedLessonEntryIndex, setSelectedLessonEntryIndex] = useState<GridCellLocation>({ row: -1, column: -1 });
@@ -216,7 +216,7 @@ function WeekPlannerPage() {
   );
 }
 
-export default WeekPlannerPage;
+export default WeekPlanner;
 
 type LessonPlannerProps = {
   numLessons: number;

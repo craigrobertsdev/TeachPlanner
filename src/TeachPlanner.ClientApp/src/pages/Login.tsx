@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import useAuth from "../contexts/AuthContext";
 
-export default function LoginPage() {
+export default function Login() {
   const { loading, error, login } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");

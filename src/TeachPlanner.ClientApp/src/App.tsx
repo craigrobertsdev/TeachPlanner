@@ -1,44 +1,44 @@
 import { Route, createBrowserRouter, createRoutesFromElements, defer } from "react-router-dom";
-import HomePage from "./pages/HomePage.tsx";
-import LoginPage from "./pages/LoginPage.tsx";
+import Home from "./pages/Home.tsx";
+import Login from "./pages/Login.tsx";
 import ProtectedLayout from "./components/layouts/ProtectedLayout.tsx";
-import ErrorPage from "./pages/ErrorPage.tsx";
-import WeekPlannerPage, { weekPlannerLoader } from "./pages/planner/WeekPlannerPage.tsx";
-import ReportsPage from "./pages/ReportsPage.tsx";
-import ResourcesPage from "./pages/ResourcesPage.tsx";
-import TermPlannerPage from "./pages/planner/TermPlannerPage.tsx";
-import YearPlannerPage from "./pages/planner/YearPlannerPage.tsx";
+import Error from "./pages/Error.tsx";
+import WeekPlanner, { weekPlannerLoader } from "./pages/planner/WeekPlanner.tsx";
+import Reports from "./pages/Reports.tsx";
+import Resources from "./pages/Resources.tsx";
+import TermPlanner from "./pages/planner/TermPlanner.tsx";
+import YearPlanner from "./pages/planner/YearPlanner.tsx";
 import AuthLayout, { getTeacherData } from "./components/layouts/AuthLayout.tsx";
 import HomeLayout from "./components/layouts/HomeLayout.tsx";
-import LessonPlanPage, { lessonPlanLoader } from "./pages/planner/LessonPlanPage.tsx";
-import LessonPlansPage from "./pages/planner/LessonPlansPage.tsx";
-import SettingsPage from "./pages/SettingsPage.tsx";
-import RegisterPage from "./pages/RegisterPage.tsx";
-import AccountPage from "./pages/AccountPage.tsx";
+import LessonPlan, { lessonPlanLoader } from "./pages/planner/LessonPlan.tsx";
+import LessonPlans from "./pages/planner/LessonPlans.tsx";
+import Settings from "./pages/Settings.tsx";
+import Register from "./pages/Register.tsx";
+import Account from "./pages/Account.tsx";
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
     <Route element={<AuthLayout />} loader={() => defer({ teacherPromise: getTeacherData() })}>
       <Route element={<HomeLayout />}>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
       </Route>
 
       <Route path="/teacher" element={<ProtectedLayout />}>
-        <Route path="account" element={<AccountPage />} />
-        <Route path="week-planner" loader={weekPlannerLoader} element={<WeekPlannerPage />} />
+        <Route path="account" element={<Account />} />
+        <Route path="week-planner" loader={weekPlannerLoader} element={<WeekPlanner />} />
         <Route path="lesson-plans">
-          <Route element={<LessonPlansPage />} index />
-          <Route path=":lessonPlanId" element={<LessonPlanPage />} loader={lessonPlanLoader} />
+          <Route element={<LessonPlans />} index />
+          <Route path=":lessonPlanId" element={<LessonPlan />} loader={lessonPlanLoader} />
         </Route>
-        <Route path="term-planner" element={<TermPlannerPage />} />
-        <Route path="year-planner" element={<YearPlannerPage />} />
-        <Route path="resources" element={<ResourcesPage />} />
-        <Route path="reports" element={<ReportsPage />} />
-        <Route path="settings" element={<SettingsPage />} />
+        <Route path="term-planner" element={<TermPlanner />} />
+        <Route path="year-planner" element={<YearPlanner />} />
+        <Route path="resources" element={<Resources />} />
+        <Route path="reports" element={<Reports />} />
+        <Route path="settings" element={<Settings />} />
       </Route>
-      <Route path="*" element={<ErrorPage />} />
+      <Route path="*" element={<Error />} />
     </Route>
   )
 );

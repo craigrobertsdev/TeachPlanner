@@ -5,7 +5,7 @@ import useAuth from "../../contexts/AuthContext";
 import TermPlan from "../../components/planner/TermPlan";
 
 // TODO: Add ability to send term plans via email
-const TermPlannerPage = () => {
+const TermPlanner = () => {
   const [terms, setTerms] = useState<TermPlan[]>([]);
   const [addingContentDescriptions, setAddingContentDescriptions] = useState<boolean>(false);
   const [subjectData, setSubjectData] = useState<Subject[] | undefined>(undefined);
@@ -146,4 +146,4 @@ const TermPlannerPage = () => {
   );
 };
 
-export default TermPlannerPage;
+export default TermPlanner;

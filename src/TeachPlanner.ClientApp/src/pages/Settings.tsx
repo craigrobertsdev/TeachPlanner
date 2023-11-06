@@ -9,7 +9,7 @@ type SubjectIdentifier = {
   name: string;
 };
 
-const SettingsPage = () => {
+const Settings = () => {
   const [subjects, setSubjects] = useState<SubjectIdentifier[]>([]);
   const [subjectsTaught, setSubjectsTaught] = useState<SubjectIdentifier[]>([]);
   const { teacher, token } = useAuth();
@@ -60,4 +60,4 @@ const SettingsPage = () => {
     </div>
   );
 };
-export default SettingsPage;
+export default Settings;

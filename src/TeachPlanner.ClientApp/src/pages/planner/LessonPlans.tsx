@@ -1,4 +1,4 @@
-function LessonPlansPage() {
+function LessonPlans() {
   return (
     <div>
       <h1>Lesson Plans Page</h1>
@@ -7,4 +7,4 @@ function LessonPlansPage() {
   );
 }
 
-export default LessonPlansPage;
+export default LessonPlans;

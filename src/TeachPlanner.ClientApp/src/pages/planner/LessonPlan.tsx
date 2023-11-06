@@ -11,7 +11,7 @@ type PlannerSubject = {
   contentDescriptions: ContentDescription[];
 };
 
-function LessonPlanPage() {
+function LessonPlan() {
   const lessonPlan = useLoaderData() as LessonPlan;
   const [planningNotes, setPlanningNotes] = useState<string>(lessonPlan.planningNotes.join("\n\n"));
   const [contentDescriptions, setContentDescriptions] = useState<ContentDescription[]>(lessonPlan.contentDescriptions);
@@ -181,7 +181,7 @@ function LessonPlanPage() {
   );
 }
 
-export default LessonPlanPage;
+export default LessonPlan;
 
 export async function lessonPlanLoader(): Promise<LessonPlan> {
   // const response = await fetch(`${baseUrl}/lesson-plans/${params.lessonPlanId}`);

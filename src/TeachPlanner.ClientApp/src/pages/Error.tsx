@@ -1,6 +1,6 @@
 import { useRouteError } from "react-router-dom";
 
-const ErrorPage = () => {
+const Error = () => {
   return (
     <div className="flex flex-col flex-auto items-center justify-center text-darkGreen">
       <h1>Oops!</h1>
@@ -9,4 +9,4 @@ const ErrorPage = () => {
   );
 };
 
-export default ErrorPage;
+export default Error;
