@@ -24,19 +24,19 @@ public class CurriculumParser : ICurriculumParser
     public List<CurriculumSubject> ParseCurriculum()
     {
         var filePaths = Directory.GetFiles(
-            //"C:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\TeachPlanner.Curriculum Files");
-            "/home/craig/source/TeachPlanner/src/TeachPlanner.Curriculum Files");
+            "C:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\TeachPlanner.Curriculum Files");
+            //"/home/craig/source/TeachPlanner/src/TeachPlanner.Curriculum Files");
 
         foreach (var file in filePaths)
         {
             var contentArr = LoadFile(file);
             Console.WriteLine(file);
 
-            //string subjectName = file.Split("C:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\TeachPlanner.Curriculum Files")[1];
-            var subjectName = file.Split("/home/craig/source/TeachPlanner/src/TeachPlanner.Curriculum Files")[1];
+            string subjectName = file.Split("C:\\Users\\craig\\source\\repos\\TeachPlanner\\src\\TeachPlanner.Curriculum Files")[1];
+            //var subjectName = file.Split("/home/craig/source/TeachPlanner/src/TeachPlanner.Curriculum Files")[1];
 
-            //subjectName = subjectName.Replace("\\", "").Replace(".docx", "");
-            subjectName = subjectName.Replace("/", "").Replace(".docx", "");
+            subjectName = subjectName.Replace("\\", "").Replace(".docx", "");
+            //subjectName = subjectName.Replace("/", "").Replace(".docx", "");
 
             var currElements = "";
             foreach (var content in contentArr)

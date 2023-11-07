@@ -1,33 +1,37 @@
-import { TimePicker } from "@mui/x-date-pickers";
 import Button from "./Button";
 import React, { useEffect, useState } from "react";
+import TimePicker from "./TimePicker";
 
 type DayPlanTemplateCreatorProps = {
   dayPlan: DayPlan;
   setDayPlan: React.Dispatch<React.SetStateAction<DayPlan>>;
 };
 
-type HeaderData = {
-  name?: string;
-  startTime: string;
-  endTime: string;
-};
-
 type LessonTemplate = {
-  startTime: string;
-  endTime: string;
+  startHour: number;
+  startMinute: number;
+  endHour: number;
+  endMinute: number;
 };
 
 type BreakTemplate = {
   name: string;
-  startTime: string;
-  endTime: string;
+  startHour: number;
+  startMinute: number;
+  endHour: number;
+  endMinute: number;
 };
 
-type TemplateHeaderProps = {
+type LessonHeaderProps = {
   index: number;
-  value: HeaderData;
-  onChange: (value: HeaderData, index: number) => void;
+  value: LessonTemplate;
+  onChange: (value: LessonTemplate | BreakTemplate, index: number) => void;
+};
+
+type BreakHeaderProps = {
+  index: number;
+  value: BreakTemplate;
+  onChange: (value: BreakTemplate, index: number) => void;
 };
 
 function DayPlanTemplateCreator({ dayPlan, setDayPlan }: DayPlanTemplateCreatorProps) {
@@ -44,28 +48,40 @@ function DayPlanTemplateCreator({ dayPlan, setDayPlan }: DayPlanTemplateCreatorP
   function generateInitialLessonTemplateValues() {
     const lessonValues = [
       {
-        startTime: "09:10",
-        endTime: "10:00",
+        startHour: 9,
+        startMinute: 10,
+        endHour: 10,
+        endMinute: 0,
       },
       {
-        startTime: "10:00",
-        endTime: "10:50",
+        startHour: 10,
+        startMinute: 0,
+        endHour: 10,
+        endMinute: 50,
       },
       {
-        startTime: "11:20",
-        endTime: "12:10",
+        startHour: 11,
+        startMinute: 20,
+        endHour: 12,
+        endMinute: 10,
       },
       {
-        startTime: "12:10",
-        endTime: "13:00",
+        startHour: 12,
+        startMinute: 10,
+        endHour: 13,
+        endMinute: 0,
       },
       {
-        startTime: "13:30",
-        endTime: "14:20",
+        startHour: 13,
+        startMinute: 30,
+        endHour: 14,
+        endMinute: 20,
       },
       {
-        startTime: "14:20",
-        endTime: "15:10",
+        startHour: 14,
+        startMinute: 20,
+        endHour: 15,
+        endMinute: 10,
       },
     ] as LessonTemplate[];
 
@@ -76,20 +92,24 @@ function DayPlanTemplateCreator({ dayPlan, setDayPlan }: DayPlanTemplateCreatorP
     const breakValues = [
       {
         name: "Recess",
-        startTime: "10:50",
-        endTime: "11:20",
+        startHour: 10,
+        startMinute: 50,
+        endHour: 11,
+        endMinute: 20,
       },
       {
         name: "Lunch",
-        startTime: "13:00",
-        endTime: "13:30",
+        startHour: 13,
+        startMinute: 0,
+        endHour: 13,
+        endMinute: 30,
       },
     ] as BreakTemplate[];
 
     return breakValues;
   }
 
-  function onValueChange(value: { $H: string; $m: string }, index: number) {
+  function onValueChange(value: LessonTemplate | BreakTemplate, index: number) {
     console.log("here");
     console.log(value);
     if (isBreakTemplate(value)) {
@@ -115,8 +135,10 @@ function DayPlanTemplateCreator({ dayPlan, setDayPlan }: DayPlanTemplateCreatorP
       const updatedLessonTemplates = [...lessonTemplates];
       for (let i = lessonTemplates.length; i < value; i++) {
         updatedLessonTemplates.push({
-          startTime: "00:00",
-          endTime: "00:00",
+          startHour: 0,
+          startMinute: 0,
+          endHour: 0,
+          endMinute: 0,
         });
       }
       setLessonTemplates(updatedLessonTemplates);
@@ -135,8 +157,10 @@ function DayPlanTemplateCreator({ dayPlan, setDayPlan }: DayPlanTemplateCreatorP
       for (let i = breakTemplates.length; i < value; i++) {
         updatedBreakTemplates.push({
           name: "",
-          startTime: "00:00",
-          endTime: "00:00",
+          startHour: 0,
+          startMinute: 0,
+          endHour: 0,
+          endMinute: 0,
         });
       }
       setBreakTemplates(updatedBreakTemplates);
@@ -150,7 +174,7 @@ function DayPlanTemplateCreator({ dayPlan, setDayPlan }: DayPlanTemplateCreatorP
     setNumberOfBreaks(value);
   }
 
-  function isBreakTemplate(value: HeaderData): value is BreakTemplate {
+  function isBreakTemplate(value: LessonTemplate | BreakTemplate): value is BreakTemplate {
     return (value as BreakTemplate).name !== undefined;
   }
 
@@ -209,36 +233,44 @@ function DayPlanTemplateCreator({ dayPlan, setDayPlan }: DayPlanTemplateCreatorP
     </>
   );
 
-  function TemplateLessonHeader({ index, value, onChange }: TemplateHeaderProps) {
-    // function onValueChange(value: HeaderData, index: number) {
-    //   console.log(value);
-    // }
+  function TemplateLessonHeader({ index, value, onChange }: LessonHeaderProps) {
+    function onStartTimeChange(hours: string, minutes: string, period: string) {
+      if (period == "AM" && +hours == 12) {
+        value.startHour = 0;
+      } else if (period == "PM") {
+        value.startHour = +hours + 12;
+      } else {
+        value.startHour = +hours;
+      }
+      value.startMinute = +minutes;
+      onChange(value, index);
+    }
+
+    function onEndTimeChange(hours: string, minutes: string, period: string) {
+      if (period == "AM" && +hours == 12) {
+        value.startHour = 0;
+      } else if (period == "PM") {
+        value.startHour = +hours + 12;
+      } else {
+        value.startHour = +hours;
+      }
+      value.startMinute = +minutes;
+      console.log(value);
+      onChange(value, index);
+    }
 
     return (
       <div id={`lesson-${index}`} className={`flex items-center justify-center border-2 m-1 border-darkGreen text-center text-lg font-semibold p-2`}>
         <div>
           <h3>Lesson {index + 1}</h3>
-          <div className="flex gap-y-5">
-            <div className="p-2">
-              <p>Start Time</p>
-              <TimePicker value={value.startTime} onChange={(e) => onValueChange({ ...value, startTime: e! }, index)} />
-              {/* <input
-                id="startTime"
-                className="text-center"
-                type="time"
-                value={value.startTime}
-                onChange={(e) => onChange({ ...value, startTime: e.target.value }, index)}
-              /> */}
+          <div className="flex flex-col">
+            <div className="p-2 flex justify-between">
+              <p>Start Time:</p>
+              <TimePicker onChange={onStartTimeChange} />
             </div>
-            <div className="p-2">
-              <p>End Time</p>
-              <input
-                id="endTime"
-                className="text-center"
-                type="time"
-                value={value.endTime}
-                onChange={(e) => onChange({ ...value, endTime: e.target.value }, index)}
-              />
+            <div className="flex p-2 justify-between">
+              <p>End Time:</p>
+              <TimePicker onChange={onEndTimeChange} />
             </div>
           </div>
         </div>
@@ -246,36 +278,52 @@ function DayPlanTemplateCreator({ dayPlan, setDayPlan }: DayPlanTemplateCreatorP
     );
   }
 
-  function TemplateBreakHeader({ index, value, onChange }: TemplateHeaderProps) {
+  function TemplateBreakHeader({ index, value, onChange }: BreakHeaderProps) {
+    function onNameChange(e: React.ChangeEvent<HTMLInputElement>, index: number) {
+      onChange({ ...value, name: e.target.value }, index);
+    }
+
+    function onStartTimeChange(hours: string, minutes: string, period: string) {
+      if (period == "AM" && +hours == 12) {
+        value.startHour = 0;
+      } else if (period == "PM") {
+        value.startHour = +hours + 12;
+      } else {
+        value.startHour = +hours;
+      }
+      value.startMinute = +minutes;
+
+      onChange(value, index);
+    }
+
+    function onEndTimeChange(hours: string, minutes: string, period: string) {
+      if (period == "AM" && +hours == 12) {
+        value.startHour = 0;
+      } else if (period == "PM") {
+        value.startHour = +hours + 12;
+      } else {
+        value.startHour = +hours;
+      }
+      value.startMinute = +minutes;
+      console.log(value);
+      onChange(value, index);
+    }
+
     return (
-      <div id={`break-${index}`} className={`flex items-center justify-center border-2 m-1 border-darkGreen text-center text-lg font-semibold`}>
+      <div
+        key={`break-${index}`}
+        id={`break-${index}`}
+        className={`flex items-center justify-center border-2 m-1 border-darkGreen text-center text-lg font-semibold`}>
         <div>
-          <input
-            className="text-center"
-            value={value.name}
-            placeholder="Break name"
-            onChange={(e) => onChange({ ...value, name: e.target.value }, index)}
-          />
+          <input className="text-center" value={value.name} placeholder="Break name" onChange={(e) => onNameChange(e, index)} />
           <div className="flex gap-y-5">
             <div className="p-2">
-              <p>Start Time</p>
-              <input
-                id="startTime"
-                className="text-center"
-                type="time"
-                value={value.startTime}
-                onChange={(e) => onChange({ ...value, startTime: e.target.value }, index)}
-              />
+              <p>Start Time:</p>
+              <TimePicker onChange={onStartTimeChange} />
             </div>
             <div className="p-2">
-              <p>End Time</p>
-              <input
-                id="endTime"
-                className="text-center"
-                type="time"
-                value={value.endTime}
-                onChange={(e) => onChange({ ...value, endTime: e.target.value }, index)}
-              />
+              <p>End Time:</p>
+              <TimePicker onChange={onEndTimeChange} />
             </div>
           </div>
         </div>

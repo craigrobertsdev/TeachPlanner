@@ -4,7 +4,7 @@ import useAuth from "../contexts/AuthContext";
 import curriculumService from "../services/CurriculumService";
 import DayPlanTemplateCreator from "../components/common/DayPlanTemplateCreator";
 
-function Account() {
+function AccountSetup() {
   const { teacher, token } = useAuth();
   const [subjectsTaught, setSubjectsTaught] = useState<string[]>([]);
   const [subjects, setSubjects] = useState<string[]>([]);
@@ -29,6 +29,10 @@ function Account() {
     setSubjectsTaught([...subjectsTaught, subjectName]);
   }
 
+  function isSelected(subjectName: string) {
+    return subjectsTaught.includes(subjectName);
+  }
+
   if (!teacher) {
     return <p>loading...</p>;
   }
@@ -42,7 +46,17 @@ function Account() {
       <div className="w-full flex justify-center p-2 pb-4 border-b border-darkGreen">
         <div className="w-2/5">
           <h3 className="text-xl pb-2">What subjects do you teach?</h3>
-          <Dropdown placeholder="Select all subjects you teach" onChange={handleSubjectChange} options={subjects} multiSelect />
+          {/* <Dropdown placeholder="Select all subjects you teach" onChange={handleSubjectChange} options={subjects} multiSelect /> */}
+          <div className="border border-darkGreen p-2">
+            {subjects.map((subject) => (
+              <p
+                key={subject}
+                className={`hover:bg-primaryHover ${isSelected(subject) && "bg-primaryFocus"} m-1`}
+                onClick={() => handleSubjectChange(subject)}>
+                {subject}
+              </p>
+            ))}
+          </div>
         </div>
       </div>
       <br />
@@ -56,4 +70,4 @@ function Account() {
   );
 }
 
-export default Account;
+export default AccountSetup;
