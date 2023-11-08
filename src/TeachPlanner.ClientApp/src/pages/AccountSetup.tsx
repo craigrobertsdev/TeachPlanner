@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import Dropdown from "../components/common/Dropdown";
 import useAuth from "../contexts/AuthContext";
 import curriculumService from "../services/CurriculumService";
 import DayPlanTemplateCreator from "../components/common/DayPlanTemplateCreator";
