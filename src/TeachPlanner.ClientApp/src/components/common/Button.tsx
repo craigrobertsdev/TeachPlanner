@@ -19,10 +19,10 @@ type ButtonTypes = ButtonTypeVariants[keyof ButtonTypeVariants];
 
 function Button({ variant = "submit", classList = "", children, onClick, disabled = false }: ButtonProps) {
   const buttonStyles = {
-    submit: "bg-sage text-primary px-2 py-1 rounded-md text-lg hover:bg-sageHover",
-    cancel: "bg-ceramic text-primary px-2 py-1 rounded-md text-lg hover:bg-ceramicHover",
-    add: "bg-peach text-primary px-2 py-1 rounded-md text-lg hover:bg-peachHover ",
-    close: "bg-ceramic text-primary px-2 py-1 rounded-md hover:bg-ceramicHover",
+    submit: "bg-sage text-white px-2 py-1 rounded-md text-lg hover:bg-sageHover",
+    cancel: "bg-ceramic text-white px-2 py-1 rounded-md text-lg hover:bg-ceramicHover",
+    add: "bg-peach text-white px-2 py-1 rounded-md text-lg hover:bg-peachHover ",
+    close: "bg-ceramic text-white px-2 py-1 rounded-md hover:bg-ceramicHover",
   };
 
   return (
