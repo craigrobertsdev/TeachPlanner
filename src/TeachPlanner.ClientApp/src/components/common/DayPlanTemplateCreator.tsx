@@ -157,7 +157,6 @@ function DayPlanTemplateCreator({ breakTemplates, lessonTemplates, setBreakTempl
   }
 
   function onLessonChange(value: LessonTemplate, index: number) {
-    console.log(lessonTemplates);
     setLessonTemplates((lessonTemplates) => {
       const updatedLessonTemplates = [...lessonTemplates];
       updatedLessonTemplates[index] = value;
@@ -166,7 +165,6 @@ function DayPlanTemplateCreator({ breakTemplates, lessonTemplates, setBreakTempl
   }
 
   function onBreakChange(value: BreakTemplate, index: number) {
-    console.log(value);
     const updatedBreakTemplates = [...breakTemplates];
     updatedBreakTemplates[index] = value;
     setBreakTemplates(updatedBreakTemplates);
@@ -236,7 +234,7 @@ function DayPlanTemplateCreator({ breakTemplates, lessonTemplates, setBreakTempl
         <div className="px-5">
           <h4 className="text-lg pb-2">How many lessons are in a day?</h4>
           <select
-            className="w-full text-center border border-darkGreen"
+            className="w-full text-center p-1 text-lg font-semibold border border-darkGreen"
             value={numberOfLessons}
             onChange={(e) => onNumberOfLessonsChange(+e.target.value)}>
             <option value="5">5</option>
@@ -247,7 +245,7 @@ function DayPlanTemplateCreator({ breakTemplates, lessonTemplates, setBreakTempl
         <div className="px-5">
           <h4 className="text-lg pb-2">How many breaks do you have a day?</h4>
           <select
-            className="w-full text-center border border-darkGreen"
+            className="w-full text-center p-1 text-lg font-semibold border border-darkGreen"
             value={numberOfBreaks}
             onChange={(e) => onNumberOfBreaksChange(+e.target.value)}>
             <option value="1">1</option>
@@ -259,7 +257,7 @@ function DayPlanTemplateCreator({ breakTemplates, lessonTemplates, setBreakTempl
       <div className="flex-grow max-w-5xl m-auto flex-col gap-x-6 ">
         <div className="flex flex-grow justify-around w-full">
           <div>
-            <h4 className="text-lg pb-2">Lessons</h4>
+            <h4 className="text-lg pb-2 font-bold">Lessons</h4>
             <div className="grid grid-cols-3 auto-rows-auto pb-2">
               {lessonTemplates.map((template, i) => (
                 <TemplateLessonHeader key={`lesson${i}`} value={template} onChange={(e) => onLessonChange(e, i)} index={i} />
@@ -267,9 +265,11 @@ function DayPlanTemplateCreator({ breakTemplates, lessonTemplates, setBreakTempl
             </div>
           </div>
           <div>
-            <h4 className="text-lg pb-2">Breaks</h4>
+            <h4 className="text-lg pb-2 font-bold">Breaks</h4>
             {breakTemplates.map((template, i) => (
-              <TemplateBreakHeader key={`break${i}`} value={template} onChange={(e) => onBreakChange(e, i)} index={i} />
+              <div className="flex gap-1">
+                <TemplateBreakHeader key={`break${i}`} value={template} onChange={(e) => onBreakChange(e, i)} index={i} />
+              </div>
             ))}
           </div>
         </div>
@@ -296,7 +296,9 @@ function TemplateLessonHeader({ index, value, onChange }: LessonHeaderProps) {
   }
 
   return (
-    <div id={`lesson-${index}`} className={`flex items-center justify-center border-2 m-1 border-darkGreen text-center text-lg font-semibold p-2`}>
+    <div
+      id={`lesson-${index}`}
+      className={`flex items-center justify-center border-2 m-1 border-darkGreen rounded-md text-center text-lg font-semibold p-2`}>
       <div>
         <h3>Lesson {index + 1}</h3>
         <div className="text-center flex flex-col items-center">
@@ -337,9 +339,11 @@ function TemplateBreakHeader({ index, value, onChange }: BreakHeaderProps) {
   }
 
   return (
-    <div id={`break-${index}`} className={`flex items-center justify-center border-2 m-1 border-darkGreen text-center text-lg font-semibold`}>
+    <div
+      id={`break-${index}`}
+      className={`flex items-center justify-center border-2 m-1 border-darkGreen rounded-md text-center text-lg font-semibold p-2`}>
       <div>
-        <input className="text-center" value={value.name} placeholder="Break name" onChange={onNameChange} />
+        <input className="text-center border rounded-md" value={value.name} placeholder="Break name" onChange={onNameChange} />
         <div className="text-center flex flex-col items-center">
           <div className="flex flex-col p-2">
             <p>Start Time:</p>

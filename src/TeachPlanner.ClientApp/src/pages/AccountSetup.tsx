@@ -4,6 +4,7 @@ import curriculumService from "../services/CurriculumService";
 import DayPlanTemplateCreator from "../components/common/DayPlanTemplateCreator";
 import Button from "../components/common/Button";
 import TermDatesCreator from "../components/common/TermDatesCreator";
+import ValidationError from "../components/common/ValidationError";
 
 type DayPlanPattern = {
   lessons: LessonTemplate[];
@@ -41,6 +42,7 @@ function AccountSetup() {
   ); // [startDate, endDate]
   const [lessonTemplates, setLessonTemplates] = useState<LessonTemplate[]>([]);
   const [breakTemplates, setBreakTemplates] = useState<BreakTemplate[]>([]);
+  const [validationErrors, setValidationErrors] = useState<string[]>([]);
 
   useEffect(() => {
     async function getSubjects() {
@@ -70,19 +72,52 @@ function AccountSetup() {
   }
 
   function setupAccount() {
+    clearValidationErrors();
     /* need to create objects that the server understands
       periodType: "lesson" | "break" | "beforeSchool" | "afterSchool"
       name: string
       startTime: DateTime
       endTime: DateTime
     */
-    console.log(subjectsTaught, lessonTemplates, breakTemplates, termDates);
+
     const dayPlanPattern: DayPlanPattern = {
       lessons: [],
       breaks: [],
       beforeSchool: { hour: 8, minute: 0, period: "AM" },
       afterSchool: { hour: 3, minute: 0, period: "PM" },
     };
+    validatePeriodTimes();
+  }
+
+  function clearValidationErrors() {
+    setValidationErrors((prev) => []);
+  }
+
+  function validatePeriodTimes() {
+    lessonTemplates.forEach((lessonTemplate, index) => {
+      if (periodsOverlap(lessonTemplate, index)) {
+        setValidationErrors((prev) => [...prev, `Lesson times overlap between periods ${index + 1} and ${index + 2}`]);
+      }
+    });
+  }
+
+  function periodsOverlap(lessonTemplate: LessonTemplate, index: number) {
+    if (index >= lessonTemplates.length - 1) {
+      return false;
+    }
+
+    const prevTime = lessonTemplates[index + 1].startTime;
+    const nextTime = lessonTemplate.endTime;
+
+    if (prevTime.period === "PM" && nextTime.period === "AM") {
+      return false;
+    }
+
+    if (prevTime.period === "AM" && nextTime.period === "PM") {
+      return true;
+    }
+
+    return prevTime.hour < nextTime.hour || (prevTime.hour === nextTime.hour && prevTime.minute < nextTime.minute);
   }
 
   return (
@@ -95,11 +130,11 @@ function AccountSetup() {
         <div className="">
           <h3 className="text-xl pb-2">What subjects do you teach?</h3>
           {/* <Dropdown placeholder="Select all subjects you teach" onChange={handleSubjectChange} options={subjects} multiSelect /> */}
-          <div className="border border-darkGreen p-2">
+          <div className="border border-darkGreen rounded-md p-2">
             {subjects.map((subject) => (
               <p
                 key={subject}
-                className={`hover:bg-primaryHover ${isSelected(subject) && "bg-primaryFocus"} my-1 px-2 border border-b-darkGreen`}
+                className={`hover:bg-primaryHover hover:cursor-default ${isSelected(subject) && "bg-primaryFocus"} text-lg my-1 px-2`}
                 onClick={() => handleSubjectChange(subject)}>
                 {subject}
               </p>
@@ -122,6 +157,7 @@ function AccountSetup() {
       <div className="w-1/2 m-auto flex-col items-center mb-2 p-2 pb-4">
         <TermDatesCreator termDates={termDates} setTermDates={setTermDates} />
       </div>
+      <ValidationError errors={validationErrors} />
       <Button onClick={setupAccount} variant="submit" classList="mb-2">
         Complete Account Setup
       </Button>
