@@ -1,3 +1,4 @@
+import { AccountDetails } from "../types/Account";
 import { baseUrl } from "../utils/constants";
 
 type TeacherResponse = {
@@ -85,6 +86,23 @@ class TeacherService {
     const data = await response.json();
 
     return data as TeacherSettings;
+  }
+
+  async setupAccount(accountDetails: AccountDetails, teacher: Teacher, token: string) {
+    const request = new Request(`${baseUrl}/teacher/${teacher.id}/setup?calendarYear=${new Date().getFullYear()}`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      signal: new AbortController().signal,
+      body: JSON.stringify(accountDetails),
+    });
+
+    const response = await fetch(request);
+
+    if (!response.ok) {
+      throw new Error(`Http request failed with status ${response.status}: ${response.statusText}`);
+    }
   }
 }
 

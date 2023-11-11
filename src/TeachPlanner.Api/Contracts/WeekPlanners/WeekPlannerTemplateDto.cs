@@ -19,4 +19,4 @@ public record WeekPlannerTemplateDto(DayPlanDto DayPlanTemplate)
 
 public record DayPlanDto(List<PeriodDto> Periods);
 
-public record PeriodDto(string PeriodType, DateTime StartTime, DateTime EndTime);
+public record PeriodDto(string PeriodType, TimeOnly StartTime, TimeOnly EndTime);

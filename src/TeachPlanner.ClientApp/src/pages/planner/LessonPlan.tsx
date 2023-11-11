@@ -6,11 +6,6 @@ import CancelButton from "../../components/common/CancelButton";
 import AddContentDescriptionDialogContent from "../../components/planner/AddContentDescriptionDialogContent";
 import AddResourcesDialogContent from "../../components/planner/AddResourcesDialogContent";
 
-type PlannerSubject = {
-  name: string;
-  contentDescriptions: ContentDescription[];
-};
-
 function LessonPlan() {
   const lessonPlan = useLoaderData() as LessonPlan;
   const [planningNotes, setPlanningNotes] = useState<string>(lessonPlan.planningNotes.join("\n\n"));
@@ -218,6 +213,7 @@ export async function lessonPlanLoader(): Promise<LessonPlan> {
         },
       ] as ContentDescription[],
       subject: {
+        id: "1",
         name: "Maths",
         contentDescriptions: [
           {

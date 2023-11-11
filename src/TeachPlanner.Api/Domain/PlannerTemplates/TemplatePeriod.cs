@@ -1,3 +1,3 @@
 namespace TeachPlanner.Api.Domain.PlannerTemplates;
 
-public record TemplatePeriod(PeriodType PeriodType, DateTime StartTime, DateTime EndTime);
+public record TemplatePeriod(PeriodType PeriodType, string Name, TimeOnly StartTime, TimeOnly EndTime);

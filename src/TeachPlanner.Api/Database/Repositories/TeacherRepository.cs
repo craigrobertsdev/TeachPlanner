@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TeachPlanner.Api.Common.Interfaces.Persistence;
 using TeachPlanner.Api.Domain.CurriculumSubjects;
+using TeachPlanner.Api.Domain.PlannerTemplates;
 using TeachPlanner.Api.Domain.Teachers;
 using TeachPlanner.Api.Domain.Users;
 using TeachPlanner.Api.Domain.YearDataRecords;
@@ -69,6 +70,12 @@ public class TeacherRepository : ITeacherRepository
 
     public Task<YearData?> GetYearDataByTeacherIdAndYear(TeacherId teacherId, int calendarYear,
         CancellationToken cancellationToken)
+    {
+        throw new NotImplementedException();
+    }
+
+    public void SetInitialAccountDetails(TeacherId id, List<string> subjectsTaught, DayPlanTemplate dayPlanTemplate,
+               List<TermDate> termDates, CancellationToken cancellationToken)
     {
         throw new NotImplementedException();
     }

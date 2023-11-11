@@ -260,7 +260,7 @@ function DayPlanTemplateCreator({ breakTemplates, lessonTemplates, setBreakTempl
             <h4 className="text-lg pb-2 font-bold">Lessons</h4>
             <div className="grid grid-cols-3 auto-rows-auto pb-2">
               {lessonTemplates.map((template, i) => (
-                <TemplateLessonHeader key={`lesson${i}`} value={template} onChange={(e) => onLessonChange(e, i)} index={i} />
+                <TemplateLessonHeader key={`lesson-${i}`} value={template} onChange={(e) => onLessonChange(e, i)} index={i} />
               ))}
             </div>
           </div>
@@ -268,7 +268,7 @@ function DayPlanTemplateCreator({ breakTemplates, lessonTemplates, setBreakTempl
             <h4 className="text-lg pb-2 font-bold">Breaks</h4>
             {breakTemplates.map((template, i) => (
               <div className="flex gap-1">
-                <TemplateBreakHeader key={`break${i}`} value={template} onChange={(e) => onBreakChange(e, i)} index={i} />
+                <TemplateBreakHeader key={`break-${i}`} value={template} onChange={(e) => onBreakChange(e, i)} index={i} />
               </div>
             ))}
           </div>

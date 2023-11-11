@@ -68,12 +68,14 @@ public static class CreateWeekPlanner
     {
         var weekPlannerTemplate = WeekPlannerTemplate.Create(
             DayPlanTemplate.Create(
-                request.WeekPlannerTemplate.DayPlanTemplate.Periods
-                    .Select(x => new TemplatePeriod(
-                        Enum.Parse<PeriodType>(x.PeriodType),
-                        x.StartTime,
-                        x.EndTime))
-                    .ToList())); 
+                //request.WeekPlannerTemplate.DayPlanTemplate.Periods
+                //    .Select(x => new TemplatePeriod(
+                //        Enum.Parse<PeriodType>(x.PeriodType),
+                //        x.Name,
+                //        x.StartTime,
+                //        x.EndTime))
+                //    .ToList())); 
+                new()));
         
         var command = new Command(
             new TeacherId(teacherId),

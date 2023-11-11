@@ -19,7 +19,7 @@ function TermDatesCreator({ termDates, setTermDates }: TermDatesCreatorProps) {
 
     setTermDates((termDates) => {
       const newTermDates = [...termDates];
-      newTermDates[0].startDate = newStartDate;
+      newTermDates[index].startDate = newStartDate;
       return newTermDates;
     });
   }
@@ -34,7 +34,7 @@ function TermDatesCreator({ termDates, setTermDates }: TermDatesCreatorProps) {
 
     setTermDates((termDates) => {
       const newTermDates = [...termDates];
-      newTermDates[0].endDate = newEndDate;
+      newTermDates[index].endDate = newEndDate;
       return newTermDates;
     });
   }
@@ -42,7 +42,7 @@ function TermDatesCreator({ termDates, setTermDates }: TermDatesCreatorProps) {
   return (
     <>
       <h3 className="text-xl pb-2">Please enter the term dates for this year</h3>
-      <div className="text-lg grid grid-cols-2 grid-rows-2 gap-3 justify-center pb-2 border-b border-darkGreen">
+      <div className="text-lg grid grid-cols-2 grid-rows-2 gap-3 justify-center pb-2">
         {termDates.map((term, i) => (
           <div key={`termDates-${i}`} className="p-2 border-2 border-darkGreen rounded-md">
             <h4 className="font-semibold text-lg">Term {i + 1}</h4>

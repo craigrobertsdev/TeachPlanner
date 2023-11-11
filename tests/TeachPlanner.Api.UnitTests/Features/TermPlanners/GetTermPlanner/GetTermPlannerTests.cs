@@ -10,6 +10,8 @@ using TeachPlanner.Api.Common.Exceptions;
 using TeachPlanner.Api.Common.Interfaces.Persistence;
 using TeachPlanner.Api.UnitTests.Helpers;
 using TeachPlanner.Api.Features.TermPlanners;
+using MediatR;
+using TeachPlanner.Api.Features.Teachers;
 
 namespace TeachPlanner.Api.UnitTests.Features.TermPlanners.GetTermPlannerTests;
 public class GetTermPlannerTests

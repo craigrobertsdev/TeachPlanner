@@ -5,33 +5,8 @@ import DayPlanTemplateCreator from "../components/common/DayPlanTemplateCreator"
 import Button from "../components/common/Button";
 import TermDatesCreator from "../components/common/TermDatesCreator";
 import ValidationError from "../components/common/ValidationError";
-
-type DayPlanPattern = {
-  lessons: LessonTemplate[];
-  breaks: BreakTemplate[];
-  beforeSchool: PeriodTime;
-  afterSchool: PeriodTime;
-};
-
-type LessonTemplate = {
-  startTime: PeriodTime;
-  endTime: PeriodTime;
-};
-
-type BreakTemplate = LessonTemplate & {
-  name: string;
-};
-
-type PeriodTime = {
-  hour: number;
-  minute: number;
-  period: string;
-};
-
-type TermDates = {
-  startDate: Date;
-  endDate: Date;
-};
+import TeacherService from "../services/TeacherService";
+import { AccountDetails, BreakTemplate, DayPlanPattern, LessonTemplate, TermDates } from "../types/Account";
 
 function AccountSetup() {
   const { teacher, token } = useAuth();
@@ -71,32 +46,66 @@ function AccountSetup() {
     return <p>loading...</p>;
   }
 
-  function setupAccount() {
+  async function setupAccount() {
     clearValidationErrors();
     /* need to create objects that the server understands
-      periodType: "lesson" | "break" | "beforeSchool" | "afterSchool"
-      name: string
-      startTime: DateTime
-      endTime: DateTime
+      accountDetails: {
+        subjectsTaught: string[]
+        dayPlanPattern: DayPlanPattern
+        termDates: TermDates[]
+      }
     */
 
-    const dayPlanPattern: DayPlanPattern = {
-      lessons: [],
-      breaks: [],
-      beforeSchool: { hour: 8, minute: 0, period: "AM" },
-      afterSchool: { hour: 3, minute: 0, period: "PM" },
-    };
+    validateSubjectsTaught();
     validatePeriodTimes();
+    validateTermDates();
+
+    const dayPlanPattern: DayPlanPattern = {
+      lessons: lessonTemplates,
+      breaks: breakTemplates,
+    };
+
+    if (validationErrors.length) {
+      return;
+    }
+
+    const accountDetails: AccountDetails = {
+      subjectsTaught,
+      dayPlanPattern,
+      termDates,
+    };
+
+    console.log(JSON.stringify(accountDetails, null, 4));
+
+    await TeacherService.setupAccount(accountDetails, teacher!, token!);
   }
 
   function clearValidationErrors() {
-    setValidationErrors((prev) => []);
+    setValidationErrors(() => []);
+  }
+
+  function validateSubjectsTaught() {
+    if (subjectsTaught.length === 0) {
+      setValidationErrors((prev) => [...prev, "You must select at least one subject"]);
+    }
   }
 
   function validatePeriodTimes() {
     lessonTemplates.forEach((lessonTemplate, index) => {
       if (periodsOverlap(lessonTemplate, index)) {
         setValidationErrors((prev) => [...prev, `Lesson times overlap between periods ${index + 1} and ${index + 2}`]);
+      }
+    });
+  }
+
+  function validateTermDates() {
+    termDates.forEach((termDate, index) => {
+      if (termDate.startDate > termDate.endDate) {
+        setValidationErrors((prev) => [...prev, `Term ${index + 1} start date must be before end date`]);
+      }
+
+      if (termDates[index - 1] && termDate.startDate < termDates[index - 1].endDate) {
+        setValidationErrors((prev) => [...prev, `Term ${index + 1} start date must be after term ${index} end date`]);
       }
     });
   }

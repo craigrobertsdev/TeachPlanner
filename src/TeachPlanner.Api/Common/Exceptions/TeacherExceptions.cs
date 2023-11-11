@@ -22,3 +22,11 @@ public class NoNewSubjectsTaughtException : BaseException
     {
     }
 }
+
+public class CreateTimeFromDtoException : BaseException
+{
+    public CreateTimeFromDtoException(string message)
+        : base(message, 400, "Teachers.CreateTimeFromDto")
+    {
+    }
+}

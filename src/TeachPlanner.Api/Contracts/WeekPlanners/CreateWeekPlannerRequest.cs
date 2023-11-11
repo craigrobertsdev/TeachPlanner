@@ -1,6 +1,3 @@
-using TeachPlanner.Api.Domain.PlannerTemplates;
-using TeachPlanner.Api.Domain.Teachers;
-
 namespace TeachPlanner.Api.Contracts.WeekPlanners;
 
 public record CreateWeekPlannerRequest(

@@ -45,6 +45,12 @@ declare type LessonPlan = {
   contentDescriptions: ContentDescription[];
 };
 
+declare type PlannerSubject = {
+  id: string;
+  name: string;
+  contentDescriptions: ContentDescription[];
+};
+
 declare type DayPlan = {
   startTime: Date;
   endTime: Date;
