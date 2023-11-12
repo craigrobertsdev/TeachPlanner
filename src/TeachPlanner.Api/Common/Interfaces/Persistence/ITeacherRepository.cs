@@ -24,7 +24,4 @@ public interface ITeacherRepository
 
     Task<YearData?> GetYearDataByTeacherIdAndYear(TeacherId teacherId, int calendarYear,
         CancellationToken cancellationToken);
-
-    void SetInitialAccountDetails(TeacherId id, List<string> subjectsTaught, DayPlanTemplate dayPlanTemplate,
-               List<TermDate> termDates, CancellationToken cancellationToken);
 }

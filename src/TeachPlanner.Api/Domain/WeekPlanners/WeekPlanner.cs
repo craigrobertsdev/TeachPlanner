@@ -10,7 +10,7 @@ public sealed class WeekPlanner : Entity<WeekPlannerId>, IAggregateRoot
 {
     private readonly List<DayPlan> _dayPlans = new();
     public YearDataId YearDataId { get; private set; }
-    public WeekPlannerTemplate WeekPlannerTemplate { get; private set; }
+    public DayPlanTemplate DayPlanTemplate { get; private set; }
     public DateTime WeekStart { get; private set; }
     public int WeekNumber { get; private set; }
     public int TermNumber { get; private set; }
@@ -28,13 +28,18 @@ public sealed class WeekPlanner : Entity<WeekPlannerId>, IAggregateRoot
         _dayPlans.Add(dayPlan);
     }
 
+    public void SetDayPlanTemplate(DayPlanTemplate dayPlanTemplate)
+    {
+        DayPlanTemplate = dayPlanTemplate;
+    } 
+
     private WeekPlanner(
         WeekPlannerId id,
         YearDataId yearDataId,
         int weekNumber,
         int termNumber,
         int year,
-        WeekPlannerTemplate weekPlannerTemplate,
+        DayPlanTemplate dayPlanTemplate,
         DateTime weekStart) : base(id)
     {
         YearDataId = yearDataId;
@@ -42,7 +47,7 @@ public sealed class WeekPlanner : Entity<WeekPlannerId>, IAggregateRoot
         WeekNumber = weekNumber;
         TermNumber = termNumber;
         Year = year;
-        WeekPlannerTemplate = weekPlannerTemplate;
+        DayPlanTemplate = dayPlanTemplate;
         CreatedDateTime = DateTime.UtcNow;
         UpdatedDateTime = DateTime.UtcNow;
     }
@@ -51,7 +56,7 @@ public sealed class WeekPlanner : Entity<WeekPlannerId>, IAggregateRoot
         int weekNumber,
         int termNumber,
         int year,
-        WeekPlannerTemplate weekPlanPattern,
+        DayPlanTemplate dayPlanTemplate,
         DateTime weekStart)
     {
         return new WeekPlanner(
@@ -60,7 +65,7 @@ public sealed class WeekPlanner : Entity<WeekPlannerId>, IAggregateRoot
             weekNumber,
             termNumber,
             year,
-            weekPlanPattern,
+            dayPlanTemplate,
             weekStart);
     }
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.

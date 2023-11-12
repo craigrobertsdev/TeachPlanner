@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TeachPlanner.Api.Common.Interfaces.Persistence;
+using TeachPlanner.Api.Domain.CurriculumSubjects;
+using TeachPlanner.Api.Domain.PlannerTemplates;
 using TeachPlanner.Api.Domain.Teachers;
 using TeachPlanner.Api.Domain.YearDataRecords;
 
@@ -27,5 +29,23 @@ public class YearDataRepository : IYearDataRepository
             .AsSplitQuery()
             .AsNoTracking()
             .FirstOrDefaultAsync(cancellationToken);
+    }
+    public async Task SetInitialAccountDetails(Teacher teacher, List<CurriculumSubject> subjectsTaught, DayPlanTemplate dayPlanTemplate,
+               List<TermDate> termDates, int calendarYear, CancellationToken cancellationToken)
+    {
+        var yearData = await _context.YearData
+            .Where(yd => yd.TeacherId == teacher.Id)
+            .Where(yd => yd.CalendarYear == calendarYear)
+            .FirstOrDefaultAsync(cancellationToken);
+
+        if (yearData is null)
+        {
+            yearData = YearData.Create(teacher.Id, calendarYear);
+            teacher.AddYearData(YearDataEntry.Create(calendarYear, yearData.Id));
+            _context.YearData.Add(yearData);
+        }
+
+        yearData.SetDayPlanTemplate(dayPlanTemplate);
+        yearData.SetTermDates(termDates);
     }
 }

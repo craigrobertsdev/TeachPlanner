@@ -73,10 +73,4 @@ public class TeacherRepository : ITeacherRepository
     {
         throw new NotImplementedException();
     }
-
-    public void SetInitialAccountDetails(TeacherId id, List<string> subjectsTaught, DayPlanTemplate dayPlanTemplate,
-               List<TermDate> termDates, CancellationToken cancellationToken)
-    {
-        throw new NotImplementedException();
-    }
 }

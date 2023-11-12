@@ -956,7 +956,7 @@ namespace TeachPlanner.Api.Migrations
                                         .ValueGeneratedOnAdd()
                                         .HasColumnType("char(36)");
 
-                                    b2.Property<Guid>("DayPlanTemplateId")
+                                    b2.Property<Guid>("DayPlanTemplate")
                                         .HasColumnType("char(36)");
 
                                     b2.Property<DateTime>("EndTime")
@@ -972,12 +972,12 @@ namespace TeachPlanner.Api.Migrations
 
                                     b2.HasKey("Id");
 
-                                    b2.HasIndex("DayPlanTemplateId");
+                                    b2.HasIndex("DayPlanTemplate");
 
                                     b2.ToTable("template_periods", (string)null);
 
                                     b2.WithOwner()
-                                        .HasForeignKey("DayPlanTemplateId");
+                                        .HasForeignKey("DayPlanTemplate");
                                 });
 
                             b1.Navigation("Periods");

@@ -846,7 +846,7 @@ namespace TeachPlanner.Api.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_template_periods_DayPlanTemplateId",
                 table: "template_periods",
-                column: "DayPlanTemplateId");
+                column: "DayPlanTemplate");
 
             migrationBuilder.CreateIndex(
                 name: "IX_term_planner_YearDataId",

@@ -2,9 +2,7 @@ using MediatR;
 using TeachPlanner.Api.Common.Exceptions;
 using TeachPlanner.Api.Common.Interfaces.Persistence;
 using TeachPlanner.Api.Contracts.WeekPlanners;
-using TeachPlanner.Api.Domain.PlannerTemplates;
 using TeachPlanner.Api.Domain.Teachers;
-using TeachPlanner.Api.Domain.WeekPlanners;
 
 namespace TeachPlanner.Api.Features.WeekPlanners;
 
@@ -39,7 +37,7 @@ public static class GetWeekPlanner
 
             return new WeekPlannerResponse(
                 weekPlanner.DayPlans.ToList(),
-                WeekPlannerTemplateDto.Create(weekPlanner.WeekPlannerTemplate),
+                WeekPlannerTemplateDto.Create(weekPlanner.DayPlanTemplate),
                 weekPlanner.WeekStart,
                 weekPlanner.WeekNumber
             );

@@ -29,3 +29,10 @@ public class InvalidCurriculumSubjectIdException : BaseException
     {
     }
 }
+
+public class SubjectNotFoundException : BaseException
+{
+    public SubjectNotFoundException(string subjectName) : base($"No subject found with the name of {subjectName}", 404, "Subject.NotFound")
+    {
+    }
+}

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using TeachPlanner.Api.Common.Exceptions;
 using TeachPlanner.Api.Common.Interfaces.Persistence;
 using TeachPlanner.Api.Contracts.Teachers.AccountSetup;
+using TeachPlanner.Api.Domain.CurriculumSubjects;
 using TeachPlanner.Api.Domain.PlannerTemplates;
 using TeachPlanner.Api.Domain.Teachers;
 
@@ -14,7 +15,7 @@ public static class AccountSetup
     public async static Task<IResult> Delegate([FromRoute] Guid teacherId, [FromBody] AccountSetupRequest request, ISender sender, Validator validator) {
         var termDates = request.TermDates.Select(td => new TermDate(td.StartDate, td.EndDate)).ToList();
         var dayPlanTemplate = CreateDayPlanTemplate(request.DayPlanPattern);
-        var command = new Command(request.SubjectsTaught, dayPlanTemplate, termDates, new TeacherId(teacherId));
+        var command = new Command(request.SubjectsTaught, dayPlanTemplate, termDates, new TeacherId(teacherId), request.CalendarYear ?? DateTime.Now.Year);
 
         var validationResult = await validator.ValidateAsync(command);
 
@@ -28,7 +29,7 @@ public static class AccountSetup
         return Results.Ok();
     }
 
-    public record Command(List<string> SubjectsTaught, DayPlanTemplate DayPlanTemplate, List<TermDate> TermDates, TeacherId TeacherId): IRequest;
+    public record Command(List<string> SubjectsTaught, DayPlanTemplate DayPlanTemplate, List<TermDate> TermDates, TeacherId TeacherId, int CalendarYear): IRequest;
 
     public class Validator : AbstractValidator<Command>
     {
@@ -43,11 +44,15 @@ public static class AccountSetup
     public sealed class Handler : IRequestHandler<Command>
     {
         private readonly ITeacherRepository _teacherRepository;
+        private readonly IYearDataRepository _yearDataRepository;
+        private readonly ICurriculumRepository _curriculumRepository;
         private readonly IUnitOfWork _unitOfWork;
 
-        public Handler(ITeacherRepository teacherRepository, IUnitOfWork unitOfWork)
+        public Handler(ITeacherRepository teacherRepository, ICurriculumRepository curriculumRepository, IYearDataRepository yearDataRepository, IUnitOfWork unitOfWork)
         {
             _teacherRepository = teacherRepository;
+            _curriculumRepository = curriculumRepository;
+            _yearDataRepository = yearDataRepository;
             _unitOfWork = unitOfWork;
         }
 
@@ -60,11 +65,24 @@ public static class AccountSetup
                 throw new TeacherNotFoundException();
             }
 
-            _teacherRepository.SetInitialAccountDetails(teacher.Id, request.SubjectsTaught, request.DayPlanTemplate, request.TermDates, cancellationToken);
+            var subjectsTaught = await _curriculumRepository.GetSubjectsByName(request.SubjectsTaught, cancellationToken);
+
+            ValidateSubjects(subjectsTaught, request.SubjectsTaught);
+
+            teacher.SetSubjectsTaught(subjectsTaught);
+            await _yearDataRepository.SetInitialAccountDetails(teacher, subjectsTaught, request.DayPlanTemplate, request.TermDates, request.CalendarYear, cancellationToken);
             await _unitOfWork.SaveChangesAsync(cancellationToken);
         }
 
+        private void ValidateSubjects(List<CurriculumSubject> subjects, List<string> subjectNames)
+        {
+            if (subjects.Count != subjectNames.Count)
+            {
+                throw new SubjectNotFoundException(subjectNames.Except(subjects.Select(s => s.Name)).First());
+            }
+        }
     }
+
     private static DayPlanTemplate CreateDayPlanTemplate(DayPlanPatternDto dayPlanPattern)
     {
         var templatePeriods = CreateTemplatePeriods(dayPlanPattern);

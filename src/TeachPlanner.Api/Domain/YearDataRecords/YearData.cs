@@ -20,6 +20,17 @@ public class YearData : Entity<YearDataId>, IAggregateRoot
     private readonly List<Subject> _subjects = new();
     private readonly List<WeekPlanner> _weekPlanners = new();
     private readonly List<YearLevelValue> _yearLevelsTaught = new();
+    private readonly List<TermDate> _termDates = new();
+    public DayPlanTemplate? DayPlanTemplate { get; private set; }
+
+    public TeacherId TeacherId { get; private set; }
+    public TermPlannerId? TermPlannerId { get; private set; }
+    public int CalendarYear { get; private set; }
+    public IReadOnlyList<Student> Students => _students.AsReadOnly();
+    public IReadOnlyList<YearLevelValue> YearLevelsTaught => _yearLevelsTaught.AsReadOnly();
+    public IReadOnlyList<Subject> Subjects => _subjects.AsReadOnly();
+    public IReadOnlyList<LessonPlan> LessonPlans => _lessonPlans.AsReadOnly();
+    public IReadOnlyList<WeekPlanner> WeekPlanners => _weekPlanners.AsReadOnly();
 
     private YearData(YearDataId id, TeacherId teacherId, int calendarYear) : base(id)
     {
@@ -33,15 +44,6 @@ public class YearData : Entity<YearDataId>, IAggregateRoot
         CalendarYear = calendarYear;
         _students = students;
     }
-
-    public TeacherId TeacherId { get; private set; }
-    public TermPlannerId? TermPlannerId { get; private set; }
-    public int CalendarYear { get; private set; }
-    public IReadOnlyList<Student> Students => _students.AsReadOnly();
-    public IReadOnlyList<YearLevelValue> YearLevelsTaught => _yearLevelsTaught.AsReadOnly();
-    public IReadOnlyList<Subject> Subjects => _subjects.AsReadOnly();
-    public IReadOnlyList<LessonPlan> LessonPlans => _lessonPlans.AsReadOnly();
-    public IReadOnlyList<WeekPlanner> WeekPlanners => _weekPlanners.AsReadOnly();
 
     public static YearData Create(TeacherId teacherId, int calendarYear)
     {
@@ -112,6 +114,19 @@ public class YearData : Entity<YearDataId>, IAggregateRoot
     {
         foreach (var yearLevel in yearLevelsTaught) AddYearLevel(yearLevel);
     }
+
+    public void SetDayPlanTemplate(DayPlanTemplate dayPlanTemplate)
+    {
+        DayPlanTemplate = dayPlanTemplate;
+        _domainEvents.Add(new DayPlanTemplateAddedToYearDataEvent(Guid.NewGuid(), dayPlanTemplate));
+    }
+
+    public void SetTermDates(List<TermDate> termDates)
+    {
+        _termDates.Clear();
+        _termDates.AddRange(termDates);
+    }
+
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
     private YearData()
     {

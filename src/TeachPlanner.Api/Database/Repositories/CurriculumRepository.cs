@@ -25,4 +25,11 @@ public class CurriculumRepository : ICurriculumRepository
         // add new subjects
         foreach (var subject in subjects) _context.CurriculumSubjects.Add(subject);
     }
+
+    public async Task<List<CurriculumSubject>> GetSubjectsByName(List<string> subjectNames, CancellationToken cancellationToken)
+    {
+        return await _context.CurriculumSubjects
+            .Where(s => subjectNames.Contains(s.Name))
+            .ToListAsync(cancellationToken);
+    }
 }

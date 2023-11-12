@@ -12,7 +12,7 @@ public static class CreateWeekPlanner
 {
     public record Command(
         TeacherId TeacherId,
-        WeekPlannerTemplate WeekPlannerTemplate,
+        DayPlanTemplate DayPlanTemplate,
         DateTime WeekStart,
         int WeekNumber,
         int TermNumber,
@@ -52,7 +52,7 @@ public static class CreateWeekPlanner
                 request.WeekNumber,
                 request.TermNumber,
                 request.Year,
-                request.WeekPlannerTemplate,
+                request.DayPlanTemplate,
                 request.WeekStart);
             
             _weekPlannerRepository.Add(weekPlanner);
@@ -66,8 +66,7 @@ public static class CreateWeekPlanner
     public static async Task<IResult> Delegate(Guid teacherId, CreateWeekPlannerRequest request, ISender sender,
         CancellationToken cancellationToken)
     {
-        var weekPlannerTemplate = WeekPlannerTemplate.Create(
-            DayPlanTemplate.Create(
+        var dayPlanTemplate = DayPlanTemplate.Create(
                 //request.WeekPlannerTemplate.DayPlanTemplate.Periods
                 //    .Select(x => new TemplatePeriod(
                 //        Enum.Parse<PeriodType>(x.PeriodType),
@@ -75,11 +74,11 @@ public static class CreateWeekPlanner
                 //        x.StartTime,
                 //        x.EndTime))
                 //    .ToList())); 
-                new()));
+                new());
         
         var command = new Command(
             new TeacherId(teacherId),
-            weekPlannerTemplate,
+            dayPlanTemplate,
             request.WeekStart,
             request.WeekNumber,
             request.TermNumber,

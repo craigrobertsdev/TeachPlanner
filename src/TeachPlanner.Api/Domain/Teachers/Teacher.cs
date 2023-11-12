@@ -1,6 +1,7 @@
 ﻿using TeachPlanner.Api.Domain.Assessments;
 using TeachPlanner.Api.Domain.Common.Interfaces;
 using TeachPlanner.Api.Domain.Common.Primatives;
+using TeachPlanner.Api.Domain.CurriculumSubjects;
 using TeachPlanner.Api.Domain.Teachers.DomainEvents;
 using TeachPlanner.Api.Domain.Users;
 using TeachPlanner.Api.Domain.YearDataRecords;
@@ -12,6 +13,7 @@ public sealed class Teacher : Entity<TeacherId>, IAggregateRoot
     private readonly List<Assessment> _assessments = new();
     private readonly List<Resource> _resources = new();
     private readonly List<YearDataEntry> _yearDataHistory = new();
+    private readonly List<CurriculumSubject> _subjectsTaught = new();
 
     private Teacher(TeacherId id, UserId userId, string firstName, string lastName) : base(id)
     {
@@ -26,6 +28,7 @@ public sealed class Teacher : Entity<TeacherId>, IAggregateRoot
     public IReadOnlyList<Assessment> Assessments => _assessments.AsReadOnly();
     public IReadOnlyList<Resource> Resources => _resources.AsReadOnly();
     public IReadOnlyList<YearDataEntry> YearDataHistory => _yearDataHistory.AsReadOnly();
+    public IReadOnlyList<CurriculumSubject> SubjectsTaught => _subjectsTaught.AsReadOnly();
 
     public static Teacher Create(UserId userId, string firstName, string lastName)
     {
@@ -66,6 +69,13 @@ public sealed class Teacher : Entity<TeacherId>, IAggregateRoot
 
         _resources.Add(resource);
     }
+    
+    public void SetSubjectsTaught(List<CurriculumSubject> subjects)
+    {
+        _subjectsTaught.Clear();
+        _subjectsTaught.AddRange(subjects);
+    }
+
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
     private Teacher()
     {

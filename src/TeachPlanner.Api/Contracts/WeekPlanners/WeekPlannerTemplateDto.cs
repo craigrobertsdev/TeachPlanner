@@ -4,10 +4,10 @@ namespace TeachPlanner.Api.Contracts.WeekPlanners;
 
 public record WeekPlannerTemplateDto(DayPlanDto DayPlanTemplate)
 {
-    public static WeekPlannerTemplateDto Create(WeekPlannerTemplate template)
+    public static WeekPlannerTemplateDto Create(DayPlanTemplate template)
     {
         var dayPlan = new DayPlanDto(
-            template.DayPlanTemplate.Periods.Select(period => new PeriodDto(
+            template.Periods.Select(period => new PeriodDto(
                 period.PeriodType.ToString(),
                 period.StartTime,
                 period.EndTime

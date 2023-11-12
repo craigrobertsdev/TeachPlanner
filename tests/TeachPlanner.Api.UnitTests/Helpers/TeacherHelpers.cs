@@ -1,4 +1,5 @@
 ﻿using TeachPlanner.Api.Contracts.Teachers.AccountSetup;
+using TeachPlanner.Api.Domain.CurriculumSubjects;
 using TeachPlanner.Api.Domain.PlannerTemplates;
 using TeachPlanner.Api.Domain.Teachers;
 using TeachPlanner.Api.Domain.Users;
@@ -11,14 +12,19 @@ internal static class TeacherHelpers
         return Teacher.Create(new UserId(Guid.NewGuid()), "First", "Last");
     }
 
-    internal static List<string> CreateSubjectsTaught()
+    internal static List<string> CreateSubjectNames()
     {
         return new List<string>
         {
-            "Maths",
+            "Mathematics",
             "English",
             "Science",
         };
+    }
+
+    internal static List<CurriculumSubject> CreateCurriculumSubjects()
+    {
+        return CreateSubjectNames().Select(subjectNames => CurriculumSubject.Create(subjectNames, new())).ToList();
     }
 
     internal static DayPlanPatternDto CreateDayPlanPatternDto()
@@ -116,7 +122,7 @@ internal static class TeacherHelpers
         };
     }
 
-    internal static List<TermDateDto>CreateTermDateDtosWithOverlappingDates() { 
+    internal static List<TermDateDto> CreateTermDateDtosWithOverlappingDates() {
         return new List<TermDateDto>()
         {
             new TermDateDto(new DateOnly(2023, 1, 30), new DateOnly(2023, 4, 1)),
@@ -145,15 +151,20 @@ internal static class TeacherHelpers
 
     internal static AccountSetupRequest CreateAccountSetupRequest()
     {
-        return new AccountSetupRequest(CreateSubjectsTaught(), CreateDayPlanPatternDto(), CreateTermDateDtos());
+        return new AccountSetupRequest(CreateSubjectNames(), CreateDayPlanPatternDto(), CreateTermDateDtos(), 2023);
     }
     internal static AccountSetupRequest CreateAccountSetupRequestWithOverlappingTimes()
     {
-        return new AccountSetupRequest(CreateSubjectsTaught(), CreateDayPlanPatternDtoWithOverlappingTimes(), CreateTermDateDtos());
+        return new AccountSetupRequest(CreateSubjectNames(), CreateDayPlanPatternDtoWithOverlappingTimes(), CreateTermDateDtos(), 2023);
     }
 
     internal static AccountSetupRequest CreateAccountSetupRequestWithOverlappingDates()
     {
-        return new AccountSetupRequest(CreateSubjectsTaught(), CreateDayPlanPatternDto(), CreateTermDateDtosWithOverlappingDates());
+        return new AccountSetupRequest(CreateSubjectNames(), CreateDayPlanPatternDto(), CreateTermDateDtosWithOverlappingDates(), 2023);
+    }
+
+    internal static List<CurriculumSubject> CreateCurriculumSubjects(List<string> subjectNames)
+    {
+        return subjectNames.Select(subjectNames => CurriculumSubject.Create(subjectNames, new())).ToList();
     }
 }

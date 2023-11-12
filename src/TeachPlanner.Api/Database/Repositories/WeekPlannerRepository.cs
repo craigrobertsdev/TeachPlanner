@@ -20,7 +20,6 @@ public class WeekPlannerRepository : IWeekPlannerRepository
             .Where(wp => wp.TermNumber == termNumber)
             .Where(wp => wp.Year == year)
             .Include(wp => wp.DayPlans)
-            .Include(wp => wp.WeekPlannerTemplate)
             .FirstOrDefaultAsync(cancellationToken);
     }
 
