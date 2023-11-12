@@ -12,12 +12,12 @@ namespace TeachPlanner.Api.Features.Teachers;
 
 public static class AccountSetup
 {
-    public async static Task<IResult> Delegate([FromRoute] Guid teacherId, [FromBody] AccountSetupRequest request, ISender sender, Validator validator) {
+    public async static Task<IResult> Delegate([FromRoute] Guid teacherId, [FromBody] AccountSetupRequest request, ISender sender, Validator validator, CancellationToken cancellationToken) {
         var termDates = request.TermDates.Select(td => new TermDate(td.StartDate, td.EndDate)).ToList();
         var dayPlanTemplate = CreateDayPlanTemplate(request.DayPlanPattern);
         var command = new Command(request.SubjectsTaught, dayPlanTemplate, termDates, new TeacherId(teacherId), request.CalendarYear ?? DateTime.Now.Year);
 
-        var validationResult = await validator.ValidateAsync(command);
+        var validationResult = await validator.ValidateAsync(command, cancellationToken);
 
         if (!validationResult.IsValid)
         {

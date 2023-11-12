@@ -38,4 +38,8 @@
             <_Parameter1>TeachPlanner.Api.UnitTests</_Parameter1>
         </AssemblyAttribute>
     </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Domain\PlannerTemplates\DomainEvents\" />
+    </ItemGroup>
 </Project>

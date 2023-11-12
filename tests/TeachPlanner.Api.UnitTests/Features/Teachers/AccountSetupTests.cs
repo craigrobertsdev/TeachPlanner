@@ -107,7 +107,7 @@ public class AccountSetupTests
         var accountSetupRequest = TeacherHelpers.CreateAccountSetupRequestWithOverlappingTimes();
 
         // Act
-        Func<Task> act = () => AccountSetup.Delegate(Guid.NewGuid(), accountSetupRequest, _sender, _validator);
+        Func<Task> act = () => AccountSetup.Delegate(Guid.NewGuid(), accountSetupRequest, _sender, _validator, A<CancellationToken>._);
 
         // Assert
         act.Should().ThrowAsync<CreateTimeFromDtoException>();
@@ -120,16 +120,26 @@ public class AccountSetupTests
         var accountSetupRequest = TeacherHelpers.CreateAccountSetupRequestWithOverlappingDates();
 
         // Act
-        Func<Task> act = () => AccountSetup.Delegate(Guid.NewGuid(), accountSetupRequest, _sender, _validator);
+        Func<Task> act = () => AccountSetup.Delegate(Guid.NewGuid(), accountSetupRequest, _sender, _validator, A<CancellationToken>._);
 
         // Assert
         act.Should().ThrowAsync<CreateTimeFromDtoException>();
     }
 
     [Fact]
-    public void Delegate_WhenPassedValidData_ShouldCreateDayPlanTemplate()
+    public async void Delegate_WhenPassedValidData_ShouldCreateDayPlanTemplate()
     {
+        // Arrange
+        var accountSetupRequest = TeacherHelpers.CreateAccountSetupRequest();
+        var sender = A.Fake<ISender>();
 
+        // Act
+        await AccountSetup.Delegate(Guid.NewGuid(), accountSetupRequest, sender, _validator, CancellationToken.None);
+
+        // Assert
+        var call = Fake.GetCalls(sender).First();
+        AccountSetup.Command command = (AccountSetup.Command)call.Arguments[0]!;
+        command.DayPlanTemplate.Periods.Should().Equal(TeacherHelpers.CreateDayPlanTemplate(_dayPlanPatternDto).Periods);
     }
 
     [Fact]
@@ -157,36 +167,4 @@ public class AccountSetupTests
         // Assert
         teacher.SubjectsTaught.Should().Equal(subjectsTaught);
     }
-
-    [Fact]
-    public async void Handler_WhenPassedValidData_ShouldSetDayPlanTemplateOnYearData()
-    {
-        // Arrange
-        var subjects = TeacherHelpers.CreateSubjectNames();
-        var dayPlanTemplate = TeacherHelpers.CreateDayPlanTemplate(_dayPlanPatternDto);
-        var termDates = TeacherHelpers.CreateTermDates();
-        var teacher = TeacherHelpers.CreateTeacher();
-        var subjectsTaught = TeacherHelpers.CreateCurriculumSubjects(subjects);
-
-        A.CallTo(() => _teacherRepository.GetById(teacher.Id, A<CancellationToken>._))
-            .Returns(teacher);
-
-        A.CallTo(() => _curriculumRepository.GetSubjectsByName(subjects, A<CancellationToken>._))
-            .Returns(subjectsTaught);
-
-        var command = new AccountSetup.Command(subjects, dayPlanTemplate, termDates, teacher.Id, 2023);
-        var handler = new AccountSetup.Handler(_teacherRepository, _curriculumRepository, _yearDataRepository, _unitOfWork);
-
-        // Act
-        await handler.Handle(command, new CancellationToken());
-
-        // Assert
-        teacher.SubjectsTaught.Should().Equal(subjectsTaught);
-    }
-
-    [Fact]
-    public void Handler_WhenPassedValidData_ShouldSetTermDatesOnYearData()
-    {
-
-    }   
 }

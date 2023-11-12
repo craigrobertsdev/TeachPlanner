@@ -140,10 +140,10 @@ internal static class TeacherHelpers
             new TemplatePeriod(PeriodType.Lesson, "Lesson 2", new TimeOnly(10, 0), new TimeOnly(10, 50)),
             new TemplatePeriod(PeriodType.Break, dayPlanPattern.BreakTemplates[0].Name, new TimeOnly(10, 50), new TimeOnly(11, 20)),
             new TemplatePeriod(PeriodType.Lesson, "Lesson 3", new TimeOnly(11, 20), new TimeOnly(12, 10)),
-            new TemplatePeriod(PeriodType.Lesson, "Lesson 4", new TimeOnly(12, 10), new TimeOnly(1, 0)),
-            new TemplatePeriod(PeriodType.Break, dayPlanPattern.BreakTemplates[1].Name, new TimeOnly(1, 0), new TimeOnly(1, 30)),
-            new TemplatePeriod(PeriodType.Lesson, "Lesson 5", new TimeOnly(1, 30), new TimeOnly(2, 20)),
-            new TemplatePeriod(PeriodType.Lesson, "Lesson 6", new TimeOnly(2, 20), new TimeOnly(3, 10))
+            new TemplatePeriod(PeriodType.Lesson, "Lesson 4", new TimeOnly(12, 10), new TimeOnly(13, 0)),
+            new TemplatePeriod(PeriodType.Break, dayPlanPattern.BreakTemplates[1].Name, new TimeOnly(13, 0), new TimeOnly(13, 30)),
+            new TemplatePeriod(PeriodType.Lesson, "Lesson 5", new TimeOnly(13, 30), new TimeOnly(14, 20)),
+            new TemplatePeriod(PeriodType.Lesson, "Lesson 6", new TimeOnly(14, 20), new TimeOnly(15, 10))
         };
 
         return DayPlanTemplate.Create(periodTemplates);
