@@ -72,8 +72,23 @@ public sealed class Teacher : Entity<TeacherId>, IAggregateRoot
     
     public void SetSubjectsTaught(List<CurriculumSubject> subjects)
     {
-        _subjectsTaught.Clear();
-        _subjectsTaught.AddRange(subjects);
+        foreach (var subject in _subjectsTaught.ToList())
+        {
+            if (!subjects.Contains(subject))
+            {
+                _subjectsTaught.Remove(subject);
+            }
+        }
+
+        foreach (var subject in subjects)
+        {
+            if (_subjectsTaught.Contains(subject))
+            {
+                continue;
+            }
+
+            _subjectsTaught.Add(subject);
+        }
     }
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.

@@ -18,8 +18,8 @@ type BreakTemplate = LessonTemplate & {
 };
 
 type PeriodTime = {
-  hour: number;
-  minute: number;
+  hours: number;
+  minutes: number;
   period: string;
 };
 
@@ -48,73 +48,73 @@ function DayPlanTemplateCreator({ breakTemplates, lessonTemplates, setBreakTempl
     const lessonValues = [
       {
         startTime: {
-          hour: 9,
-          minute: 10,
+          hours: 9,
+          minutes: 10,
           period: "AM",
         },
         endTime: {
-          hour: 10,
-          minute: 0,
-          period: "AM",
-        },
-      },
-      {
-        startTime: {
-          hour: 10,
-          minute: 0,
-          period: "AM",
-        },
-        endTime: {
-          hour: 10,
-          minute: 50,
+          hours: 10,
+          minutes: 0,
           period: "AM",
         },
       },
       {
         startTime: {
-          hour: 11,
-          minute: 20,
+          hours: 10,
+          minutes: 0,
           period: "AM",
         },
         endTime: {
-          hour: 12,
-          minute: 10,
+          hours: 10,
+          minutes: 50,
+          period: "AM",
+        },
+      },
+      {
+        startTime: {
+          hours: 11,
+          minutes: 20,
+          period: "AM",
+        },
+        endTime: {
+          hours: 12,
+          minutes: 10,
           period: "PM",
         },
       },
       {
         startTime: {
-          hour: 12,
-          minute: 10,
+          hours: 12,
+          minutes: 10,
           period: "PM",
         },
         endTime: {
-          hour: 1,
-          minute: 0,
+          hours: 1,
+          minutes: 0,
           period: "PM",
         },
       },
       {
         startTime: {
-          hour: 1,
-          minute: 30,
+          hours: 1,
+          minutes: 30,
           period: "PM",
         },
         endTime: {
-          hour: 2,
-          minute: 20,
+          hours: 2,
+          minutes: 20,
           period: "PM",
         },
       },
       {
         startTime: {
-          hour: 2,
-          minute: 20,
+          hours: 2,
+          minutes: 20,
           period: "PM",
         },
         endTime: {
-          hour: 3,
-          minute: 10,
+          hours: 3,
+          minutes: 10,
           period: "PM",
         },
       },
@@ -128,26 +128,26 @@ function DayPlanTemplateCreator({ breakTemplates, lessonTemplates, setBreakTempl
       {
         name: "Recess",
         startTime: {
-          hour: 10,
-          minute: 50,
+          hours: 10,
+          minutes: 50,
           period: "AM",
         },
         endTime: {
-          hour: 11,
-          minute: 20,
+          hours: 11,
+          minutes: 20,
           period: "AM",
         },
       },
       {
         name: "Lunch",
         startTime: {
-          hour: 1,
-          minute: 0,
+          hours: 1,
+          minutes: 0,
           period: "PM",
         },
         endTime: {
-          hour: 1,
-          minute: 30,
+          hours: 1,
+          minutes: 30,
           period: "PM",
         },
       },
@@ -176,13 +176,13 @@ function DayPlanTemplateCreator({ breakTemplates, lessonTemplates, setBreakTempl
       for (let i = lessonTemplates.length; i < value; i++) {
         updatedLessonTemplates.push({
           startTime: {
-            hour: 10,
-            minute: 0,
+            hours: 10,
+            minutes: 0,
             period: "AM",
           },
           endTime: {
-            hour: 10,
-            minute: 0,
+            hours: 10,
+            minutes: 0,
             period: "AM",
           },
         });
@@ -206,13 +206,13 @@ function DayPlanTemplateCreator({ breakTemplates, lessonTemplates, setBreakTempl
         updatedBreakTemplates.push({
           name: "",
           startTime: {
-            hour: 10,
-            minute: 0,
+            hours: 10,
+            minutes: 0,
             period: "AM",
           },
           endTime: {
-            hour: 10,
-            minute: 0,
+            hours: 10,
+            minutes: 0,
             period: "AM",
           },
         });
@@ -280,16 +280,16 @@ function DayPlanTemplateCreator({ breakTemplates, lessonTemplates, setBreakTempl
 
 function TemplateLessonHeader({ index, value, onChange }: LessonHeaderProps) {
   function onStartTimeChange(hours: number, minutes: number, period: string) {
-    value.startTime.hour = hours;
-    value.startTime.minute = minutes;
+    value.startTime.hours = hours;
+    value.startTime.minutes = minutes;
     value.startTime.period = period;
 
     onChange(value, index);
   }
 
   function onEndTimeChange(hours: number, minutes: number, period: string) {
-    value.endTime.hour = hours;
-    value.endTime.minute = minutes;
+    value.endTime.hours = hours;
+    value.endTime.minutes = minutes;
     value.endTime.period = period;
 
     onChange(value, index);
@@ -323,16 +323,16 @@ function TemplateBreakHeader({ index, value, onChange }: BreakHeaderProps) {
   }
 
   function onStartTimeChange(hours: number, minutes: number, period: string) {
-    value.startTime.hour = hours;
-    value.startTime.minute = minutes;
+    value.startTime.hours = hours;
+    value.startTime.minutes = minutes;
     value.startTime.period = period;
 
     onChange(value, index);
   }
 
   function onEndTimeChange(hours: number, minutes: number, period: string) {
-    value.endTime.hour = hours;
-    value.endTime.minute = minutes;
+    value.endTime.hours = hours;
+    value.endTime.minutes = minutes;
     value.endTime.period = period;
 
     onChange(value, index);

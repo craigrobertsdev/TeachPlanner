@@ -107,7 +107,7 @@ public class AccountSetupTests
         var accountSetupRequest = TeacherHelpers.CreateAccountSetupRequestWithOverlappingTimes();
 
         // Act
-        Func<Task> act = () => AccountSetup.Delegate(Guid.NewGuid(), accountSetupRequest, _sender, _validator, A<CancellationToken>._);
+        Func<Task> act = () => AccountSetup.Delegate(Guid.NewGuid(), accountSetupRequest, 2023, _sender, _validator, A<CancellationToken>._);
 
         // Assert
         act.Should().ThrowAsync<CreateTimeFromDtoException>();
@@ -120,7 +120,7 @@ public class AccountSetupTests
         var accountSetupRequest = TeacherHelpers.CreateAccountSetupRequestWithOverlappingDates();
 
         // Act
-        Func<Task> act = () => AccountSetup.Delegate(Guid.NewGuid(), accountSetupRequest, _sender, _validator, A<CancellationToken>._);
+        Func<Task> act = () => AccountSetup.Delegate(Guid.NewGuid(), accountSetupRequest, 2023, _sender, _validator, A<CancellationToken>._);
 
         // Assert
         act.Should().ThrowAsync<CreateTimeFromDtoException>();
@@ -134,7 +134,7 @@ public class AccountSetupTests
         var sender = A.Fake<ISender>();
 
         // Act
-        await AccountSetup.Delegate(Guid.NewGuid(), accountSetupRequest, sender, _validator, CancellationToken.None);
+        await AccountSetup.Delegate(Guid.NewGuid(), accountSetupRequest, 2023, sender, _validator, CancellationToken.None);
 
         // Assert
         var call = Fake.GetCalls(sender).First();

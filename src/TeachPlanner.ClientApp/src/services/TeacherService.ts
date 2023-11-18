@@ -89,9 +89,10 @@ class TeacherService {
   }
 
   async setupAccount(accountDetails: AccountDetails, teacher: Teacher, token: string) {
-    const request = new Request(`${baseUrl}/teacher/${teacher.id}/setup?calendarYear=${new Date().getFullYear()}`, {
+    const request = new Request(`${baseUrl}/${teacher.id}/setup?calendarYear=${new Date().getFullYear()}`, {
       method: "POST",
       headers: {
+        "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
       signal: new AbortController().signal,
@@ -103,6 +104,8 @@ class TeacherService {
     if (!response.ok) {
       throw new Error(`Http request failed with status ${response.status}: ${response.statusText}`);
     }
+
+    return response;
   }
 }
 

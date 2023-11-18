@@ -84,6 +84,7 @@ public static class RouteMapper
         teacherGroup.MapGet("/settings", GetTeacherSettings.Delegate);
         teacherGroup.MapGet("/resources/{subjectId}", GetResources.Delegate);
         teacherGroup.MapPost("/resources", CreateResource.Delegate);
+        teacherGroup.MapPost("/setup", AccountSetup.Delegate);
 
         return group;
     }

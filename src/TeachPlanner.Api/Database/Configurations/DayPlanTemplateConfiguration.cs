@@ -4,7 +4,7 @@ using TeachPlanner.Api.Domain.PlannerTemplates;
 
 namespace TeachPlanner.Api.Database.Configurations;
 
-public class WeekPlannerTemplateConfiguration : IEntityTypeConfiguration<DayPlanTemplate>
+public class DayPlanTemplateConfiguration : IEntityTypeConfiguration<DayPlanTemplate>
 {
     public void Configure(EntityTypeBuilder<DayPlanTemplate> builder)
     {

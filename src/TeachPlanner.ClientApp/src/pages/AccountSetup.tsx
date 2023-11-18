@@ -7,6 +7,7 @@ import TermDatesCreator from "../components/common/TermDatesCreator";
 import ValidationError from "../components/common/ValidationError";
 import TeacherService from "../services/TeacherService";
 import { AccountDetails, BreakTemplate, DayPlanPattern, LessonTemplate, TermDates } from "../types/Account";
+import { useNavigate } from "react-router-dom";
 
 function AccountSetup() {
   const { teacher, token } = useAuth();
@@ -18,6 +19,7 @@ function AccountSetup() {
   const [lessonTemplates, setLessonTemplates] = useState<LessonTemplate[]>([]);
   const [breakTemplates, setBreakTemplates] = useState<BreakTemplate[]>([]);
   const [validationErrors, setValidationErrors] = useState<string[]>([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function getSubjects() {
@@ -48,21 +50,13 @@ function AccountSetup() {
 
   async function setupAccount() {
     clearValidationErrors();
-    /* need to create objects that the server understands
-      accountDetails: {
-        subjectsTaught: string[]
-        dayPlanPattern: DayPlanPattern
-        termDates: TermDates[]
-      }
-    */
-
     validateSubjectsTaught();
     validatePeriodTimes();
     validateTermDates();
 
     const dayPlanPattern: DayPlanPattern = {
-      lessons: lessonTemplates,
-      breaks: breakTemplates,
+      lessonTemplates,
+      breakTemplates,
     };
 
     if (validationErrors.length) {
@@ -77,7 +71,13 @@ function AccountSetup() {
 
     console.log(JSON.stringify(accountDetails, null, 4));
 
-    await TeacherService.setupAccount(accountDetails, teacher!, token!);
+    try {
+      const response = await TeacherService.setupAccount(accountDetails, teacher!, token!);
+      console.log(response);
+      navigate("/teacher/week-planner", { replace: true });
+    } catch (error) {
+      setValidationErrors((prev) => [...prev, "Something went wrong, please try again."]);
+    }
   }
 
   function clearValidationErrors() {
@@ -126,7 +126,7 @@ function AccountSetup() {
       return true;
     }
 
-    return prevTime.hour < nextTime.hour || (prevTime.hour === nextTime.hour && prevTime.minute < nextTime.minute);
+    return prevTime.hours < nextTime.hours || (prevTime.hours === nextTime.hours && prevTime.minutes < nextTime.minutes);
   }
 
   return (

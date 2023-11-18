@@ -2,20 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TeachPlanner.Api.Database;
 
 #nullable disable
 
-namespace TeachPlanner.Api.Migrations
+namespace TeachPlanner.Api.Database.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231019201651_UpdatedTemplateStructure3")]
-    partial class UpdatedTemplateStructure3
+    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -35,6 +32,21 @@ namespace TeachPlanner.Api.Migrations
                     b.HasIndex("SchoolEventsId");
 
                     b.ToTable("CalendarSchoolEvent");
+                });
+
+            modelBuilder.Entity("CurriculumSubjectTeacher", b =>
+                {
+                    b.Property<Guid>("SubjectsTaughtId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<Guid>("TeacherId")
+                        .HasColumnType("char(36)");
+
+                    b.HasKey("SubjectsTaughtId", "TeacherId");
+
+                    b.HasIndex("TeacherId");
+
+                    b.ToTable("CurriculumSubjectTeacher");
                 });
 
             modelBuilder.Entity("DayPlanSchoolEvent", b =>
@@ -361,20 +373,14 @@ namespace TeachPlanner.Api.Migrations
                     b.ToTable("day_plans", (string)null);
                 });
 
-            modelBuilder.Entity("TeachPlanner.Api.Domain.PlannerTemplates.WeekPlannerTemplate", b =>
+            modelBuilder.Entity("TeachPlanner.Api.Domain.PlannerTemplates.DayPlanTemplate", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("char(36)");
 
-                    b.Property<DateTime>("CreatedDateTime")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<DateTime>("UpdatedDateTime")
-                        .HasColumnType("datetime(6)");
-
                     b.HasKey("Id");
 
-                    b.ToTable("week_planner_templates", (string)null);
+                    b.ToTable("day_plan_templates", (string)null);
                 });
 
             modelBuilder.Entity("TeachPlanner.Api.Domain.Reports.Report", b =>
@@ -588,6 +594,9 @@ namespace TeachPlanner.Api.Migrations
                     b.Property<DateTime>("CreatedDateTime")
                         .HasColumnType("datetime(6)");
 
+                    b.Property<Guid>("DayPlanTemplateId")
+                        .HasColumnType("char(36)");
+
                     b.Property<int>("TermNumber")
                         .HasColumnType("int");
 
@@ -596,9 +605,6 @@ namespace TeachPlanner.Api.Migrations
 
                     b.Property<int>("WeekNumber")
                         .HasColumnType("int");
-
-                    b.Property<Guid>("WeekPlannerTemplateId")
-                        .HasColumnType("char(36)");
 
                     b.Property<DateTime>("WeekStart")
                         .HasColumnType("datetime(6)");
@@ -611,7 +617,7 @@ namespace TeachPlanner.Api.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("WeekPlannerTemplateId");
+                    b.HasIndex("DayPlanTemplateId");
 
                     b.HasIndex("YearDataId");
 
@@ -627,6 +633,9 @@ namespace TeachPlanner.Api.Migrations
                     b.Property<int>("CalendarYear")
                         .HasColumnType("int");
 
+                    b.Property<Guid?>("DayPlanTemplateId")
+                        .HasColumnType("char(36)");
+
                     b.Property<Guid>("TeacherId")
                         .HasColumnType("char(36)");
 
@@ -640,6 +649,8 @@ namespace TeachPlanner.Api.Migrations
                         .HasColumnName("YearLevels");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("DayPlanTemplateId");
 
                     b.HasIndex("TeacherId");
 
@@ -660,6 +671,21 @@ namespace TeachPlanner.Api.Migrations
                     b.HasOne("TeachPlanner.Api.Domain.Common.Planner.SchoolEvent", null)
                         .WithMany()
                         .HasForeignKey("SchoolEventsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("CurriculumSubjectTeacher", b =>
+                {
+                    b.HasOne("TeachPlanner.Api.Domain.CurriculumSubjects.CurriculumSubject", null)
+                        .WithMany()
+                        .HasForeignKey("SubjectsTaughtId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("TeachPlanner.Api.Domain.Teachers.Teacher", null)
+                        .WithMany()
+                        .HasForeignKey("TeacherId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -929,62 +955,43 @@ namespace TeachPlanner.Api.Migrations
                         .HasForeignKey("WeekPlannerId");
                 });
 
-            modelBuilder.Entity("TeachPlanner.Api.Domain.PlannerTemplates.WeekPlannerTemplate", b =>
+            modelBuilder.Entity("TeachPlanner.Api.Domain.PlannerTemplates.DayPlanTemplate", b =>
                 {
-                    b.OwnsOne("TeachPlanner.Api.Domain.PlannerTemplates.DayPlanTemplate", "DayPlanTemplate", b1 =>
+                    b.OwnsMany("TeachPlanner.Api.Domain.PlannerTemplates.TemplatePeriod", "Periods", b1 =>
                         {
                             b1.Property<Guid>("Id")
                                 .ValueGeneratedOnAdd()
                                 .HasColumnType("char(36)");
 
-                            b1.Property<Guid>("WeekPlannerTemplateId")
+                            b1.Property<Guid>("DayPlanTemplateId")
                                 .HasColumnType("char(36)");
+
+                            b1.Property<TimeOnly>("EndTime")
+                                .HasColumnType("time(6)");
+
+                            b1.Property<string>("Name")
+                                .IsRequired()
+                                .HasColumnType("longtext");
+
+                            b1.Property<string>("PeriodType")
+                                .IsRequired()
+                                .HasMaxLength(20)
+                                .HasColumnType("varchar(20)");
+
+                            b1.Property<TimeOnly>("StartTime")
+                                .HasColumnType("time(6)");
 
                             b1.HasKey("Id");
 
-                            b1.HasIndex("WeekPlannerTemplateId")
-                                .IsUnique();
+                            b1.HasIndex("DayPlanTemplateId");
 
-                            b1.ToTable("day_plan_templates", (string)null);
+                            b1.ToTable("template_periods", (string)null);
 
                             b1.WithOwner()
-                                .HasForeignKey("WeekPlannerTemplateId");
-
-                            b1.OwnsMany("TeachPlanner.Api.Domain.PlannerTemplates.TemplatePeriod", "Periods", b2 =>
-                                {
-                                    b2.Property<Guid>("Id")
-                                        .ValueGeneratedOnAdd()
-                                        .HasColumnType("char(36)");
-
-                                    b2.Property<Guid>("DayPlanTemplate")
-                                        .HasColumnType("char(36)");
-
-                                    b2.Property<DateTime>("EndTime")
-                                        .HasColumnType("datetime(6)");
-
-                                    b2.Property<string>("PeriodType")
-                                        .IsRequired()
-                                        .HasMaxLength(20)
-                                        .HasColumnType("varchar(20)");
-
-                                    b2.Property<DateTime>("StartTime")
-                                        .HasColumnType("datetime(6)");
-
-                                    b2.HasKey("Id");
-
-                                    b2.HasIndex("DayPlanTemplate");
-
-                                    b2.ToTable("template_periods", (string)null);
-
-                                    b2.WithOwner()
-                                        .HasForeignKey("DayPlanTemplate");
-                                });
-
-                            b1.Navigation("Periods");
+                                .HasForeignKey("DayPlanTemplateId");
                         });
 
-                    b.Navigation("DayPlanTemplate")
-                        .IsRequired();
+                    b.Navigation("Periods");
                 });
 
             modelBuilder.Entity("TeachPlanner.Api.Domain.Reports.Report", b =>
@@ -1126,9 +1133,9 @@ namespace TeachPlanner.Api.Migrations
 
             modelBuilder.Entity("TeachPlanner.Api.Domain.WeekPlanners.WeekPlanner", b =>
                 {
-                    b.HasOne("TeachPlanner.Api.Domain.PlannerTemplates.WeekPlannerTemplate", "WeekPlannerTemplate")
+                    b.HasOne("TeachPlanner.Api.Domain.PlannerTemplates.DayPlanTemplate", "DayPlanTemplate")
                         .WithMany()
-                        .HasForeignKey("WeekPlannerTemplateId")
+                        .HasForeignKey("DayPlanTemplateId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -1138,11 +1145,15 @@ namespace TeachPlanner.Api.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("WeekPlannerTemplate");
+                    b.Navigation("DayPlanTemplate");
                 });
 
             modelBuilder.Entity("TeachPlanner.Api.Domain.YearDataRecords.YearData", b =>
                 {
+                    b.HasOne("TeachPlanner.Api.Domain.PlannerTemplates.DayPlanTemplate", "DayPlanTemplate")
+                        .WithMany()
+                        .HasForeignKey("DayPlanTemplateId");
+
                     b.HasOne("TeachPlanner.Api.Domain.Teachers.Teacher", null)
                         .WithMany()
                         .HasForeignKey("TeacherId")
@@ -1203,6 +1214,8 @@ namespace TeachPlanner.Api.Migrations
 
                             b1.Navigation("ContentDescriptions");
                         });
+
+                    b.Navigation("DayPlanTemplate");
 
                     b.Navigation("Subjects");
                 });

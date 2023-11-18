@@ -31,6 +31,9 @@ public class TeacherConfiguration : IEntityTypeConfiguration<Teacher>
             .HasForeignKey<Teacher>(t => t.UserId)
             .IsRequired();
 
+        builder.HasMany(t => t.SubjectsTaught)
+            .WithMany();
+
         builder.OwnsMany(t => t.YearDataHistory, ydb =>
         {
             ydb.ToTable("year_data_entries");

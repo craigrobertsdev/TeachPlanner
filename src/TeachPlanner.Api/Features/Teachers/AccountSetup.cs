@@ -12,10 +12,10 @@ namespace TeachPlanner.Api.Features.Teachers;
 
 public static class AccountSetup
 {
-    public async static Task<IResult> Delegate([FromRoute] Guid teacherId, [FromBody] AccountSetupRequest request, ISender sender, Validator validator, CancellationToken cancellationToken) {
-        var termDates = request.TermDates.Select(td => new TermDate(td.StartDate, td.EndDate)).ToList();
+    public async static Task<IResult> Delegate([FromRoute] Guid teacherId, [FromBody] AccountSetupRequest request, [FromQuery] int calendarYear, ISender sender, Validator validator, CancellationToken cancellationToken) {
+        var termDates = ParseTermDates(request.TermDates);
         var dayPlanTemplate = CreateDayPlanTemplate(request.DayPlanPattern);
-        var command = new Command(request.SubjectsTaught, dayPlanTemplate, termDates, new TeacherId(teacherId), request.CalendarYear ?? DateTime.Now.Year);
+        var command = new Command(request.SubjectsTaught, dayPlanTemplate, termDates, new TeacherId(teacherId), calendarYear);
 
         var validationResult = await validator.ValidateAsync(command, cancellationToken);
 
@@ -70,6 +70,7 @@ public static class AccountSetup
             ValidateSubjects(subjectsTaught, request.SubjectsTaught);
 
             teacher.SetSubjectsTaught(subjectsTaught);
+
             await _yearDataRepository.SetInitialAccountDetails(teacher, subjectsTaught, request.DayPlanTemplate, request.TermDates, request.CalendarYear, cancellationToken);
             await _unitOfWork.SaveChangesAsync(cancellationToken);
         }
@@ -153,5 +154,15 @@ public static class AccountSetup
                 throw new CreateTimeFromDtoException("Lesson and break start and end times must be continuous");
             }
         }
+    }
+
+    private static List<TermDate> ParseTermDates(List<TermDateDto> termDates)
+    {
+        return termDates.Select(td => {
+            var startDate = DateOnly.Parse(td.StartDate.Substring(0, 10));
+            var endDate = DateOnly.Parse(td.EndDate.Substring(0, 10));
+
+            return new TermDate(startDate, endDate);
+        }).ToList();
     }
 }

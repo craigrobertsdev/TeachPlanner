@@ -20,5 +20,5 @@ public record PeriodTimeDto(
     string Period);
 
 public record TermDateDto(
-    DateOnly StartDate,
-    DateOnly EndDate);
+    string StartDate,
+    string EndDate);

@@ -33,6 +33,7 @@ public class TeacherRepository : ITeacherRepository
             .Where(t => t.Id == teacherId)
             .Include(t => t.Resources)
             .Include(t => t.YearDataHistory)
+            .Include(t => t.SubjectsTaught)
             .AsSplitQuery()
             .FirstOrDefaultAsync(cancellationToken);
     }

@@ -115,20 +115,20 @@ internal static class TeacherHelpers
     {
         return new List<TermDateDto>()
         {
-            new TermDateDto(new DateOnly(2023, 1, 30), new DateOnly(2023, 4, 1)),
-            new TermDateDto(new DateOnly(2023, 4, 15), new DateOnly(2023, 6, 30)),
-            new TermDateDto(new DateOnly(2023, 7, 14), new DateOnly(2023, 9, 25)),
-            new TermDateDto(new DateOnly(2023, 10, 10), new DateOnly(2023, 12, 15)),
+            new TermDateDto("2023- 1- 30", "2023- 4- 1"),
+            new TermDateDto("2023- 4- 15", "2023- 6- 30"),
+            new TermDateDto("2023- 7- 14", "2023- 9- 25"),
+            new TermDateDto("2023- 10- 10", "2023- 12- 15")
         };
     }
 
     internal static List<TermDateDto> CreateTermDateDtosWithOverlappingDates() {
         return new List<TermDateDto>()
         {
-            new TermDateDto(new DateOnly(2023, 1, 30), new DateOnly(2023, 4, 1)),
-            new TermDateDto(new DateOnly(2023, 3, 15), new DateOnly(2023, 6, 30)),
-            new TermDateDto(new DateOnly(2023, 7, 14), new DateOnly(2023, 9, 25)),
-            new TermDateDto(new DateOnly(2023, 10, 10), new DateOnly(2023, 12, 15)),
+            new TermDateDto("2023- 1- 30", "2023- 4- 1"),
+            new TermDateDto("2023- 4- 15", "2023- 6- 30"),
+            new TermDateDto("2023- 7- 14", "2023- 9- 25"),
+            new TermDateDto("2023- 10- 10", "2023- 12- 15")
         };
 
     }
@@ -151,16 +151,16 @@ internal static class TeacherHelpers
 
     internal static AccountSetupRequest CreateAccountSetupRequest()
     {
-        return new AccountSetupRequest(CreateSubjectNames(), CreateDayPlanPatternDto(), CreateTermDateDtos(), 2023);
+        return new AccountSetupRequest(CreateSubjectNames(), CreateDayPlanPatternDto(), CreateTermDateDtos());
     }
     internal static AccountSetupRequest CreateAccountSetupRequestWithOverlappingTimes()
     {
-        return new AccountSetupRequest(CreateSubjectNames(), CreateDayPlanPatternDtoWithOverlappingTimes(), CreateTermDateDtos(), 2023);
+        return new AccountSetupRequest(CreateSubjectNames(), CreateDayPlanPatternDtoWithOverlappingTimes(), CreateTermDateDtos());
     }
 
     internal static AccountSetupRequest CreateAccountSetupRequestWithOverlappingDates()
     {
-        return new AccountSetupRequest(CreateSubjectNames(), CreateDayPlanPatternDto(), CreateTermDateDtosWithOverlappingDates(), 2023);
+        return new AccountSetupRequest(CreateSubjectNames(), CreateDayPlanPatternDto(), CreateTermDateDtosWithOverlappingDates());
     }
 
     internal static List<CurriculumSubject> CreateCurriculumSubjects(List<string> subjectNames)

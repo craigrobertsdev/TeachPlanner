@@ -3,5 +3,4 @@
 public record AccountSetupRequest(
     List<string> SubjectsTaught,
     DayPlanPatternDto DayPlanPattern,
-    List<TermDateDto> TermDates,
-    int? CalendarYear);
+    List<TermDateDto> TermDates);

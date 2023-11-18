@@ -10,8 +10,8 @@ export type TermDates = {
 };
 
 export type DayPlanPattern = {
-  lessons: LessonTemplate[];
-  breaks: BreakTemplate[];
+  lessonTemplates: LessonTemplate[];
+  breakTemplates: BreakTemplate[];
 };
 
 export type LessonTemplate = {
@@ -24,7 +24,7 @@ export type BreakTemplate = LessonTemplate & {
 };
 
 export type PeriodTime = {
-  hour: number;
-  minute: number;
+  hours: number;
+  minutes: number;
   period: string;
 };
