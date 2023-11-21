@@ -2,5 +2,6 @@
 
 public record AccountSetupRequest(
     List<string> SubjectsTaught,
+    List<string> YearLevelsTaught,
     DayPlanPatternDto DayPlanPattern,
     List<TermDateDto> TermDates);

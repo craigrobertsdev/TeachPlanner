@@ -6,20 +6,24 @@ export default {
     extend: {
       colors: {
         // core colors
-        primary: "#EEE6DE",
+        primary: "#f5f5f7",
+        main: "#EEE6DE",
         sage: "#90AEB2",
         darkGreen: "#37514D",
         peach: "#DD8E75",
         ceramic: "#B6594C",
         // hover
-        primaryHover: "#E0D8D0",
+        primaryHover: "#9c938a",
         sageHover: "#A3C1C5",
         darkGreenHover: "#2E3F3C",
         peachHover: "#C97C5D",
         ceramicHover: "#A84F42",
         // focus
-        primaryFocus: "#9E9790",
+        primaryFocus: "#BAB1A8",
         sageFocus: "#6D9EA2",
+
+        // border
+        primaryFocusBorder: "#999188",
 
         // disabled
         primaryDisabled: "#F2EDE9",

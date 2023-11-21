@@ -30,7 +30,7 @@ public class YearDataRepository : IYearDataRepository
             .AsNoTracking()
             .FirstOrDefaultAsync(cancellationToken);
     }
-    public async Task SetInitialAccountDetails(Teacher teacher, List<CurriculumSubject> subjectsTaught, DayPlanTemplate dayPlanTemplate,
+    public async Task SetInitialAccountDetails(Teacher teacher, List<string> yearLevelsTaught, DayPlanTemplate dayPlanTemplate,
                List<TermDate> termDates, int calendarYear, CancellationToken cancellationToken)
     {
         var yearData = await _context.YearData
@@ -40,7 +40,7 @@ public class YearDataRepository : IYearDataRepository
 
         if (yearData is null)
         {
-            yearData = YearData.Create(teacher.Id, calendarYear);
+            yearData = YearData.Create(teacher.Id, calendarYear, yearLevelsTaught);
             teacher.AddYearData(YearDataEntry.Create(calendarYear, yearData.Id));
             _context.YearData.Add(yearData);
         }

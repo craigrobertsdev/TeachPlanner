@@ -1,5 +1,6 @@
 export type AccountDetails = {
   subjectsTaught: string[];
+  yearLevelsTaught: string[];
   dayPlanPattern: DayPlanPattern;
   termDates: TermDates[];
 };

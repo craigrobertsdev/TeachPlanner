@@ -1,25 +1,29 @@
 import { useEffect, useState } from "react";
 import useAuth from "../contexts/AuthContext";
 import curriculumService from "../services/CurriculumService";
-import DayPlanTemplateCreator from "../components/common/DayPlanTemplateCreator";
+import DayPlanTemplateCreator from "../components/account/DayPlanTemplateCreator";
 import Button from "../components/common/Button";
-import TermDatesCreator from "../components/common/TermDatesCreator";
+import TermDatesCreator from "../components/account/TermDatesCreator";
 import ValidationError from "../components/common/ValidationError";
 import TeacherService from "../services/TeacherService";
 import { AccountDetails, BreakTemplate, DayPlanPattern, LessonTemplate, TermDates } from "../types/Account";
 import { useNavigate } from "react-router-dom";
+import YearLevelPicker from "../components/account/YearLevelPicker";
 
 function AccountSetup() {
   const { teacher, token } = useAuth();
+  const [plannerYear, setPlannerYear] = useState(new Date().getFullYear());
   const [subjectsTaught, setSubjectsTaught] = useState<string[]>([]);
   const [subjects, setSubjects] = useState<string[]>([]);
   const [termDates, setTermDates] = useState<TermDates[]>(
     Array.from({ length: 4 }, () => ({ startDate: new Date(), endDate: new Date() }) as TermDates)
   ); // [startDate, endDate]
+  const [yearLevelsTaught, setYearLevelsTaught] = useState<string[]>([]);
   const [lessonTemplates, setLessonTemplates] = useState<LessonTemplate[]>([]);
   const [breakTemplates, setBreakTemplates] = useState<BreakTemplate[]>([]);
   const [validationErrors, setValidationErrors] = useState<string[]>([]);
   const navigate = useNavigate();
+  const calendarYears = [new Date().getFullYear(), new Date().getFullYear() + 1];
 
   useEffect(() => {
     async function getSubjects() {
@@ -48,31 +52,35 @@ function AccountSetup() {
     return <p>loading...</p>;
   }
 
+  function handleYearLevelChange(event: React.ChangeEvent<HTMLSelectElement>) {
+    setPlannerYear(+event.target.value);
+  }
+
   async function setupAccount() {
     clearValidationErrors();
     validateSubjectsTaught();
     validatePeriodTimes();
     validateTermDates();
+    validateYearLevelsTaught();
 
     const dayPlanPattern: DayPlanPattern = {
       lessonTemplates,
       breakTemplates,
     };
 
-    if (validationErrors.length) {
+    if (validationErrors.length > 0) {
       return;
     }
 
     const accountDetails: AccountDetails = {
       subjectsTaught,
+      yearLevelsTaught,
       dayPlanPattern,
       termDates,
     };
 
-    console.log(JSON.stringify(accountDetails, null, 4));
-
     try {
-      const response = await TeacherService.setupAccount(accountDetails, teacher!, token!);
+      const response = await TeacherService.setupAccount(accountDetails, plannerYear, teacher!, token!);
       console.log(response);
       navigate("/teacher/week-planner", { replace: true });
     } catch (error) {
@@ -110,6 +118,12 @@ function AccountSetup() {
     });
   }
 
+  function validateYearLevelsTaught() {
+    if (yearLevelsTaught.length === 0) {
+      setValidationErrors((prev) => [...prev, "You must select at least one year level"]);
+    }
+  }
+
   function periodsOverlap(lessonTemplate: LessonTemplate, index: number) {
     if (index >= lessonTemplates.length - 1) {
       return false;
@@ -130,26 +144,38 @@ function AccountSetup() {
   }
 
   return (
-    <div className="w-full px-4 text-center">
+    <div className="w-full px-4 flex flex-col items-center text-center">
       <h1 className="text-3xl p-4">Welcome {teacher.firstName}!</h1>
       <h2 className="text-2xl">To get you started, we need to set up a few things first</h2>
       <br />
       <br />
-      <div className="w-full flex justify-center p-2 pb-4 border-b border-darkGreen">
-        <div className="">
+      <div className="w-full mb-2 p-2 pb-4 border-b border-darkGreen">
+        <h3 className="text-xl pb-2">What year are you setting your planner up for?</h3>
+        <select className="text-center p-1 text-lg font-semibold border border-darkGreen" onChange={handleYearLevelChange}>
+          <option value={calendarYears[0]}>{calendarYears[0]}</option>
+          <option value={calendarYears[1]}>{calendarYears[1]}</option>
+        </select>
+      </div>
+      <div className="w-full flex justify-around border-b border-darkGreen">
+        <div className="w-1/3 ml-auto p-2 pb-4">
           <h3 className="text-xl pb-2">What subjects do you teach?</h3>
-          {/* <Dropdown placeholder="Select all subjects you teach" onChange={handleSubjectChange} options={subjects} multiSelect /> */}
-          <div className="border border-darkGreen rounded-md p-2">
-            {subjects.map((subject) => (
+          <div className="flex flex-col bg-main border border-darkGreen rounded-md">
+            {subjects.map((subject, idx) => (
               <p
                 key={subject}
-                className={`hover:bg-primaryHover hover:cursor-default ${isSelected(subject) && "bg-primaryFocus"} text-lg my-1 px-2`}
+                className={`hover:bg-primaryHover hover:cursor-default ${
+                  isSelected(subject) && "bg-primaryFocus outline outline-1 outline-primaryFocusBorder"
+                } ${idx === 0 && "rounded-t-md"} ${idx === subjects.length - 1 && "rounded-b-md"} text-lg`}
                 onClick={() => handleSubjectChange(subject)}>
                 {subject}
               </p>
             ))}
           </div>
         </div>
+        <div className="w-1/3 mr-auto flex-col items-center p-2 pb-4">
+          <YearLevelPicker yearLevelsTaught={yearLevelsTaught} setYearLevelsTaught={setYearLevelsTaught} />
+        </div>
+        di
       </div>
       <br />
       <br />

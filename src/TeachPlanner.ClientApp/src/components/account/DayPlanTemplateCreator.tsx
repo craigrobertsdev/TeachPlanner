@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import TimePicker from "./TimePicker";
+import TimePicker from "../common/TimePicker";
 
 type DayPlanTemplateCreatorProps = {
   breakTemplates: BreakTemplate[];
@@ -298,7 +298,7 @@ function TemplateLessonHeader({ index, value, onChange }: LessonHeaderProps) {
   return (
     <div
       id={`lesson-${index}`}
-      className={`flex items-center justify-center border-2 m-1 border-darkGreen rounded-md text-center text-lg font-semibold p-2`}>
+      className={`flex items-center justify-center border-2 m-1 bg-main border-darkGreen rounded-md text-center text-lg font-semibold p-2`}>
       <div>
         <h3>Lesson {index + 1}</h3>
         <div className="text-center flex flex-col items-center">
@@ -341,9 +341,9 @@ function TemplateBreakHeader({ index, value, onChange }: BreakHeaderProps) {
   return (
     <div
       id={`break-${index}`}
-      className={`flex items-center justify-center border-2 m-1 border-darkGreen rounded-md text-center text-lg font-semibold p-2`}>
+      className={`flex items-center justify-center border-2 m-1 bg-main border-darkGreen rounded-md text-center text-lg font-semibold p-2`}>
       <div>
-        <input className="text-center border rounded-md" value={value.name} placeholder="Break name" onChange={onNameChange} />
+        <input className="text-center border rounded-md border-darkGreen" value={value.name} placeholder="Break name" onChange={onNameChange} />
         <div className="text-center flex flex-col items-center">
           <div className="flex flex-col p-2">
             <p>Start Time:</p>

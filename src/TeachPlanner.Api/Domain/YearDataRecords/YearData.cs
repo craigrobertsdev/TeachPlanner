@@ -45,6 +45,15 @@ public class YearData : Entity<YearDataId>, IAggregateRoot
         _students = students;
     }
 
+    private YearData(YearDataId id, TeacherId teacherId, int calendarYear, List<string> yearLevels) : base(id)
+    {
+        TeacherId = teacherId;
+        CalendarYear = calendarYear;
+        var yearLevelEnums = yearLevels.Select(Enum.Parse<YearLevelValue>).ToList();
+        yearLevelEnums.Sort();
+        _yearLevelsTaught = yearLevelEnums;
+    }
+
     public static YearData Create(TeacherId teacherId, int calendarYear)
     {
         var yearData = new YearData(new YearDataId(Guid.NewGuid()), teacherId, calendarYear);
@@ -54,9 +63,9 @@ public class YearData : Entity<YearDataId>, IAggregateRoot
         return yearData;
     }
 
-    public static YearData Create(TeacherId teacherId, int calendarYear, List<Student> students)
+    public static YearData Create(TeacherId teacherId, int calendarYear, List<string> yearLevels)
     {
-        var yearData = new YearData(new YearDataId(Guid.NewGuid()), teacherId, calendarYear, students);
+        var yearData = new YearData(new YearDataId(Guid.NewGuid()), teacherId, calendarYear, yearLevels);
 
         yearData.AddDomainEvent(new YearDataCreatedDomainEvent(Guid.NewGuid(), yearData.Id, calendarYear, teacherId));
 

@@ -69,10 +69,11 @@ public class AccountSetupTests
     {
         // Arrange
         var subjectsTaught = TeacherHelpers.CreateSubjectNames();
+        var yearLevelsTaught = TeacherHelpers.CreateYearLevelsTaught();
         var termDates = TeacherHelpers.CreateTermDates();
         var dayPlanTemplate = TeacherHelpers.CreateDayPlanTemplate(_dayPlanPatternDto);
         dayPlanTemplate.Periods[0].StartTime.AddHours(-9);
-        var command = new AccountSetup.Command(subjectsTaught, dayPlanTemplate, termDates, new TeacherId(Guid.NewGuid()), 2023);
+        var command = new AccountSetup.Command(subjectsTaught, yearLevelsTaught, dayPlanTemplate, termDates, new TeacherId(Guid.NewGuid()), 2023);
         var handler = new AccountSetup.Handler(_teacherRepository, _curriculumRepository, _yearDataRepository, _unitOfWork);
 
         // Act
@@ -87,10 +88,11 @@ public class AccountSetupTests
     {
         // Arrange
         var subjectsTaught = TeacherHelpers.CreateSubjectNames();
+        var yearLevelsTaught = TeacherHelpers.CreateYearLevelsTaught();
         var termDates = TeacherHelpers.CreateTermDates();
         var dayPlanTemplate = TeacherHelpers.CreateDayPlanTemplate(_dayPlanPatternDto);
         dayPlanTemplate.Periods[0].StartTime.AddHours(1);
-        var command = new AccountSetup.Command(subjectsTaught, dayPlanTemplate, termDates, new TeacherId(Guid.NewGuid()), 2023);
+        var command = new AccountSetup.Command(subjectsTaught, yearLevelsTaught, dayPlanTemplate, termDates, new TeacherId(Guid.NewGuid()), 2023);
         var handler = new AccountSetup.Handler(_teacherRepository, _curriculumRepository, _yearDataRepository, _unitOfWork);
 
         // Act
@@ -148,6 +150,7 @@ public class AccountSetupTests
         // Arrange
         var subjects = TeacherHelpers.CreateSubjectNames();
         var dayPlanTemplate = TeacherHelpers.CreateDayPlanTemplate(_dayPlanPatternDto);
+        var yearLevelsTaught = TeacherHelpers.CreateYearLevelsTaught();
         var termDates = TeacherHelpers.CreateTermDates();
         var teacher = TeacherHelpers.CreateTeacher();
         var subjectsTaught = TeacherHelpers.CreateCurriculumSubjects(subjects);
@@ -158,7 +161,7 @@ public class AccountSetupTests
         A.CallTo(() => _curriculumRepository.GetSubjectsByName(subjects, A<CancellationToken>._))
             .Returns(subjectsTaught);
 
-        var command = new AccountSetup.Command(subjects, dayPlanTemplate, termDates, teacher.Id, 2023);
+        var command = new AccountSetup.Command(subjects, yearLevelsTaught, dayPlanTemplate, termDates, teacher.Id, 2023);
         var handler = new AccountSetup.Handler(_teacherRepository, _curriculumRepository, _yearDataRepository, _unitOfWork);
 
         // Act

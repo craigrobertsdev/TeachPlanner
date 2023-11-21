@@ -151,20 +151,25 @@ internal static class TeacherHelpers
 
     internal static AccountSetupRequest CreateAccountSetupRequest()
     {
-        return new AccountSetupRequest(CreateSubjectNames(), CreateDayPlanPatternDto(), CreateTermDateDtos());
+        return new AccountSetupRequest(CreateSubjectNames(), CreateYearLevelsTaught(), CreateDayPlanPatternDto(), CreateTermDateDtos());
     }
     internal static AccountSetupRequest CreateAccountSetupRequestWithOverlappingTimes()
     {
-        return new AccountSetupRequest(CreateSubjectNames(), CreateDayPlanPatternDtoWithOverlappingTimes(), CreateTermDateDtos());
+        return new AccountSetupRequest(CreateSubjectNames(), CreateYearLevelsTaught(), CreateDayPlanPatternDtoWithOverlappingTimes(), CreateTermDateDtos());
     }
 
     internal static AccountSetupRequest CreateAccountSetupRequestWithOverlappingDates()
     {
-        return new AccountSetupRequest(CreateSubjectNames(), CreateDayPlanPatternDto(), CreateTermDateDtosWithOverlappingDates());
+        return new AccountSetupRequest(CreateSubjectNames(), CreateYearLevelsTaught(), CreateDayPlanPatternDto(), CreateTermDateDtosWithOverlappingDates());
     }
 
     internal static List<CurriculumSubject> CreateCurriculumSubjects(List<string> subjectNames)
     {
         return subjectNames.Select(subjectNames => CurriculumSubject.Create(subjectNames, new())).ToList();
+    }
+
+    internal static List<string> CreateYearLevelsTaught()
+    {
+        return new List<string> { "Year 1", "Year 2" };
     }
 }

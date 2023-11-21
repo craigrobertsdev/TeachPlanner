@@ -15,7 +15,6 @@ import LessonPlans from "./pages/planner/LessonPlans.tsx";
 import Settings from "./pages/Settings.tsx";
 import Register from "./pages/Register.tsx";
 import AccountSetup from "./pages/AccountSetup.tsx";
-import LaunchPad from "./pages/LaunchPad.tsx";
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
@@ -27,7 +26,6 @@ export const router = createBrowserRouter(
       </Route>
 
       <Route path="/teacher" element={<ProtectedLayout />}>
-        <Route path="" element={<LaunchPad />} />
         <Route path="account" element={<AccountSetup />} />
         <Route path="week-planner" loader={weekPlannerLoader} element={<WeekPlanner />} />
         <Route path="lesson-plans">

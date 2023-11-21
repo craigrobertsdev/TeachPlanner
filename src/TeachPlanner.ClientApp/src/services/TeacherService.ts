@@ -20,6 +20,7 @@ class TeacherService {
       headers: {
         "Content-Type": "application/json",
       },
+      mode: "cors",
       body: JSON.stringify({ email, password }),
     });
 
@@ -88,8 +89,8 @@ class TeacherService {
     return data as TeacherSettings;
   }
 
-  async setupAccount(accountDetails: AccountDetails, teacher: Teacher, token: string) {
-    const request = new Request(`${baseUrl}/${teacher.id}/setup?calendarYear=${new Date().getFullYear()}`, {
+  async setupAccount(accountDetails: AccountDetails, plannerYear: number, teacher: Teacher, token: string) {
+    const request = new Request(`${baseUrl}/${teacher.id}/setup?calendarYear=${plannerYear}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
