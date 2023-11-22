@@ -14,6 +14,7 @@ public class SetSubjectsTaughtTests
     private readonly IYearDataRepository _yearDataRepository;
     private readonly ICurriculumService _curriculumService;
     private readonly ISubjectRepository _subjectRepository;
+    private readonly ICurriculumRepository _curriculumRepository;
 
     public SetSubjectsTaughtTests()
     {
@@ -21,8 +22,9 @@ public class SetSubjectsTaughtTests
         _subjectRepository = A.Fake<ISubjectRepository>();
         _yearDataRepository = A.Fake<IYearDataRepository>();
         _curriculumService = A.Fake<ICurriculumService>();
-
+        _curriculumRepository = A.Fake<ICurriculumRepository>();
     }
+
     [Fact]
     public async void Handle_WhenPassedListOfUntaughtSubjects_ShouldSendWholeListToRepository()
     {
@@ -34,14 +36,13 @@ public class SetSubjectsTaughtTests
         var command = new SetSubjectsTaught.Command(teacher.Id, subjects.Select(s => s.Id).ToList(), 2023);
 
         A.CallTo(() => _yearDataRepository.GetByTeacherIdAndYear(teacher.Id, 2023, A<CancellationToken>._)).Returns(yearData);
-        A.CallTo(() => _subjectRepository.GetSubjectsById(command.SubjectIds, false, A<CancellationToken>._)).Returns(subjects);
+        A.CallTo(() => _curriculumService.CurriculumSubjects).Returns(subjects);    
 
         // Act
         await handler.Handle(command, CancellationToken.None);
 
         // Assert
-        A.CallTo(() => _subjectRepository.GetSubjectsById(command.SubjectIds, false, CancellationToken.None)).MustHaveHappenedOnceExactly();
-        yearData.Subjects.Should().BeEquivalentTo(subjects);
+        yearData.Subjects.Count.Should().Be(subjects.Count);
     }
 
     [Fact]
@@ -58,12 +59,12 @@ public class SetSubjectsTaughtTests
         var command = new SetSubjectsTaught.Command(teacher.Id, subjects.Select(s => s.Id).ToList(), 2023);
 
         A.CallTo(() => _yearDataRepository.GetByTeacherIdAndYear(teacher.Id, 2023, A<CancellationToken>._)).Returns(yearData);
-        A.CallTo(() => _subjectRepository.GetSubjectsById(command.SubjectIds, false, A<CancellationToken>._)).Returns(subjects);
+        A.CallTo(() => _curriculumService.CurriculumSubjects).Returns(subjects);    
 
         // Act
         await handler.Handle(command, CancellationToken.None);
 
         // Assert
-        yearData.Subjects.Should().BeEquivalentTo(subjects);
+        yearData.Subjects.Count.Should().Be(subjects.Count);
     }
 }

@@ -12,16 +12,6 @@ public class StrandCreationException : BaseException
     }
 }
 
-public class IsNonCurriculumSubjectException : BaseException
-{
-    public IsNonCurriculumSubjectException(CurriculumSubject subject) :
-        base($"Subject: {subject.Name}, {subject.Id} is not a curriculum subject",
-            400,
-            "Subject.IsNonCurriculumSubject")
-    {
-    }
-}
-
 public class InvalidCurriculumSubjectIdException : BaseException
 {
     public InvalidCurriculumSubjectIdException() :

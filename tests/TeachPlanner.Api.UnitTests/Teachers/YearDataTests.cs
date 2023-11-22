@@ -1,5 +1,4 @@
 ﻿using FluentAssertions;
-using TeachPlanner.Api.Common.Exceptions;
 using TeachPlanner.Api.Domain.Teachers;
 using TeachPlanner.Api.Domain.YearDataRecords;
 using TeachPlanner.Api.UnitTests.Helpers;
@@ -25,28 +24,14 @@ public class YearDataTests
     {
         // Arrange
         var yearData = YearData.Create(new TeacherId(Guid.NewGuid()), 2023);
-        var subjects = SubjectHelpers.CreateCurriculumSubjects();
-
-        // Act
-        yearData.AddSubjects(subjects);
-
-        // Assert
-        yearData.Subjects.Count.Should().Be(10);
-        yearData.Subjects.Should().BeEquivalentTo(subjects);
-    }
-
-    [Fact]
-    public void AddSubjects_WhenPassingNonCurriculumSubject_ShouldThrowException()
-    {
-        // Arrange
+        var curriculumSubjects = SubjectHelpers.CreateCurriculumSubjects();
         var subjects = SubjectHelpers.CreateSubjects();
-        var yearData = YearData.Create(new TeacherId(Guid.NewGuid()), 2023);
 
         // Act
-        Action act = () => yearData.AddSubjects(subjects);
+        yearData.AddSubjects(curriculumSubjects);
 
         // Assert
-        act.Should().Throw<IsNonCurriculumSubjectException>();
-
+        yearData.Subjects.Count.Should().Be(2);
+        yearData.Subjects.Should().BeEquivalentTo(subjects);
     }
 }

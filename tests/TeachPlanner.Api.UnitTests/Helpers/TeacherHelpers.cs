@@ -115,20 +115,20 @@ internal static class TeacherHelpers
     {
         return new List<TermDateDto>()
         {
-            new TermDateDto("2023- 1- 30", "2023- 4- 1"),
-            new TermDateDto("2023- 4- 15", "2023- 6- 30"),
-            new TermDateDto("2023- 7- 14", "2023- 9- 25"),
-            new TermDateDto("2023- 10- 10", "2023- 12- 15")
+            new TermDateDto("2023-01-30", "2023-04-01"),
+            new TermDateDto("2023-04-15", "2023-06-30"),
+            new TermDateDto("2023-07-14", "2023-09-25"),
+            new TermDateDto("2023-10-10", "2023-12-15")
         };
     }
 
     internal static List<TermDateDto> CreateTermDateDtosWithOverlappingDates() {
         return new List<TermDateDto>()
         {
-            new TermDateDto("2023- 1- 30", "2023- 4- 1"),
-            new TermDateDto("2023- 4- 15", "2023- 6- 30"),
-            new TermDateDto("2023- 7- 14", "2023- 9- 25"),
-            new TermDateDto("2023- 10- 10", "2023- 12- 15")
+            new TermDateDto("2023-01-30", "2023-04-01"),
+            new TermDateDto("2023-04-15", "2023-06-30"),
+            new TermDateDto("2023-07-14", "2023-09-25"),
+            new TermDateDto("2023-10-10", "2023-12-15")
         };
 
     }
