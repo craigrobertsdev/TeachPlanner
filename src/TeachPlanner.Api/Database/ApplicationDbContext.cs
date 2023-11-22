@@ -44,6 +44,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<TermPlanner> TermPlanners { get; set; } = null!;
     public DbSet<Calendar> Calendar { get; set; } = null!;
     public DbSet<YearData> YearData { get; set; } = null!;
+    public DbSet<TermDate> TermDates { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

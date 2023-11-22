@@ -1,7 +1,7 @@
 ﻿using FakeItEasy;
 using FluentAssertions;
-using TeachPlanner.Api.Common.Interfaces.Curriculum;
 using TeachPlanner.Api.Common.Interfaces.Persistence;
+using TeachPlanner.Api.Common.Interfaces.Services;
 using TeachPlanner.Api.Domain.Teachers;
 using TeachPlanner.Api.Domain.YearDataRecords;
 using TeachPlanner.Api.Features.YearDataRecords;

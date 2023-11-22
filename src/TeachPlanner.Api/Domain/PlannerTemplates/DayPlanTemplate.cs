@@ -7,7 +7,7 @@ public class DayPlanTemplate: Entity<DayPlanTemplateId>
     private readonly List<TemplatePeriod> _periods = new();
 
     public IReadOnlyList<TemplatePeriod> Periods => _periods.AsReadOnly();
-    public int NumberOfPeriods { get; private set; }
+    public int NumberOfPeriods => Periods.Count;
 
     private DayPlanTemplate(DayPlanTemplateId id, List<TemplatePeriod> periods) : base(id)
     {

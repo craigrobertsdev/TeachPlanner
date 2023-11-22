@@ -5,6 +5,7 @@ using Microsoft.IdentityModel.Tokens;
 using TeachPlanner.Api.Common.Interfaces.Authentication;
 using TeachPlanner.Api.Common.Interfaces.Curriculum;
 using TeachPlanner.Api.Common.Interfaces.Persistence;
+using TeachPlanner.Api.Common.Interfaces.Services;
 using TeachPlanner.Api.Database;
 using TeachPlanner.Api.Database.Repositories;
 using TeachPlanner.Api.Services;
@@ -18,8 +19,9 @@ public static class Infrastructure
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddPersistence(configuration);
+        services.AddServices();
         services.AddAuth(configuration);
-        services.AddCurriculum();
+        services.AddCurriculumParser();
         return services;
     }
 
@@ -48,7 +50,14 @@ public static class Infrastructure
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IWeekPlannerRepository, WeekPlannerRepository>();
         services.AddScoped<IYearDataRepository, YearDataRepository>();
+
+        return services;
+    }
+
+    private static IServiceCollection AddServices(this IServiceCollection services)
+    {
         services.AddSingleton<ICurriculumService, CurriculumService>();
+        services.AddSingleton<ITermDateService, TermDateService>();
 
         return services;
     }
@@ -81,7 +90,7 @@ public static class Infrastructure
         return services;
     }
 
-    private static IServiceCollection AddCurriculum(this IServiceCollection services)
+    private static IServiceCollection AddCurriculumParser(this IServiceCollection services)
     {
         services.AddScoped<ICurriculumParser, CurriculumParser>();
         return services;

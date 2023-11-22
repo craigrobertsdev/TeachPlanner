@@ -158,11 +158,11 @@ public static class AccountSetup
 
     private static List<TermDate> ParseTermDates(List<TermDateDto> termDates)
     {
-        return termDates.Select(td => {
+        return termDates.Select((td, i) => {
             var startDate = DateOnly.Parse(td.StartDate.Substring(0, 10));
             var endDate = DateOnly.Parse(td.EndDate.Substring(0, 10));
 
-            return new TermDate(startDate, endDate);
+            return new TermDate(i + 1, startDate, endDate);
         }).ToList();
     }
 }

@@ -1,6 +1,7 @@
 ﻿using TeachPlanner.Api.Features.Authentication;
 using TeachPlanner.Api.Features.Curriculum;
 using TeachPlanner.Api.Features.LessonPlans;
+using TeachPlanner.Api.Features.Services;
 using TeachPlanner.Api.Features.Subjects;
 using TeachPlanner.Api.Features.Teachers;
 using TeachPlanner.Api.Features.TermPlanners;
@@ -23,6 +24,7 @@ public static class RouteMapper
             .MapAssessments()
             .MapCurriculum()
             .MapLessonPlans()
+            .MapServices()
             .MapStudents()
             .MapSubjects()
             .MapTeachers()
@@ -63,6 +65,14 @@ public static class RouteMapper
         lessonPlanGroup.MapPost("/", CreateLessonPlan.Delegate);
 
         return group;
+    }
+
+    private static RouteGroupBuilder MapServices(this RouteGroupBuilder group)
+    {
+        var serviceGroup = group.MapGroup("/services");
+        serviceGroup.MapPost("/term-dates", SetTermDates.Delegate);
+
+        return serviceGroup;
     }
 
     private static RouteGroupBuilder MapStudents(this RouteGroupBuilder group)

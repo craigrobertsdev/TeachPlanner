@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel;
-using TeachPlanner.Api.Common.Interfaces.Curriculum;
-using TeachPlanner.Api.Common.Interfaces.Persistence;
+using TeachPlanner.Api.Common.Interfaces.Services;
 using TeachPlanner.Api.Database;
 using TeachPlanner.Api.Domain.CurriculumSubjects;
 

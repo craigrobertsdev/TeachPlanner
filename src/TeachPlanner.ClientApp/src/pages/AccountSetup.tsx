@@ -3,10 +3,9 @@ import useAuth from "../contexts/AuthContext";
 import curriculumService from "../services/CurriculumService";
 import DayPlanTemplateCreator from "../components/account/DayPlanTemplateCreator";
 import Button from "../components/common/Button";
-import TermDatesCreator from "../components/account/TermDatesCreator";
 import ValidationError from "../components/common/ValidationError";
 import TeacherService from "../services/TeacherService";
-import { AccountDetails, BreakTemplate, DayPlanPattern, LessonTemplate, TermDates } from "../types/Account";
+import { AccountDetails, BreakTemplate, DayPlanPattern, LessonTemplate } from "../types/Account";
 import { useNavigate } from "react-router-dom";
 import YearLevelPicker from "../components/account/YearLevelPicker";
 
@@ -15,9 +14,6 @@ function AccountSetup() {
   const [plannerYear, setPlannerYear] = useState(new Date().getFullYear());
   const [subjectsTaught, setSubjectsTaught] = useState<string[]>([]);
   const [subjects, setSubjects] = useState<string[]>([]);
-  const [termDates, setTermDates] = useState<TermDates[]>(
-    Array.from({ length: 4 }, () => ({ startDate: new Date(), endDate: new Date() }) as TermDates)
-  ); // [startDate, endDate]
   const [yearLevelsTaught, setYearLevelsTaught] = useState<string[]>([]);
   const [lessonTemplates, setLessonTemplates] = useState<LessonTemplate[]>([]);
   const [breakTemplates, setBreakTemplates] = useState<BreakTemplate[]>([]);
@@ -59,7 +55,6 @@ function AccountSetup() {
     clearValidationErrors();
     validateSubjectsTaught();
     validatePeriodTimes();
-    validateTermDates();
     validateYearLevelsTaught();
 
     const dayPlanPattern: DayPlanPattern = {
@@ -75,10 +70,10 @@ function AccountSetup() {
       subjectsTaught,
       yearLevelsTaught,
       dayPlanPattern,
-      termDates,
     };
 
     try {
+      console.log(accountDetails);
       const response = await TeacherService.setupAccount(accountDetails, plannerYear, teacher!, token!);
       console.log(response);
       navigate("/teacher/week-planner", { replace: true });
@@ -101,18 +96,6 @@ function AccountSetup() {
     lessonTemplates.forEach((lessonTemplate, index) => {
       if (periodsOverlap(lessonTemplate, index)) {
         setValidationErrors((prev) => [...prev, `Lesson times overlap between periods ${index + 1} and ${index + 2}`]);
-      }
-    });
-  }
-
-  function validateTermDates() {
-    termDates.forEach((termDate, index) => {
-      if (termDate.startDate > termDate.endDate) {
-        setValidationErrors((prev) => [...prev, `Term ${index + 1} start date must be before end date`]);
-      }
-
-      if (termDates[index - 1] && termDate.startDate < termDates[index - 1].endDate) {
-        setValidationErrors((prev) => [...prev, `Term ${index + 1} start date must be after term ${index} end date`]);
       }
     });
   }
@@ -187,9 +170,6 @@ function AccountSetup() {
           setBreakTemplates={setBreakTemplates}
           setLessonTemplates={setLessonTemplates}
         />
-      </div>
-      <div className="w-1/2 m-auto flex-col items-center mb-2 p-2 pb-4">
-        <TermDatesCreator termDates={termDates} setTermDates={setTermDates} />
       </div>
       <ValidationError errors={validationErrors} />
       <Button onClick={setupAccount} variant="submit" classList="mb-2">

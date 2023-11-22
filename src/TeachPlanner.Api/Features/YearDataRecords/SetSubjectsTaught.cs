@@ -1,8 +1,8 @@
 ﻿using FluentValidation;
 using MediatR;
 using TeachPlanner.Api.Common.Exceptions;
-using TeachPlanner.Api.Common.Interfaces.Curriculum;
 using TeachPlanner.Api.Common.Interfaces.Persistence;
+using TeachPlanner.Api.Common.Interfaces.Services;
 using TeachPlanner.Api.Domain.CurriculumSubjects;
 using TeachPlanner.Api.Domain.Teachers;
 

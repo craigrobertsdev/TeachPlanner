@@ -1,6 +1,6 @@
 using TeachPlanner.Api.Domain.CurriculumSubjects;
 
-namespace TeachPlanner.Api.Common.Interfaces.Curriculum;
+namespace TeachPlanner.Api.Common.Interfaces.Services;
 
 public interface ICurriculumService
 {
