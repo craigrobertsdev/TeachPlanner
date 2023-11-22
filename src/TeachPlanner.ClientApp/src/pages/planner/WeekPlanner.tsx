@@ -273,5 +273,9 @@ export async function weekPlannerLoader(): Promise<WeekPlannerData> {
     signal: abortController.signal,
   });
 
+  if (!response.ok) {
+    return new Promise((resolve, _) => resolve({ weekPlanPattern: { pattern: [] }, dayPlans: [], weekNumber, termNumber, year } as WeekPlannerData));
+  }
+
   return response.json() as Promise<WeekPlannerData>;
 }

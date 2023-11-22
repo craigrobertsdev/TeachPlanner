@@ -1,5 +1,8 @@
-﻿using TeachPlanner.Api.Common.Interfaces.Curriculum;
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel;
+using TeachPlanner.Api.Common.Interfaces.Curriculum;
 using TeachPlanner.Api.Common.Interfaces.Persistence;
+using TeachPlanner.Api.Database;
 using TeachPlanner.Api.Domain.CurriculumSubjects;
 
 namespace TeachPlanner.Api.Services;
@@ -15,16 +18,22 @@ public sealed class CurriculumService : ICurriculumService
     public CurriculumService(IServiceProvider serviceProvider)
     {
         _serviceProvider = serviceProvider;
-        LoadCurriculumSubjects();
+        CurriculumSubjects = Task.Run(LoadCurriculumSubjects).Result;
     }
 
     public List<CurriculumSubject> CurriculumSubjects { get; } = new();
 
-    private async void LoadCurriculumSubjects()
+    private async Task<List<CurriculumSubject>> LoadCurriculumSubjects()
     {
-        var subjectRepository = _serviceProvider.GetRequiredService<ISubjectRepository>();
-        var subjects = await subjectRepository.GetCurriculumSubjects(true, CancellationToken.None);
+        using var scope = _serviceProvider.CreateScope();
+        var _context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+        var subjects = await _context.CurriculumSubjects.ToListAsync();
+        return subjects;
 
-        CurriculumSubjects.AddRange(subjects);
+    }
+
+    public List<string> GetSubjectNames()
+    {
+        return CurriculumSubjects.Select(x => x.Name).ToList();
     }
 }

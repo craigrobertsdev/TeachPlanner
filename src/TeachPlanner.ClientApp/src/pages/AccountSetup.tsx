@@ -27,9 +27,8 @@ function AccountSetup() {
 
   useEffect(() => {
     async function getSubjects() {
-      const abortController = new AbortController();
-      const subjectData = await curriculumService.getSubjects({}, teacher!, token!, abortController);
-      setSubjects(subjectData.map((subject) => subject.name));
+      const subjectData = await curriculumService.getSubjectNames(teacher!, token!);
+      setSubjects(subjectData.subjectNames);
     }
 
     getSubjects();

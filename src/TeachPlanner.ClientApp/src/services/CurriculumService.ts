@@ -50,6 +50,20 @@ class CurriculumService {
   async saveTermSubjects(subjects: TermPlan[]) {
     throw new Error("Not implemented");
   }
+
+  async getSubjectNames(teacher: Teacher, token: string) {
+    const request = new Request(`${baseUrl}/${teacher.id}/curriculum/subject-names`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    const response = await fetch(request);
+
+    const data = await response.json();
+
+    return data as { subjectNames: string[] };
+  }
 }
 
 export default new CurriculumService();

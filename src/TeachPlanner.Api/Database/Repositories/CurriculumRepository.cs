@@ -26,6 +26,11 @@ public class CurriculumRepository : ICurriculumRepository
         foreach (var subject in subjects) _context.CurriculumSubjects.Add(subject);
     }
 
+    public async Task<List<CurriculumSubject>> GetAllSubjects()
+    {
+        return await _context.CurriculumSubjects.ToListAsync();
+    }
+
     public async Task<List<CurriculumSubject>> GetSubjectsById(List<SubjectId> subjectIds, CancellationToken cancellationToken)
     {
         return await _context.CurriculumSubjects

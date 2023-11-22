@@ -52,6 +52,7 @@ public static class RouteMapper
     {
         var curriculumGroup = group.MapGroup("/curriculum");
         curriculumGroup.MapPost("/parse-curriculum", ParseCurriculum.Delegate);
+        curriculumGroup.MapGet("/subject-names", GetCurriculumSubjectNames.Delegate);
         
         return group;
     }
