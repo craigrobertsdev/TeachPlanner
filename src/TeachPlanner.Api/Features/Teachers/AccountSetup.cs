@@ -13,9 +13,8 @@ namespace TeachPlanner.Api.Features.Teachers;
 public static class AccountSetup
 {
     public async static Task<IResult> Delegate([FromRoute] Guid teacherId, [FromBody] AccountSetupRequest request, [FromQuery] int calendarYear, ISender sender, Validator validator, CancellationToken cancellationToken) {
-        var termDates = ParseTermDates(request.TermDates);
         var dayPlanTemplate = CreateDayPlanTemplate(request.DayPlanPattern);
-        var command = new Command(request.SubjectsTaught, request.YearLevelsTaught, dayPlanTemplate, termDates, new TeacherId(teacherId), calendarYear);
+        var command = new Command(request.SubjectsTaught, request.YearLevelsTaught, dayPlanTemplate, new TeacherId(teacherId), calendarYear);
 
         var validationResult = await validator.ValidateAsync(command, cancellationToken);
 
@@ -29,7 +28,7 @@ public static class AccountSetup
         return Results.Ok();
     }
 
-    public record Command(List<string> SubjectsTaught, List<string> YearLevelsTaught, DayPlanTemplate DayPlanTemplate, List<TermDate> TermDates, TeacherId TeacherId, int CalendarYear): IRequest;
+    public record Command(List<string> SubjectsTaught, List<string> YearLevelsTaught, DayPlanTemplate DayPlanTemplate, TeacherId TeacherId, int CalendarYear): IRequest;
 
     public class Validator : AbstractValidator<Command>
     {
@@ -37,7 +36,6 @@ public static class AccountSetup
         {
             RuleFor(x => x.SubjectsTaught).NotEmpty();
             RuleFor(x => x.DayPlanTemplate).NotNull();
-            RuleFor(x => x.TermDates.Count).Equals(4);
         }
     }
 
@@ -71,7 +69,7 @@ public static class AccountSetup
 
             teacher.SetSubjectsTaught(subjectsTaught);
 
-            await _yearDataRepository.SetInitialAccountDetails(teacher, request.YearLevelsTaught, request.DayPlanTemplate, request.TermDates, request.CalendarYear, cancellationToken);
+            await _yearDataRepository.SetInitialAccountDetails(teacher, request.YearLevelsTaught, request.DayPlanTemplate, request.CalendarYear, cancellationToken);
             await _unitOfWork.SaveChangesAsync(cancellationToken);
         }
 

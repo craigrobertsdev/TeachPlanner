@@ -1,4 +1,4 @@
-import { AccountDetails } from "../types/Account";
+import { AccountDetails, TermDates } from "../types/Account";
 import { baseUrl } from "../utils/constants";
 
 type TeacherResponse = {

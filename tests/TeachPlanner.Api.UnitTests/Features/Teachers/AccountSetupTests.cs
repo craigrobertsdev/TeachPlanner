@@ -73,7 +73,7 @@ public class AccountSetupTests
         var termDates = TeacherHelpers.CreateTermDates();
         var dayPlanTemplate = TeacherHelpers.CreateDayPlanTemplate(_dayPlanPatternDto);
         dayPlanTemplate.Periods[0].StartTime.AddHours(-9);
-        var command = new AccountSetup.Command(subjectsTaught, yearLevelsTaught, dayPlanTemplate, termDates, new TeacherId(Guid.NewGuid()), 2023);
+        var command = new AccountSetup.Command(subjectsTaught, yearLevelsTaught, dayPlanTemplate, new TeacherId(Guid.NewGuid()), 2023);
         var handler = new AccountSetup.Handler(_teacherRepository, _curriculumRepository, _yearDataRepository, _unitOfWork);
 
         // Act
@@ -92,7 +92,7 @@ public class AccountSetupTests
         var termDates = TeacherHelpers.CreateTermDates();
         var dayPlanTemplate = TeacherHelpers.CreateDayPlanTemplate(_dayPlanPatternDto);
         dayPlanTemplate.Periods[0].StartTime.AddHours(1);
-        var command = new AccountSetup.Command(subjectsTaught, yearLevelsTaught, dayPlanTemplate, termDates, new TeacherId(Guid.NewGuid()), 2023);
+        var command = new AccountSetup.Command(subjectsTaught, yearLevelsTaught, dayPlanTemplate, new TeacherId(Guid.NewGuid()), 2023);
         var handler = new AccountSetup.Handler(_teacherRepository, _curriculumRepository, _yearDataRepository, _unitOfWork);
 
         // Act
@@ -161,7 +161,7 @@ public class AccountSetupTests
         A.CallTo(() => _curriculumRepository.GetSubjectsByName(subjects, A<CancellationToken>._))
             .Returns(subjectsTaught);
 
-        var command = new AccountSetup.Command(subjects, yearLevelsTaught, dayPlanTemplate, termDates, teacher.Id, 2023);
+        var command = new AccountSetup.Command(subjects, yearLevelsTaught, dayPlanTemplate, teacher.Id, 2023);
         var handler = new AccountSetup.Handler(_teacherRepository, _curriculumRepository, _yearDataRepository, _unitOfWork);
 
         // Act

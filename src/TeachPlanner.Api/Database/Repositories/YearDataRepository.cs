@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TeachPlanner.Api.Common.Interfaces.Persistence;
-using TeachPlanner.Api.Domain.CurriculumSubjects;
 using TeachPlanner.Api.Domain.PlannerTemplates;
 using TeachPlanner.Api.Domain.Teachers;
 using TeachPlanner.Api.Domain.YearDataRecords;
@@ -31,7 +30,7 @@ public class YearDataRepository : IYearDataRepository
             .FirstOrDefaultAsync(cancellationToken);
     }
     public async Task SetInitialAccountDetails(Teacher teacher, List<string> yearLevelsTaught, DayPlanTemplate dayPlanTemplate,
-               List<TermDate> termDates, int calendarYear, CancellationToken cancellationToken)
+               int calendarYear, CancellationToken cancellationToken)
     {
         var yearData = await _context.YearData
             .Where(yd => yd.TeacherId == teacher.Id)
@@ -46,6 +45,5 @@ public class YearDataRepository : IYearDataRepository
         }
 
         yearData.SetDayPlanTemplate(dayPlanTemplate);
-        yearData.SetTermDates(termDates);
     }
 }

@@ -105,10 +105,10 @@ internal static class TeacherHelpers
     {
         return new List<TermDate>()
         {
-            new TermDate(new DateOnly(2023, 1, 30), new DateOnly(2023, 4, 1)),
-            new TermDate(new DateOnly(2023, 4, 15), new DateOnly(2023, 6, 30)),
-            new TermDate(new DateOnly(2023, 7, 14), new DateOnly(2023, 9, 25)),
-            new TermDate(new DateOnly(2023, 10, 10), new DateOnly(2023, 12, 15)),
+            new TermDate(1, new DateOnly(2023, 1, 30), new DateOnly(2023, 4, 1)),
+            new TermDate(2, new DateOnly(2023, 4, 15), new DateOnly(2023, 6, 30)),
+            new TermDate(3, new DateOnly(2023, 7, 14), new DateOnly(2023, 9, 25)),
+            new TermDate(4, new DateOnly(2023, 10, 10), new DateOnly(2023, 12, 15)),
         };
     }
     internal static List<TermDateDto> CreateTermDateDtos()
@@ -151,16 +151,16 @@ internal static class TeacherHelpers
 
     internal static AccountSetupRequest CreateAccountSetupRequest()
     {
-        return new AccountSetupRequest(CreateSubjectNames(), CreateYearLevelsTaught(), CreateDayPlanPatternDto(), CreateTermDateDtos());
+        return new AccountSetupRequest(CreateSubjectNames(), CreateYearLevelsTaught(), CreateDayPlanPatternDto());
     }
     internal static AccountSetupRequest CreateAccountSetupRequestWithOverlappingTimes()
     {
-        return new AccountSetupRequest(CreateSubjectNames(), CreateYearLevelsTaught(), CreateDayPlanPatternDtoWithOverlappingTimes(), CreateTermDateDtos());
+        return new AccountSetupRequest(CreateSubjectNames(), CreateYearLevelsTaught(), CreateDayPlanPatternDtoWithOverlappingTimes());
     }
 
     internal static AccountSetupRequest CreateAccountSetupRequestWithOverlappingDates()
     {
-        return new AccountSetupRequest(CreateSubjectNames(), CreateYearLevelsTaught(), CreateDayPlanPatternDto(), CreateTermDateDtosWithOverlappingDates());
+        return new AccountSetupRequest(CreateSubjectNames(), CreateYearLevelsTaught(), CreateDayPlanPatternDto());
     }
 
     internal static List<CurriculumSubject> CreateCurriculumSubjects(List<string> subjectNames)

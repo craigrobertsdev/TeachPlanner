@@ -20,7 +20,6 @@ public class YearData : Entity<YearDataId>, IAggregateRoot
     private readonly List<Subject> _subjects = new();
     private readonly List<WeekPlanner> _weekPlanners = new();
     private readonly List<YearLevelValue> _yearLevelsTaught = new();
-    private readonly List<TermDate> _termDates = new();
     public DayPlanTemplate? DayPlanTemplate { get; private set; }
 
     public TeacherId TeacherId { get; private set; }
@@ -128,12 +127,6 @@ public class YearData : Entity<YearDataId>, IAggregateRoot
     {
         DayPlanTemplate = dayPlanTemplate;
         _domainEvents.Add(new DayPlanTemplateAddedToYearDataEvent(Guid.NewGuid(), dayPlanTemplate));
-    }
-
-    public void SetTermDates(List<TermDate> termDates)
-    {
-        _termDates.Clear();
-        _termDates.AddRange(termDates);
     }
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.

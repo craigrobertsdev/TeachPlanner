@@ -59,9 +59,7 @@ class CurriculumService {
     });
 
     const response = await fetch(request);
-
     const data = await response.json();
-
     return data as { subjectNames: string[] };
   }
 }

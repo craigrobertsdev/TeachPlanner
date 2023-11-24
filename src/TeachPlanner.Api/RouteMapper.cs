@@ -18,13 +18,13 @@ public static class RouteMapper
         var noAuthGroup = app.MapGroup("/api");
 
         noAuthGroup
-            .MapAuth();
+            .MapAuth()
+            .MapServices();
 
         authReqGroup
             .MapAssessments()
             .MapCurriculum()
             .MapLessonPlans()
-            .MapServices()
             .MapStudents()
             .MapSubjects()
             .MapTeachers()
@@ -74,6 +74,10 @@ public static class RouteMapper
 
         return serviceGroup;
     }
+        // adding term dates to the database
+        // do I bother adding a column that tracks the calendar year?
+        // should do a check if the term dates already exist for the year
+        // if so, do I want to overwrite or throw an error?
 
     private static RouteGroupBuilder MapStudents(this RouteGroupBuilder group)
     {
