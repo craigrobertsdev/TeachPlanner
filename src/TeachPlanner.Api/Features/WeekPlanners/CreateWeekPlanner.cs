@@ -13,7 +13,7 @@ public static class CreateWeekPlanner
     public record Command(
         TeacherId TeacherId,
         DayPlanTemplate DayPlanTemplate,
-        DateTime WeekStart,
+        DateOnly WeekStart,
         int WeekNumber,
         int TermNumber,
         int Year) : IRequest<WeekPlanner>;

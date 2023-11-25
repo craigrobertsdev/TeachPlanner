@@ -5,7 +5,7 @@ public record CreateWeekPlannerRequest(
     int TermNumber,
     int Year,
     WeekPlannerTemplateRequest WeekPlannerTemplate,
-    DateTime WeekStart);
+    DateOnly WeekStart);
 
 public record WeekPlannerTemplateRequest(DayPlanTemplateRequest DayPlanTemplate);
 

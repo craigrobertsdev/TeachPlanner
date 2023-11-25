@@ -20,7 +20,7 @@ public class YearData : Entity<YearDataId>, IAggregateRoot
     private readonly List<Subject> _subjects = new();
     private readonly List<WeekPlanner> _weekPlanners = new();
     private readonly List<YearLevelValue> _yearLevelsTaught = new();
-    public DayPlanTemplate? DayPlanTemplate { get; private set; }
+    public DayPlanTemplate DayPlanTemplate { get; private set; } = null!;
 
     public TeacherId TeacherId { get; private set; }
     public TermPlannerId? TermPlannerId { get; private set; }

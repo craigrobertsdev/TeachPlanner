@@ -57,7 +57,7 @@ public static class Infrastructure
     private static IServiceCollection AddServices(this IServiceCollection services)
     {
         services.AddSingleton<ICurriculumService, CurriculumService>();
-        services.AddSingleton<ITermDateService, TermDateService>();
+        services.AddSingleton<ITermDatesService, TermDatesService>();
 
         return services;
     }

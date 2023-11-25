@@ -1,10 +1,12 @@
 using MediatR;
 using TeachPlanner.Api.Common.Exceptions;
 using TeachPlanner.Api.Common.Interfaces.Persistence;
+using TeachPlanner.Api.Common.Interfaces.Services;
 using TeachPlanner.Api.Contracts.WeekPlanners;
 using TeachPlanner.Api.Domain.PlannerTemplates;
 using TeachPlanner.Api.Domain.Teachers;
 using TeachPlanner.Api.Domain.WeekPlanners;
+using TeachPlanner.Api.Services;
 
 namespace TeachPlanner.Api.Features.WeekPlanners;
 
@@ -17,12 +19,16 @@ public static class GetWeekPlanner
         private readonly ITeacherRepository _teacherRepository;
         private readonly IWeekPlannerRepository _weekPlannerRepository;
         private readonly IYearDataRepository _yearDataRepository;
+        private readonly ITermDatesService _termDatesService;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public Handler(ITeacherRepository teacherRepository, IWeekPlannerRepository weekPlannerRepository, IYearDataRepository yearDataRepository)
+        public Handler(ITeacherRepository teacherRepository, IWeekPlannerRepository weekPlannerRepository, IYearDataRepository yearDataRepository, ITermDatesService termDatesService, IUnitOfWork unitOfWork)
         {
             _teacherRepository = teacherRepository;
             _weekPlannerRepository = weekPlannerRepository;
             _yearDataRepository = yearDataRepository;
+            _termDatesService = termDatesService;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<WeekPlannerResponse> Handle(Query request, CancellationToken cancellationToken)
@@ -44,17 +50,24 @@ public static class GetWeekPlanner
                 );
             }
 
-            // creating a term dates service to get the week start date
             // also need to update the dayplantemplate to include number of periods and breaks, and update the accountsetup request to include this
             var yearData = await _yearDataRepository.GetByTeacherIdAndYear(request.TeacherId, request.Year, cancellationToken);
-            //var template = DayPlanTemplate.Create()
 
-            //var weekPlanner = WeekPlanner.Create(yearData.Id, 1, request.WeekNumber, request.Year, dayPlanTemplate, termDatesService.GetWeekStart(request.WeekNumber));
+            weekPlanner = WeekPlanner.Create(
+                yearData!.Id,
+                1,
+                request.WeekNumber,
+                request.Year,
+                yearData.DayPlanTemplate,
+                _termDatesService.GetWeekStart(request.TermNumber, request.WeekNumber));
+
+            _weekPlannerRepository.Add(weekPlanner);
+            await _unitOfWork.SaveChangesAsync(cancellationToken);
 
             return new WeekPlannerResponse(
                 new List<DayPlan>(),
-                WeekPlannerTemplateDto.Create(DayPlanTemplate.Create(new List<TemplatePeriod>())),
-                DateTime.Now,
+                WeekPlannerTemplateDto.Create(weekPlanner.DayPlanTemplate),
+                weekPlanner.WeekStart,
                 request.WeekNumber);
         }
     }

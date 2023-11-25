@@ -14,10 +14,10 @@ public static class SetTermDates
 
     public sealed class Handler : IRequestHandler<Command>
     {
-        private readonly ITermDateService _termDateService;
+        private readonly ITermDatesService _termDateService;
         private readonly ApplicationDbContext _context;
 
-        public Handler(ITermDateService termDateService, ApplicationDbContext context)
+        public Handler(ITermDatesService termDateService, ApplicationDbContext context)
         {
             _termDateService = termDateService;
             _context = context;

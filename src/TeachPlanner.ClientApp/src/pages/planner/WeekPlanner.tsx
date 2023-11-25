@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import useAuth from "../../contexts/AuthContext";
 import { getCalendarDate, getCalendarTime, getDayName } from "../../utils/dateUtils";
 import { v1 as uuidv1 } from "uuid";
@@ -110,13 +110,15 @@ function WeekPlanner() {
 
         lessonNumber++;
       } else if (dayPlanPattern.pattern[i].type === "Break") {
+        const breakPeriod = dayPlanPattern.pattern[i];
         renderedCalendarHeaders.push(
           <BreakHeader
             key={`breakHeader${breakNumber}`}
             breakNumber={breakNumber}
             rowIndex={i + 2}
-            startTime={getCalendarTime(dayPlanPattern.pattern[i].startTime)}
-            endTime={getCalendarTime(dayPlanPattern.pattern[i].endTime)}
+            breakName={i === 0 ? "Recess" : "Lunch"}
+            startTime={getCalendarTime(breakPeriod.startTime)}
+            endTime={getCalendarTime(breakPeriod.endTime)}
           />
         );
         breakNumber++;
@@ -132,6 +134,10 @@ function WeekPlanner() {
     );
 
     return renderedCalendarHeaders;
+  }
+
+  function getNumberOfPeriods(dayPlanPattern: DayPlanPattern) {
+    return dayPlanPattern.pattern.length;
   }
 
   function renderDayPlans(dayPlans: DayPlan[]): React.ReactNode[][] {
