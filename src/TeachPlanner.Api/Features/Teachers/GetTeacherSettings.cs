@@ -3,6 +3,7 @@ using MediatR;
 using TeachPlanner.Api.Common.Exceptions;
 using TeachPlanner.Api.Common.Interfaces.Persistence;
 using TeachPlanner.Api.Contracts.Teachers.GetTeacherSettings;
+using TeachPlanner.Api.Domain.PlannerTemplates;
 using TeachPlanner.Api.Domain.Teachers;
 using TeachPlanner.Api.Domain.TermPlanners;
 using TeachPlanner.Api.Domain.YearDataRecords;
@@ -53,7 +54,10 @@ public static class GetTeacherSettings
                 await _yearDataRepository.GetByTeacherIdAndYear(request.TeacherId, request.CalendarYear,
                     cancellationToken);
 
-            if (yearData == null) yearData = YearData.Create(request.TeacherId, request.CalendarYear);
+            if (yearData == null) {
+                var dayPlanTemplate = DayPlanTemplate.Create(new(), request.TeacherId);
+                yearData = YearData.Create(request.TeacherId, request.CalendarYear, dayPlanTemplate);
+            }
 
             var termPlanner =
                 await _termPlannerRepository.GetByYearDataIdAndYear(yearData.Id, request.CalendarYear,

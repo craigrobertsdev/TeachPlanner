@@ -20,7 +20,7 @@ public class YearData : Entity<YearDataId>, IAggregateRoot
     private readonly List<Subject> _subjects = new();
     private readonly List<WeekPlanner> _weekPlanners = new();
     private readonly List<YearLevelValue> _yearLevelsTaught = new();
-    public DayPlanTemplate DayPlanTemplate { get; private set; } = null!;
+    public DayPlanTemplate DayPlanTemplate { get; private set; }
 
     public TeacherId TeacherId { get; private set; }
     public TermPlannerId? TermPlannerId { get; private set; }
@@ -31,40 +31,43 @@ public class YearData : Entity<YearDataId>, IAggregateRoot
     public IReadOnlyList<LessonPlan> LessonPlans => _lessonPlans.AsReadOnly();
     public IReadOnlyList<WeekPlanner> WeekPlanners => _weekPlanners.AsReadOnly();
 
-    private YearData(YearDataId id, TeacherId teacherId, int calendarYear) : base(id)
+    private YearData(YearDataId id, TeacherId teacherId, DayPlanTemplate dayPlanTemplate, int calendarYear) : base(id)
     {
         TeacherId = teacherId;
         CalendarYear = calendarYear;
+        DayPlanTemplate = dayPlanTemplate;
     }
 
-    private YearData(YearDataId id, TeacherId teacherId, int calendarYear, List<Student> students) : base(id)
+    private YearData(YearDataId id, TeacherId teacherId, DayPlanTemplate dayPlanTemplate, int calendarYear, List<Student> students) : base(id)
     {
         TeacherId = teacherId;
         CalendarYear = calendarYear;
+        DayPlanTemplate = dayPlanTemplate;
         _students = students;
     }
 
-    private YearData(YearDataId id, TeacherId teacherId, int calendarYear, List<string> yearLevels) : base(id)
+    private YearData(YearDataId id, TeacherId teacherId, DayPlanTemplate dayPlanTemplate, int calendarYear, List<string> yearLevels) : base(id)
     {
         TeacherId = teacherId;
         CalendarYear = calendarYear;
+        DayPlanTemplate = dayPlanTemplate;
         var yearLevelEnums = yearLevels.Select(Enum.Parse<YearLevelValue>).ToList();
         yearLevelEnums.Sort();
         _yearLevelsTaught = yearLevelEnums;
     }
 
-    public static YearData Create(TeacherId teacherId, int calendarYear)
+    public static YearData Create(TeacherId teacherId, int calendarYear, DayPlanTemplate dayPlanTemplate)
     {
-        var yearData = new YearData(new YearDataId(Guid.NewGuid()), teacherId, calendarYear);
+        var yearData = new YearData(new YearDataId(Guid.NewGuid()), teacherId, dayPlanTemplate, calendarYear);
 
         yearData.AddDomainEvent(new YearDataCreatedDomainEvent(Guid.NewGuid(), yearData.Id, calendarYear, teacherId));
 
         return yearData;
     }
 
-    public static YearData Create(TeacherId teacherId, int calendarYear, List<string> yearLevels)
+    public static YearData Create(TeacherId teacherId, int calendarYear, DayPlanTemplate dayPlanTemplate, List<string> yearLevels)
     {
-        var yearData = new YearData(new YearDataId(Guid.NewGuid()), teacherId, calendarYear, yearLevels);
+        var yearData = new YearData(new YearDataId(Guid.NewGuid()), teacherId, dayPlanTemplate, calendarYear, yearLevels);
 
         yearData.AddDomainEvent(new YearDataCreatedDomainEvent(Guid.NewGuid(), yearData.Id, calendarYear, teacherId));
 
@@ -126,7 +129,7 @@ public class YearData : Entity<YearDataId>, IAggregateRoot
     public void SetDayPlanTemplate(DayPlanTemplate dayPlanTemplate)
     {
         DayPlanTemplate = dayPlanTemplate;
-        _domainEvents.Add(new DayPlanTemplateAddedToYearDataEvent(Guid.NewGuid(), dayPlanTemplate));
+        _domainEvents.Add(new DayPlanTemplateAddedToYearDataEvent(Guid.NewGuid(), dayPlanTemplate.Id));
     }
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.

@@ -363,7 +363,7 @@ namespace TeachPlanner.Api.Database.Migrations
                     b.Property<DateOnly>("Date")
                         .HasColumnType("date");
 
-                    b.Property<Guid?>("WeekPlannerId")
+                    b.Property<Guid>("WeekPlannerId")
                         .HasColumnType("char(36)");
 
                     b.HasKey("Id");
@@ -378,7 +378,12 @@ namespace TeachPlanner.Api.Database.Migrations
                     b.Property<Guid>("Id")
                         .HasColumnType("char(36)");
 
+                    b.Property<Guid>("TeacherId")
+                        .HasColumnType("char(36)");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("TeacherId");
 
                     b.ToTable("day_plan_templates", (string)null);
                 });
@@ -626,8 +631,8 @@ namespace TeachPlanner.Api.Database.Migrations
                     b.Property<int>("WeekNumber")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("WeekStart")
-                        .HasColumnType("datetime(6)");
+                    b.Property<DateOnly>("WeekStart")
+                        .HasColumnType("date");
 
                     b.Property<int>("Year")
                         .HasColumnType("int");
@@ -653,7 +658,7 @@ namespace TeachPlanner.Api.Database.Migrations
                     b.Property<int>("CalendarYear")
                         .HasColumnType("int");
 
-                    b.Property<Guid?>("DayPlanTemplateId")
+                    b.Property<Guid>("DayPlanTemplateId")
                         .HasColumnType("char(36)");
 
                     b.Property<Guid>("TeacherId")
@@ -972,11 +977,19 @@ namespace TeachPlanner.Api.Database.Migrations
                 {
                     b.HasOne("TeachPlanner.Api.Domain.WeekPlanners.WeekPlanner", null)
                         .WithMany("DayPlans")
-                        .HasForeignKey("WeekPlannerId");
+                        .HasForeignKey("WeekPlannerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("TeachPlanner.Api.Domain.PlannerTemplates.DayPlanTemplate", b =>
                 {
+                    b.HasOne("TeachPlanner.Api.Domain.Teachers.Teacher", null)
+                        .WithMany()
+                        .HasForeignKey("TeacherId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.OwnsMany("TeachPlanner.Api.Domain.PlannerTemplates.TemplatePeriod", "Periods", b1 =>
                         {
                             b1.Property<Guid>("Id")
@@ -1153,7 +1166,7 @@ namespace TeachPlanner.Api.Database.Migrations
 
             modelBuilder.Entity("TeachPlanner.Api.Domain.WeekPlanners.WeekPlanner", b =>
                 {
-                    b.HasOne("TeachPlanner.Api.Domain.PlannerTemplates.DayPlanTemplate", "DayPlanTemplate")
+                    b.HasOne("TeachPlanner.Api.Domain.PlannerTemplates.DayPlanTemplate", null)
                         .WithMany()
                         .HasForeignKey("DayPlanTemplateId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1164,15 +1177,15 @@ namespace TeachPlanner.Api.Database.Migrations
                         .HasForeignKey("YearDataId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("DayPlanTemplate");
                 });
 
             modelBuilder.Entity("TeachPlanner.Api.Domain.YearDataRecords.YearData", b =>
                 {
                     b.HasOne("TeachPlanner.Api.Domain.PlannerTemplates.DayPlanTemplate", "DayPlanTemplate")
                         .WithMany()
-                        .HasForeignKey("DayPlanTemplateId");
+                        .HasForeignKey("DayPlanTemplateId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("TeachPlanner.Api.Domain.Teachers.Teacher", null)
                         .WithMany()

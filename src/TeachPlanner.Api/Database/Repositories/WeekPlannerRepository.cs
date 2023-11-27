@@ -13,7 +13,7 @@ public class WeekPlannerRepository : IWeekPlannerRepository
     {
         _context = context;
     }
-    public async Task<WeekPlanner?> GetWeekPlanner(TeacherId teacherId, int weekNumber, int termNumber, int year, CancellationToken cancellationToken)
+    public async Task<WeekPlanner?> GetWeekPlanner(int weekNumber, int termNumber, int year, CancellationToken cancellationToken)
     {
         return await _context.WeekPlanners
             .Where(wp => wp.WeekNumber == weekNumber)

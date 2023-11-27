@@ -13,7 +13,7 @@ namespace TeachPlanner.Api.Features.Teachers;
 public static class AccountSetup
 {
     public async static Task<IResult> Delegate([FromRoute] Guid teacherId, [FromBody] AccountSetupRequest request, [FromQuery] int calendarYear, ISender sender, Validator validator, CancellationToken cancellationToken) {
-        var dayPlanTemplate = CreateDayPlanTemplate(request.DayPlanPattern);
+        var dayPlanTemplate = CreateDayPlanTemplate(request.DayPlanPattern, new TeacherId(teacherId));
         var command = new Command(request.SubjectsTaught, request.YearLevelsTaught, dayPlanTemplate, new TeacherId(teacherId), calendarYear);
 
         var validationResult = await validator.ValidateAsync(command, cancellationToken);
@@ -28,7 +28,12 @@ public static class AccountSetup
         return Results.Ok();
     }
 
-    public record Command(List<string> SubjectsTaught, List<string> YearLevelsTaught, DayPlanTemplate DayPlanTemplate, TeacherId TeacherId, int CalendarYear): IRequest;
+    public record Command(
+        List<string> SubjectsTaught,
+        List<string> YearLevelsTaught,
+        DayPlanTemplate DayPlanTemplate,
+        TeacherId TeacherId,
+        int CalendarYear) : IRequest;
 
     public class Validator : AbstractValidator<Command>
     {
@@ -82,14 +87,14 @@ public static class AccountSetup
         }
     }
 
-    private static DayPlanTemplate CreateDayPlanTemplate(DayPlanPatternDto dayPlanPattern)
+    private static DayPlanTemplate CreateDayPlanTemplate(DayPlanPatternDto dayPlanPattern, TeacherId teacherId)
     {
         var templatePeriods = CreateTemplatePeriods(dayPlanPattern);
         templatePeriods.Sort((x, y) => x.StartTime.CompareTo(y.StartTime));
 
         ValidateTemplatePeriodTimes(templatePeriods);
 
-        return DayPlanTemplate.Create(templatePeriods);
+        return DayPlanTemplate.Create(templatePeriods, teacherId);
     }
 
     private static List<TemplatePeriod> CreateTemplatePeriods(DayPlanPatternDto dayPlanPattern)

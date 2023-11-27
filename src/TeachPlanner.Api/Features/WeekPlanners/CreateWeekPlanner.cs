@@ -52,7 +52,7 @@ public static class CreateWeekPlanner
                 request.WeekNumber,
                 request.TermNumber,
                 request.Year,
-                request.DayPlanTemplate,
+                request.DayPlanTemplate.Id,
                 request.WeekStart);
             
             _weekPlannerRepository.Add(weekPlanner);
@@ -66,26 +66,26 @@ public static class CreateWeekPlanner
     public static async Task<IResult> Delegate(Guid teacherId, CreateWeekPlannerRequest request, ISender sender,
         CancellationToken cancellationToken)
     {
-        var dayPlanTemplate = DayPlanTemplate.Create(
-                //request.WeekPlannerTemplate.DayPlanTemplate.Periods
-                //    .Select(x => new TemplatePeriod(
-                //        Enum.Parse<PeriodType>(x.PeriodType),
-                //        x.Name,
-                //        x.StartTime,
-                //        x.EndTime))
-                //    .ToList())); 
-                new());
+        //var dayPlanTemplate = DayPlanTemplate.Create(
+        //        //request.WeekPlannerTemplate.DayPlanTemplateId.Periods
+        //        //    .Select(x => new TemplatePeriod(
+        //        //        Enum.Parse<PeriodType>(x.PeriodType),
+        //        //        x.Name,
+        //        //        x.StartTime,
+        //        //        x.EndTime))
+        //        //    .ToList())); 
+        //        new());
         
-        var command = new Command(
-            new TeacherId(teacherId),
-            dayPlanTemplate,
-            request.WeekStart,
-            request.WeekNumber,
-            request.TermNumber,
-            request.Year);
+        //var command = new Command(
+        //    new TeacherId(teacherId),
+        //    dayPlanTemplate,
+        //    request.WeekStart,
+        //    request.WeekNumber,
+        //    request.TermNumber,
+        //    request.Year);
 
-        var result = await sender.Send(command, cancellationToken);
+        //var result = await sender.Send(command, cancellationToken);
         
-        return Results.Ok(result);
+        return Results.Ok();
     }
 }

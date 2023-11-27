@@ -20,13 +20,13 @@ public class DayPlanTemplateAddedToYearDataEventHandler : INotificationHandler<D
     public async Task Handle(DayPlanTemplateAddedToYearDataEvent notification, CancellationToken cancellationToken)
     {
         var yearData = await _context.YearData
-            .Where(yd => yd.DayPlanTemplate != null && yd.DayPlanTemplate.Id == notification.DayPlanTemplate.Id)
+            .Where(yd => yd.DayPlanTemplate != null && yd.DayPlanTemplate.Id == notification.DayPlanTemplateId)
             .Include(yd => yd.WeekPlanners)
             .FirstAsync(cancellationToken);
 
         foreach (var weekPlanner in yearData.WeekPlanners)
         {
-            weekPlanner.SetDayPlanTemplate(notification.DayPlanTemplate);
+            weekPlanner.SetDayPlanTemplate(notification.DayPlanTemplateId);
         }
 
         await _unitOfWork.SaveChangesAsync(cancellationToken);

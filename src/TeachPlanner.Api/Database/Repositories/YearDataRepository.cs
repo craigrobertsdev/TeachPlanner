@@ -40,9 +40,10 @@ public class YearDataRepository : IYearDataRepository
 
         if (yearData is null)
         {
-            yearData = YearData.Create(teacher.Id, calendarYear, yearLevelsTaught);
+            yearData = YearData.Create(teacher.Id, calendarYear, dayPlanTemplate, yearLevelsTaught);
             teacher.AddYearData(YearDataEntry.Create(calendarYear, yearData.Id));
             _context.YearData.Add(yearData);
+            return;
         }
 
         yearData.SetDayPlanTemplate(dayPlanTemplate);

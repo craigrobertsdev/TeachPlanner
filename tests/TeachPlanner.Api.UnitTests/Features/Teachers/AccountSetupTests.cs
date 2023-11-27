@@ -47,8 +47,8 @@ public class AccountSetupTests
     //    A.CallTo(() => _curriculumRepository.GetSubjectsByName(subjectsTaught, new CancellationToken()))
     //        .Returns(TeacherHelpers.CreateCurriculumSubjects(subjectsTaught));
 
-    //    A.CallTo(() => _yearDataRepository.SetInitialAccountDetails(A<Teacher>._, A<List<CurriculumSubject>>._, A<DayPlanTemplate>._, A<List<TermDate>>._, A<int>._, A<CancellationToken>._))
-    //        .Invokes((Teacher t, List<CurriculumSubject> CurriculumSubjects, DayPlanTemplate dpt, List<TermDate> tds, int cy, CancellationToken ct) =>
+    //    A.CallTo(() => _yearDataRepository.SetInitialAccountDetails(A<Teacher>._, A<List<CurriculumSubject>>._, A<DayPlanTemplateId>._, A<List<TermDate>>._, A<int>._, A<CancellationToken>._))
+    //        .Invokes((Teacher t, List<CurriculumSubject> CurriculumSubjects, DayPlanTemplateId dpt, List<TermDate> tds, int cy, CancellationToken ct) =>
     //        {
     //            Assert.Equivalent(teacher, t);
     //            Assert.Equivalent(dayPlanTemplate, dpt);
@@ -60,7 +60,7 @@ public class AccountSetupTests
 
     //    // Assert
     //    A.CallTo(() => _teacherRepository.GetById(command.TeacherId, new CancellationToken())).MustHaveHappenedOnceExactly();
-    //    A.CallTo(() => _yearDataRepository.SetInitialAccountDetails(teacher, A<List<CurriculumSubject>>._, command.DayPlanTemplate, command.TermDates, command.CalendarYear ,A<CancellationToken>._))
+    //    A.CallTo(() => _yearDataRepository.SetInitialAccountDetails(teacher, A<List<CurriculumSubject>>._, command.DayPlanTemplateId, command.TermDates, command.CalendarYear ,A<CancellationToken>._))
     //        .MustHaveHappenedOnceExactly();
     //}
 

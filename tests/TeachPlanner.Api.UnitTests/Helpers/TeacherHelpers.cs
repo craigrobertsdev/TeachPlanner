@@ -146,7 +146,7 @@ internal static class TeacherHelpers
             new TemplatePeriod(PeriodType.Lesson, "Lesson 6", new TimeOnly(14, 20), new TimeOnly(15, 10))
         };
 
-        return DayPlanTemplate.Create(periodTemplates);
+        return DayPlanTemplate.Create(periodTemplates, new TeacherId(Guid.NewGuid()));
     }
 
     internal static AccountSetupRequest CreateAccountSetupRequest()

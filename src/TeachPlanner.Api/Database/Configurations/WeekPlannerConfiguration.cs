@@ -20,7 +20,8 @@ public class WeekPlannerConfiguration : IEntityTypeConfiguration<WeekPlanner>
             .WithOne()
             .HasForeignKey("WeekPlannerId");
 
-        builder.HasOne(wp => wp.DayPlanTemplate)
-            .WithMany();
+        builder.HasOne<DayPlanTemplate>()
+            .WithMany()
+            .HasForeignKey(wp => wp.DayPlanTemplateId);
     }
 }

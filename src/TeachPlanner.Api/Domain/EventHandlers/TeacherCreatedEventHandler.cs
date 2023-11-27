@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using TeachPlanner.Api.Common.Interfaces.Persistence;
 using TeachPlanner.Api.Database;
+using TeachPlanner.Api.Domain.PlannerTemplates;
 using TeachPlanner.Api.Domain.Teachers.DomainEvents;
 using TeachPlanner.Api.Domain.YearDataRecords;
 
@@ -19,7 +20,8 @@ public class TeacherCreatedDomainEventHandler : INotificationHandler<TeacherCrea
 
     public async Task Handle(TeacherCreatedDomainEvent notification, CancellationToken cancellationToken)
     {
-        var yearData = YearData.Create(notification.TeacherId, DateTime.Now.Year);
+        var dayPlanTemplate = DayPlanTemplate.Create(new(), notification.TeacherId);
+        var yearData = YearData.Create(notification.TeacherId, DateTime.Now.Year, dayPlanTemplate);
 
         _context.YearData.Add(yearData);
 
