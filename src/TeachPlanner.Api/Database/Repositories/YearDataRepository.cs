@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TeachPlanner.Api.Common.Interfaces.Persistence;
+using TeachPlanner.Api.Domain.Common.Enums;
 using TeachPlanner.Api.Domain.PlannerTemplates;
 using TeachPlanner.Api.Domain.Teachers;
 using TeachPlanner.Api.Domain.YearDataRecords;
@@ -30,22 +31,24 @@ public class YearDataRepository : IYearDataRepository
             .AsNoTracking()
             .FirstOrDefaultAsync(cancellationToken);
     }
-    public async Task SetInitialAccountDetails(Teacher teacher, List<string> yearLevelsTaught, DayPlanTemplate dayPlanTemplate,
+    public async Task SetInitialAccountDetails(Teacher teacher, List<YearLevelValue> yearLevelsTaught, DayPlanTemplate dayPlanTemplate,
                int calendarYear, CancellationToken cancellationToken)
     {
         var yearData = await _context.YearData
             .Where(yd => yd.TeacherId == teacher.Id)
             .Where(yd => yd.CalendarYear == calendarYear)
-            .FirstOrDefaultAsync(cancellationToken);
+            .Include(yd => yd.DayPlanTemplate)
+            .FirstAsync(cancellationToken);
 
-        if (yearData is null)
-        {
-            yearData = YearData.Create(teacher.Id, calendarYear, dayPlanTemplate, yearLevelsTaught);
-            teacher.AddYearData(YearDataEntry.Create(calendarYear, yearData.Id));
-            _context.YearData.Add(yearData);
-            return;
-        }
+        //if (yearData is null)
+        //{
+        //    yearData = YearData.Create(teacher.Id, calendarYear, dayPlanTemplate, yearLevelsTaught);
+        //    teacher.AddYearData(YearDataEntry.Create(calendarYear, yearData.Id));
+        //    _context.YearData.Add(yearData);
+        //    return;
+        //}
 
         yearData.SetDayPlanTemplate(dayPlanTemplate);
+        yearData.SetYearLevelsTaught(yearLevelsTaught);
     }
 }

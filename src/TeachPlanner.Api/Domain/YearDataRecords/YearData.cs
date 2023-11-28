@@ -132,6 +132,12 @@ public class YearData : Entity<YearDataId>, IAggregateRoot
         _domainEvents.Add(new DayPlanTemplateAddedToYearDataEvent(Guid.NewGuid(), dayPlanTemplate.Id));
     }
 
+    public void SetYearLevelsTaught(List<YearLevelValue> yearLevels) {
+        yearLevels.Sort();
+        _yearLevelsTaught.Clear();
+        _yearLevelsTaught.AddRange(yearLevels);
+    }
+
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
     private YearData()
     {

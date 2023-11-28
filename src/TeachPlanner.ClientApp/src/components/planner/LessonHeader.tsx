@@ -15,7 +15,7 @@ function LessonHeader({ lessonNumber, rowIndex, startTime, endTime, classList }:
       }`}>
       <h3>Lesson {lessonNumber}</h3>
       <p>
-        {startTime} - {endTime}
+        <span className="text-sm">{startTime}</span>
       </p>
     </div>
   );

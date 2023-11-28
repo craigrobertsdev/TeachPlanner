@@ -41,7 +41,7 @@ public static class GetWeekPlanner {
             if (weekPlanner is not null) {
                 return new WeekPlannerResponse(
                     weekPlanner.DayPlans.ToList(),
-                    WeekPlannerTemplateDto.Create(dayPlanTemplate!),
+                    DayPlanTemplateDto.Create(dayPlanTemplate!),
                     weekPlanner.WeekStart,
                     weekPlanner.WeekNumber
                 );
@@ -62,7 +62,7 @@ public static class GetWeekPlanner {
 
             return new WeekPlannerResponse(
                 new List<DayPlan>(),
-                WeekPlannerTemplateDto.Create(dayPlanTemplate),
+                DayPlanTemplateDto.Create(dayPlanTemplate),
                 weekPlanner.WeekStart,
                 request.WeekNumber);
         }

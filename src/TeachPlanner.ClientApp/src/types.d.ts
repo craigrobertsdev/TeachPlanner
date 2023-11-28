@@ -26,9 +26,10 @@ declare type DayPlanPattern = {
 };
 
 declare type CalendarHeader = {
-  startTime: Date;
-  endTime: Date;
-  type: "LessonPlan" | "Break";
+  startTime: string;
+  endTime: string;
+  periodType: "Lesson" | "Break";
+  name?: string;
 };
 
 declare type LessonPlan = {

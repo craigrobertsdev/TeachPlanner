@@ -9,7 +9,6 @@ import AfterSchoolCalendarEntry from "../../components/planner/AfterSchoolCalend
 import LessonHeader from "../../components/planner/LessonHeader";
 import BreakHeader from "../../components/planner/BreakHeader";
 import { useLoaderData, useNavigate } from "react-router-dom";
-import { isLessonPlan, isSchoolEvent } from "../../utils/typeGuards";
 import { baseUrl } from "../../utils/constants";
 
 function WeekPlanner() {
@@ -21,69 +20,63 @@ function WeekPlanner() {
 
   // need lesson plans for each day of the week
   // also need the lesson plan pattern. this should be a uniform pattern throughout the year
-  const { numLessons, numBreaks, weekNumber, dayPlans, dayPlanPattern } = loaderData;
+  const { numLessons, numBreaks, weekNumber, dayPlans, dayPlanPattern, weekStart } = loaderData;
   const numRows = numLessons + numBreaks + 2; // +2 for header row and after school
 
   useEffect(() => {
-    const sortedCalendarEntries = sortCalendarEntries(dayPlans);
-
-    setGridDimensions(sortedCalendarEntries);
+    setGridDimensions();
   }, []);
 
-  function sortCalendarEntries(dayPlans: DayPlan[]): CalendarEntry[][] {
-    const entries: CalendarEntry[][] = [];
+  // function sortCalendarEntries(dayPlans: DayPlan[]): CalendarEntry[][] {
+  //   const entries: CalendarEntry[][] = [];
 
-    for (const dayPlan of dayPlans) {
-      let unsortedEntries: CalendarEntry[] = dayPlan.lessonPlans;
-      unsortedEntries = unsortedEntries.concat(dayPlan.breaks).concat(dayPlan.events);
+  //   for (const dayPlan of dayPlans) {
+  //     let unsortedEntries: CalendarEntry[] = dayPlan.lessonPlans;
+  //     unsortedEntries = unsortedEntries.concat(dayPlan.breaks).concat(dayPlan.events);
 
-      const sortedEntries = unsortedEntries.sort((a, b) => {
-        if (a.periodNumber < b.periodNumber) {
-          return -1;
-        }
+  //     const sortedEntries = unsortedEntries.sort((a, b) => {
+  //       if (a.periodNumber < b.periodNumber) {
+  //         return -1;
+  //       }
 
-        if (a.periodNumber > b.periodNumber) {
-          return 1;
-        }
+  //       if (a.periodNumber > b.periodNumber) {
+  //         return 1;
+  //       }
 
-        return 0;
-      });
+  //       return 0;
+  //     });
 
-      entries.push(sortedEntries);
-    }
+  //     entries.push(sortedEntries);
+  //   }
 
-    return entries;
-  }
+  //   return entries;
+  // }
 
-  function setGridDimensions(sortedCalendarEntries: CalendarEntry[][]): void {
+  function setGridDimensions(): void {
     let rows = "0.5fr "; // week and day header row
-    let entries = sortedCalendarEntries[0]; // the grid is uniform for each column so we only work out dimensions for the first one
+    var pattern = dayPlanPattern.pattern;
 
-    for (let i = 0; i < entries.length; i++) {
-      const entry = entries[i];
-      if (isLessonPlan(entry) || isSchoolEvent(entry)) {
-        for (let j = 0; j < entry.numberOfPeriods; j++) {
-          rows += "fit-content(max-content) ";
-        }
+    for (let i = 0; i < pattern.length; i++) {
+      const entry = pattern[i];
+      if (isLessonHeader(entry)) {
+        rows += "fit-content(max-content) ";
       } else {
         rows += "0.3fr";
       }
-      dayPlans[0].lessonPlans.reduce((acc, curr) => acc + curr.numberOfPeriods, 0);
 
-      if (i === entries.length - 1) {
+      if (i === pattern.length - 1) {
         rows += " 0.3fr"; // after school row
       } else {
         rows += " ";
       }
-    }
 
-    setGridRows(rows);
+      setGridRows(rows);
+    }
   }
 
-  function renderCalendarHeaders(dayPlans: DayPlan[]): React.ReactNode[] {
+  function renderCalendarHeaders(): React.ReactNode[] {
     const renderedCalendarHeaders = [] as React.ReactNode[];
     const numberOfLessons = getNumberOfPeriods(dayPlanPattern);
-    const iterations = numberOfLessons + dayPlans[0].breaks.length + dayPlans[0].events.length;
 
     let lessonNumber = 1;
     let breakNumber = 1;
@@ -96,8 +89,8 @@ function WeekPlanner() {
       </div>
     );
 
-    for (let i = 0; i < iterations; i++) {
-      if (dayPlanPattern.pattern[i].type === "LessonPlan") {
+    for (let i = 0; i < numberOfLessons; i++) {
+      if (dayPlanPattern.pattern[i].periodType === "Lesson") {
         renderedCalendarHeaders.push(
           <LessonHeader
             key={`lessonHeader${lessonNumber}`}
@@ -109,7 +102,7 @@ function WeekPlanner() {
         );
 
         lessonNumber++;
-      } else if (dayPlanPattern.pattern[i].type === "Break") {
+      } else if (dayPlanPattern.pattern[i].periodType === "Break") {
         const breakPeriod = dayPlanPattern.pattern[i];
         renderedCalendarHeaders.push(
           <BreakHeader
@@ -141,7 +134,12 @@ function WeekPlanner() {
   }
 
   function renderDayPlans(dayPlans: DayPlan[]): React.ReactNode[][] {
-    const renderedDayPlansList = dayPlans.map((dayPlan, colIdx) => {
+    const renderedDayPlansList = dayPlans.length > 0 ? renderDayPlansWithEntries(dayPlans) : renderDayPlanPlaceholders();
+    return renderedDayPlansList;
+  }
+
+  function renderDayPlansWithEntries(dayPlans: DayPlan[]) {
+    return dayPlans.map((dayPlan, colIdx) => {
       const renderedDayPlans = [] as React.ReactNode[];
 
       let lessonPlanPos = 0;
@@ -194,8 +192,22 @@ function WeekPlanner() {
 
       return renderedDayPlans;
     });
+  }
 
-    return renderedDayPlansList;
+  function renderDayPlanPlaceholders() {
+    const renderedDayPlanCells = new Array(5) as React.ReactNode[][];
+    renderedDayPlanCells.fill([]);
+    renderedDayPlanCells.forEach((_, i) => (renderedDayPlanCells[i] = []));
+    for (let i = 0; i < 5; i++) {
+      renderedDayPlanCells[i].push(
+        <div key={uuidv1()} className="row-start-1 border-r-2 border-b-2 border-darkGreen">
+          <p className="text-center">{getDayName(i + 1)}</p>
+          <p className="text-center">{getCalendarDate(weekStart, i)}</p>
+        </div>
+      );
+    }
+
+    return renderedDayPlanCells;
   }
 
   function handleLessonPlanEntryClicked(cell: GridCellLocation) {
@@ -209,13 +221,16 @@ function WeekPlanner() {
     navigate(`/teacher/lesson-plans/${lessonPlan.id}`);
   }
 
+  function isLessonHeader(entry: CalendarHeader) {
+    return entry.periodType === "Lesson";
+  }
+
   return (
     <div className="flex flex-col h-full">
-      <h1 className="text-4xl text-center p-3">Hi {teacher!.firstName}!</h1>
       <div
         style={{ gridAutoRows: gridRows }}
         className={`grid grid-cols-[minmax(7rem,_0.5fr),_repeat(5,_1fr)] border-l-2 border-t-2 border-darkGreen m-3 flex-grow`}>
-        {renderCalendarHeaders(dayPlans)}
+        {renderCalendarHeaders()}
         {renderDayPlans(dayPlans)}
       </div>
     </div>
@@ -251,13 +266,15 @@ type LessonPlanData = {
   numLessons: number;
   numBreaks: number;
   weekNumber: number;
+  weekStart: Date;
   dayPlans: DayPlan[];
   dayPlanPattern: DayPlanPattern;
 };
 
 type WeekPlannerData = {
-  weekPlanPattern: DayPlanPattern;
+  dayPlanPattern: DayPlanPattern;
   dayPlans: DayPlan[];
+  weekStart: Date;
   weekNumber: number;
   termNumber: number;
   year: number;
@@ -279,9 +296,9 @@ export async function weekPlannerLoader(): Promise<WeekPlannerData> {
     signal: abortController.signal,
   });
 
-  if (!response.ok) {
-    return new Promise((resolve, _) => resolve({ weekPlanPattern: { pattern: [] }, dayPlans: [], weekNumber, termNumber, year } as WeekPlannerData));
-  }
+  // if (!response.ok) {
+  //   return new Promise((resolve, _) => resolve({ dayPlanPattern: { pattern: [] }, dayPlans: [], weekStart, weekNumber, termNumber, year } as WeekPlannerData));
+  // }
 
   return response.json() as Promise<WeekPlannerData>;
 }

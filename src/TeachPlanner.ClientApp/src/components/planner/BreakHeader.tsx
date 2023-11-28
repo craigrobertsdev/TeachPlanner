@@ -15,8 +15,8 @@ function BreakHeader({ breakNumber, breakName, rowIndex, startTime, endTime, cla
         classList ? classList : ""
       }`}>
       <p>
-        <span className="pr-3">{breakName}</span>
-        {startTime} - {endTime}
+        <p>{breakName}</p>
+        <span className="text-sm">{startTime}</span>
       </p>
     </div>
   );
