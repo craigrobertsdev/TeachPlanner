@@ -18,10 +18,8 @@ function WeekPlanner() {
   const loaderData = useLoaderData() as LessonPlanData;
   const navigate = useNavigate();
 
-  // need lesson plans for each day of the week
-  // also need the lesson plan pattern. this should be a uniform pattern throughout the year
-  const { numLessons, numBreaks, weekNumber, dayPlans, dayPlanPattern, weekStart } = loaderData;
-  const numRows = numLessons + numBreaks + 2; // +2 for header row and after school
+  const { weekNumber, dayPlans, dayPlanPattern, weekStart } = loaderData;
+  const numRows = dayPlanPattern.pattern.length + 2; // +2 for header row and after school
 
   useEffect(() => {
     setGridDimensions();
@@ -205,6 +203,14 @@ function WeekPlanner() {
           <p className="text-center">{getCalendarDate(weekStart, i)}</p>
         </div>
       );
+
+      for (let j = 0; j < numRows - 2; j++) {
+        renderedDayPlanCells[i].push(
+          <div key={uuidv1()} className={`col-start-${i + 2} row-start-${j + 2} border-r-2 border-b-2 border-darkGreen`}></div>
+        );
+      }
+
+      renderedDayPlanCells[i].push(<div key={uuidv1()} className={`col-start-${i + 2} row-start-10 border-r-2 border-b-2 border-darkGreen`}></div>);
     }
 
     return renderedDayPlanCells;
@@ -226,10 +232,10 @@ function WeekPlanner() {
   }
 
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex w-full h-full">
       <div
         style={{ gridAutoRows: gridRows }}
-        className={`grid grid-cols-[minmax(7rem,_0.5fr),_repeat(5,_1fr)] border-l-2 border-t-2 border-darkGreen m-3 flex-grow`}>
+        className={`grid grid-cols-[minmax(7rem,_0.3fr),_repeat(5,_1fr)] border-l-2 border-t-2 border-darkGreen m-3 flex-grow`}>
         {renderCalendarHeaders()}
         {renderDayPlans(dayPlans)}
       </div>

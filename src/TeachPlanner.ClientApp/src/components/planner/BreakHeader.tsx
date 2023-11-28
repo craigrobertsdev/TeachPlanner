@@ -11,13 +11,13 @@ function BreakHeader({ breakNumber, breakName, rowIndex, startTime, endTime, cla
   return (
     <div
       key={`breakHeader${breakNumber}`}
-      className={`row-start-[${rowIndex}] col-start-1 flex items-center justify-center border-r-2 border-b-2 border-darkGreen text-center text-lg font-semibold ${
+      className={`row-start-${rowIndex} col-start-1 flex items-center justify-center border-r-2 border-b-2 border-darkGreen text-center text-lg font-semibold ${
         classList ? classList : ""
       }`}>
-      <p>
+      <div>
         <p>{breakName}</p>
         <span className="text-sm">{startTime}</span>
-      </p>
+      </div>
     </div>
   );
 }
