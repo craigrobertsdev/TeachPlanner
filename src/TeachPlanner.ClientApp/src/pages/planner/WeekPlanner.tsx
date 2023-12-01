@@ -57,9 +57,9 @@ function WeekPlanner() {
     for (let i = 0; i < pattern.length; i++) {
       const entry = pattern[i];
       if (isLessonHeader(entry)) {
-        rows += "fit-content(max-content) ";
+        rows += "minmax(100px, max-content)";
       } else {
-        rows += "0.3fr";
+        rows += "minmax(auto, 0.3fr)";
       }
 
       if (i === pattern.length - 1) {
@@ -82,7 +82,7 @@ function WeekPlanner() {
     renderedCalendarHeaders.push(
       <div
         key={`calendarHeader1`}
-        className="row-start-1 col-start-1 flex items-center justify-center border-r-2 border-b-2 border-darkGreen text-center text-lg font-bold">
+        className="row-start-1 col-start-1 flex items-center justify-center border-l-2 border-r-2 border-b-2 border-darkGreen text-center text-lg font-bold">
         Week {weekNumber}
       </div>
     );
@@ -119,7 +119,7 @@ function WeekPlanner() {
     renderedCalendarHeaders.push(
       <div
         key={`afterSchoolHeader`}
-        className="row-start-[10] col-start-1 flex items-center justify-center font-semibold border-r-2 border-b-2 border-darkGreen text-center text-lg">
+        className="row-start-10 col-start-1 flex items-center justify-center font-semibold border-l-2 border-r-2 border-b-2 border-darkGreen text-center text-lg">
         After School
       </div>
     );
@@ -145,7 +145,7 @@ function WeekPlanner() {
       let schoolEventPos = 0;
 
       renderedDayPlans.push(
-        <div key={uuidv1()} className="row-start-1 border-r-2 border-b-2 border-darkGreen">
+        <div key={uuidv1()} className={`row-start-1 border-r-2 border-b-2 border-darkGreen`}>
           <p className="text-center">{getDayName(dayPlan.startTime)}</p>
           <p className="text-center">{getCalendarDate(dayPlan.startTime)}</p>
         </div>
@@ -186,34 +186,45 @@ function WeekPlanner() {
         }
       }
 
-      renderedDayPlans.push(<AfterSchoolCalendarEntry key={uuidv1()} rowIndex={numRows} afterSchoolActivity="Crossing duty" />);
+      renderedDayPlans.push(<AfterSchoolCalendarEntry key={uuidv1()} rowIndex={numRows} columnIndex={colIdx} afterSchoolActivity="Crossing duty" />);
 
       return renderedDayPlans;
     });
   }
 
   function renderDayPlanPlaceholders() {
-    const renderedDayPlanCells = new Array(5) as React.ReactNode[][];
-    renderedDayPlanCells.fill([]);
-    renderedDayPlanCells.forEach((_, i) => (renderedDayPlanCells[i] = []));
+    const dayPlanPlaceholders = [] as React.ReactNode[][];
+    const pattern = dayPlanPattern.pattern;
     for (let i = 0; i < 5; i++) {
-      renderedDayPlanCells[i].push(
-        <div key={uuidv1()} className="row-start-1 border-r-2 border-b-2 border-darkGreen">
+      dayPlanPlaceholders.push([]);
+      dayPlanPlaceholders[i].push(
+        <div key={uuidv1()} className={`row-start-1 border-r-2 border-b-2 ${i % 2 === 1 && "bg-lightSage"} border-darkGreen`}>
           <p className="text-center">{getDayName(i + 1)}</p>
-          <p className="text-center">{getCalendarDate(weekStart, i)}</p>
         </div>
       );
 
-      for (let j = 0; j < numRows - 2; j++) {
-        renderedDayPlanCells[i].push(
-          <div key={uuidv1()} className={`col-start-${i + 2} row-start-${j + 2} border-r-2 border-b-2 border-darkGreen`}></div>
-        );
+      for (let j = 0; j < pattern.length; j++) {
+        if (pattern[j].periodType === "Lesson") {
+          dayPlanPlaceholders[i].push(
+            <LessonPlanCalendarEntry
+              key={uuidv1()}
+              lessonPlan={{ periodNumber: j + 1, numberOfPeriods: 1, subject: { name: "Add a lesson plan" }, planningNotes: [""] } as LessonPlan}
+              columnIndex={i}
+              selectLessonEntry={() => handleLessonPlanEntryClicked({ row: j, column: i })}
+              isSelected={selectedLessonEntryIndex.row === j && selectedLessonEntryIndex.column === i}
+              viewLessonPlan={() => handleViewLessonPlan({ row: j, column: i })}
+            />
+          );
+        } else
+          dayPlanPlaceholders[i].push(
+            <BreakCalendarEntry key={uuidv1()} lessonBreak={{ name: pattern[j].name, periodNumber: j + 1 } as Break} columnIndex={i} rowIndex={j} />
+          );
       }
 
-      renderedDayPlanCells[i].push(<div key={uuidv1()} className={`col-start-${i + 2} row-start-10 border-r-2 border-b-2 border-darkGreen`}></div>);
+      dayPlanPlaceholders[i].push(<AfterSchoolCalendarEntry key={uuidv1()} rowIndex={numRows} columnIndex={i} afterSchoolActivity="Crossing duty" />);
     }
 
-    return renderedDayPlanCells;
+    return dayPlanPlaceholders;
   }
 
   function handleLessonPlanEntryClicked(cell: GridCellLocation) {
@@ -223,8 +234,22 @@ function WeekPlanner() {
   }
 
   function handleViewLessonPlan(cell: GridCellLocation) {
-    const lessonPlan = dayPlans[cell.column].lessonPlans[cell.row];
+    let lessonPlan = dayPlans[cell.column]?.lessonPlans[cell.row];
+    if (!lessonPlan) {
+      const periodNumber = calculatePeriodNumber(cell.row);
+      navigate(`/teacher/lesson-plans/create?period=${periodNumber}&day=${cell.column + 1}&week=${weekNumber}`);
+    }
     navigate(`/teacher/lesson-plans/${lessonPlan.id}`);
+  }
+
+  function calculatePeriodNumber(row: number) {
+    let periodNumber = 0;
+    for (let i = 0; i < row; i++) {
+      if (dayPlanPattern.pattern[i].periodType === "Lesson") {
+        periodNumber++;
+      }
+    }
+    return periodNumber + 1;
   }
 
   function isLessonHeader(entry: CalendarHeader) {
@@ -235,7 +260,7 @@ function WeekPlanner() {
     <div className="flex w-full h-full">
       <div
         style={{ gridAutoRows: gridRows }}
-        className={`grid grid-cols-[minmax(7rem,_0.3fr),_repeat(5,_1fr)] border-l-2 border-t-2 border-darkGreen m-3 flex-grow`}>
+        className={`grid grid-cols-[minmax(7rem,_0.3fr),_repeat(5,_1fr)] border-t-2 border-darkGreen m-3 flex-grow`}>
         {renderCalendarHeaders()}
         {renderDayPlans(dayPlans)}
       </div>

@@ -12,3 +12,8 @@
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
 }
+
+p {
+  grid-auto-rows: 0.5fr fit-content(max-content) fit-content(max-content) 0.3fr fit-content(max-content) fit-content(max-content) 0.3fr
+    fit-content(max-content) fit-content(max-content) 0.3fr;
+}

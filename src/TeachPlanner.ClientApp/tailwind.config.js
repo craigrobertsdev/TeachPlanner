@@ -12,6 +12,11 @@ export default {
         darkGreen: "#37514D",
         peach: "#DD8E75",
         ceramic: "#B6594C",
+
+        // light
+        lightPeach: "#DD8E7550",
+        lightSage: "#90AEB250",
+
         // hover
         primaryHover: "#9c938a",
         sageHover: "#A3C1C5",
@@ -61,6 +66,9 @@ export default {
   },
   safelist: [
     "max-w-80ch",
+    {
+      pattern: /row-start-(1|2|3|4|5|6|7|8|9|10|11|12)/,
+    },
     {
       pattern: /col-start-(1|2|3|4|5|6|7|8|9|10)/,
     },

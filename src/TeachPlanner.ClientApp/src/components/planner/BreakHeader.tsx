@@ -7,12 +7,12 @@ type BreakHeaderProps = {
   classList?: string;
 };
 
-function BreakHeader({ breakNumber, breakName, rowIndex, startTime, endTime, classList }: BreakHeaderProps) {
+function BreakHeader({ breakNumber, breakName, rowIndex, startTime, classList }: BreakHeaderProps) {
   return (
     <div
       key={`breakHeader${breakNumber}`}
-      className={`row-start-${rowIndex} col-start-1 flex items-center justify-center border-r-2 border-b-2 border-darkGreen text-center text-lg font-semibold ${
-        classList ? classList : ""
+      className={`row-start-${rowIndex} col-start-1 flex items-center justify-around border-l-2 border-r-2 border-b-2 border-darkGreen text-center text-lg font-semibold ${
+        classList ?? ""
       }`}>
       <div>
         <p>{breakName}</p>

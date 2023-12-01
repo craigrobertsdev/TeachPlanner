@@ -37,9 +37,9 @@ export default function LessonPlanCalendarEntry({
   return (
     <div
       style={style}
-      className={`col-start-${columnIndex + 2} col-end-${columnIndex + 2} border-r-2 border-b-2 border-darkGreen flex flex-col p-2 select-none ${
-        isSelected ? selectedClassNames : " "
-      }`}
+      className={`col-start-${columnIndex + 2} col-end-${columnIndex + 2} border-r-2 border-b-2 ${
+        columnIndex % 2 === 1 && "bg-lightSage"
+      } border-darkGreen flex flex-col p-2 select-none ${isSelected ? selectedClassNames : " "}`}
       onClick={selectLessonEntry}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}>
