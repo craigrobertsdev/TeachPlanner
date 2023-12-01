@@ -1,11 +1,19 @@
-function getCalendarTime(time: string) {
+function getCalendarTime(time: string | Date) {
   // hh:mm:ss
-  const hours = +time.split(":")[0];
-  const minutes = +time.split(":")[1];
-  const hoursString = hours > 12 ? `${hours - 12}` : `${hours}`;
-  const minutesString = minutes < 10 ? `0${minutes}` : `${minutes}`;
+  if (typeof time === "string") {
+    const hours = +time.split(":")[0];
+    const minutes = +time.split(":")[1];
+    const hoursString = hours > 12 ? `${hours - 12}` : `${hours}`;
+    const minutesString = minutes < 10 ? `0${minutes}` : `${minutes}`;
+    const ampm = hours >= 12 ? "pm" : "am";
+    return `${hoursString}:${minutesString}${ampm}`;
+  }
+
+  const hours = time.getHours();
+  const minutes = time.getMinutes();
   const ampm = hours >= 12 ? "pm" : "am";
-  return `${hoursString}:${minutesString}${ampm}`;
+  const hoursString = hours > 12 ? `${hours - 12}` : `${hours}`;
+  return `${hoursString}:${minutes}${ampm}`;
 }
 
 function getCalendarDate(date: Date | string, offset?: number): string {

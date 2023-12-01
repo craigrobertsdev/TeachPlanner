@@ -63,7 +63,7 @@ function LessonPlan() {
       Resources should be fetched for the subject and year level(s) of the lesson. Same for assessments.
       <div className={`flex justify-between items-center mb-3 border border-darkGreen p-2 bg-${lessonPlan.subject.name.toLowerCase()}`}>
         <p className="text-center">Subject: {lessonPlan.subject.name}</p>
-        <p className="text-center">Start Time: {getCalendarTime(lessonPlan.startTime.toString())}</p> {/*TODO: displays NAN:10am */}
+        <p className="text-center">Start Time: {getCalendarTime(lessonPlan.startTime)}</p> {/*TODO: displays NAN:10am */}
         <p className="text-center">Period Number: {lessonPlan.periodNumber}</p>
         <p className="text-center">Date: {getCalendarDate(lessonPlan.startTime)}</p>
       </div>
