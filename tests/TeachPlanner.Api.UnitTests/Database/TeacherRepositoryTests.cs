@@ -3,6 +3,7 @@ using FluentAssertions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using TeachPlanner.Api.Database;
+using TeachPlanner.Api.Domain.PlannerTemplates;
 using TeachPlanner.Api.Domain.Teachers;
 using TeachPlanner.Api.Domain.Users;
 using TeachPlanner.Api.Domain.YearDataRecords;
@@ -31,12 +32,12 @@ public class TeacherRepositoryTests
         if (!await databaseContext.Teachers.AnyAsync())
         {
             var teacher1 = Teacher.Create(new UserId(Guid.NewGuid()), "John", "Smith");
-            var yearData1 = YearData.Create(teacher1.Id, 2023);
+            var yearData1 = YearData.Create(teacher1.Id, 2023, DayPlanTemplate.Create(new(), teacher1.Id));
             yearData1.AddSubjects(SubjectHelpers.CreateCurriculumSubjects());
             teacher1.AddYearData(YearDataEntry.Create(2023, yearData1.Id));
 
             var teacher2 = Teacher.Create(new UserId(Guid.NewGuid()), "Jane", "Smith");
-            var yearData2 = YearData.Create(teacher2.Id, 2023);
+            var yearData2 = YearData.Create(teacher2.Id, 2023, DayPlanTemplate.Create(new(), teacher2.Id));
             yearData2.AddSubjects(SubjectHelpers.CreateCurriculumSubjects());
 
             databaseContext.Teachers.Add(teacher1);

@@ -55,6 +55,7 @@ public static class RouteMapper {
 
     private static RouteGroupBuilder MapLessonPlans(this RouteGroupBuilder group) {
         var lessonPlanGroup = group.MapGroup("/lesson-plans");
+        lessonPlanGroup.MapGet("/data", GetLessonPlanData.Delegate);
         lessonPlanGroup.MapPost("/", CreateLessonPlan.Delegate);
 
         return group;

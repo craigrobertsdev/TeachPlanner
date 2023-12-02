@@ -1,10 +1,11 @@
-import { useLoaderData, useNavigate } from "react-router-dom";
+import { useLoaderData, useNavigate, useParams } from "react-router-dom";
 import { getCalendarDate, getCalendarTime } from "../../utils/dateUtils";
 import { useRef, useState } from "react";
 import Button from "../../components/common/Button";
 import CancelButton from "../../components/common/CancelButton";
 import AddContentDescriptionDialogContent from "../../components/planner/AddContentDescriptionDialogContent";
 import AddResourcesDialogContent from "../../components/planner/AddResourcesDialogContent";
+import { baseUrl } from "../../utils/constants";
 
 function LessonPlan() {
   const lessonPlan = useLoaderData() as LessonPlan;
@@ -177,7 +178,17 @@ function LessonPlan() {
 
 export default LessonPlan;
 
+// this function is called both when there is a new lesson plan to be created, and one that needs to be viewed or edited.
 export async function lessonPlanLoader(): Promise<LessonPlan> {
+  const isNewLessonPlan = window.location.pathname.includes("create");
+
+  // if (isNewLessonPlan) {
+  //   const { period, day, week } = useParams();
+  //   const response = await fetch(`${baseUrl}/lesson-plans/data`);
+  //   return response.json();
+  // }
+
+  // const params = useParams();
   // const response = await fetch(`${baseUrl}/lesson-plans/${params.lessonPlanId}`);
   // return response.json();
 

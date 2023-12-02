@@ -1,3 +1,3 @@
 namespace TeachPlanner.Api.Contracts.Resources;
 
-public record CreateResourceRequest(string Name, Guid SubjectId, List<string> AssociatedStrands, bool IsAssessment);
+public record CreateResourceRequest(Stream FileStream, string Name, Guid SubjectId, bool IsAssessment);

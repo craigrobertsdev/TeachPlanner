@@ -1,15 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TeachPlanner.Api.Common.Interfaces.Persistence;
 using TeachPlanner.Api.Domain.CurriculumSubjects;
-using TeachPlanner.Api.Domain.PlannerTemplates;
 using TeachPlanner.Api.Domain.Teachers;
+using TeachPlanner.Api.Domain.Teachers.DomainEvents;
 using TeachPlanner.Api.Domain.Users;
 using TeachPlanner.Api.Domain.YearDataRecords;
 
 namespace TeachPlanner.Api.Database.Repositories;
 
-public class TeacherRepository : ITeacherRepository
-{
+public class TeacherRepository : ITeacherRepository {
     private readonly ApplicationDbContext _context;
 
     public TeacherRepository(ApplicationDbContext context)
@@ -42,6 +41,13 @@ public class TeacherRepository : ITeacherRepository
     {
         return await _context.Teachers
             .Where(t => t.UserId == userId)
+            .FirstOrDefaultAsync(cancellationToken);
+    }
+
+    public async Task<Teacher?> GetWithResources(TeacherId teacherId, CancellationToken cancellationToken) {
+        return await _context.Teachers
+            .Where(t => t.Id == teacherId)
+            .Include(t => t.Resources)
             .FirstOrDefaultAsync(cancellationToken);
     }
 

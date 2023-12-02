@@ -65,8 +65,6 @@ public sealed class Teacher : Entity<TeacherId>, IAggregateRoot
 
     public void AddResource(Resource resource)
     {
-        if (_resources.Contains(resource)) return;
-
         _resources.Add(resource);
     }
     
