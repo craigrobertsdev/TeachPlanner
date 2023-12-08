@@ -2,6 +2,7 @@
 using FluentAssertions;
 using TeachPlanner.Api.Common.Interfaces.Persistence;
 using TeachPlanner.Api.Contracts.Teachers.GetTeacherSettings;
+using TeachPlanner.Api.Domain.PlannerTemplates;
 using TeachPlanner.Api.Domain.Students;
 using TeachPlanner.Api.Domain.Teachers;
 using TeachPlanner.Api.Domain.YearDataRecords;
@@ -25,7 +26,7 @@ public class GetTeacherSettingsTests {
         // Arrange
         var curriculumSubjects = SubjectHelpers.CreateCurriculumSubjects();
         var teacher = TeacherHelpers.CreateTeacher();
-        var yearData = YearData.Create(teacher.Id, 2023);
+        var yearData = YearData.Create(teacher.Id, 2023, DayPlanTemplateHelpers.CreateDayPlanTemplate(teacher.Id));
         yearData.AddStudent(Student.Create(teacher.Id, "Fred", "Smith"));
         var yearDataEntry = YearDataEntry.Create(2023, yearData.Id);
         teacher.AddYearData(yearDataEntry);

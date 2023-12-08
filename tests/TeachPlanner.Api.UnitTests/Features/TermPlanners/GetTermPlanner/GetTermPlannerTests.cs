@@ -10,8 +10,6 @@ using TeachPlanner.Api.Common.Exceptions;
 using TeachPlanner.Api.Common.Interfaces.Persistence;
 using TeachPlanner.Api.UnitTests.Helpers;
 using TeachPlanner.Api.Features.TermPlanners;
-using MediatR;
-using TeachPlanner.Api.Features.Teachers;
 
 namespace TeachPlanner.Api.UnitTests.Features.TermPlanners.GetTermPlannerTests;
 public class GetTermPlannerTests {
@@ -28,7 +26,7 @@ public class GetTermPlannerTests {
         // Arrange
         var query = new GetTermPlanner.Query(new TeacherId(Guid.NewGuid()), 2023);
         var teacher = Teacher.Create(new UserId(Guid.NewGuid()), "Test", "Teacher");
-        var yearData = YearData.Create(teacher.Id, 2023);
+        var yearData = YearData.Create(teacher.Id, 2023, DayPlanTemplateHelpers.CreateDayPlanTemplate(teacher.Id)); 
         teacher.AddYearData(YearDataEntry.Create(2023, yearData.Id));
         var termPlanner = TermPlanner.Create(new YearDataId(Guid.NewGuid()), 2023, new List<YearLevelValue>());
         var subjects = SubjectHelpers.CreateCurriculumSubjects();

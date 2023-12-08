@@ -1,4 +1,5 @@
 ﻿using TeachPlanner.Api.Contracts.Teachers.AccountSetup;
+using TeachPlanner.Api.Domain.Common.Enums;
 using TeachPlanner.Api.Domain.CurriculumSubjects;
 using TeachPlanner.Api.Domain.PlannerTemplates;
 using TeachPlanner.Api.Domain.Teachers;
@@ -141,21 +142,25 @@ internal static class TeacherHelpers {
     }
 
     internal static AccountSetupRequest CreateAccountSetupRequest() {
-        return new AccountSetupRequest(CreateSubjectNames(), CreateYearLevelsTaught(), CreateDayPlanPatternDto());
+        return new AccountSetupRequest(CreateSubjectNames(), CreateYearLevelsTaughtAsStringList(), CreateDayPlanPatternDto());
     }
     internal static AccountSetupRequest CreateAccountSetupRequestWithOverlappingTimes() {
-        return new AccountSetupRequest(CreateSubjectNames(), CreateYearLevelsTaught(), CreateDayPlanPatternDtoWithOverlappingTimes());
+        return new AccountSetupRequest(CreateSubjectNames(), CreateYearLevelsTaughtAsStringList(), CreateDayPlanPatternDtoWithOverlappingTimes());
     }
 
     internal static AccountSetupRequest CreateAccountSetupRequestWithOverlappingDates() {
-        return new AccountSetupRequest(CreateSubjectNames(), CreateYearLevelsTaught(), CreateDayPlanPatternDto());
+        return new AccountSetupRequest(CreateSubjectNames(), CreateYearLevelsTaughtAsStringList(), CreateDayPlanPatternDto());
     }
 
     internal static List<CurriculumSubject> CreateCurriculumSubjects(List<string> subjectNames) {
         return subjectNames.Select(subjectNames => CurriculumSubject.Create(subjectNames, new())).ToList();
     }
 
-    internal static List<string> CreateYearLevelsTaught() {
+    internal static List<string> CreateYearLevelsTaughtAsStringList() {
         return new List<string> { "Year 1", "Year 2" };
+    }
+
+    internal static List<YearLevelValue> CreateYearLevelsTaught() {
+        return new List<YearLevelValue> { YearLevelValue.Year1, YearLevelValue.Year2 };
     }
 }
