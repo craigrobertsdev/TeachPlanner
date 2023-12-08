@@ -11,13 +11,12 @@ using TeachPlanner.Api.Database.Repositories;
 using TeachPlanner.Api.Services;
 using TeachPlanner.Api.Services.Authentication;
 using TeachPlanner.Api.Services.CurriculumParser;
+using TeachPlanner.Api.Services.FileStorage;
 
 namespace TeachPlanner.Api.Extensions.DependencyInjection;
 
-public static class Infrastructure
-{
-    public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
-    {
+public static class Infrastructure {
+    public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration) {
         services.AddPersistence(configuration);
         services.AddServices();
         services.AddAuth(configuration);
@@ -25,8 +24,7 @@ public static class Infrastructure
         return services;
     }
 
-    private static IServiceCollection AddPersistence(this IServiceCollection services, IConfiguration configuration)
-    {
+    private static IServiceCollection AddPersistence(this IServiceCollection services, IConfiguration configuration) {
         var dbContextSettings = new DbContextSettings();
         configuration.Bind(DbContextSettings.SectionName, dbContextSettings);
 
@@ -55,30 +53,27 @@ public static class Infrastructure
         return services;
     }
 
-    private static IServiceCollection AddServices(this IServiceCollection services)
-    {
+    private static IServiceCollection AddServices(this IServiceCollection services) {
         services.AddSingleton<ICurriculumService, CurriculumService>();
         services.AddSingleton<ITermDatesService, TermDatesService>();
+        services.AddTransient<IStorageManager, StorageManager>();
 
         return services;
     }
 
-    private static IServiceCollection AddAuth(this IServiceCollection services, IConfiguration configuration)
-    {
+    private static IServiceCollection AddAuth(this IServiceCollection services, IConfiguration configuration) {
         var jwtSettings = new JwtSettings();
         configuration.Bind(JwtSettings.SectionName, jwtSettings);
 
         services.AddSingleton(jwtSettings);
         services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
 
-        services.AddAuthentication(x =>
-            {
-                x.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            })
-            .AddJwtBearer(options => options.TokenValidationParameters = new TokenValidationParameters
-            {
+        services.AddAuthentication(x => {
+            x.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+            x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+        })
+            .AddJwtBearer(options => options.TokenValidationParameters = new TokenValidationParameters {
                 ValidIssuer = jwtSettings.Issuer,
                 ValidAudience = jwtSettings.Audience,
                 IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.Secret)),
@@ -91,8 +86,7 @@ public static class Infrastructure
         return services;
     }
 
-    private static IServiceCollection AddCurriculumParser(this IServiceCollection services)
-    {
+    private static IServiceCollection AddCurriculumParser(this IServiceCollection services) {
         services.AddScoped<ICurriculumParser, CurriculumParser>();
         return services;
     }

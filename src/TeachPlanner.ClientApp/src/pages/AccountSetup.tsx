@@ -157,7 +157,6 @@ function AccountSetup() {
         <div className="w-1/3 mr-auto flex-col items-center p-2 pb-4">
           <YearLevelPicker yearLevelsTaught={yearLevelsTaught} setYearLevelsTaught={setYearLevelsTaught} />
         </div>
-        di
       </div>
       <br />
       <br />

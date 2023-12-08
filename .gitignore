@@ -12,6 +12,7 @@
 **/appsettings.*
 **/Uploads
 .idea/
+**/*.crt
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs

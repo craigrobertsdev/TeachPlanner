@@ -16,15 +16,12 @@ builder.Services.AddAuthorization();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(opt =>
-{
-    opt.SwaggerDoc("v1", new OpenApiInfo
-    {
+builder.Services.AddSwaggerGen(opt => {
+    opt.SwaggerDoc("v1", new OpenApiInfo {
         Title = "TeachPlanner Api",
         Version = "v1"
     });
-    opt.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-    {
+    opt.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme {
         Name = "Authorization",
         Type = SecuritySchemeType.ApiKey
     });
@@ -44,13 +41,18 @@ builder.Services.AddSwaggerGen(opt =>
         }
     });
 });
-builder.Services.AddCors();
+builder.Services.AddCors(opts => {
+    opts.AddDefaultPolicy(builder => {
+        builder.AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader();
+    });
+});
 
 var app = builder.Build();
 
 app.UseSwagger();
 app.UseSwaggerUI();
-
 
 // enable cors
 app.UseCors(builder => builder
@@ -58,7 +60,7 @@ app.UseCors(builder => builder
     .AllowAnyMethod()
     .AllowAnyHeader());
 
-app.UseHttpsRedirection();
+// app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 

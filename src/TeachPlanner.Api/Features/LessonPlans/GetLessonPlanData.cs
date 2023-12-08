@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Mvc;
 using TeachPlanner.Api.Common.Exceptions;
 using TeachPlanner.Api.Common.Interfaces.Persistence;
 using TeachPlanner.Api.Contracts.Curriculum;
@@ -46,7 +47,7 @@ public static class GetLessonPlanData {
         }
     }
 
-    public static async Task<IResult> Delegate(Guid teacherId, List<string> yearLevels, ISender sender, CancellationToken cancellationToken) {
+    public static async Task<IResult> Delegate([FromRoute] Guid teacherId, [AsParameters] List<string> yearLevels, ISender sender, CancellationToken cancellationToken) {
         var query = new Query(new TeacherId(teacherId), yearLevels.Select(Enum.Parse<YearLevelValue>).ToList());
 
         var result = await sender.Send(query, cancellationToken);

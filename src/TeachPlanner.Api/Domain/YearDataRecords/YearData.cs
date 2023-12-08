@@ -13,8 +13,7 @@ using TeachPlanner.Api.Domain.YearDataRecords.DomainEvents;
 
 namespace TeachPlanner.Api.Domain.YearDataRecords;
 
-public class YearData : Entity<YearDataId>, IAggregateRoot
-{
+public class YearData : Entity<YearDataId>, IAggregateRoot {
     private readonly List<LessonPlan> _lessonPlans = new();
     private readonly List<Student> _students = new();
     private readonly List<Subject> _subjects = new();
@@ -31,23 +30,20 @@ public class YearData : Entity<YearDataId>, IAggregateRoot
     public IReadOnlyList<LessonPlan> LessonPlans => _lessonPlans.AsReadOnly();
     public IReadOnlyList<WeekPlanner> WeekPlanners => _weekPlanners.AsReadOnly();
 
-    private YearData(YearDataId id, TeacherId teacherId, DayPlanTemplate dayPlanTemplate, int calendarYear) : base(id)
-    {
+    private YearData(YearDataId id, TeacherId teacherId, DayPlanTemplate dayPlanTemplate, int calendarYear) : base(id) {
         TeacherId = teacherId;
         CalendarYear = calendarYear;
         DayPlanTemplate = dayPlanTemplate;
     }
 
-    private YearData(YearDataId id, TeacherId teacherId, DayPlanTemplate dayPlanTemplate, int calendarYear, List<Student> students) : base(id)
-    {
+    private YearData(YearDataId id, TeacherId teacherId, DayPlanTemplate dayPlanTemplate, int calendarYear, List<Student> students) : base(id) {
         TeacherId = teacherId;
         CalendarYear = calendarYear;
         DayPlanTemplate = dayPlanTemplate;
         _students = students;
     }
 
-    private YearData(YearDataId id, TeacherId teacherId, DayPlanTemplate dayPlanTemplate, int calendarYear, List<string> yearLevels) : base(id)
-    {
+    private YearData(YearDataId id, TeacherId teacherId, DayPlanTemplate dayPlanTemplate, int calendarYear, List<string> yearLevels) : base(id) {
         TeacherId = teacherId;
         CalendarYear = calendarYear;
         DayPlanTemplate = dayPlanTemplate;
@@ -56,8 +52,7 @@ public class YearData : Entity<YearDataId>, IAggregateRoot
         _yearLevelsTaught = yearLevelEnums;
     }
 
-    public static YearData Create(TeacherId teacherId, int calendarYear, DayPlanTemplate dayPlanTemplate)
-    {
+    public static YearData Create(TeacherId teacherId, int calendarYear, DayPlanTemplate dayPlanTemplate) {
         var yearData = new YearData(new YearDataId(Guid.NewGuid()), teacherId, dayPlanTemplate, calendarYear);
 
         yearData.AddDomainEvent(new YearDataCreatedDomainEvent(Guid.NewGuid(), yearData.Id, calendarYear, teacherId));
@@ -65,8 +60,7 @@ public class YearData : Entity<YearDataId>, IAggregateRoot
         return yearData;
     }
 
-    public static YearData Create(TeacherId teacherId, int calendarYear, DayPlanTemplate dayPlanTemplate, List<string> yearLevels)
-    {
+    public static YearData Create(TeacherId teacherId, int calendarYear, DayPlanTemplate dayPlanTemplate, List<string> yearLevels) {
         var yearData = new YearData(new YearDataId(Guid.NewGuid()), teacherId, dayPlanTemplate, calendarYear, yearLevels);
 
         yearData.AddDomainEvent(new YearDataCreatedDomainEvent(Guid.NewGuid(), yearData.Id, calendarYear, teacherId));
@@ -74,62 +68,51 @@ public class YearData : Entity<YearDataId>, IAggregateRoot
         return yearData;
     }
 
-    public void AddSubjects(List<CurriculumSubject> subjects)
-    {
-        foreach (var subject in subjects)
-        {
+    public void AddSubjects(List<CurriculumSubject> subjects) {
+        foreach (var subject in subjects) {
             if (IsInSubjects(subject)) return;
 
             _subjects.Add(Subject.Create(subject.Name, new List<YearDataContentDescription>()));
         }
     }
 
-    private bool IsInSubjects(CurriculumSubject subject)
-    {
+    private bool IsInSubjects(CurriculumSubject subject) {
         return _subjects.FirstOrDefault(s => s.Name == subject.Name) != null;
     }
 
-    public void AddStudents(List<Student> students)
-    {
+    public void AddStudents(List<Student> students) {
         foreach (var student in students) AddStudent(student);
     }
 
-    public void AddStudent(Student student)
-    {
+    public void AddStudent(Student student) {
         if (NotInStudents(student)) _students.Add(student);
     }
 
-    private bool NotInStudents(Student student)
-    {
+    private bool NotInStudents(Student student) {
         return !_students.Contains(student);
     }
 
-    public void AddYearLevel(YearLevelValue yearLevel)
-    {
+    public void AddYearLevel(YearLevelValue yearLevel) {
         if (NotInYearLevelsTaught(yearLevel)) _yearLevelsTaught.Add(yearLevel);
     }
 
-    private bool NotInYearLevelsTaught(YearLevelValue yearLevel)
-    {
+    private bool NotInYearLevelsTaught(YearLevelValue yearLevel) {
         return _yearLevelsTaught.Contains(yearLevel);
     }
 
-    public void AddTermPlanner(TermPlannerId termPlannerId)
-    {
+    public void AddTermPlanner(TermPlannerId termPlannerId) {
         if (TermPlannerId is not null) throw new TermPlannerAlreadyAssociatedException();
 
         TermPlannerId = termPlannerId;
     }
 
-    public void AddYearLevelsTaught(List<YearLevelValue> yearLevelsTaught)
-    {
+    public void AddYearLevelsTaught(List<YearLevelValue> yearLevelsTaught) {
         foreach (var yearLevel in yearLevelsTaught) AddYearLevel(yearLevel);
     }
 
-    public void SetDayPlanTemplate(DayPlanTemplate dayPlanTemplate)
-    {
-        DayPlanTemplate = dayPlanTemplate;
-        _domainEvents.Add(new DayPlanTemplateAddedToYearDataEvent(Guid.NewGuid(), dayPlanTemplate.Id));
+    public void SetDayPlanTemplate(DayPlanTemplate dayPlanTemplate) {
+        DayPlanTemplate.SetPeriods(dayPlanTemplate.Periods);
+        _domainEvents.Add(new DayPlanTemplateAddedToYearDataEvent(Guid.NewGuid(), DayPlanTemplate.Id));
     }
 
     public void SetYearLevelsTaught(List<YearLevelValue> yearLevels) {
@@ -139,7 +122,6 @@ public class YearData : Entity<YearDataId>, IAggregateRoot
     }
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-    private YearData()
-    {
+    private YearData() {
     }
 }
