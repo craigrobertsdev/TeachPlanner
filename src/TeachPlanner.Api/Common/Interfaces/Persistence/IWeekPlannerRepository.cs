@@ -4,8 +4,7 @@ using TeachPlanner.Api.Domain.WeekPlanners;
 
 namespace TeachPlanner.Api.Common.Interfaces.Persistence;
 
-public interface IWeekPlannerRepository
-{
+public interface IWeekPlannerRepository {
     Task<WeekPlanner?> GetWeekPlanner(int weekNumber, int termNumber, int year,
         CancellationToken cancellationToken);
 

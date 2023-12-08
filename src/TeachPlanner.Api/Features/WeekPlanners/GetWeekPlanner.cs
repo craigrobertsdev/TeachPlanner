@@ -37,7 +37,7 @@ public static class GetWeekPlanner {
 
             var weekPlanner = await _weekPlannerRepository.GetWeekPlanner(request.WeekNumber, request.TermNumber, request.Year, cancellationToken);
             var dayPlanTemplate = await _plannerTemplateRepository.GetByTeacherId(teacher.Id, cancellationToken);
-    
+
             if (weekPlanner is not null) {
                 return new WeekPlannerResponse(
                     weekPlanner.DayPlans.ToList(),

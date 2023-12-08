@@ -7,17 +7,14 @@ using TeachPlanner.Api.Domain.Teachers;
 
 namespace TeachPlanner.Api.Services.Authentication;
 
-public class JwtTokenGenerator : IJwtTokenGenerator
-{
+public class JwtTokenGenerator : IJwtTokenGenerator {
     private readonly JwtSettings _jwtSettings;
 
-    public JwtTokenGenerator(JwtSettings jwtSettings)
-    {
+    public JwtTokenGenerator(JwtSettings jwtSettings) {
         _jwtSettings = jwtSettings;
     }
 
-    public string GenerateToken(Teacher teacher)
-    {
+    public string GenerateToken(Teacher teacher) {
         var signingCredentials = new SigningCredentials(
             new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.Secret)),
             SecurityAlgorithms.HmacSha256

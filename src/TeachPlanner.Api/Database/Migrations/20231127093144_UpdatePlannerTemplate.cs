@@ -3,21 +3,17 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace TeachPlanner.Api.Database.Migrations
-{
+namespace TeachPlanner.Api.Database.Migrations {
     /// <inheritdoc />
-    public partial class UpdatePlannerTemplate : Migration
-    {
+    public partial class UpdatePlannerTemplate : Migration {
         /// <inheritdoc />
-        protected override void Up(MigrationBuilder migrationBuilder)
-        {
+        protected override void Up(MigrationBuilder migrationBuilder) {
             migrationBuilder.AlterDatabase()
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "calendar",
-                columns: table => new
-                {
+                columns: table => new {
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     TermNumber = table.Column<int>(type: "int", nullable: false),
                     TermStart = table.Column<DateTime>(type: "datetime(6)", nullable: false),
@@ -25,16 +21,14 @@ namespace TeachPlanner.Api.Database.Migrations
                     CreatedDateTime = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     UpdatedDateTime = table.Column<DateTime>(type: "datetime(6)", nullable: false)
                 },
-                constraints: table =>
-                {
+                constraints: table => {
                     table.PrimaryKey("PK_calendar", x => x.Id);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "school_events",
-                columns: table => new
-                {
+                columns: table => new {
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     Location_StreetNumber = table.Column<string>(type: "varchar(30)", maxLength: 30, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
@@ -50,52 +44,45 @@ namespace TeachPlanner.Api.Database.Migrations
                     CreatedDateTime = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     UpdatedDateTime = table.Column<DateTime>(type: "datetime(6)", nullable: false)
                 },
-                constraints: table =>
-                {
+                constraints: table => {
                     table.PrimaryKey("PK_school_events", x => x.Id);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "term_dates",
-                columns: table => new
-                {
+                columns: table => new {
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     TermNumber = table.Column<int>(type: "int", nullable: false),
                     StartDate = table.Column<DateOnly>(type: "date", nullable: false),
                     EndDate = table.Column<DateOnly>(type: "date", nullable: false)
                 },
-                constraints: table =>
-                {
+                constraints: table => {
                     table.PrimaryKey("PK_term_dates", x => x.Id);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "users",
-                columns: table => new
-                {
+                columns: table => new {
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     Email = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     Password = table.Column<string>(type: "varchar(255)", maxLength: 255, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4")
                 },
-                constraints: table =>
-                {
+                constraints: table => {
                     table.PrimaryKey("PK_users", x => x.Id);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "CalendarSchoolEvent",
-                columns: table => new
-                {
+                columns: table => new {
                     CalendarId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     SchoolEventsId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
                 },
-                constraints: table =>
-                {
+                constraints: table => {
                     table.PrimaryKey("PK_CalendarSchoolEvent", x => new { x.CalendarId, x.SchoolEventsId });
                     table.ForeignKey(
                         name: "FK_CalendarSchoolEvent_calendar_CalendarId",
@@ -114,8 +101,7 @@ namespace TeachPlanner.Api.Database.Migrations
 
             migrationBuilder.CreateTable(
                 name: "teachers",
-                columns: table => new
-                {
+                columns: table => new {
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     UserId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     FirstName = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false)
@@ -123,8 +109,7 @@ namespace TeachPlanner.Api.Database.Migrations
                     LastName = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4")
                 },
-                constraints: table =>
-                {
+                constraints: table => {
                     table.PrimaryKey("PK_teachers", x => x.Id);
                     table.ForeignKey(
                         name: "FK_teachers_users_UserId",
@@ -137,13 +122,11 @@ namespace TeachPlanner.Api.Database.Migrations
 
             migrationBuilder.CreateTable(
                 name: "day_plan_templates",
-                columns: table => new
-                {
+                columns: table => new {
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     TeacherId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
                 },
-                constraints: table =>
-                {
+                constraints: table => {
                     table.PrimaryKey("PK_day_plan_templates", x => x.Id);
                     table.ForeignKey(
                         name: "FK_day_plan_templates_teachers_TeacherId",
@@ -156,15 +139,13 @@ namespace TeachPlanner.Api.Database.Migrations
 
             migrationBuilder.CreateTable(
                 name: "year_data_entries",
-                columns: table => new
-                {
+                columns: table => new {
                     TeacherId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     CalendarYear = table.Column<int>(type: "int", nullable: false),
                     YearDataId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
                 },
-                constraints: table =>
-                {
+                constraints: table => {
                     table.PrimaryKey("PK_year_data_entries", x => new { x.TeacherId, x.Id });
                     table.ForeignKey(
                         name: "FK_year_data_entries_teachers_TeacherId",
@@ -177,8 +158,7 @@ namespace TeachPlanner.Api.Database.Migrations
 
             migrationBuilder.CreateTable(
                 name: "template_periods",
-                columns: table => new
-                {
+                columns: table => new {
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     PeriodType = table.Column<string>(type: "varchar(20)", maxLength: 20, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
@@ -188,8 +168,7 @@ namespace TeachPlanner.Api.Database.Migrations
                     EndTime = table.Column<TimeOnly>(type: "time(6)", nullable: false),
                     DayPlanTemplateId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
                 },
-                constraints: table =>
-                {
+                constraints: table => {
                     table.PrimaryKey("PK_template_periods", x => x.Id);
                     table.ForeignKey(
                         name: "FK_template_periods_day_plan_templates_DayPlanTemplateId",
@@ -202,8 +181,7 @@ namespace TeachPlanner.Api.Database.Migrations
 
             migrationBuilder.CreateTable(
                 name: "assessment_results",
-                columns: table => new
-                {
+                columns: table => new {
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     AssessmentId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     Comments = table.Column<string>(type: "varchar(1000)", maxLength: 1000, nullable: false)
@@ -215,16 +193,14 @@ namespace TeachPlanner.Api.Database.Migrations
                     CreatedDateTime = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     UpdatedDateTime = table.Column<DateTime>(type: "datetime(6)", nullable: false)
                 },
-                constraints: table =>
-                {
+                constraints: table => {
                     table.PrimaryKey("PK_assessment_results", x => new { x.Id, x.AssessmentId });
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "assessments",
-                columns: table => new
-                {
+                columns: table => new {
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     TeacherId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     SubjectId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
@@ -239,8 +215,7 @@ namespace TeachPlanner.Api.Database.Migrations
                     DateConducted = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     UpdatedDateTime = table.Column<DateTime>(type: "datetime(6)", nullable: false)
                 },
-                constraints: table =>
-                {
+                constraints: table => {
                     table.PrimaryKey("PK_assessments", x => x.Id);
                     table.ForeignKey(
                         name: "FK_assessments_teachers_TeacherId",
@@ -253,8 +228,7 @@ namespace TeachPlanner.Api.Database.Migrations
 
             migrationBuilder.CreateTable(
                 name: "content_descriptions",
-                columns: table => new
-                {
+                columns: table => new {
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     Description = table.Column<string>(type: "varchar(1000)", maxLength: 1000, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
@@ -264,23 +238,20 @@ namespace TeachPlanner.Api.Database.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     StrandId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci")
                 },
-                constraints: table =>
-                {
+                constraints: table => {
                     table.PrimaryKey("PK_content_descriptions", x => x.Id);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "elaborations",
-                columns: table => new
-                {
+                columns: table => new {
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     Description = table.Column<string>(type: "varchar(1000)", maxLength: 1000, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     ContentDescriptionId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci")
                 },
-                constraints: table =>
-                {
+                constraints: table => {
                     table.PrimaryKey("PK_elaborations", x => x.Id);
                     table.ForeignKey(
                         name: "FK_elaborations_content_descriptions_ContentDescriptionId",
@@ -293,28 +264,24 @@ namespace TeachPlanner.Api.Database.Migrations
 
             migrationBuilder.CreateTable(
                 name: "curriculum_subjects",
-                columns: table => new
-                {
+                columns: table => new {
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     Name = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     TermPlanId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci")
                 },
-                constraints: table =>
-                {
+                constraints: table => {
                     table.PrimaryKey("PK_curriculum_subjects", x => x.Id);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "CurriculumSubjectTeacher",
-                columns: table => new
-                {
+                columns: table => new {
                     SubjectsTaughtId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     TeacherId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
                 },
-                constraints: table =>
-                {
+                constraints: table => {
                     table.PrimaryKey("PK_CurriculumSubjectTeacher", x => new { x.SubjectsTaughtId, x.TeacherId });
                     table.ForeignKey(
                         name: "FK_CurriculumSubjectTeacher_curriculum_subjects_SubjectsTaughtId",
@@ -333,8 +300,7 @@ namespace TeachPlanner.Api.Database.Migrations
 
             migrationBuilder.CreateTable(
                 name: "resources",
-                columns: table => new
-                {
+                columns: table => new {
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     Name = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
@@ -348,8 +314,7 @@ namespace TeachPlanner.Api.Database.Migrations
                     UpdatedDateTime = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     TeacherId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci")
                 },
-                constraints: table =>
-                {
+                constraints: table => {
                     table.PrimaryKey("PK_resources", x => x.Id);
                     table.ForeignKey(
                         name: "FK_resources_curriculum_subjects_SubjectId",
@@ -367,8 +332,7 @@ namespace TeachPlanner.Api.Database.Migrations
 
             migrationBuilder.CreateTable(
                 name: "year_levels",
-                columns: table => new
-                {
+                columns: table => new {
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     YearLevelValue = table.Column<int>(type: "int", nullable: true),
                     BandLevelValue = table.Column<int>(type: "int", nullable: true),
@@ -378,8 +342,7 @@ namespace TeachPlanner.Api.Database.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     CurriculumSubjectId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
                 },
-                constraints: table =>
-                {
+                constraints: table => {
                     table.PrimaryKey("PK_year_levels", x => x.Id);
                     table.ForeignKey(
                         name: "FK_year_levels_curriculum_subjects_CurriculumSubjectId",
@@ -392,15 +355,13 @@ namespace TeachPlanner.Api.Database.Migrations
 
             migrationBuilder.CreateTable(
                 name: "strands",
-                columns: table => new
-                {
+                columns: table => new {
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     Name = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     YearLevelId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
                 },
-                constraints: table =>
-                {
+                constraints: table => {
                     table.PrimaryKey("PK_strands", x => x.Id);
                     table.ForeignKey(
                         name: "FK_strands_year_levels_YearLevelId",
@@ -413,27 +374,23 @@ namespace TeachPlanner.Api.Database.Migrations
 
             migrationBuilder.CreateTable(
                 name: "day_plans",
-                columns: table => new
-                {
+                columns: table => new {
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     WeekPlannerId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     Date = table.Column<DateOnly>(type: "date", nullable: false)
                 },
-                constraints: table =>
-                {
+                constraints: table => {
                     table.PrimaryKey("PK_day_plans", x => x.Id);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "DayPlanSchoolEvent",
-                columns: table => new
-                {
+                columns: table => new {
                     DayPlanId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     SchoolEventsId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
                 },
-                constraints: table =>
-                {
+                constraints: table => {
                     table.PrimaryKey("PK_DayPlanSchoolEvent", x => new { x.DayPlanId, x.SchoolEventsId });
                     table.ForeignKey(
                         name: "FK_DayPlanSchoolEvent_day_plans_DayPlanId",
@@ -452,8 +409,7 @@ namespace TeachPlanner.Api.Database.Migrations
 
             migrationBuilder.CreateTable(
                 name: "lesson_comment",
-                columns: table => new
-                {
+                columns: table => new {
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     LessonPlanId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     Content = table.Column<string>(type: "longtext", nullable: false)
@@ -464,21 +420,18 @@ namespace TeachPlanner.Api.Database.Migrations
                     CreatedDateTime = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     UpdatedDateTime = table.Column<DateTime>(type: "datetime(6)", nullable: false)
                 },
-                constraints: table =>
-                {
+                constraints: table => {
                     table.PrimaryKey("PK_lesson_comment", x => new { x.Id, x.LessonPlanId });
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "lesson_plan_resources",
-                columns: table => new
-                {
+                columns: table => new {
                     LessonPlanId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     ResourceId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
                 },
-                constraints: table =>
-                {
+                constraints: table => {
                     table.PrimaryKey("PK_lesson_plan_resources", x => new { x.LessonPlanId, x.ResourceId });
                     table.ForeignKey(
                         name: "FK_lesson_plan_resources_resources_ResourceId",
@@ -491,8 +444,7 @@ namespace TeachPlanner.Api.Database.Migrations
 
             migrationBuilder.CreateTable(
                 name: "lesson_plans",
-                columns: table => new
-                {
+                columns: table => new {
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     YearDataId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     SubjectId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
@@ -505,8 +457,7 @@ namespace TeachPlanner.Api.Database.Migrations
                     UpdatedDateTime = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     WeekPlannerId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
                 },
-                constraints: table =>
-                {
+                constraints: table => {
                     table.PrimaryKey("PK_lesson_plans", x => x.Id);
                     table.ForeignKey(
                         name: "FK_lesson_plans_curriculum_subjects_SubjectId",
@@ -525,8 +476,7 @@ namespace TeachPlanner.Api.Database.Migrations
 
             migrationBuilder.CreateTable(
                 name: "report_comments",
-                columns: table => new
-                {
+                columns: table => new {
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     Grade = table.Column<string>(type: "varchar(10)", maxLength: 10, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
@@ -535,16 +485,14 @@ namespace TeachPlanner.Api.Database.Migrations
                     CharacterLimit = table.Column<int>(type: "int", nullable: false),
                     ReportId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
                 },
-                constraints: table =>
-                {
+                constraints: table => {
                     table.PrimaryKey("PK_report_comments", x => x.Id);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "reports",
-                columns: table => new
-                {
+                columns: table => new {
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     TeacherId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     StudentId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
@@ -554,8 +502,7 @@ namespace TeachPlanner.Api.Database.Migrations
                     CreatedDateTime = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     UpdatedDateTime = table.Column<DateTime>(type: "datetime(6)", nullable: false)
                 },
-                constraints: table =>
-                {
+                constraints: table => {
                     table.PrimaryKey("PK_reports", x => x.Id);
                     table.ForeignKey(
                         name: "FK_reports_curriculum_subjects_SubjectId",
@@ -574,8 +521,7 @@ namespace TeachPlanner.Api.Database.Migrations
 
             migrationBuilder.CreateTable(
                 name: "students",
-                columns: table => new
-                {
+                columns: table => new {
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     TeacherId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     FirstName = table.Column<string>(type: "longtext", nullable: false)
@@ -584,8 +530,7 @@ namespace TeachPlanner.Api.Database.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     YearDataId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci")
                 },
-                constraints: table =>
-                {
+                constraints: table => {
                     table.PrimaryKey("PK_students", x => x.Id);
                     table.ForeignKey(
                         name: "FK_students_teachers_TeacherId",
@@ -598,30 +543,26 @@ namespace TeachPlanner.Api.Database.Migrations
 
             migrationBuilder.CreateTable(
                 name: "subjects",
-                columns: table => new
-                {
+                columns: table => new {
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     Name = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     YearDataId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
                 },
-                constraints: table =>
-                {
+                constraints: table => {
                     table.PrimaryKey("PK_subjects", x => x.Id);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "year_data_content_descriptions",
-                columns: table => new
-                {
+                columns: table => new {
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     CurriculumCode = table.Column<string>(type: "varchar(15)", maxLength: 15, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     SubjectId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci")
                 },
-                constraints: table =>
-                {
+                constraints: table => {
                     table.PrimaryKey("PK_year_data_content_descriptions", x => x.Id);
                     table.ForeignKey(
                         name: "FK_year_data_content_descriptions_subjects_SubjectId",
@@ -634,30 +575,26 @@ namespace TeachPlanner.Api.Database.Migrations
 
             migrationBuilder.CreateTable(
                 name: "term_planner",
-                columns: table => new
-                {
+                columns: table => new {
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     YearDataId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     CalendarYear = table.Column<int>(type: "int", nullable: false),
                     YearLevels = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4")
                 },
-                constraints: table =>
-                {
+                constraints: table => {
                     table.PrimaryKey("PK_term_planner", x => x.Id);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
                 name: "term_plans",
-                columns: table => new
-                {
+                columns: table => new {
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     TermPlannerId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     TermNumber = table.Column<int>(type: "int", nullable: false)
                 },
-                constraints: table =>
-                {
+                constraints: table => {
                     table.PrimaryKey("PK_term_plans", x => x.Id);
                     table.ForeignKey(
                         name: "FK_term_plans_term_planner_TermPlannerId",
@@ -670,8 +607,7 @@ namespace TeachPlanner.Api.Database.Migrations
 
             migrationBuilder.CreateTable(
                 name: "yeardata",
-                columns: table => new
-                {
+                columns: table => new {
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     DayPlanTemplateId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     TeacherId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
@@ -680,8 +616,7 @@ namespace TeachPlanner.Api.Database.Migrations
                     YearLevels = table.Column<string>(type: "varchar(100)", maxLength: 100, nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4")
                 },
-                constraints: table =>
-                {
+                constraints: table => {
                     table.PrimaryKey("PK_yeardata", x => x.Id);
                     table.ForeignKey(
                         name: "FK_yeardata_day_plan_templates_DayPlanTemplateId",
@@ -705,8 +640,7 @@ namespace TeachPlanner.Api.Database.Migrations
 
             migrationBuilder.CreateTable(
                 name: "week_planner",
-                columns: table => new
-                {
+                columns: table => new {
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     YearDataId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     DayPlanTemplateId = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
@@ -717,8 +651,7 @@ namespace TeachPlanner.Api.Database.Migrations
                     CreatedDateTime = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     UpdatedDateTime = table.Column<DateTime>(type: "datetime(6)", nullable: false)
                 },
-                constraints: table =>
-                {
+                constraints: table => {
                     table.PrimaryKey("PK_week_planner", x => x.Id);
                     table.ForeignKey(
                         name: "FK_week_planner_day_plan_templates_DayPlanTemplateId",
@@ -1054,8 +987,7 @@ namespace TeachPlanner.Api.Database.Migrations
         }
 
         /// <inheritdoc />
-        protected override void Down(MigrationBuilder migrationBuilder)
-        {
+        protected override void Down(MigrationBuilder migrationBuilder) {
             migrationBuilder.DropForeignKey(
                 name: "FK_day_plan_templates_teachers_TeacherId",
                 table: "day_plan_templates");

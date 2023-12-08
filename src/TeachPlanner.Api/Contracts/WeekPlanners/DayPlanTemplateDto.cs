@@ -9,7 +9,7 @@ public record DayPlanTemplateDto(List<PeriodDto> Pattern) {
                 period.PeriodType.ToString(),
                 period.Name ?? null,
                 period.StartTime,
-                period.EndTime)).ToList()); 
+                period.EndTime)).ToList());
 
         return new DayPlanTemplateDto(dayPlan);
     }

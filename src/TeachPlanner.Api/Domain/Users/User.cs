@@ -1,9 +1,7 @@
 ﻿namespace TeachPlanner.Api.Domain.Users;
 
-public sealed class User
-{
-    public User(string email, string password)
-    {
+public sealed class User {
+    public User(string email, string password) {
         Id = new UserId(Guid.NewGuid());
         Email = email;
         Password = password;

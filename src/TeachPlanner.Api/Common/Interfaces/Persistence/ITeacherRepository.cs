@@ -5,8 +5,7 @@ using TeachPlanner.Api.Domain.YearDataRecords;
 
 namespace TeachPlanner.Api.Common.Interfaces.Persistence;
 
-public interface ITeacherRepository
-{
+public interface ITeacherRepository {
     void Add(Teacher teacher);
     Task<Teacher?> GetByEmail(string email, CancellationToken cancellationToken);
     Task<Teacher?> GetByUserId(UserId userId, CancellationToken cancellationToken);

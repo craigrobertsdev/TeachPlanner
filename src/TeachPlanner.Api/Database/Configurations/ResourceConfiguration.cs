@@ -6,10 +6,8 @@ using TeachPlanner.Api.Domain.Teachers;
 
 namespace TeachPlanner.Api.Database.Configurations;
 
-public class ResourceConfiguration : IEntityTypeConfiguration<Resource>
-{
-    public void Configure(EntityTypeBuilder<Resource> builder)
-    {
+public class ResourceConfiguration : IEntityTypeConfiguration<Resource> {
+    public void Configure(EntityTypeBuilder<Resource> builder) {
         builder.ToTable("resources");
 
         builder.HasKey(r => r.Id);

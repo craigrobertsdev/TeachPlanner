@@ -6,15 +6,12 @@ using TeachPlanner.Api.Domain.WeekPlanners;
 
 namespace TeachPlanner.Api.Database.Repositories;
 
-public class WeekPlannerRepository : IWeekPlannerRepository
-{
+public class WeekPlannerRepository : IWeekPlannerRepository {
     private readonly ApplicationDbContext _context;
-    public WeekPlannerRepository(ApplicationDbContext context)
-    {
+    public WeekPlannerRepository(ApplicationDbContext context) {
         _context = context;
     }
-    public async Task<WeekPlanner?> GetWeekPlanner(int weekNumber, int termNumber, int year, CancellationToken cancellationToken)
-    {
+    public async Task<WeekPlanner?> GetWeekPlanner(int weekNumber, int termNumber, int year, CancellationToken cancellationToken) {
         return await _context.WeekPlanners
             .Where(wp => wp.WeekNumber == weekNumber)
             .Where(wp => wp.TermNumber == termNumber)
@@ -23,8 +20,7 @@ public class WeekPlannerRepository : IWeekPlannerRepository
             .FirstOrDefaultAsync(cancellationToken);
     }
 
-    public void Add(WeekPlanner weekPlanner)
-    {
+    public void Add(WeekPlanner weekPlanner) {
         _context.WeekPlanners.Add(weekPlanner);
     }
 }

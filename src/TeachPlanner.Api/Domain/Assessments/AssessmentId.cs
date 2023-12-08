@@ -2,25 +2,20 @@
 
 namespace TeachPlanner.Api.Domain.Assessments;
 
-public record AssessmentId
-{
+public record AssessmentId {
     public Guid Value;
 
-    public AssessmentId(Guid value)
-    {
+    public AssessmentId(Guid value) {
         Value = value;
     }
 
-    public class StronglyTypedIdEfValueConverter : ValueConverter<AssessmentId, Guid>
-    {
+    public class StronglyTypedIdEfValueConverter : ValueConverter<AssessmentId, Guid> {
         public StronglyTypedIdEfValueConverter(ConverterMappingHints? mappingHints = null)
-            : base(id => id.Value, value => new AssessmentId(value), mappingHints)
-        {
+            : base(id => id.Value, value => new AssessmentId(value), mappingHints) {
         }
 
         public StronglyTypedIdEfValueConverter()
-            : base(id => id.Value, value => new AssessmentId(value))
-        {
+            : base(id => id.Value, value => new AssessmentId(value)) {
         }
     }
 }

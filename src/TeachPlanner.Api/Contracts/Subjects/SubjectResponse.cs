@@ -5,11 +5,9 @@ namespace TeachPlanner.Api.Contracts.Subjects;
 public record SubjectResponse(
     Guid Id,
     string Name,
-    List<YearLevelResponse> YearLevels)
-{
+    List<YearLevelResponse> YearLevels) {
     public static List<SubjectResponse> CreateCurriculumSubjectResponses(IEnumerable<CurriculumSubject> subjects,
-        bool withDetails)
-    {
+        bool withDetails) {
         List<SubjectResponse> subjectResponses = new();
         subjectResponses = subjects.Select(s => new SubjectResponse(
             s.Id.Value,
@@ -19,8 +17,7 @@ public record SubjectResponse(
         return subjectResponses;
     }
 
-    private static List<YearLevelResponse> CreateYearLevelResponses(IEnumerable<YearLevel> yearLevels, bool withDetails)
-    {
+    private static List<YearLevelResponse> CreateYearLevelResponses(IEnumerable<YearLevel> yearLevels, bool withDetails) {
         List<YearLevelResponse> yearLevelResponses = new();
         yearLevelResponses = yearLevels.Select(yl => new YearLevelResponse(
             yl.Name,
@@ -33,8 +30,7 @@ public record SubjectResponse(
         return yearLevelResponses;
     }
 
-    private static List<StrandResponse> CreateStrandResponses(IEnumerable<Strand> strands, bool withDetails)
-    {
+    private static List<StrandResponse> CreateStrandResponses(IEnumerable<Strand> strands, bool withDetails) {
         List<StrandResponse> strandResponses = new();
         strandResponses = strands.Select(s => new StrandResponse(
             s.Name,
@@ -46,8 +42,7 @@ public record SubjectResponse(
     }
 
     private static List<ContentDescriptionResponse> CreateContentDescriptionResponses(
-        IEnumerable<ContentDescription> contentDescriptions, bool withDetails)
-    {
+        IEnumerable<ContentDescription> contentDescriptions, bool withDetails) {
         List<ContentDescriptionResponse> contentDescriptionResponses = new();
         contentDescriptionResponses = contentDescriptions.Select(cd => new ContentDescriptionResponse(
             cd.Description,
@@ -58,8 +53,7 @@ public record SubjectResponse(
         return contentDescriptionResponses;
     }
 
-    private static List<ElaborationResponse> CreateElaborationResponses(IEnumerable<Elaboration> elaborations)
-    {
+    private static List<ElaborationResponse> CreateElaborationResponses(IEnumerable<Elaboration> elaborations) {
         List<ElaborationResponse> elaborationResponses = new();
         elaborationResponses = elaborations.Select(e => new ElaborationResponse(e.Description)).ToList();
 

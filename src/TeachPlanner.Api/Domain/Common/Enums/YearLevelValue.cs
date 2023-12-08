@@ -1,7 +1,6 @@
 namespace TeachPlanner.Api.Domain.Common.Enums;
 
-public enum YearLevelValue
-{
+public enum YearLevelValue {
     Foundation = 0,
     Year1 = 1,
     Year2 = 2,

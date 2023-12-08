@@ -7,23 +7,19 @@ using TeachPlanner.Api.Domain.YearDataRecords;
 
 namespace TeachPlanner.Api.Database.Repositories;
 
-public class TermPlannerRepository : ITermPlannerRepository
-{
+public class TermPlannerRepository : ITermPlannerRepository {
     private readonly ApplicationDbContext _context;
 
-    public TermPlannerRepository(ApplicationDbContext context)
-    {
+    public TermPlannerRepository(ApplicationDbContext context) {
         _context = context;
     }
 
-    public async Task<TermPlanner?> GetById(TermPlannerId id, CancellationToken cancellationToken)
-    {
+    public async Task<TermPlanner?> GetById(TermPlannerId id, CancellationToken cancellationToken) {
         return await _context.TermPlanners.FirstOrDefaultAsync(tp => tp.Id == id, cancellationToken);
     }
 
     public async Task<TermPlanner?> GetByYearDataIdAndYear(YearDataId yearDataId, int calendarYear,
-        CancellationToken cancellationToken)
-    {
+        CancellationToken cancellationToken) {
         var termPlanner = await _context.TermPlanners
             .AsNoTracking()
             .Where(yd => yd.YearDataId == yearDataId)
@@ -48,13 +44,11 @@ public class TermPlannerRepository : ITermPlannerRepository
         return termPlanner;
     }
 
-    public void Add(TermPlanner termPlanner)
-    {
+    public void Add(TermPlanner termPlanner) {
         _context.TermPlanners.Add(termPlanner);
     }
 
-    public async Task Delete(TermPlannerId id, CancellationToken cancellationToken)
-    {
+    public async Task Delete(TermPlannerId id, CancellationToken cancellationToken) {
         var termPlanner = await GetById(id, cancellationToken);
 
         if (termPlanner == null) return;

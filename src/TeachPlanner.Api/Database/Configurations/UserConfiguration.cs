@@ -5,10 +5,8 @@ using TeachPlanner.Api.Domain.Users;
 
 namespace TeachPlanner.Api.Database.Configurations;
 
-public class UserConfiguration : IEntityTypeConfiguration<User>
-{
-    public void Configure(EntityTypeBuilder<User> builder)
-    {
+public class UserConfiguration : IEntityTypeConfiguration<User> {
+    public void Configure(EntityTypeBuilder<User> builder) {
         builder.ToTable("users");
         builder.HasKey(u => u.Id);
 

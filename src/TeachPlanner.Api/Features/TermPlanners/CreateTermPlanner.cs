@@ -9,11 +9,9 @@ using TeachPlanner.Api.Domain.TermPlanners;
 
 namespace TeachPlanner.Api.Features.TermPlanners;
 
-public static class CreateTermPlanner
-{
+public static class CreateTermPlanner {
     public static async Task<IResult> Delegate(Guid teacherId, int calendarYear, CreateTermPlannerRequest request,
-        ISender sender, CancellationToken cancellationToken)
-    {
+        ISender sender, CancellationToken cancellationToken) {
         var command = new Command(
             new TeacherId(teacherId),
             request.TermPlans,
@@ -31,32 +29,27 @@ public static class CreateTermPlanner
         List<YearLevelValue> YearLevels,
         int CalendarYear) : IRequest<CreateTermPlannerResponse>;
 
-    public class Validator : AbstractValidator<Command>
-    {
-        public Validator()
-        {
+    public class Validator : AbstractValidator<Command> {
+        public Validator() {
             RuleFor(x => x.TermPlans).NotEmpty();
             RuleFor(x => x.YearLevels).NotEmpty();
             RuleFor(x => x.CalendarYear).NotEmpty().GreaterThan(2022);
         }
     }
 
-    internal sealed class Handler : IRequestHandler<Command, CreateTermPlannerResponse>
-    {
+    internal sealed class Handler : IRequestHandler<Command, CreateTermPlannerResponse> {
         private readonly ITermPlannerRepository _termPlannerRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IYearDataRepository _yearDataRepository;
 
         public Handler(ITermPlannerRepository termPlannerRepository, IYearDataRepository yearDataRepository,
-            IUnitOfWork unitOfWork)
-        {
+            IUnitOfWork unitOfWork) {
             _termPlannerRepository = termPlannerRepository;
             _yearDataRepository = yearDataRepository;
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<CreateTermPlannerResponse> Handle(Command request, CancellationToken cancellationToken)
-        {
+        public async Task<CreateTermPlannerResponse> Handle(Command request, CancellationToken cancellationToken) {
             var yearData =
                 await _yearDataRepository.GetByTeacherIdAndYear(request.TeacherId, request.CalendarYear,
                     cancellationToken);

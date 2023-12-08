@@ -4,8 +4,7 @@ using TeachPlanner.Api.Domain.LessonPlans;
 
 namespace TeachPlanner.Api.Domain.Teachers;
 
-public sealed class Resource : Entity<ResourceId>
-{
+public sealed class Resource : Entity<ResourceId> {
     private readonly List<LessonPlanResource> _lessonPlanResources = new();
 
     private Resource(
@@ -14,8 +13,7 @@ public sealed class Resource : Entity<ResourceId>
         string url,
         bool isAssessment,
         SubjectId subjectId,
-        List<string>? associatedStrands = null) : base(id)
-    {
+        List<string>? associatedStrands = null) : base(id) {
         Name = name;
         Url = url;
         IsAssessment = isAssessment;
@@ -42,8 +40,7 @@ public sealed class Resource : Entity<ResourceId>
         string url,
         bool isAssessment,
         SubjectId subjectId,
-        List<string>? strandNames)
-    {
+        List<string>? strandNames) {
         var resource = new Resource(
             new ResourceId(Guid.NewGuid()),
             name,
@@ -55,7 +52,6 @@ public sealed class Resource : Entity<ResourceId>
         return resource;
     }
 #pragma warning disable CS8618 // non-nullable field must contain a non-null value when exiting constructor. consider declaring as nullable.
-    private Resource()
-    {
+    private Resource() {
     }
 }

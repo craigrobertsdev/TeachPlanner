@@ -8,16 +8,14 @@ using TeachPlanner.Api.Features.YearDataRecords;
 using TeachPlanner.Api.UnitTests.Helpers;
 
 namespace TeachPlanner.Api.UnitTests.Features.YearDataRecords;
-public class SetSubjectsTaughtTests
-{
+public class SetSubjectsTaughtTests {
     private readonly IUnitOfWork _unitOfWork;
     private readonly IYearDataRepository _yearDataRepository;
     private readonly ICurriculumService _curriculumService;
     private readonly ISubjectRepository _subjectRepository;
     private readonly ICurriculumRepository _curriculumRepository;
 
-    public SetSubjectsTaughtTests()
-    {
+    public SetSubjectsTaughtTests() {
         _unitOfWork = A.Fake<IUnitOfWork>();
         _subjectRepository = A.Fake<ISubjectRepository>();
         _yearDataRepository = A.Fake<IYearDataRepository>();
@@ -26,8 +24,7 @@ public class SetSubjectsTaughtTests
     }
 
     [Fact]
-    public async void Handle_WhenPassedListOfUntaughtSubjects_ShouldSendWholeListToRepository()
-    {
+    public async void Handle_WhenPassedListOfUntaughtSubjects_ShouldSendWholeListToRepository() {
         // Arrange
         var subjects = SubjectHelpers.CreateCurriculumSubjects();
         var yearData = YearDataHelpers.CreateYearData();
@@ -36,7 +33,7 @@ public class SetSubjectsTaughtTests
         var command = new SetSubjectsTaught.Command(teacher.Id, subjects.Select(s => s.Id).ToList(), 2023);
 
         A.CallTo(() => _yearDataRepository.GetByTeacherIdAndYear(teacher.Id, 2023, A<CancellationToken>._)).Returns(yearData);
-        A.CallTo(() => _curriculumService.CurriculumSubjects).Returns(subjects);    
+        A.CallTo(() => _curriculumService.CurriculumSubjects).Returns(subjects);
 
         // Act
         await handler.Handle(command, CancellationToken.None);
@@ -46,8 +43,7 @@ public class SetSubjectsTaughtTests
     }
 
     [Fact]
-    public async void Handle_WhenPassedListWithSomeNewSubjects_ShouldOnlyAddNewSubjects()
-    {
+    public async void Handle_WhenPassedListWithSomeNewSubjects_ShouldOnlyAddNewSubjects() {
         // Arrange
         var subjects = SubjectHelpers.CreateCurriculumSubjects();
         var teacher = TeacherHelpers.CreateTeacher();
@@ -59,7 +55,7 @@ public class SetSubjectsTaughtTests
         var command = new SetSubjectsTaught.Command(teacher.Id, subjects.Select(s => s.Id).ToList(), 2023);
 
         A.CallTo(() => _yearDataRepository.GetByTeacherIdAndYear(teacher.Id, 2023, A<CancellationToken>._)).Returns(yearData);
-        A.CallTo(() => _curriculumService.CurriculumSubjects).Returns(subjects);    
+        A.CallTo(() => _curriculumService.CurriculumSubjects).Returns(subjects);
 
         // Act
         await handler.Handle(command, CancellationToken.None);

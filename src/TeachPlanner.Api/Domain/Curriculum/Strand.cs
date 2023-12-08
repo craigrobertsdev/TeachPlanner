@@ -1,14 +1,12 @@
 namespace TeachPlanner.Api.Domain.CurriculumSubjects;
 
-public record Strand
-{
+public record Strand {
     private readonly List<ContentDescription> _contentDescriptions = new();
 
     private Strand(
         string name,
         List<ContentDescription> contentDescriptions
-    )
-    {
+    ) {
         Name = name;
         _contentDescriptions = contentDescriptions;
     }
@@ -19,22 +17,18 @@ public record Strand
     public static Strand Create(
         string name,
         List<ContentDescription> contentDescriptions
-    )
-    {
+    ) {
         return new Strand(name, contentDescriptions);
     }
 
-    public void AddContentDescriptions(List<ContentDescription> contentDescriptions)
-    {
+    public void AddContentDescriptions(List<ContentDescription> contentDescriptions) {
         foreach (var contentDescription in contentDescriptions) AddContentDescription(contentDescription);
     }
 
-    public void AddContentDescription(ContentDescription contentDescription)
-    {
+    public void AddContentDescription(ContentDescription contentDescription) {
         if (!_contentDescriptions!.Contains(contentDescription)) _contentDescriptions!.Add(contentDescription);
     }
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-    private Strand()
-    {
+    private Strand() {
     }
 }

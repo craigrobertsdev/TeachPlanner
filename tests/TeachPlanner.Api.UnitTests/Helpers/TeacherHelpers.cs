@@ -5,15 +5,12 @@ using TeachPlanner.Api.Domain.Teachers;
 using TeachPlanner.Api.Domain.Users;
 
 namespace TeachPlanner.Api.UnitTests.Helpers;
-internal static class TeacherHelpers
-{
-    internal static Teacher CreateTeacher()
-    {
+internal static class TeacherHelpers {
+    internal static Teacher CreateTeacher() {
         return Teacher.Create(new UserId(Guid.NewGuid()), "First", "Last");
     }
 
-    internal static List<string> CreateSubjectNames()
-    {
+    internal static List<string> CreateSubjectNames() {
         return new List<string>
         {
             "Mathematics",
@@ -22,13 +19,11 @@ internal static class TeacherHelpers
         };
     }
 
-    internal static List<CurriculumSubject> CreateCurriculumSubjects()
-    {
+    internal static List<CurriculumSubject> CreateCurriculumSubjects() {
         return CreateSubjectNames().Select(subjectNames => CurriculumSubject.Create(subjectNames, new())).ToList();
     }
 
-    internal static DayPlanPatternDto CreateDayPlanPatternDto()
-    {
+    internal static DayPlanPatternDto CreateDayPlanPatternDto() {
         return new DayPlanPatternDto(
              new List<LessonTemplateDto>
              {
@@ -64,8 +59,7 @@ internal static class TeacherHelpers
              });
     }
 
-    internal static DayPlanPatternDto CreateDayPlanPatternDtoWithOverlappingTimes()
-    {
+    internal static DayPlanPatternDto CreateDayPlanPatternDtoWithOverlappingTimes() {
         return new DayPlanPatternDto(
          new List<LessonTemplateDto>
          {
@@ -101,8 +95,7 @@ internal static class TeacherHelpers
          });
     }
 
-    internal static List<TermDate> CreateTermDates()
-    {
+    internal static List<TermDate> CreateTermDates() {
         return new List<TermDate>()
         {
             new TermDate(1, new DateOnly(2023, 1, 30), new DateOnly(2023, 4, 1)),
@@ -111,8 +104,7 @@ internal static class TeacherHelpers
             new TermDate(4, new DateOnly(2023, 10, 10), new DateOnly(2023, 12, 15)),
         };
     }
-    internal static List<TermDateDto> CreateTermDateDtos()
-    {
+    internal static List<TermDateDto> CreateTermDateDtos() {
         return new List<TermDateDto>()
         {
             new TermDateDto("2023-01-30", "2023-04-01"),
@@ -132,8 +124,7 @@ internal static class TeacherHelpers
         };
 
     }
-    internal static DayPlanTemplate CreateDayPlanTemplate(DayPlanPatternDto dayPlanPattern)
-    {
+    internal static DayPlanTemplate CreateDayPlanTemplate(DayPlanPatternDto dayPlanPattern) {
         var periodTemplates = new List<TemplatePeriod>
         {
             new TemplatePeriod(PeriodType.Lesson, "Lesson 1", new TimeOnly(9, 10), new TimeOnly(10, 0)),
@@ -149,27 +140,22 @@ internal static class TeacherHelpers
         return DayPlanTemplate.Create(periodTemplates, new TeacherId(Guid.NewGuid()));
     }
 
-    internal static AccountSetupRequest CreateAccountSetupRequest()
-    {
+    internal static AccountSetupRequest CreateAccountSetupRequest() {
         return new AccountSetupRequest(CreateSubjectNames(), CreateYearLevelsTaught(), CreateDayPlanPatternDto());
     }
-    internal static AccountSetupRequest CreateAccountSetupRequestWithOverlappingTimes()
-    {
+    internal static AccountSetupRequest CreateAccountSetupRequestWithOverlappingTimes() {
         return new AccountSetupRequest(CreateSubjectNames(), CreateYearLevelsTaught(), CreateDayPlanPatternDtoWithOverlappingTimes());
     }
 
-    internal static AccountSetupRequest CreateAccountSetupRequestWithOverlappingDates()
-    {
+    internal static AccountSetupRequest CreateAccountSetupRequestWithOverlappingDates() {
         return new AccountSetupRequest(CreateSubjectNames(), CreateYearLevelsTaught(), CreateDayPlanPatternDto());
     }
 
-    internal static List<CurriculumSubject> CreateCurriculumSubjects(List<string> subjectNames)
-    {
+    internal static List<CurriculumSubject> CreateCurriculumSubjects(List<string> subjectNames) {
         return subjectNames.Select(subjectNames => CurriculumSubject.Create(subjectNames, new())).ToList();
     }
 
-    internal static List<string> CreateYearLevelsTaught()
-    {
+    internal static List<string> CreateYearLevelsTaught() {
         return new List<string> { "Year 1", "Year 2" };
     }
 }

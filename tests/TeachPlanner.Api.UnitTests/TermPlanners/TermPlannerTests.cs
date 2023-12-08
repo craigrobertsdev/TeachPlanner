@@ -7,11 +7,9 @@ using TeachPlanner.Api.Domain.YearDataRecords;
 using TeachPlanner.Api.UnitTests.Helpers;
 
 namespace TeachPlanner.Api.UnitTests.TermPlanners;
-public class TermPlannerTests
-{
+public class TermPlannerTests {
     [Fact]
-    public void Create_OnValidInput_ShouldReturnTermPlanner()
-    {
+    public void Create_OnValidInput_ShouldReturnTermPlanner() {
         // Arrange
 
         // Act
@@ -25,8 +23,7 @@ public class TermPlannerTests
     }
 
     [Fact]
-    public void Create_OnCreating_YearLevelsShouldBeOrdered()
-    {
+    public void Create_OnCreating_YearLevelsShouldBeOrdered() {
         // Arrange
         var termPlanner = TermPlanner.Create(new YearDataId(Guid.NewGuid()), 2023, new List<YearLevelValue> { YearLevelValue.Year5, YearLevelValue.Year1 });
 
@@ -38,8 +35,7 @@ public class TermPlannerTests
     }
 
     [Fact]
-    public void AddYearLevel_OnAddingYearLevel_ShouldBeAdded()
-    {
+    public void AddYearLevel_OnAddingYearLevel_ShouldBeAdded() {
         // Arrange
         var termPlanner = TermPlanner.Create(new YearDataId(Guid.NewGuid()), 2023, new List<YearLevelValue> { YearLevelValue.Year1 });
 
@@ -53,8 +49,7 @@ public class TermPlannerTests
     }
 
     [Fact]
-    public void AddYearLevel_OnAddingYearLevel_ShouldBeOrdered()
-    {
+    public void AddYearLevel_OnAddingYearLevel_ShouldBeOrdered() {
         // Arrange
         var termPlanner = TermPlanner.Create(new YearDataId(Guid.NewGuid()), 2023, new List<YearLevelValue> { YearLevelValue.Year5 });
 
@@ -66,8 +61,7 @@ public class TermPlannerTests
         termPlanner.YearLevels[1].Should().Be(YearLevelValue.Year5);
     }
     [Fact]
-    public void AddTermPlan_OnAddingTermPlan_ShouldBeAdded()
-    {
+    public void AddTermPlan_OnAddingTermPlan_ShouldBeAdded() {
         // Arrange
         var termPlanner = TermPlanner.Create(new YearDataId(Guid.NewGuid()), 2023, new List<YearLevelValue> { YearLevelValue.Foundation, YearLevelValue.Year1 });
         var termPlan = TermPlan.Create(termPlanner, 1, new List<CurriculumSubject> { TermPlannerHelpers.CreateSubject("English", "ENG001") });
@@ -81,8 +75,7 @@ public class TermPlannerTests
     }
 
     [Fact]
-    public void AddTermPlan_OnAddingDuplicateTermPlan_ShouldNotBeAdded()
-    {
+    public void AddTermPlan_OnAddingDuplicateTermPlan_ShouldNotBeAdded() {
         // Arrange
         var termPlanner = TermPlanner.Create(new YearDataId(Guid.NewGuid()), 2023, new List<YearLevelValue> { YearLevelValue.Foundation, YearLevelValue.Year1 });
         var termPlan = TermPlan.Create(termPlanner, 1, new List<CurriculumSubject> { TermPlannerHelpers.CreateSubject("English", "ENG001") });
@@ -97,8 +90,7 @@ public class TermPlannerTests
     }
 
     [Fact]
-    public void AddTermPlan_OnAddingFifthTermPlan_ShouldNotBeAdded()
-    {
+    public void AddTermPlan_OnAddingFifthTermPlan_ShouldNotBeAdded() {
         // Arrange
         var termPlanner = TermPlannerHelpers.CreateTermPlanner();
         List<TermPlan> termPlans = new()
@@ -109,8 +101,7 @@ public class TermPlannerTests
             TermPlan.Create(termPlanner, 4, new List <CurriculumSubject> { TermPlannerHelpers.CreateSubject("English", "ENG004") }),
         };
 
-        foreach (var termPlan in termPlans)
-        {
+        foreach (var termPlan in termPlans) {
             termPlanner.AddTermPlan(termPlan);
         }
 
@@ -123,8 +114,7 @@ public class TermPlannerTests
     }
 
     [Fact]
-    public void AddTermPlan_OnAddingDuplicateTermNumber_ShouldNotBeAdded()
-    {
+    public void AddTermPlan_OnAddingDuplicateTermNumber_ShouldNotBeAdded() {
         // Arrange
         var termPlanner = TermPlannerHelpers.CreateTermPlanner();
         var termPlan = TermPlan.Create(termPlanner, 1, new List<CurriculumSubject> { TermPlannerHelpers.CreateSubject("English", "ENG001") });

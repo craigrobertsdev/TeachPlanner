@@ -1,7 +1,6 @@
 namespace TeachPlanner.Api.Domain.PlannerTemplates;
 
-public enum PeriodType
-{
+public enum PeriodType {
     Lesson,
     Break
 }

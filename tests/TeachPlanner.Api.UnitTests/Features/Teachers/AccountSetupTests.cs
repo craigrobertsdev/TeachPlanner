@@ -9,8 +9,7 @@ using TeachPlanner.Api.Features.Teachers;
 using TeachPlanner.Api.UnitTests.Helpers;
 
 namespace TeachPlanner.Api.UnitTests.Features.Teachers;
-public class AccountSetupTests
-{
+public class AccountSetupTests {
     private readonly DayPlanPatternDto _dayPlanPatternDto;
     private readonly ITeacherRepository _teacherRepository;
     private readonly IYearDataRepository _yearDataRepository;
@@ -19,10 +18,9 @@ public class AccountSetupTests
     private readonly ISender _sender;
     private readonly AccountSetup.Validator _validator;
 
-    public AccountSetupTests()
-    {
+    public AccountSetupTests() {
         _teacherRepository = A.Fake<ITeacherRepository>();
-        _yearDataRepository = A.Fake<IYearDataRepository>(); 
+        _yearDataRepository = A.Fake<IYearDataRepository>();
         _curriculumRepository = A.Fake<ICurriculumRepository>();
         _unitOfWork = A.Fake<IUnitOfWork>();
         _dayPlanPatternDto = TeacherHelpers.CreateDayPlanPatternDto();
@@ -65,8 +63,7 @@ public class AccountSetupTests
     //}
 
     [Fact]
-    public void Handle_WhenPassedInvalidPeriodTime_ShouldThrowException()
-    {
+    public void Handle_WhenPassedInvalidPeriodTime_ShouldThrowException() {
         // Arrange
         var subjectsTaught = TeacherHelpers.CreateSubjectNames();
         var yearLevelsTaught = TeacherHelpers.CreateYearLevelsTaught();
@@ -80,12 +77,11 @@ public class AccountSetupTests
         Func<Task> act = () => handler.Handle(command, new CancellationToken());
 
         // Assert
-        act.Should().ThrowAsync<CreateTimeFromDtoException>();  
+        act.Should().ThrowAsync<CreateTimeFromDtoException>();
     }
 
     [Fact]
-    public void Handle_WhenPassedOverlappingPeriodTimes_ShouldThrowException()
-    {
+    public void Handle_WhenPassedOverlappingPeriodTimes_ShouldThrowException() {
         // Arrange
         var subjectsTaught = TeacherHelpers.CreateSubjectNames();
         var yearLevelsTaught = TeacherHelpers.CreateYearLevelsTaught();
@@ -99,12 +95,11 @@ public class AccountSetupTests
         Func<Task> act = () => handler.Handle(command, new CancellationToken());
 
         // Assert
-        act.Should().ThrowAsync<CreateTimeFromDtoException>();  
+        act.Should().ThrowAsync<CreateTimeFromDtoException>();
     }
 
     [Fact]
-    public void Delegate_WhenPassedInvalidPeriodTime_ShouldThrowException()
-    {
+    public void Delegate_WhenPassedInvalidPeriodTime_ShouldThrowException() {
         // Arrange
         var accountSetupRequest = TeacherHelpers.CreateAccountSetupRequestWithOverlappingTimes();
 
@@ -116,8 +111,7 @@ public class AccountSetupTests
     }
 
     [Fact]
-    public void Delegate_WhenPassedOverlappingTermDate_ShouldThrowException()
-    {
+    public void Delegate_WhenPassedOverlappingTermDate_ShouldThrowException() {
         // Arrange
         var accountSetupRequest = TeacherHelpers.CreateAccountSetupRequestWithOverlappingDates();
 
@@ -129,8 +123,7 @@ public class AccountSetupTests
     }
 
     [Fact]
-    public async void Delegate_WhenPassedValidData_ShouldCreateDayPlanTemplate()
-    {
+    public async void Delegate_WhenPassedValidData_ShouldCreateDayPlanTemplate() {
         // Arrange
         var accountSetupRequest = TeacherHelpers.CreateAccountSetupRequest();
         var sender = A.Fake<ISender>();
@@ -145,8 +138,7 @@ public class AccountSetupTests
     }
 
     [Fact]
-    public async void Handler_WhenPassedValidData_ShouldUpdateTeacherSubjectsTaught()
-    {
+    public async void Handler_WhenPassedValidData_ShouldUpdateTeacherSubjectsTaught() {
         // Arrange
         var subjects = TeacherHelpers.CreateSubjectNames();
         var dayPlanTemplate = TeacherHelpers.CreateDayPlanTemplate(_dayPlanPatternDto);

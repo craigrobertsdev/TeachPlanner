@@ -6,8 +6,7 @@ using TeachPlanner.Api.Domain.Teachers;
 
 namespace TeachPlanner.Api.Domain.Students;
 
-public sealed class Student : Entity<StudentId>, IAggregateRoot
-{
+public sealed class Student : Entity<StudentId>, IAggregateRoot {
     private readonly List<Assessment> _assessments = new();
     private readonly List<Report> _reports = new();
 
@@ -15,8 +14,7 @@ public sealed class Student : Entity<StudentId>, IAggregateRoot
         StudentId id,
         TeacherId teacherId,
         string firstName,
-        string lastName) : base(id)
-    {
+        string lastName) : base(id) {
         TeacherId = teacherId;
         FirstName = firstName;
         LastName = lastName;
@@ -30,8 +28,7 @@ public sealed class Student : Entity<StudentId>, IAggregateRoot
     public IReadOnlyList<Report> Reports => _reports;
     public IReadOnlyList<Assessment> Assessments => _assessments;
 
-    public static Student Create(TeacherId teacherId, string firstName, string lastName)
-    {
+    public static Student Create(TeacherId teacherId, string firstName, string lastName) {
         return new Student(
             new StudentId(Guid.NewGuid()),
             teacherId,
@@ -39,7 +36,6 @@ public sealed class Student : Entity<StudentId>, IAggregateRoot
             lastName);
     }
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-    private Student()
-    {
+    private Student() {
     }
 }

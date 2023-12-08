@@ -10,20 +10,17 @@ namespace TeachPlanner.Api.Services;
 ///     This class is responsible for loading the curriculum subjects from the database and storing them in memory.
 ///     Will be created as a singleton service in the DI container and be the source of truth for all curriculum subjects.
 /// </summary>
-public sealed class CurriculumService : ICurriculumService
-{
+public sealed class CurriculumService : ICurriculumService {
     private readonly IServiceProvider _serviceProvider;
 
-    public CurriculumService(IServiceProvider serviceProvider)
-    {
+    public CurriculumService(IServiceProvider serviceProvider) {
         _serviceProvider = serviceProvider;
         CurriculumSubjects = Task.Run(LoadCurriculumSubjects).Result;
     }
 
     public List<CurriculumSubject> CurriculumSubjects { get; } = new();
 
-    private async Task<List<CurriculumSubject>> LoadCurriculumSubjects()
-    {
+    private async Task<List<CurriculumSubject>> LoadCurriculumSubjects() {
         using var scope = _serviceProvider.CreateScope();
         var _context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
         var subjects = await _context.CurriculumSubjects.ToListAsync();
@@ -31,8 +28,7 @@ public sealed class CurriculumService : ICurriculumService
 
     }
 
-    public List<string> GetSubjectNames()
-    {
+    public List<string> GetSubjectNames() {
         return CurriculumSubjects.Select(x => x.Name).ToList();
     }
 }

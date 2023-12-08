@@ -4,11 +4,9 @@ using TeachPlanner.Api.Domain.YearDataRecords;
 using TeachPlanner.Api.UnitTests.Helpers;
 
 namespace TeachPlanner.Api.UnitTests.Teachers;
-public class YearDataTests
-{
+public class YearDataTests {
     [Fact]
-    public void Create_OnValidInput_ShouldReturnYearData()
-    {
+    public void Create_OnValidInput_ShouldReturnYearData() {
         // Arrange
 
         // Act
@@ -20,8 +18,7 @@ public class YearDataTests
     }
 
     [Fact]
-    public void AddSubjects_WhenNoSubjectsAlreadyAdded_ShouldAddSubjects()
-    {
+    public void AddSubjects_WhenNoSubjectsAlreadyAdded_ShouldAddSubjects() {
         // Arrange
         var yearData = YearData.Create(new TeacherId(Guid.NewGuid()), 2023);
         var curriculumSubjects = SubjectHelpers.CreateCurriculumSubjects();

@@ -5,10 +5,8 @@ using TeachPlanner.Api.Domain.Common.Planner;
 
 namespace TeachPlanner.Api.Database.Configurations;
 
-public class SchoolEventConfiguration : IEntityTypeConfiguration<SchoolEvent>
-{
-    public void Configure(EntityTypeBuilder<SchoolEvent> builder)
-    {
+public class SchoolEventConfiguration : IEntityTypeConfiguration<SchoolEvent> {
+    public void Configure(EntityTypeBuilder<SchoolEvent> builder) {
         builder.ToTable("school_events");
 
         builder.HasKey(se => se.Id);
@@ -20,8 +18,7 @@ public class SchoolEventConfiguration : IEntityTypeConfiguration<SchoolEvent>
         builder.Property(se => se.Name)
             .HasMaxLength(100);
 
-        builder.OwnsOne(se => se.Location, lb =>
-        {
+        builder.OwnsOne(se => se.Location, lb => {
             lb.Property(l => l.StreetNumber)
                 .HasMaxLength(30);
 

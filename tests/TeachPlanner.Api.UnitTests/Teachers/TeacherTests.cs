@@ -1,6 +1,5 @@
 ﻿namespace TeachPlanner.Api.UnitTests.Teachers;
-public class TeacherTests
-{
+public class TeacherTests {
     //[Fact]
     //public void AddYearData_WhenPassingYear_AddsYearData()
     //{

@@ -12,11 +12,9 @@ using TeachPlanner.Api.Services.Authentication;
 
 namespace TeachPlanner.Api.Features.Authentication;
 
-public static class Register
-{
+public static class Register {
     public static async Task<IResult> Delegate(RegisterRequest request, ISender sender,
-        CancellationToken cancellationToken)
-    {
+        CancellationToken cancellationToken) {
         var command = request.Adapt<Command>();
         var result = await sender.Send(command, cancellationToken);
         return Results.Ok(result);
@@ -26,10 +24,8 @@ public static class Register
         : IRequest<AuthenticationResponse>;
 
 
-    public class Validator : AbstractValidator<Command>
-    {
-        public Validator()
-        {
+    public class Validator : AbstractValidator<Command> {
+        public Validator() {
             RuleFor(c => c.FirstName).NotEmpty();
             RuleFor(c => c.LastName).NotEmpty();
             RuleFor(c => c.Email).NotEmpty().EmailAddress();
@@ -37,8 +33,7 @@ public static class Register
         }
     }
 
-    internal sealed class Handler : IRequestHandler<Command, AuthenticationResponse>
-    {
+    internal sealed class Handler : IRequestHandler<Command, AuthenticationResponse> {
         private readonly IJwtTokenGenerator _jwtTokenGenerator;
         private readonly ITeacherRepository _teacherRepository;
         private readonly IUnitOfWork _unitOfWork;
@@ -48,16 +43,14 @@ public static class Register
             IJwtTokenGenerator jwtTokenGenerator,
             IUserRepository userRepository,
             ITeacherRepository teacherRepository,
-            IUnitOfWork unitOfWork)
-        {
+            IUnitOfWork unitOfWork) {
             _jwtTokenGenerator = jwtTokenGenerator;
             _userRepository = userRepository;
             _teacherRepository = teacherRepository;
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<AuthenticationResponse> Handle(Command request, CancellationToken cancellationToken)
-        {
+        public async Task<AuthenticationResponse> Handle(Command request, CancellationToken cancellationToken) {
             if (request.Password != request.ConfirmedPassword) throw new PasswordsDoNotMatchException();
 
             var user = await _userRepository.GetByEmail(request.Email, cancellationToken);

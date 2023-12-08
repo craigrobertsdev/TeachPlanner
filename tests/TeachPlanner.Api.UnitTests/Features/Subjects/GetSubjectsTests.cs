@@ -5,18 +5,15 @@ using TeachPlanner.Api.Features.Subjects;
 using TeachPlanner.Api.UnitTests.Helpers;
 
 namespace TeachPlanner.Api.UnitTests.Features.Subjects;
-public class GetSubjectsTests
-{
+public class GetSubjectsTests {
     private readonly ISubjectRepository _subjectRepository;
 
-    public GetSubjectsTests()
-    {
+    public GetSubjectsTests() {
         _subjectRepository = A.Fake<ISubjectRepository>();
     }
 
     [Fact]
-    public async void Handler_WhenNoElaborationsRequested_ShouldReturnCurriculumSubjectsWithoutElaborations()
-    {
+    public async void Handler_WhenNoElaborationsRequested_ShouldReturnCurriculumSubjectsWithoutElaborations() {
         // Arrange
         var subjects = SubjectHelpers.CreateCurriculumSubjects();
         var query = new GetCurriculumSubjects.Query(false);

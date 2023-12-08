@@ -5,10 +5,8 @@ using TeachPlanner.Api.Domain.Calendar;
 
 namespace TeachPlanner.Api.Database.Configurations;
 
-public class CalendarConfiguration : IEntityTypeConfiguration<Calendar>
-{
-    public void Configure(EntityTypeBuilder<Calendar> builder)
-    {
+public class CalendarConfiguration : IEntityTypeConfiguration<Calendar> {
+    public void Configure(EntityTypeBuilder<Calendar> builder) {
         builder.ToTable("calendar");
 
         builder.HasKey(t => t.Id);

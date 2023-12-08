@@ -10,34 +10,28 @@ using TeachPlanner.Api.Services.Authentication;
 
 namespace TeachPlanner.Api.Features.Authentication;
 
-public static class Login
-{
+public static class Login {
     public static async Task<IResult> Delegate(LoginRequest request, ISender sender,
-        CancellationToken cancellationToken)
-    {
+        CancellationToken cancellationToken) {
         var command = request.Adapt<Command>();
         var result = await sender.Send(command, cancellationToken);
         return Results.Ok(result);
     }
 
-    private static string NormaliseEmail(string email)
-    {
+    private static string NormaliseEmail(string email) {
         return email.Trim().ToUpper();
     }
 
     public record Command(string Email, string Password) : IRequest<AuthenticationResponse>;
 
-    public class Validator : AbstractValidator<Command>
-    {
-        public Validator()
-        {
+    public class Validator : AbstractValidator<Command> {
+        public Validator() {
             RuleFor(x => x.Email).NotEmpty().EmailAddress();
             RuleFor(x => x.Password).NotEmpty();
         }
     }
 
-    internal sealed class Handler : IRequestHandler<Command, AuthenticationResponse>
-    {
+    internal sealed class Handler : IRequestHandler<Command, AuthenticationResponse> {
         private readonly IJwtTokenGenerator _jwtTokenGenerator;
         private readonly ITeacherRepository _teacherRepository;
         private readonly IUserRepository _userRepository;
@@ -45,15 +39,13 @@ public static class Login
         public Handler(
             IJwtTokenGenerator jwtTokenGenerator,
             IUserRepository userRepository,
-            ITeacherRepository teacherRepository)
-        {
+            ITeacherRepository teacherRepository) {
             _jwtTokenGenerator = jwtTokenGenerator;
             _userRepository = userRepository;
             _teacherRepository = teacherRepository;
         }
 
-        public async Task<AuthenticationResponse> Handle(Command request, CancellationToken cancellationToken)
-        {
+        public async Task<AuthenticationResponse> Handle(Command request, CancellationToken cancellationToken) {
             var user = await _userRepository.GetByEmail(NormaliseEmail(request.Email), cancellationToken);
             if (user == null || !PasswordService.VerifyPassword(request.Password, user.Password))
                 throw new InvalidCredentialsException();

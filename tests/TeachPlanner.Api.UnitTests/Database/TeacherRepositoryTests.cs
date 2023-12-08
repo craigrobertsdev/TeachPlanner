@@ -10,17 +10,14 @@ using TeachPlanner.Api.Domain.YearDataRecords;
 using TeachPlanner.Api.UnitTests.Helpers;
 
 namespace TeachPlanner.Api.UnitTests.Database;
-public class TeacherRepositoryTests
-{
+public class TeacherRepositoryTests {
     private readonly IPublisher _publisher;
 
-    public TeacherRepositoryTests()
-    {
+    public TeacherRepositoryTests() {
         _publisher = A.Fake<IPublisher>();
     }
 
-    private async Task<ApplicationDbContext> GetDbContext()
-    {
+    private async Task<ApplicationDbContext> GetDbContext() {
         var options = new DbContextOptionsBuilder<ApplicationDbContext>()
             .UseInMemoryDatabase(databaseName: "TeachPlanner")
             .Options;
@@ -29,8 +26,7 @@ public class TeacherRepositoryTests
         databaseContext.Database.EnsureDeleted();
         databaseContext.Database.EnsureCreated();
 
-        if (!await databaseContext.Teachers.AnyAsync())
-        {
+        if (!await databaseContext.Teachers.AnyAsync()) {
             var teacher1 = Teacher.Create(new UserId(Guid.NewGuid()), "John", "Smith");
             var yearData1 = YearData.Create(teacher1.Id, 2023, DayPlanTemplate.Create(new(), teacher1.Id));
             yearData1.AddSubjects(SubjectHelpers.CreateCurriculumSubjects());

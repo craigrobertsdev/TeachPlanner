@@ -6,11 +6,9 @@ using TeachPlanner.Api.Domain.Teachers;
 
 namespace TeachPlanner.Api.Features.TermPlanners;
 
-public static class GetTermPlanner
-{
+public static class GetTermPlanner {
     public static async Task<IResult> Delegate(Guid teacherId, int calendarYear, ISender sender,
-        CancellationToken cancellationToken)
-    {
+        CancellationToken cancellationToken) {
         var query = new Query(new TeacherId(teacherId), calendarYear);
 
         var result = await sender.Send(query, cancellationToken);
@@ -20,19 +18,16 @@ public static class GetTermPlanner
 
     public record Query(TeacherId TeacherId, int CalendarYear) : IRequest<GetTermPlannerResponse>;
 
-    public class Handler : IRequestHandler<Query, GetTermPlannerResponse>
-    {
+    public class Handler : IRequestHandler<Query, GetTermPlannerResponse> {
         private readonly ITeacherRepository _teacherRepository;
         private readonly ITermPlannerRepository _termPlannerRepository;
 
-        public Handler(ITermPlannerRepository termPlannerRepository, ITeacherRepository teacherRepository)
-        {
+        public Handler(ITermPlannerRepository termPlannerRepository, ITeacherRepository teacherRepository) {
             _termPlannerRepository = termPlannerRepository;
             _teacherRepository = teacherRepository;
         }
 
-        public async Task<GetTermPlannerResponse> Handle(Query request, CancellationToken cancellationToken)
-        {
+        public async Task<GetTermPlannerResponse> Handle(Query request, CancellationToken cancellationToken) {
             var teacher = await _teacherRepository.GetById(request.TeacherId, cancellationToken);
 
             if (teacher is null) throw new TeacherNotFoundException();

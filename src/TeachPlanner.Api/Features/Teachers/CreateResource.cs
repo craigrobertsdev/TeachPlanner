@@ -7,11 +7,9 @@ using TeachPlanner.Api.Domain.Teachers;
 
 namespace TeachPlanner.Api.Features.Teachers;
 
-public static class CreateResource
-{
+public static class CreateResource {
     public static async Task<IResult> Delegate(ISender sender, Guid teacherId, CreateResourceRequest request,
-        CancellationToken cancellationToken)
-    {
+        CancellationToken cancellationToken) {
         var command = new Command(new TeacherId(teacherId), request.Name, new SubjectId(request.SubjectId),
             request.AssociatedStrands, request.IsAssessment);
 
@@ -23,19 +21,16 @@ public static class CreateResource
     public record Command(TeacherId TeacherId, string Name, SubjectId SubjectId, List<string> AssociatedStrands,
         bool IsAssessment) : IRequest<string>;
 
-    public sealed class Handler : IRequestHandler<Command, string>
-    {
+    public sealed class Handler : IRequestHandler<Command, string> {
         private readonly ITeacherRepository _teacherRepository;
         private readonly IUnitOfWork _unitOfWork;
 
-        public Handler(ITeacherRepository teacherRepository, IUnitOfWork unitOfWork)
-        {
+        public Handler(ITeacherRepository teacherRepository, IUnitOfWork unitOfWork) {
             _teacherRepository = teacherRepository;
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<string> Handle(Command request, CancellationToken cancellationToken)
-        {
+        public async Task<string> Handle(Command request, CancellationToken cancellationToken) {
             // TODO: Add method to upload files to storage and generate URL
             var url = "https://www.placeholder.com";
 

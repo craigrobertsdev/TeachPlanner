@@ -16,19 +16,16 @@ using TeachPlanner.Api.Domain.YearDataRecords;
 
 namespace TeachPlanner.Api.Database;
 
-public class ApplicationDbContext : DbContext
-{
+public class ApplicationDbContext : DbContext {
     private readonly IPublisher _publisher = null!;
 
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, IPublisher publisher)
-        : base(options)
-    {
+        : base(options) {
         _publisher = publisher;
     }
 
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-        : base(options)
-    {
+        : base(options) {
     }
 
     public DbSet<User> Users { get; set; } = null!;
@@ -46,8 +43,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<YearData> YearData { get; set; } = null!;
     public DbSet<TermDate> TermDates { get; set; } = null!;
 
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
+    protected override void OnModelCreating(ModelBuilder modelBuilder) {
         modelBuilder
             .Ignore<List<IDomainEvent>>()
             .ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
@@ -55,8 +51,7 @@ public class ApplicationDbContext : DbContext
         base.OnModelCreating(modelBuilder);
     }
 
-    public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new())
-    {
+    public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new()) {
         var entitiesWithDomainEvents = ChangeTracker.Entries<IHasDomainEvents>()
             .Select(e => e.Entity)
             .Where(e => e.DomainEvents.Any())

@@ -10,11 +10,9 @@ using TeachPlanner.Api.Domain.YearDataRecords;
 
 namespace TeachPlanner.Api.Features.LessonPlans;
 
-public static class CreateLessonPlan
-{
+public static class CreateLessonPlan {
     public static async Task<IResult> Delegate(ISender sender, CreateLessonPlanRequest request,
-        CancellationToken cancellationToken)
-    {
+        CancellationToken cancellationToken) {
         var command = new Command(
             new YearDataId(request.YearDataId),
             request.SubjectId,
@@ -32,10 +30,8 @@ public static class CreateLessonPlan
     }
 
     private static void CheckForConflictingLessonPlans(List<LessonPlan> lessonPlans, int startPeriod,
-        int numberOfPeriods)
-    {
-        foreach (var lp in lessonPlans)
-        {
+        int numberOfPeriods) {
+        foreach (var lp in lessonPlans) {
             if (lp.StartPeriod == startPeriod) throw new ConflictingLessonPlansException(lp.StartPeriod);
 
             if (startPeriod < lp.StartPeriod && startPeriod + numberOfPeriods > lp.StartPeriod)
@@ -54,10 +50,8 @@ public static class CreateLessonPlan
         List<LessonPlanResource> LessonPlanResources,
         List<AssessmentId> AssessmentIds) : IRequest<CreateLessonPlanResponse>;
 
-    public class Validator : AbstractValidator<Command>
-    {
-        public Validator()
-        {
+    public class Validator : AbstractValidator<Command> {
+        public Validator() {
             RuleFor(x => x.YearDataId).NotNull();
             RuleFor(x => x.SubjectId).NotNull();
             RuleFor(x => x.NumberOfPeriods).NotEmpty();
@@ -65,8 +59,7 @@ public static class CreateLessonPlan
         }
     }
 
-    internal sealed class Handler : IRequestHandler<Command, CreateLessonPlanResponse>
-    {
+    internal sealed class Handler : IRequestHandler<Command, CreateLessonPlanResponse> {
         private readonly IAssessmentRepository _assessmentRepository;
         private readonly ILessonPlanRepository _lessonPlanRepository;
         private readonly IUnitOfWork _unitOfWork;
@@ -74,15 +67,13 @@ public static class CreateLessonPlan
         public Handler(
             ILessonPlanRepository lessonPlanRepository,
             IAssessmentRepository assessmentRepository,
-            IUnitOfWork unitOfWork)
-        {
+            IUnitOfWork unitOfWork) {
             _unitOfWork = unitOfWork;
             _lessonPlanRepository = lessonPlanRepository;
             _assessmentRepository = assessmentRepository;
         }
 
-        public async Task<CreateLessonPlanResponse> Handle(Command request, CancellationToken cancellationToken)
-        {
+        public async Task<CreateLessonPlanResponse> Handle(Command request, CancellationToken cancellationToken) {
             List<Assessment> assessments = new();
             if (request.AssessmentIds is not null)
                 assessments = await _assessmentRepository.GetAssessmentsById(request.AssessmentIds, cancellationToken);

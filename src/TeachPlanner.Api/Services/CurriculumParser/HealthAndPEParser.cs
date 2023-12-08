@@ -4,32 +4,25 @@ using TeachPlanner.Api.Extensions;
 
 namespace TeachPlanner.Api.Services.CurriculumParser;
 
-internal class HealthAndPEParser
-{
-    internal CurriculumSubject ParseHealthAndPE(string[] contentArr, string subjectName, int index)
-    {
+internal class HealthAndPEParser {
+    internal CurriculumSubject ParseHealthAndPE(string[] contentArr, string subjectName, int index) {
         var subject = CurriculumSubject.Create(subjectName, new List<YearLevel>());
 
-        try
-        {
-            while (index < contentArr.Length)
-            {
+        try {
+            while (index < contentArr.Length) {
                 var yearLevel = ParseYearLevel(contentArr, ref index, subject);
                 subject.AddYearLevel(yearLevel);
                 // "Australian Curriculum:" appears after all curriculum content for each subject.
                 if (contentArr[index].StartsWith("Australian Curriculum:")) break;
             }
-        }
-        catch
-        {
+        } catch {
             Console.WriteLine("Index: " + index);
         }
 
         return subject;
     }
 
-    private YearLevel ParseYearLevel(string[] contentArr, ref int index, CurriculumSubject subject)
-    {
+    private YearLevel ParseYearLevel(string[] contentArr, ref int index, CurriculumSubject subject) {
         BandLevelValue bandLevelValue;
 
         if (contentArr[index] == "Foundation")
@@ -42,8 +35,7 @@ internal class HealthAndPEParser
         index += 2;
         var description = "";
 
-        do
-        {
+        do {
             if (contentArr[index].StartsWith("*"))
                 description += contentArr[index] + "\n";
             else
@@ -56,8 +48,7 @@ internal class HealthAndPEParser
 
         // iterate over next x lines to capture the entire achievement standard
         var achievementStandard = "";
-        do
-        {
+        do {
             achievementStandard += contentArr[index] + "\n\n";
             index++;
         } while (!contentArr[index].StartsWith("Strand"));
@@ -66,8 +57,7 @@ internal class HealthAndPEParser
 
         // continue parsing document until the next line doesn't begin with strand.
 
-        while (contentArr[index].StartsWith("Strand"))
-        {
+        while (contentArr[index].StartsWith("Strand")) {
             var strand = GetStrand(contentArr, ref index, yearLevel);
 
             yearLevel.AddStrand(strand);
@@ -76,16 +66,14 @@ internal class HealthAndPEParser
         return yearLevel;
     }
 
-    private Strand GetStrand(string[] contentArr, ref int index, YearLevel yearLevel)
-    {
+    private Strand GetStrand(string[] contentArr, ref int index, YearLevel yearLevel) {
         // remove "Strand:" from name
         var name = contentArr[index].Substring(8).TrimEnd();
         index += 2;
 
         var strand = Strand.Create(name, new List<ContentDescription>());
 
-        while (contentArr[index].StartsWith("Sub-strand"))
-        {
+        while (contentArr[index].StartsWith("Sub-strand")) {
             var substrandName = GetSubstrand(contentArr, index);
 
             if (contentArr[index + 1] == "Content descriptions")
@@ -94,8 +82,7 @@ internal class HealthAndPEParser
                 index++;
 
             // each time GetContentDescription returns, check whether the next line starts with AC9 (instead of another header) and repeat if so.
-            while (contentArr[index + 1].StartsWith("AC9"))
-            {
+            while (contentArr[index + 1].StartsWith("AC9")) {
                 var contentDescription = GetContentDescription(contentArr, ref index, substrandName);
                 strand.AddContentDescription(contentDescription);
             }
@@ -104,14 +91,12 @@ internal class HealthAndPEParser
         return strand;
     }
 
-    private static string GetSubstrand(string[] contentArr, int index)
-    {
+    private static string GetSubstrand(string[] contentArr, int index) {
         // remove "Sub-strand:" from name
         return contentArr[index].Substring(12).TrimEnd();
     }
 
-    private ContentDescription GetContentDescription(string[] contentArr, ref int index, string substrandName)
-    {
+    private ContentDescription GetContentDescription(string[] contentArr, ref int index, string substrandName) {
         var description = contentArr[index].WithFirstLetterUpper().TrimEnd();
         index++;
 
@@ -121,8 +106,7 @@ internal class HealthAndPEParser
         var contentDescription =
             ContentDescription.Create(description, curriculumCode, new List<Elaboration>(), substrandName);
 
-        while (contentArr[index].StartsWith("*"))
-        {
+        while (contentArr[index].StartsWith("*")) {
             var content = contentArr[index].Substring(2).TrimEnd().WithFirstLetterUpper();
             var elaboration = Elaboration.Create(content);
 

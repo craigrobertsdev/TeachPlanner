@@ -7,11 +7,9 @@ using TeachPlanner.Api.Domain.Teachers;
 
 namespace TeachPlanner.Api.Features.Teachers;
 
-public static class GetResources
-{
+public static class GetResources {
     public static async Task<IResult> Delegate([FromRoute] Guid teacherId, [FromRoute] Guid subjectId, ISender sender,
-        CancellationToken cancellationToken)
-    {
+        CancellationToken cancellationToken) {
         var query = new Query(new TeacherId(teacherId), new SubjectId(subjectId));
 
         var result = await sender.Send(query, cancellationToken);
@@ -22,20 +20,17 @@ public static class GetResources
     public record Query(TeacherId TeacherId, SubjectId SubjectId)
         : IRequest<List<ResourceResponse>>;
 
-    public sealed class Handler : IRequestHandler<Query, List<ResourceResponse>>
-    {
+    public sealed class Handler : IRequestHandler<Query, List<ResourceResponse>> {
         private readonly ITeacherRepository _teacherRepository;
 
-        public Handler(ITeacherRepository teacherRepository)
-        {
+        public Handler(ITeacherRepository teacherRepository) {
             _teacherRepository = teacherRepository;
         }
 
         public async Task<List<ResourceResponse>> Handle(
             Query request,
             CancellationToken cancellationToken
-        )
-        {
+        ) {
             var resources = await _teacherRepository.GetResourcesBySubject(
                 request.TeacherId,
                 request.SubjectId,

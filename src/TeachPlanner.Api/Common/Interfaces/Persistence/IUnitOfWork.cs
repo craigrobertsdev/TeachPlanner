@@ -1,6 +1,5 @@
 ﻿namespace TeachPlanner.Api.Common.Interfaces.Persistence;
 
-public interface IUnitOfWork
-{
+public interface IUnitOfWork {
     Task SaveChangesAsync(CancellationToken cancellationToken = default);
 }

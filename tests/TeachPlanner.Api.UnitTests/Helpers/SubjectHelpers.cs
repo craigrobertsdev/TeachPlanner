@@ -3,14 +3,11 @@ using TeachPlanner.Api.Domain.CurriculumSubjects;
 using TeachPlanner.Api.Domain.YearDataRecords;
 
 namespace TeachPlanner.Api.UnitTests.Helpers;
-public static class SubjectHelpers
-{
-    public static List<CurriculumSubject> CreateCurriculumSubjects()
-    {
+public static class SubjectHelpers {
+    public static List<CurriculumSubject> CreateCurriculumSubjects() {
         List<CurriculumSubject> subjects = new();
 
-        for (int i = 0; i < 2; i++)
-        {
+        for (int i = 0; i < 2; i++) {
             var subject = CurriculumSubject.Create("English" + i, new List<YearLevel>());
             var yearLevel = YearLevel.Create(new List<Strand>(), "Description" + i, "Achievement Standard", YearLevelValue.Foundation, null);
             var strand = Strand.Create("Grammar" + i, new List<ContentDescription>());
@@ -25,12 +22,10 @@ public static class SubjectHelpers
 
         return subjects;
     }
-    public static List<Subject> CreateSubjects()
-    {
+    public static List<Subject> CreateSubjects() {
         List<Subject> subjects = new();
 
-        for (int i = 0; i < 2; i++)
-        {
+        for (int i = 0; i < 2; i++) {
             var subject = Subject.Create("English" + i, new List<YearDataContentDescription>());
             subjects.Add(subject);
         }

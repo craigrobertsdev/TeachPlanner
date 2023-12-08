@@ -1,7 +1,6 @@
 ﻿namespace TeachPlanner.Api.Domain.Assessments;
 
-public enum AssessmentType
-{
+public enum AssessmentType {
     Formative,
     Summative
 }

@@ -10,10 +10,8 @@ using TeachPlanner.Api.Domain.YearDataRecords;
 
 namespace TeachPlanner.Api.Database.Configurations;
 
-public class YearDataConfiguration : IEntityTypeConfiguration<YearData>
-{
-    public void Configure(EntityTypeBuilder<YearData> builder)
-    {
+public class YearDataConfiguration : IEntityTypeConfiguration<YearData> {
+    public void Configure(EntityTypeBuilder<YearData> builder) {
         builder.ToTable("yeardata");
         builder.HasKey(yd => yd.Id);
 
@@ -53,8 +51,7 @@ public class YearDataConfiguration : IEntityTypeConfiguration<YearData>
                     c => c.ToList()));
 
 
-        builder.OwnsMany(yd => yd.Subjects, sb =>
-        {
+        builder.OwnsMany(yd => yd.Subjects, sb => {
             sb.ToTable("subjects");
             sb.WithOwner().HasForeignKey("YearDataId");
 
@@ -65,8 +62,7 @@ public class YearDataConfiguration : IEntityTypeConfiguration<YearData>
                 .HasColumnName("Name")
                 .HasMaxLength(50);
 
-            sb.OwnsMany(s => s.ContentDescriptions, cdb =>
-            {
+            sb.OwnsMany(s => s.ContentDescriptions, cdb => {
                 cdb.ToTable("year_data_content_descriptions");
                 cdb.WithOwner().HasForeignKey("SubjectId");
 

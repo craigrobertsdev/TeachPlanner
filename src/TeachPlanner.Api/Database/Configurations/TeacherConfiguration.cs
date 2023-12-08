@@ -6,10 +6,8 @@ using TeachPlanner.Api.Domain.Users;
 
 namespace TeachPlanner.Api.Database.Configurations;
 
-public class TeacherConfiguration : IEntityTypeConfiguration<Teacher>
-{
-    public void Configure(EntityTypeBuilder<Teacher> builder)
-    {
+public class TeacherConfiguration : IEntityTypeConfiguration<Teacher> {
+    public void Configure(EntityTypeBuilder<Teacher> builder) {
         builder.ToTable("teachers");
 
         builder.HasKey(t => t.Id);
@@ -34,8 +32,7 @@ public class TeacherConfiguration : IEntityTypeConfiguration<Teacher>
         builder.HasMany(t => t.SubjectsTaught)
             .WithMany();
 
-        builder.OwnsMany(t => t.YearDataHistory, ydb =>
-        {
+        builder.OwnsMany(t => t.YearDataHistory, ydb => {
             ydb.ToTable("year_data_entries");
             ydb.Property<Guid>("Id");
             ydb.WithOwner().HasForeignKey("TeacherId");

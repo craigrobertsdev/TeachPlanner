@@ -10,16 +10,13 @@ using TeachPlanner.Api.Domain.TermPlanners;
 using TeachPlanner.Api.Domain.YearDataRecords;
 
 namespace TeachPlanner.Api.UnitTests.Database;
-public class TermPlannerRepositoryTests
-{
+public class TermPlannerRepositoryTests {
     private readonly IPublisher _publisher;
 
-    public TermPlannerRepositoryTests()
-    {
+    public TermPlannerRepositoryTests() {
         _publisher = A.Fake<IPublisher>();
     }
-    private async Task<ApplicationDbContext> GetDbContext()
-    {
+    private async Task<ApplicationDbContext> GetDbContext() {
         var options = new DbContextOptionsBuilder<ApplicationDbContext>()
             .UseInMemoryDatabase(databaseName: "TeachPlanner")
             .Options;
@@ -27,8 +24,7 @@ public class TermPlannerRepositoryTests
         var databaseContext = new ApplicationDbContext(options, _publisher);
         databaseContext.Database.EnsureCreated();
 
-        if (await databaseContext.TermPlanners.AnyAsync())
-        {
+        if (await databaseContext.TermPlanners.AnyAsync()) {
             var termPlanner = TermPlanner.Create(new YearDataId(Guid.NewGuid()), 2023, new List<YearLevelValue> { YearLevelValue.Foundation, YearLevelValue.Year1 });
             var termPlan = TermPlan.Create(termPlanner, 1, new List<CurriculumSubject>());
 
@@ -57,8 +53,7 @@ public class TermPlannerRepositoryTests
     }
 
     [Fact]
-    public async void TermPlannerRepository_Get_ReturnsTermPlanner()
-    {
+    public async void TermPlannerRepository_Get_ReturnsTermPlanner() {
         // Arrange
         var context = await GetDbContext();
         var termPlanner = TermPlanner.Create(new YearDataId(Guid.NewGuid()), 2023, new List<YearLevelValue> { YearLevelValue.Foundation, YearLevelValue.Year1 });

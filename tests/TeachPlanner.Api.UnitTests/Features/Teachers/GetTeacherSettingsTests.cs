@@ -9,22 +9,19 @@ using TeachPlanner.Api.Features.Teachers;
 using TeachPlanner.Api.UnitTests.Helpers;
 
 namespace TeachPlanner.Api.UnitTests.Features.Teachers;
-public class GetTeacherSettingsTests
-{
+public class GetTeacherSettingsTests {
     private readonly ITeacherRepository _teacherRepository;
     private readonly IYearDataRepository _yearDataRepository;
     private readonly ITermPlannerRepository _termPlannerRepository;
 
-    public GetTeacherSettingsTests()
-    {
+    public GetTeacherSettingsTests() {
         _teacherRepository = A.Fake<ITeacherRepository>();
         _yearDataRepository = A.Fake<IYearDataRepository>();
         _termPlannerRepository = A.Fake<ITermPlannerRepository>();
     }
 
     [Fact]
-    public async void Handle_WhenPassedValidData_ReturnsGetTeacherSettingsResponse()
-    {
+    public async void Handle_WhenPassedValidData_ReturnsGetTeacherSettingsResponse() {
         // Arrange
         var curriculumSubjects = SubjectHelpers.CreateCurriculumSubjects();
         var teacher = TeacherHelpers.CreateTeacher();

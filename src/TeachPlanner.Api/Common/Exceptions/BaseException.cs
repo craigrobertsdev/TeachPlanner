@@ -1,9 +1,7 @@
 ﻿namespace TeachPlanner.Api.Common.Exceptions;
 
-public abstract class BaseException : Exception
-{
-    public BaseException(string message, int statusCode, string type) : base(message)
-    {
+public abstract class BaseException : Exception {
+    public BaseException(string message, int statusCode, string type) : base(message) {
         StatusCode = statusCode;
         Type = type;
     }

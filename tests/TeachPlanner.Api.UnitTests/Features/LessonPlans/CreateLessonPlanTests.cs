@@ -9,22 +9,19 @@ using TeachPlanner.Api.Domain.YearDataRecords;
 using TeachPlanner.Api.Features.LessonPlans;
 
 namespace TeachPlanner.Api.UnitTests.Features.LessonPlans;
-public class CreateLessonPlanTests
-{
+public class CreateLessonPlanTests {
     private readonly IUnitOfWork _unitOfWork;
     private readonly ILessonPlanRepository _lessonPlanRepository;
     private readonly IAssessmentRepository _assessmentRepository;
 
-    public CreateLessonPlanTests()
-    {
+    public CreateLessonPlanTests() {
         _unitOfWork = A.Fake<IUnitOfWork>();
         _lessonPlanRepository = A.Fake<ILessonPlanRepository>();
         _assessmentRepository = A.Fake<IAssessmentRepository>();
     }
 
     [Fact]
-    public async void Handle_WhenCalledWithValidData_ShouldReturnCreateLessonPlanResponse()
-    {
+    public async void Handle_WhenCalledWithValidData_ShouldReturnCreateLessonPlanResponse() {
         // Arrange
         var command = new CreateLessonPlan.Command(
             new YearDataId(Guid.NewGuid()),

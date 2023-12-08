@@ -4,10 +4,8 @@ using TeachPlanner.Api.Domain.PlannerTemplates;
 
 namespace TeachPlanner.Api.Database.Configurations;
 
-public class DayPlanConfiguration : IEntityTypeConfiguration<DayPlan>
-{
-    public void Configure(EntityTypeBuilder<DayPlan> builder)
-    {
+public class DayPlanConfiguration : IEntityTypeConfiguration<DayPlan> {
+    public void Configure(EntityTypeBuilder<DayPlan> builder) {
         builder.ToTable("day_plans");
 
         builder.HasKey(dp => dp.Id);

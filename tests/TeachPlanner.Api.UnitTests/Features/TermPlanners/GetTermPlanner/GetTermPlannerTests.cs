@@ -14,20 +14,17 @@ using MediatR;
 using TeachPlanner.Api.Features.Teachers;
 
 namespace TeachPlanner.Api.UnitTests.Features.TermPlanners.GetTermPlannerTests;
-public class GetTermPlannerTests
-{
+public class GetTermPlannerTests {
     private readonly ITermPlannerRepository _termPlannerRepository;
     private readonly ITeacherRepository _teacherRepository;
 
-    public GetTermPlannerTests()
-    {
+    public GetTermPlannerTests() {
         _termPlannerRepository = A.Fake<ITermPlannerRepository>();
         _teacherRepository = A.Fake<ITeacherRepository>();
     }
 
     [Fact]
-    public async void Handle_WhenCalledWithValidData_GetShouldReturnTermPlannerResult()
-    {
+    public async void Handle_WhenCalledWithValidData_GetShouldReturnTermPlannerResult() {
         // Arrange
         var query = new GetTermPlanner.Query(new TeacherId(Guid.NewGuid()), 2023);
         var teacher = Teacher.Create(new UserId(Guid.NewGuid()), "Test", "Teacher");
@@ -50,8 +47,7 @@ public class GetTermPlannerTests
     }
 
     [Fact]
-    public void Handle_WhenTeacherNotFound_ShouldThrowException()
-    {
+    public void Handle_WhenTeacherNotFound_ShouldThrowException() {
         // Arrange
         var query = new GetTermPlanner.Query(new TeacherId(Guid.NewGuid()), 2023);
         A.CallTo(() => _teacherRepository.GetById(query.TeacherId, default)).Returns((Teacher)null!);

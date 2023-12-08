@@ -7,18 +7,15 @@ using TeachPlanner.Api.Domain.YearDataRecords;
 
 namespace TeachPlanner.Api.Database.Repositories;
 
-public class YearDataRepository : IYearDataRepository
-{
+public class YearDataRepository : IYearDataRepository {
     private readonly ApplicationDbContext _context;
 
-    public YearDataRepository(ApplicationDbContext context)
-    {
+    public YearDataRepository(ApplicationDbContext context) {
         _context = context;
     }
 
     public async Task<YearData?> GetByTeacherIdAndYear(TeacherId teacherId, int calendarYear,
-        CancellationToken cancellationToken)
-    {
+        CancellationToken cancellationToken) {
         return await _context.YearData
             .Where(yd => yd.TeacherId == teacherId)
             .Where(yd => yd.CalendarYear == calendarYear)
@@ -32,8 +29,7 @@ public class YearDataRepository : IYearDataRepository
             .FirstOrDefaultAsync(cancellationToken);
     }
     public async Task SetInitialAccountDetails(Teacher teacher, List<YearLevelValue> yearLevelsTaught, DayPlanTemplate dayPlanTemplate,
-               int calendarYear, CancellationToken cancellationToken)
-    {
+               int calendarYear, CancellationToken cancellationToken) {
         var yearData = await _context.YearData
             .Where(yd => yd.TeacherId == teacher.Id)
             .Where(yd => yd.CalendarYear == calendarYear)

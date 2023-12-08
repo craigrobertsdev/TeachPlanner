@@ -8,10 +8,8 @@ using TeachPlanner.Api.Domain.YearDataRecords;
 
 namespace TeachPlanner.Api.Database.Configurations;
 
-public class LessonPlanConfiguration : IEntityTypeConfiguration<LessonPlan>
-{
-    public void Configure(EntityTypeBuilder<LessonPlan> builder)
-    {
+public class LessonPlanConfiguration : IEntityTypeConfiguration<LessonPlan> {
+    public void Configure(EntityTypeBuilder<LessonPlan> builder) {
         builder.ToTable("lesson_plans");
 
         builder.HasKey(lp => lp.Id);
@@ -34,8 +32,7 @@ public class LessonPlanConfiguration : IEntityTypeConfiguration<LessonPlan>
             .WithOne()
             .HasForeignKey(a => a.LessonPlanId);
 
-        builder.OwnsMany(lp => lp.Comments, lcb =>
-        {
+        builder.OwnsMany(lp => lp.Comments, lcb => {
             lcb.ToTable("lesson_comment");
 
             lcb.WithOwner().HasForeignKey("LessonPlanId");
@@ -47,10 +44,8 @@ public class LessonPlanConfiguration : IEntityTypeConfiguration<LessonPlan>
     }
 }
 
-public class LessonPlanResourceConfiguration : IEntityTypeConfiguration<LessonPlanResource>
-{
-    public void Configure(EntityTypeBuilder<LessonPlanResource> builder)
-    {
+public class LessonPlanResourceConfiguration : IEntityTypeConfiguration<LessonPlanResource> {
+    public void Configure(EntityTypeBuilder<LessonPlanResource> builder) {
         builder.ToTable("lesson_plan_resources");
 
         builder.HasKey(lr => new { lr.LessonPlanId, lr.ResourceId });

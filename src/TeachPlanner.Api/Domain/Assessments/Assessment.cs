@@ -8,8 +8,7 @@ using TeachPlanner.Api.Domain.Teachers;
 
 namespace TeachPlanner.Api.Domain.Assessments;
 
-public class Assessment : Entity<AssessmentId>, IAggregateRoot
-{
+public class Assessment : Entity<AssessmentId>, IAggregateRoot {
     protected Assessment(
         AssessmentId id,
         TeacherId teacherId,
@@ -18,8 +17,7 @@ public class Assessment : Entity<AssessmentId>, IAggregateRoot
         LessonPlanId lessonPlanId,
         YearLevelValue yearLevel,
         string planningNotes,
-        DateTime conductedDateTime) : base(id)
-    {
+        DateTime conductedDateTime) : base(id) {
         Id = id;
         TeacherId = teacherId;
         SubjectId = subjectId;
@@ -42,10 +40,8 @@ public class Assessment : Entity<AssessmentId>, IAggregateRoot
     public DateTime CreatedDateTime { get; }
     public DateTime UpdatedDateTime { get; private set; }
 
-    public void SetAssessmentResult(AssessmentResult result)
-    {
-        if (AssessmentResult is not null)
-        {
+    public void SetAssessmentResult(AssessmentResult result) {
+        if (AssessmentResult is not null) {
             AssessmentResult = result;
             UpdatedDateTime = DateTime.Now;
         }
@@ -58,8 +54,7 @@ public class Assessment : Entity<AssessmentId>, IAggregateRoot
         LessonPlanId lessonPlanId,
         YearLevelValue yearLevel,
         string planningNotes,
-        DateTime conductedDateTime)
-    {
+        DateTime conductedDateTime) {
         return new Assessment(
             new AssessmentId(Guid.NewGuid()),
             teacherId,
@@ -71,7 +66,6 @@ public class Assessment : Entity<AssessmentId>, IAggregateRoot
             conductedDateTime);
     }
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-    private Assessment()
-    {
+    private Assessment() {
     }
 }

@@ -11,23 +11,19 @@ namespace TeachPlanner.Api.Database.Repositories;
 public class TeacherRepository : ITeacherRepository {
     private readonly ApplicationDbContext _context;
 
-    public TeacherRepository(ApplicationDbContext context)
-    {
+    public TeacherRepository(ApplicationDbContext context) {
         _context = context;
     }
 
-    public void Add(Teacher teacher)
-    {
+    public void Add(Teacher teacher) {
         _context.Teachers.Add(teacher);
     }
 
-    public Task<Teacher?> GetByEmail(string email, CancellationToken cancellationToken)
-    {
+    public Task<Teacher?> GetByEmail(string email, CancellationToken cancellationToken) {
         throw new NotImplementedException();
     }
 
-    public async Task<Teacher?> GetById(TeacherId teacherId, CancellationToken cancellationToken)
-    {
+    public async Task<Teacher?> GetById(TeacherId teacherId, CancellationToken cancellationToken) {
         return await _context.Teachers
             .Where(t => t.Id == teacherId)
             .Include(t => t.Resources)
@@ -37,8 +33,7 @@ public class TeacherRepository : ITeacherRepository {
             .FirstOrDefaultAsync(cancellationToken);
     }
 
-    public async Task<Teacher?> GetByUserId(UserId userId, CancellationToken cancellationToken)
-    {
+    public async Task<Teacher?> GetByUserId(UserId userId, CancellationToken cancellationToken) {
         return await _context.Teachers
             .Where(t => t.UserId == userId)
             .FirstOrDefaultAsync(cancellationToken);
@@ -52,8 +47,7 @@ public class TeacherRepository : ITeacherRepository {
     }
 
     public async Task<IEnumerable<Resource>> GetResourcesBySubject(TeacherId teacherId, SubjectId subjectId,
-        CancellationToken cancellationToken)
-    {
+        CancellationToken cancellationToken) {
         var teacher = await _context.Teachers
             .Where(t => t.Id == teacherId)
             .Include(t => t.Resources)
@@ -64,20 +58,17 @@ public class TeacherRepository : ITeacherRepository {
     }
 
     public Task<List<CurriculumSubject>> GetSubjectsTaughtByTeacherWithElaborations(TeacherId teacherId,
-        CancellationToken cancellationToken)
-    {
+        CancellationToken cancellationToken) {
         throw new NotImplementedException();
     }
 
     public Task<List<CurriculumSubject>> GetSubjectsTaughtByTeacherWithoutElaborations(TeacherId teacherId,
-        CancellationToken cancellationToken)
-    {
+        CancellationToken cancellationToken) {
         throw new NotImplementedException();
     }
 
     public Task<YearData?> GetYearDataByTeacherIdAndYear(TeacherId teacherId, int calendarYear,
-        CancellationToken cancellationToken)
-    {
+        CancellationToken cancellationToken) {
         throw new NotImplementedException();
     }
 }

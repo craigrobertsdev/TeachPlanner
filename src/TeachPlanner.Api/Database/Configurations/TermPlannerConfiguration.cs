@@ -9,10 +9,8 @@ using TeachPlanner.Api.Domain.YearDataRecords;
 
 namespace TeachPlanner.Api.Database.Configurations;
 
-public class TermPlannerConfiguration : IEntityTypeConfiguration<TermPlanner>
-{
-    public void Configure(EntityTypeBuilder<TermPlanner> builder)
-    {
+public class TermPlannerConfiguration : IEntityTypeConfiguration<TermPlanner> {
+    public void Configure(EntityTypeBuilder<TermPlanner> builder) {
         builder.ToTable("term_planner");
 
         builder.HasKey(tp => tp.Id);
@@ -41,10 +39,8 @@ public class TermPlannerConfiguration : IEntityTypeConfiguration<TermPlanner>
     }
 }
 
-public class TermPlanConfiguration : IEntityTypeConfiguration<TermPlan>
-{
-    public void Configure(EntityTypeBuilder<TermPlan> builder)
-    {
+public class TermPlanConfiguration : IEntityTypeConfiguration<TermPlan> {
+    public void Configure(EntityTypeBuilder<TermPlan> builder) {
         builder.ToTable("term_plans");
 
         builder.Property<Guid>("Id");

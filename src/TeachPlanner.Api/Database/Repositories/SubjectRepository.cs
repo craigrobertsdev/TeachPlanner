@@ -6,19 +6,16 @@ using TeachPlanner.Api.Domain.CurriculumSubjects;
 
 namespace TeachPlanner.Api.Database.Repositories;
 
-public class SubjectRepository : ISubjectRepository
-{
+public class SubjectRepository : ISubjectRepository {
     private readonly ApplicationDbContext _context;
 
-    public SubjectRepository(ApplicationDbContext context)
-    {
+    public SubjectRepository(ApplicationDbContext context) {
         _context = context;
     }
 
     public async Task<List<CurriculumSubject>> GetCurriculumSubjects(
         bool includeElaborations,
-        CancellationToken cancellationToken)
-    {
+        CancellationToken cancellationToken) {
         if (includeElaborations) return await GetSubjectsWithElaborations(cancellationToken);
 
         return await GetSubjectsWithoutElaborations(cancellationToken);
@@ -27,8 +24,7 @@ public class SubjectRepository : ISubjectRepository
     public async Task<List<CurriculumSubject>> GetSubjectsById(
         List<SubjectId> subjects,
         bool includeElaborations,
-        CancellationToken cancellationToken)
-    {
+        CancellationToken cancellationToken) {
         Expression<Func<CurriculumSubject, bool>> filter = s => subjects.Contains(s.Id);
 
         if (includeElaborations) return await GetSubjectsWithElaborations(cancellationToken, filter);
@@ -38,8 +34,7 @@ public class SubjectRepository : ISubjectRepository
 
     private async Task<List<CurriculumSubject>> GetSubjectsWithElaborations(
         CancellationToken cancellationToken,
-        Expression<Func<CurriculumSubject, bool>>? filter = null)
-    {
+        Expression<Func<CurriculumSubject, bool>>? filter = null) {
         var subjectsQuery = _context.CurriculumSubjects
             .AsNoTracking();
 
@@ -60,8 +55,7 @@ public class SubjectRepository : ISubjectRepository
 
     private async Task<List<CurriculumSubject>> GetSubjectsWithoutElaborations(
         CancellationToken cancellationToken,
-        Expression<Func<CurriculumSubject, bool>>? filter = null)
-    {
+        Expression<Func<CurriculumSubject, bool>>? filter = null) {
         var subjectsQuery = _context.CurriculumSubjects
             .AsNoTracking();
 

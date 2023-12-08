@@ -7,13 +7,11 @@ using TeachPlanner.Api.Domain.YearDataRecords;
 using TeachPlanner.Api.UnitTests.Helpers;
 
 namespace TeachPlanner.Api.UnitTests.Database;
-public class SubjectRepositoryTests
-{
+public class SubjectRepositoryTests {
     private readonly List<Subject> _subjects = SubjectHelpers.CreateSubjects();
     private readonly List<CurriculumSubject> _curriculumSubjects = SubjectHelpers.CreateCurriculumSubjects();
 
-    private async Task<ApplicationDbContext> GetDbContext()
-    {
+    private async Task<ApplicationDbContext> GetDbContext() {
         var options = new DbContextOptionsBuilder<ApplicationDbContext>()
             .UseInMemoryDatabase(databaseName: "TeachPlanner")
             .Options;
@@ -22,8 +20,7 @@ public class SubjectRepositoryTests
         databaseContext.Database.EnsureDeleted();
         databaseContext.Database.EnsureCreated();
 
-        if (!await databaseContext.TermPlanners.AnyAsync())
-        {
+        if (!await databaseContext.TermPlanners.AnyAsync()) {
             databaseContext.CurriculumSubjects.AddRange(_curriculumSubjects);
         }
 
@@ -36,8 +33,7 @@ public class SubjectRepositoryTests
     }
 
     [Fact]
-    public async void GetCurriculumSubjects_ShouldReturnAllCurriculumSubjects()
-    {
+    public async void GetCurriculumSubjects_ShouldReturnAllCurriculumSubjects() {
         // Arrange
         var context = await GetDbContext();
         var subjectRepository = new SubjectRepository(context);

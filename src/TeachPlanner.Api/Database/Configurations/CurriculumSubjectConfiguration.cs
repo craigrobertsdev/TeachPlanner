@@ -6,10 +6,8 @@ using TeachPlanner.Api.Domain.CurriculumSubjects;
 
 namespace TeachPlanner.Api.Database.Configurations;
 
-public class CurriculumSubjectConfiguration : IEntityTypeConfiguration<CurriculumSubject>
-{
-    public void Configure(EntityTypeBuilder<CurriculumSubject> builder)
-    {
+public class CurriculumSubjectConfiguration : IEntityTypeConfiguration<CurriculumSubject> {
+    public void Configure(EntityTypeBuilder<CurriculumSubject> builder) {
         builder.ToTable("curriculum_subjects");
         builder.HasKey(s => s.Id);
 
@@ -27,10 +25,8 @@ public class CurriculumSubjectConfiguration : IEntityTypeConfiguration<Curriculu
     }
 }
 
-public class YearLevelConfiguration : IEntityTypeConfiguration<YearLevel>
-{
-    public void Configure(EntityTypeBuilder<YearLevel> builder)
-    {
+public class YearLevelConfiguration : IEntityTypeConfiguration<YearLevel> {
+    public void Configure(EntityTypeBuilder<YearLevel> builder) {
         builder.ToTable("year_levels");
         builder.Property<Guid>("Id");
         builder.HasKey("Id");
@@ -55,10 +51,8 @@ public class YearLevelConfiguration : IEntityTypeConfiguration<YearLevel>
     }
 }
 
-public class StrandConfiguration : IEntityTypeConfiguration<Strand>
-{
-    public void Configure(EntityTypeBuilder<Strand> builder)
-    {
+public class StrandConfiguration : IEntityTypeConfiguration<Strand> {
+    public void Configure(EntityTypeBuilder<Strand> builder) {
         builder.ToTable("strands");
         builder.Property<Guid>("Id");
         builder.HasKey("Id");
@@ -73,10 +67,8 @@ public class StrandConfiguration : IEntityTypeConfiguration<Strand>
     }
 }
 
-public class ContentDescriptionConfiguration : IEntityTypeConfiguration<ContentDescription>
-{
-    public void Configure(EntityTypeBuilder<ContentDescription> builder)
-    {
+public class ContentDescriptionConfiguration : IEntityTypeConfiguration<ContentDescription> {
+    public void Configure(EntityTypeBuilder<ContentDescription> builder) {
         builder.ToTable("content_descriptions");
         builder.Property<Guid>("Id");
         builder.HasKey("Id");
@@ -94,10 +86,8 @@ public class ContentDescriptionConfiguration : IEntityTypeConfiguration<ContentD
     }
 }
 
-public class ElaborationConfiguration : IEntityTypeConfiguration<Elaboration>
-{
-    public void Configure(EntityTypeBuilder<Elaboration> builder)
-    {
+public class ElaborationConfiguration : IEntityTypeConfiguration<Elaboration> {
+    public void Configure(EntityTypeBuilder<Elaboration> builder) {
         builder.ToTable("elaborations");
         builder.Property<Guid>("Id");
         builder.HasKey("Id");

@@ -8,8 +8,7 @@ using TeachPlanner.Api.Domain.YearDataRecords;
 
 namespace TeachPlanner.Api.Domain.Reports;
 
-public sealed class Report : Entity<ReportId>, IAggregateRoot
-{
+public sealed class Report : Entity<ReportId>, IAggregateRoot {
     private readonly List<ReportComment> _reportComments = new();
 
     private Report(
@@ -20,8 +19,7 @@ public sealed class Report : Entity<ReportId>, IAggregateRoot
         SubjectId subjectId,
         YearLevelValue yearLevel,
         DateTime createdDateTime,
-        DateTime updatedDateTime) : base(id)
-    {
+        DateTime updatedDateTime) : base(id) {
         _reportComments = reportComments;
         TeacherId = teacherId;
         StudentId = studentId;
@@ -46,8 +44,7 @@ public sealed class Report : Entity<ReportId>, IAggregateRoot
         SubjectId subjectId,
         YearLevelValue yearLevel,
         DateTime createdDateTime,
-        DateTime updatedDateTime)
-    {
+        DateTime updatedDateTime) {
         return new Report(
             new ReportId(Guid.NewGuid()),
             new List<ReportComment>(),
@@ -59,12 +56,10 @@ public sealed class Report : Entity<ReportId>, IAggregateRoot
             updatedDateTime);
     }
 
-    public void AddReportComment(ReportComment reportComment)
-    {
+    public void AddReportComment(ReportComment reportComment) {
         _reportComments.Add(reportComment);
     }
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-    private Report()
-    {
+    private Report() {
     }
 }

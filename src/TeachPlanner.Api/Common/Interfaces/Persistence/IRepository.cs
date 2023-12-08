@@ -2,6 +2,5 @@
 
 namespace TeachPlanner.Api.Common.Interfaces.Persistence;
 
-public interface IRepository<T> where T : class, IAggregateRoot
-{
+public interface IRepository<T> where T : class, IAggregateRoot {
 }

@@ -1,9 +1,7 @@
 ﻿namespace TeachPlanner.Api.Domain.Common.Planner;
 
-public record Location
-{
-    public Location(string streetNumber, string streetName, string suburb)
-    {
+public record Location {
+    public Location(string streetNumber, string streetName, string suburb) {
         StreetNumber = streetNumber;
         StreetName = streetName;
         Suburb = suburb;

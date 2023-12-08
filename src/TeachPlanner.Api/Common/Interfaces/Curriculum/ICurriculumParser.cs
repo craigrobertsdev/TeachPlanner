@@ -2,7 +2,6 @@
 
 namespace TeachPlanner.Api.Common.Interfaces.Curriculum;
 
-public interface ICurriculumParser
-{
+public interface ICurriculumParser {
     List<CurriculumSubject> ParseCurriculum();
 }

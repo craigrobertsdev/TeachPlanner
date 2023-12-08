@@ -5,23 +5,19 @@ using TeachPlanner.Api.Domain.YearDataRecords;
 
 namespace TeachPlanner.Api.Database.Repositories;
 
-public class LessonPlanRepository : ILessonPlanRepository
-{
+public class LessonPlanRepository : ILessonPlanRepository {
     private readonly ApplicationDbContext _context;
 
-    public LessonPlanRepository(ApplicationDbContext context)
-    {
+    public LessonPlanRepository(ApplicationDbContext context) {
         _context = context;
     }
 
-    public void Add(LessonPlan lessonPlan)
-    {
+    public void Add(LessonPlan lessonPlan) {
         _context.Add(lessonPlan);
     }
 
     public async Task<List<LessonPlan>> GetByYearDataAndDate(YearDataId yearDataId, DateOnly date,
-        CancellationToken cancellationToken)
-    {
+        CancellationToken cancellationToken) {
         return await _context.LessonPlans
             .Where(lp => lp.YearDataId == yearDataId)
             .Where(lp => lp.LessonDate == date)
@@ -29,8 +25,7 @@ public class LessonPlanRepository : ILessonPlanRepository
     }
 
     public async Task<List<LessonPlan>?> GetLessonsByYearDataId(YearDataId yearDataId,
-        CancellationToken cancellationToken)
-    {
+        CancellationToken cancellationToken) {
         return await _context.LessonPlans
             .Where(lessonPlan => lessonPlan.YearDataId == yearDataId)
             .ToListAsync(cancellationToken);

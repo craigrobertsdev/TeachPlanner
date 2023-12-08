@@ -2,16 +2,14 @@
 
 namespace TeachPlanner.Api.Domain.Common.Planner;
 
-public class SchoolEvent : Entity<SchoolEventId>
-{
+public class SchoolEvent : Entity<SchoolEventId> {
     private SchoolEvent(
         SchoolEventId id,
         Location location,
         string name,
         bool fullDay,
         DateTime eventStart,
-        DateTime eventEnd) : base(id)
-    {
+        DateTime eventEnd) : base(id) {
         Location = location;
         Name = name;
         FullDay = fullDay;
@@ -34,8 +32,7 @@ public class SchoolEvent : Entity<SchoolEventId>
         string name,
         bool fullDay,
         DateTime eventStart,
-        DateTime eventEnd)
-    {
+        DateTime eventEnd) {
         return new SchoolEvent(
             new SchoolEventId(Guid.NewGuid()),
             location,
@@ -45,7 +42,6 @@ public class SchoolEvent : Entity<SchoolEventId>
             eventEnd);
     }
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-    private SchoolEvent()
-    {
+    private SchoolEvent() {
     }
 }

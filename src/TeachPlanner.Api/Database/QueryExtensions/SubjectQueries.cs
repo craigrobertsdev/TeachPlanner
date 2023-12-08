@@ -5,13 +5,11 @@ using TeachPlanner.Api.Domain.CurriculumSubjects;
 
 namespace TeachPlanner.Api.Database.QueryExtensions;
 
-public static class SubjectQueries
-{
+public static class SubjectQueries {
     public static async Task<List<CurriculumSubject>> GetCurriculumSubjects(
         this ApplicationDbContext context,
         bool includeElaborations,
-        CancellationToken cancellationToken)
-    {
+        CancellationToken cancellationToken) {
         if (includeElaborations)
             return await GetSubjectsWithElaborations(context, new List<SubjectId>(), cancellationToken);
 
@@ -22,8 +20,7 @@ public static class SubjectQueries
         this ApplicationDbContext context,
         List<SubjectId> subjects,
         bool includeElaborations,
-        CancellationToken cancellationToken)
-    {
+        CancellationToken cancellationToken) {
         if (includeElaborations) return await context.GetSubjectsWithElaborations(subjects, cancellationToken);
 
         return await context.GetSubjectsWithoutElaborations(subjects, cancellationToken);
@@ -33,8 +30,7 @@ public static class SubjectQueries
         this ApplicationDbContext context,
         List<SubjectId> subjectIds,
         CancellationToken cancellationToken,
-        Expression<Func<CurriculumSubject, bool>>? filter = null)
-    {
+        Expression<Func<CurriculumSubject, bool>>? filter = null) {
         var subjectsQuery = context.CurriculumSubjects
             .AsNoTracking()
             .Where(s => subjectIds.Contains(s.Id));
@@ -58,8 +54,7 @@ public static class SubjectQueries
         this ApplicationDbContext context,
         List<SubjectId> subjectIds,
         CancellationToken cancellationToken,
-        Expression<Func<CurriculumSubject, bool>>? filter = null)
-    {
+        Expression<Func<CurriculumSubject, bool>>? filter = null) {
         var subjectsQuery = context.CurriculumSubjects
             .AsNoTracking()
             .Where(s => subjectIds.Contains(s.Id));

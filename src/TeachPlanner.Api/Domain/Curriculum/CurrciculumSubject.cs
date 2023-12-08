@@ -3,8 +3,7 @@ using TeachPlanner.Api.Domain.Common.Primatives;
 
 namespace TeachPlanner.Api.Domain.CurriculumSubjects;
 
-public sealed class CurriculumSubject : Entity<SubjectId>, IAggregateRoot
-{
+public sealed class CurriculumSubject : Entity<SubjectId>, IAggregateRoot {
     private readonly List<YearLevel> _yearLevels = new();
 
     private CurriculumSubject(
@@ -12,8 +11,7 @@ public sealed class CurriculumSubject : Entity<SubjectId>, IAggregateRoot
         List<YearLevel> yearLevels,
         string name
     )
-        : base(id)
-    {
+        : base(id) {
         _yearLevels = yearLevels;
         Name = name;
     }
@@ -23,25 +21,21 @@ public sealed class CurriculumSubject : Entity<SubjectId>, IAggregateRoot
 
     public static CurriculumSubject Create(
         string name,
-        List<YearLevel> yearLevels)
-    {
+        List<YearLevel> yearLevels) {
         return new CurriculumSubject(
             new SubjectId(Guid.NewGuid()),
             yearLevels,
             name);
     }
 
-    public YearLevel? GetYearLevel(YearLevel yearLevel)
-    {
+    public YearLevel? GetYearLevel(YearLevel yearLevel) {
         return _yearLevels.Find(yl => yl.Name == yearLevel.Name);
     }
 
-    public void AddYearLevel(YearLevel yearLevel)
-    {
+    public void AddYearLevel(YearLevel yearLevel) {
         _yearLevels.Add(yearLevel);
     }
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-    private CurriculumSubject()
-    {
+    private CurriculumSubject() {
     }
 }

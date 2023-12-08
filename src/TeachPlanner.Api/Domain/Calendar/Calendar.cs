@@ -10,8 +10,7 @@ namespace TeachPlanner.Api.Domain.Calendar;
 // It will show in a calendar format, anything of interest for each day outside of the usual lesson planning
 // Things like events (sports day, camp, aquatics), report due dates, parent-teacher interviews etc.
 
-public sealed class Calendar : Entity<CalendarId>, IAggregateRoot
-{
+public sealed class Calendar : Entity<CalendarId>, IAggregateRoot {
     private readonly List<SchoolEvent> _schoolEvents = new();
 
     private Calendar(
@@ -21,8 +20,7 @@ public sealed class Calendar : Entity<CalendarId>, IAggregateRoot
         DateTime termStart,
         DateTime termEnd,
         DateTime createdDateTime,
-        DateTime updatedDateTime) : base(id)
-    {
+        DateTime updatedDateTime) : base(id) {
         if (schoolEvents is not null) _schoolEvents = schoolEvents;
 
         TermNumber = termNumber;
@@ -45,8 +43,7 @@ public sealed class Calendar : Entity<CalendarId>, IAggregateRoot
         DateTime termStart,
         DateTime termEnd,
         DateTime createdDateTime,
-        DateTime updatedDateTime)
-    {
+        DateTime updatedDateTime) {
         return new Calendar(
             new CalendarId(Guid.NewGuid()),
             schoolEvents,
@@ -57,7 +54,6 @@ public sealed class Calendar : Entity<CalendarId>, IAggregateRoot
             updatedDateTime);
     }
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-    private Calendar()
-    {
+    private Calendar() {
     }
 }

@@ -8,10 +8,8 @@ using TeachPlanner.Api.Domain.Teachers;
 
 namespace TeachPlanner.Api.Database.Configurations;
 
-internal class AssessmentConfiguration : IEntityTypeConfiguration<Assessment>
-{
-    public void Configure(EntityTypeBuilder<Assessment> builder)
-    {
+internal class AssessmentConfiguration : IEntityTypeConfiguration<Assessment> {
+    public void Configure(EntityTypeBuilder<Assessment> builder) {
         builder.ToTable("assessments");
         builder.HasKey(a => a.Id);
 
@@ -49,8 +47,7 @@ internal class AssessmentConfiguration : IEntityTypeConfiguration<Assessment>
             .HasConversion<string>()
             .HasMaxLength(15);
 
-        builder.OwnsOne(a => a.AssessmentResult, arb =>
-        {
+        builder.OwnsOne(a => a.AssessmentResult, arb => {
             arb.ToTable("assessment_results");
             arb.WithOwner().HasForeignKey("AssessmentId");
             arb.Property<Guid>("Id");
@@ -59,8 +56,7 @@ internal class AssessmentConfiguration : IEntityTypeConfiguration<Assessment>
             arb.Property(ar => ar.Comments)
                 .HasMaxLength(1000);
 
-            arb.OwnsOne(ar => ar.Grade, gb =>
-            {
+            arb.OwnsOne(ar => ar.Grade, gb => {
                 gb.Property(g => g.Percentage)
                     .HasColumnName("Percentage")
                     .IsRequired();

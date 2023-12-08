@@ -2,20 +2,16 @@
 
 namespace TeachPlanner.Api.Domain.Users;
 
-public record UserId
-{
+public record UserId {
     public Guid Value;
 
-    public UserId(Guid value)
-    {
+    public UserId(Guid value) {
         Value = value;
     }
 
-    public class StronglyTypedIdEfValueConverter : ValueConverter<UserId, Guid>
-    {
+    public class StronglyTypedIdEfValueConverter : ValueConverter<UserId, Guid> {
         public StronglyTypedIdEfValueConverter(ConverterMappingHints? mappingHints = null)
-            : base(id => id.Value, value => new UserId(value), mappingHints)
-        {
+            : base(id => id.Value, value => new UserId(value), mappingHints) {
         }
     }
 }

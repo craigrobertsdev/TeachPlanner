@@ -2,7 +2,6 @@
 
 namespace TeachPlanner.Api.Common.Interfaces.Authentication;
 
-public interface IJwtTokenGenerator
-{
+public interface IJwtTokenGenerator {
     string GenerateToken(Teacher teacher);
 }

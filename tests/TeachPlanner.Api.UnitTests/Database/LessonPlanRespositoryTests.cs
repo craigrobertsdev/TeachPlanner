@@ -6,10 +6,8 @@ using TeachPlanner.Api.Domain.CurriculumSubjects;
 using TeachPlanner.Api.Domain.YearDataRecords;
 
 namespace TeachPlanner.Api.UnitTests.Database;
-public class LessonPlanRespositoryTests
-{
-    private async Task<ApplicationDbContext> GetDbContext()
-    {
+public class LessonPlanRespositoryTests {
+    private async Task<ApplicationDbContext> GetDbContext() {
         var options = new DbContextOptionsBuilder<ApplicationDbContext>()
             .UseInMemoryDatabase(databaseName: "TeachPlanner")
             .Options;
@@ -18,8 +16,7 @@ public class LessonPlanRespositoryTests
         databaseContext.Database.EnsureDeleted();
         databaseContext.Database.EnsureCreated();
 
-        if (!await databaseContext.TermPlanners.AnyAsync())
-        {
+        if (!await databaseContext.TermPlanners.AnyAsync()) {
             var lessonPlan = LessonPlan.Create(
                 new YearDataId(Guid.NewGuid()),
                 new SubjectId(Guid.NewGuid()),

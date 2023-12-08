@@ -3,11 +3,9 @@ using TeachPlanner.Api.Domain.TermPlanners;
 
 namespace TeachPlanner.Api.Database.QueryExtensions;
 
-public static class TermPlannerQueries
-{
+public static class TermPlannerQueries {
     public static async Task<TermPlanner?> GetTermPlannerById(this ApplicationDbContext context,
-        TermPlannerId termPlannerId, CancellationToken cancellationToken)
-    {
+        TermPlannerId termPlannerId, CancellationToken cancellationToken) {
         return await context.TermPlanners
             .AsNoTracking()
             .Where(tp => tp.Id == termPlannerId)

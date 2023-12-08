@@ -7,8 +7,7 @@ using TeachPlanner.Api.Domain.YearDataRecords;
 
 namespace TeachPlanner.Api.Domain.LessonPlans;
 
-public sealed class LessonPlan : Entity<LessonPlanId>, IAggregateRoot
-{
+public sealed class LessonPlan : Entity<LessonPlanId>, IAggregateRoot {
     private readonly List<Assessment> _assessments = new();
     private readonly List<LessonComment> _comments = new();
     private readonly List<string> _curriculumCodes = new();
@@ -26,8 +25,7 @@ public sealed class LessonPlan : Entity<LessonPlanId>, IAggregateRoot
         DateTime createdDateTime,
         DateTime updatedDateTime,
         List<LessonPlanResource>? lessonPlanResources,
-        List<Assessment>? assessments) : base(id)
-    {
+        List<Assessment>? assessments) : base(id) {
         YearDataId = yearDataId;
         SubjectId = subjectId;
         _curriculumCodes = curriculumCodes;
@@ -57,37 +55,29 @@ public sealed class LessonPlan : Entity<LessonPlanId>, IAggregateRoot
     public IReadOnlyList<string> CurriculumCodes => _curriculumCodes.AsReadOnly();
 
 
-    public void AddLessonComment(LessonComment comment)
-    {
-        if (!_comments.Contains(comment))
-        {
+    public void AddLessonComment(LessonComment comment) {
+        if (!_comments.Contains(comment)) {
             _comments.Add(comment);
             UpdatedDateTime = DateTime.Now;
         }
     }
 
-    public void AddResource(ResourceId resourceId)
-    {
-        if (!_lessonPlanResources.Any(lr => lr.ResourceId == resourceId))
-        {
+    public void AddResource(ResourceId resourceId) {
+        if (!_lessonPlanResources.Any(lr => lr.ResourceId == resourceId)) {
             _lessonPlanResources.Add(LessonPlanResource.Create(Id, resourceId));
             UpdatedDateTime = DateTime.Now;
         }
     }
 
-    public void AddAssessment(Assessment assessment)
-    {
-        if (!_assessments.Contains(assessment))
-        {
+    public void AddAssessment(Assessment assessment) {
+        if (!_assessments.Contains(assessment)) {
             _assessments.Add(assessment);
             UpdatedDateTime = DateTime.Now;
         }
     }
 
-    public void SetNumberOfPeriods(int newNumberOfPeriods)
-    {
-        if (newNumberOfPeriods != NumberOfPeriods)
-        {
+    public void SetNumberOfPeriods(int newNumberOfPeriods) {
+        if (newNumberOfPeriods != NumberOfPeriods) {
             NumberOfPeriods = newNumberOfPeriods;
             UpdatedDateTime = DateTime.Now;
         }
@@ -102,8 +92,7 @@ public sealed class LessonPlan : Entity<LessonPlanId>, IAggregateRoot
         int startPeriod,
         DateOnly lessonDate,
         List<LessonPlanResource>? lessonPlanResources,
-        List<Assessment>? assessments)
-    {
+        List<Assessment>? assessments) {
         return new LessonPlan(
             new LessonPlanId(Guid.NewGuid()),
             yearDataId,
@@ -119,7 +108,6 @@ public sealed class LessonPlan : Entity<LessonPlanId>, IAggregateRoot
             assessments);
     }
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-    private LessonPlan()
-    {
+    private LessonPlan() {
     }
 }

@@ -8,10 +8,8 @@ using TeachPlanner.Api.Domain.Teachers;
 
 namespace TeachPlanner.Api.Database.Configurations;
 
-public class ReportConfiguration : IEntityTypeConfiguration<Report>
-{
-    public void Configure(EntityTypeBuilder<Report> builder)
-    {
+public class ReportConfiguration : IEntityTypeConfiguration<Report> {
+    public void Configure(EntityTypeBuilder<Report> builder) {
         builder.ToTable("reports");
 
         builder.HasKey(r => r.Id);
@@ -39,8 +37,7 @@ public class ReportConfiguration : IEntityTypeConfiguration<Report>
             .HasConversion<string>()
             .HasMaxLength(15);
 
-        builder.OwnsMany(r => r.ReportComments, cb =>
-        {
+        builder.OwnsMany(r => r.ReportComments, cb => {
             cb.ToTable("report_comments");
 
             cb.WithOwner().HasForeignKey("ReportId");

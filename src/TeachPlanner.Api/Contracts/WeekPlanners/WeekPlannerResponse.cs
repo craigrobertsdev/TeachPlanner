@@ -14,10 +14,8 @@ public record SchoolEventResponse(
     string Name,
     bool FullDay,
     DateTime EventStart,
-    DateTime EventEnd)
-{
-    public static List<SchoolEventResponse> CreateMany(IEnumerable<SchoolEvent> schoolEvents)
-    {
+    DateTime EventEnd) {
+    public static List<SchoolEventResponse> CreateMany(IEnumerable<SchoolEvent> schoolEvents) {
         return schoolEvents.Select(se => new SchoolEventResponse(
             se.Location,
             se.Name,

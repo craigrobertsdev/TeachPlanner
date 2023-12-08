@@ -8,15 +8,13 @@ using TeachPlanner.Api.Domain.YearDataRecords;
 
 namespace TeachPlanner.Api.Contracts.Teachers.GetTeacherSettings;
 
-public record GetTeacherSettingsResponse
-{
+public record GetTeacherSettingsResponse {
     public GetTeacherSettingsResponse(
         YearDataId yearDataId,
         IEnumerable<Subject> subjects,
         IEnumerable<Student> students,
         IEnumerable<YearLevelValue> yearLevelsTaught,
-        TermPlanner? termPlanner)
-    {
+        TermPlanner? termPlanner) {
         YearDataId = yearDataId.Value;
         Subjects = subjects.ToList();
         Students = students.Select(s => new SettingsStudentResponse(s.FirstName, s.LastName)).ToList();
@@ -43,10 +41,8 @@ public record SettingsLessonPlanResponse(
     List<Guid> Resources,
     DateOnly LessonDate,
     int NumberOfPeriods,
-    int StartPeriod)
-{
-    public static List<SettingsLessonPlanResponse> CreateMany(IEnumerable<LessonPlan> lessonPlans)
-    {
+    int StartPeriod) {
+    public static List<SettingsLessonPlanResponse> CreateMany(IEnumerable<LessonPlan> lessonPlans) {
         return lessonPlans.Select(lp => new SettingsLessonPlanResponse(
             lp.Id.Value,
             lp.SubjectId.Value,

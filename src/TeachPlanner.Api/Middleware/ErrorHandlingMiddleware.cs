@@ -4,47 +4,36 @@ using TeachPlanner.Api.Common.Exceptions;
 
 namespace TeachPlanner.Api.Middleware;
 
-public class ErrorHandlingMiddleware
-{
+public class ErrorHandlingMiddleware {
     private readonly ILogger<ErrorHandlingMiddleware> _logger;
     private readonly RequestDelegate _next;
 
-    public ErrorHandlingMiddleware(ILogger<ErrorHandlingMiddleware> logger, RequestDelegate next)
-    {
+    public ErrorHandlingMiddleware(ILogger<ErrorHandlingMiddleware> logger, RequestDelegate next) {
         _logger = logger;
         _next = next;
     }
 
-    public async Task InvokeAsync(HttpContext context)
-    {
-        try
-        {
+    public async Task InvokeAsync(HttpContext context) {
+        try {
             await _next(context);
-        }
-        catch (Exception ex)
-        {
+        } catch (Exception ex) {
             _logger.LogError($"Something went wrong: {ex}");
             await HandleExceptionAsync(context, ex);
         }
     }
 
-    private static async Task HandleExceptionAsync(HttpContext context, Exception ex)
-    {
+    private static async Task HandleExceptionAsync(HttpContext context, Exception ex) {
         context.Response.ContentType = "application/json";
         string type;
-        if (ex is BaseException baseException)
-        {
+        if (ex is BaseException baseException) {
             context.Response.StatusCode = baseException.StatusCode;
             type = baseException.Type ?? "https://tools.ietf.org/html/rfc7231#section-6.6.1";
-        }
-        else
-        {
+        } else {
             context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
             type = "https://tools.ietf.org/html/rfc7231#section-6.6.1";
         }
 
-        var problemDetails = new ProblemDetails
-        {
+        var problemDetails = new ProblemDetails {
             Type = type,
             Title = ex.Message,
             Status = context.Response.StatusCode,

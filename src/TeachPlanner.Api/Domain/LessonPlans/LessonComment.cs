@@ -1,15 +1,13 @@
 ﻿namespace TeachPlanner.Api.Domain.LessonPlans;
 
-public record LessonComment
-{
+public record LessonComment {
     private LessonComment(
         string content,
         bool completed,
         bool struckThrough,
         DateTime createdDateTime,
         DateTime updatedDateTime,
-        DateTime? completedDateTime)
-    {
+        DateTime? completedDateTime) {
         Content = content;
         Completed = completed;
         StruckOut = struckThrough;
@@ -25,44 +23,37 @@ public record LessonComment
     public DateTime CreatedDateTime { get; private set; }
     public DateTime UpdatedDateTime { get; private set; }
 
-    public void Update(string content)
-    {
+    public void Update(string content) {
         Content = content;
         UpdatedDateTime = DateTime.UtcNow;
     }
 
-    public void Complete()
-    {
+    public void Complete() {
         Completed = true;
         CompletedDateTime = DateTime.UtcNow;
         UpdatedDateTime = DateTime.UtcNow;
     }
 
-    public void RemoveCompletion()
-    {
+    public void RemoveCompletion() {
         Completed = false;
         CompletedDateTime = null;
         UpdatedDateTime = DateTime.UtcNow;
     }
 
-    public void StrikeOut()
-    {
+    public void StrikeOut() {
         StruckOut = true;
         UpdatedDateTime = DateTime.UtcNow;
     }
 
-    public void RemoveStrikeOut()
-    {
+    public void RemoveStrikeOut() {
         StruckOut = false;
         UpdatedDateTime = DateTime.UtcNow;
     }
 
-    public static LessonComment Create(string content)
-    {
+    public static LessonComment Create(string content) {
         return new LessonComment(content, false, false, DateTime.UtcNow, DateTime.UtcNow, null);
     }
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-    private LessonComment()
-    {
+    private LessonComment() {
     }
 }
