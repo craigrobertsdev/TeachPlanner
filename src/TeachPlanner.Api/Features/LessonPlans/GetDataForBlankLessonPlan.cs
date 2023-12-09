@@ -9,17 +9,23 @@ using TeachPlanner.Api.Domain.Common.Enums;
 using TeachPlanner.Api.Domain.Teachers;
 
 namespace TeachPlanner.Api.Features.LessonPlans;
-
-public static class GetLessonPlanData {
-    public record Query(TeacherId TeacherId, List<YearLevelValue> YearLevels) : IRequest<GetLessonPlanDataResponse>;
+/// <summary>
+/// This endpoint is called by the client when a teacher creates a blank lesson plan in their planner, and provides the necessary data for them to be able to plan any subject that they teach.
+/// </summary>
+public static class GetDataForBlankLessonPlan {
+    public record Query(TeacherId TeacherId, int CalendarYear) : IRequest<GetLessonPlanDataResponse>;
 
     public sealed class Handler : IRequestHandler<Query, GetLessonPlanDataResponse> {
         private readonly ITeacherRepository _teacherRepository;
         private readonly ICurriculumRepository _curriculumRepository;
+        private readonly IYearDataRepository _yearDataRepository;
 
-        public Handler(ITeacherRepository teacherRepository, ICurriculumRepository curriculumRepository) {
+
+        public Handler(ITeacherRepository teacherRepository, ICurriculumRepository curriculumRepository, IYearDataRepository yearDataRepository) {
             _teacherRepository = teacherRepository;
             _curriculumRepository = curriculumRepository;
+            _yearDataRepository = yearDataRepository;
+
         }
         public async Task<GetLessonPlanDataResponse> Handle(Query request, CancellationToken cancellationToken) {
             var teacher = await _teacherRepository.GetWithResources(request.TeacherId, cancellationToken);
@@ -28,8 +34,8 @@ public static class GetLessonPlanData {
                 throw new TeacherNotFoundException();
             }
 
-            // implement ability to get subjects based on their year level
-            var subjects = await _curriculumRepository.GetSubjectsByYearLevels(request.YearLevels, cancellationToken);
+            var yearLevels = await _yearDataRepository.GetYearLevelsTaught(request.TeacherId, request.CalendarYear, cancellationToken);
+            var subjects = await _curriculumRepository.GetSubjectsByYearLevels(yearLevels, cancellationToken);
 
             var subjectDtos = subjects.Select(s => new CurriculumSubjectDto(
                 s.Name,
@@ -47,8 +53,8 @@ public static class GetLessonPlanData {
         }
     }
 
-    public static async Task<IResult> Delegate([FromRoute] Guid teacherId, [AsParameters] List<string> yearLevels, ISender sender, CancellationToken cancellationToken) {
-        var query = new Query(new TeacherId(teacherId), yearLevels.Select(Enum.Parse<YearLevelValue>).ToList());
+    public static async Task<IResult> Delegate([FromRoute] Guid teacherId, int calendarYear, ISender sender, CancellationToken cancellationToken) {
+        var query = new Query(new TeacherId(teacherId), calendarYear);
 
         var result = await sender.Send(query, cancellationToken);
 

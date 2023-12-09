@@ -10,9 +10,12 @@ import LessonHeader from "../../components/planner/LessonHeader";
 import BreakHeader from "../../components/planner/BreakHeader";
 import { useLoaderData, useNavigate } from "react-router-dom";
 import { baseUrl } from "../../utils/constants";
+import { usePlannerContext } from "../../contexts/PlannerContext";
 
 function WeekPlanner() {
   const { teacher } = useAuth();
+  const { availablePlannerYears } = usePlannerContext();
+  const [currentYear, setCurrentYear] = useState<number>(); 
   const [gridRows, setGridRows] = useState<string>("");
   const [selectedLessonEntryIndex, setSelectedLessonEntryIndex] = useState<GridCellLocation>({ row: -1, column: -1 });
   const loaderData = useLoaderData() as LessonPlanData;
@@ -23,6 +26,7 @@ function WeekPlanner() {
 
   useEffect(() => {
     setGridDimensions();
+    setCurrentYear(availablePlannerYears[0]);
   }, []);
 
   // function sortCalendarEntries(dayPlans: DayPlan[]): CalendarEntry[][] {
@@ -237,7 +241,7 @@ function WeekPlanner() {
     let lessonPlan = dayPlans[cell.column]?.lessonPlans[cell.row];
     if (!lessonPlan) {
       const periodNumber = calculatePeriodNumber(cell.row);
-      navigate(`/teacher/lesson-plans/create?period=${periodNumber}&day=${cell.column + 1}&week=${weekNumber}`);
+      navigate(`/teacher/lesson-plans/create?calendarYear=${currentYear}`);
     }
     navigate(`/teacher/lesson-plans/${lessonPlan.id}`);
   }
@@ -252,18 +256,32 @@ function WeekPlanner() {
     return periodNumber + 1;
   }
 
+  function handleCalendarYearChange(event: React.ChangeEvent<HTMLSelectElement>) {
+    setCurrentYear(parseInt(event.target.value));
+  }
+
   function isLessonHeader(entry: CalendarHeader) {
     return entry.periodType === "Lesson";
   }
 
   return (
     <div className="flex w-full h-full">
+      <div>
+        <span>Year: </span>
+        <select onChange={handleCalendarYearChange} className="border border-darkGreen rounded-sm">
+          {availablePlannerYears.map((year) => (
+            <option key={year} value={year}>
+              {year}
+            </option>
+          ))}
+          </select>
+      </div>
       <div
         style={{ gridAutoRows: gridRows }}
         className={`grid grid-cols-[minmax(7rem,_0.3fr),_repeat(5,_1fr)] border-t-2 border-darkGreen m-3 flex-grow`}>
         {renderCalendarHeaders()}
         {renderDayPlans(dayPlans)}
-      </div>
+      d</div>
     </div>
   );
 }

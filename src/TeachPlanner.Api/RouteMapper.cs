@@ -55,7 +55,7 @@ public static class RouteMapper {
 
     private static RouteGroupBuilder MapLessonPlans(this RouteGroupBuilder group) {
         var lessonPlanGroup = group.MapGroup("/lesson-plans");
-        // lessonPlanGroup.MapGet("/data", GetLessonPlanData.Delegate);
+        lessonPlanGroup.MapGet("/data", GetDataForBlankLessonPlan.Delegate);
         lessonPlanGroup.MapPost("/", CreateLessonPlan.Delegate);
 
         return group;
@@ -68,10 +68,6 @@ public static class RouteMapper {
 
         return serviceGroup;
     }
-    // adding term dates to the database
-    // do I bother adding a column that tracks the calendar year?
-    // should do a check if the term dates already exist for the year
-    // if so, do I want to overwrite or throw an error?
 
     private static RouteGroupBuilder MapStudents(this RouteGroupBuilder group) {
         var studentGroup = group.MapGroup("/students");

@@ -8,5 +8,5 @@ public interface ICurriculumRepository {
     Task<List<CurriculumSubject>> GetAllSubjects(CancellationToken cancellationToken);
     Task<List<CurriculumSubject>> GetSubjectsByName(List<string> subjectNames, CancellationToken cancellationToken);
     Task<List<CurriculumSubject>> GetSubjectsById(List<SubjectId> subjectIds, CancellationToken cancellationToken);
-    Task<List<CurriculumSubject>> GetSubjectsByYearLevels(List<YearLevelValue> yearLevels, CancellationToken cancellationToken);
+    Task<List<CurriculumSubject>> GetSubjectsByYearLevels(IEnumerable<YearLevelValue> yearLevels, CancellationToken cancellationToken);
 }

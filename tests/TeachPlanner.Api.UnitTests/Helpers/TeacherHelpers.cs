@@ -157,7 +157,7 @@ internal static class TeacherHelpers {
     }
 
     internal static List<string> CreateYearLevelsTaughtAsStringList() {
-        return new List<string> { "Year 1", "Year 2" };
+        return new List<string> { "Year1", "Year2" };
     }
 
     internal static List<YearLevelValue> CreateYearLevelsTaught() {

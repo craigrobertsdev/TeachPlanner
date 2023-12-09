@@ -17,11 +17,11 @@ function AddResourcesDialogContent({ subjectId, dialogRef, initialSelectedResour
   const [availableResources, setAvailableResources] = useState<Resource[]>([]);
 
   useEffect(() => {
-    const getResources = async () => {
-      const resources = await resourceService.getResources(subjectId, teacher!.id, token!);
-    };
+    // const getResources = async () => {
+    //   const resources = await resourceService.getResources(subjectId, teacher!.id, token!);
+    // };
 
-    getResources();
+    // getResources();
   }, []);
 
   function handleSelectResources() {

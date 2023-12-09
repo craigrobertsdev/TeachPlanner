@@ -47,4 +47,14 @@ public class YearDataRepository : IYearDataRepository {
         yearData.SetDayPlanTemplate(dayPlanTemplate);
         yearData.SetYearLevelsTaught(yearLevelsTaught);
     }
+
+    public async Task<IEnumerable<YearLevelValue>> GetYearLevelsTaught(TeacherId teacherId, int calendarYear, CancellationToken cancellationToken) {
+        var yearData = await _context.YearData
+            .Where(yd => yd.TeacherId == teacherId)
+            .Where(yd => yd.CalendarYear == calendarYear)
+            .AsNoTracking()
+            .FirstOrDefaultAsync(cancellationToken);
+
+        return yearData?.YearLevelsTaught ?? new List<YearLevelValue>();
+    }
 }

@@ -40,7 +40,7 @@ public class CurriculumRepository : ICurriculumRepository {
             .ToListAsync(cancellationToken);
     }
 
-    public async Task<List<CurriculumSubject>> GetSubjectsByYearLevels(List<YearLevelValue> yearLevels, CancellationToken cancellationToken) {
+    public async Task<List<CurriculumSubject>> GetSubjectsByYearLevels(IEnumerable<YearLevelValue> yearLevels, CancellationToken cancellationToken) {
         return await _context.CurriculumSubjects
              .Include(s => s.YearLevels.Where(
                 yl => yearLevels.Any(
