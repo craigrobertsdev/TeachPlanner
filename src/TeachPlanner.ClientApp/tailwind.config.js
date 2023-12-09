@@ -38,10 +38,11 @@ export default {
         ceramicDisabled: "#D08F7F",
 
         // curriculum
-        maths: "#FCCF03",
+        mathematics: "#FCCF03",
         english: "#85D42A",
-        hass: "2AD48D",
-        health: "AD3BFF",
+        "humanities and social science": "2AD48D",
+        "health and physical education": "AD3BFF",
+        science: "#FF3B3B",
       },
       height: {
         screen: "100dvh",

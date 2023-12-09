@@ -1,3 +1,4 @@
+using System.Reflection.Metadata.Ecma335;
 using TeachPlanner.Api.Domain.Common.Enums;
 
 namespace TeachPlanner.Api.Domain.CurriculumSubjects;
@@ -42,6 +43,21 @@ public record YearLevel {
         YearLevelValue? yearLevelValue, BandLevelValue? bandLevelValue) {
         return new YearLevel(strands, yearLevelValue, bandLevelValue, yearLevelDescription, achievementStandard);
     }
+
+    public YearLevelValue[] GetYearLevelFromBandLevel() {
+        if (BandLevelValue == null) {
+            return new[] { YearLevelValue!.Value };
+        }
+
+        return BandLevelValue switch {
+            Common.Enums.BandLevelValue.Foundation => new[] { Common.Enums.YearLevelValue.Foundation },
+            Common.Enums.BandLevelValue.Years1To2 => new[] { Common.Enums.YearLevelValue.Year1, Common.Enums.YearLevelValue.Year2 },
+            Common.Enums.BandLevelValue.Years3To4 => new[] { Common.Enums.YearLevelValue.Year3, Common.Enums.YearLevelValue.Year4 },
+            Common.Enums.BandLevelValue.Years5To6 => new[] { Common.Enums.YearLevelValue.Year5, Common.Enums.YearLevelValue.Year6 },
+            _ => throw new ArgumentOutOfRangeException()
+        };
+    }
+
 
     public Strand? GetStrand(Strand strand) {
         return _strands.Find(s => s.Name == strand.Name);

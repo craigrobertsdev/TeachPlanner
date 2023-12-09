@@ -241,7 +241,7 @@ function WeekPlanner() {
     let lessonPlan = dayPlans[cell.column]?.lessonPlans[cell.row];
     if (!lessonPlan) {
       const periodNumber = calculatePeriodNumber(cell.row);
-      navigate(`/teacher/lesson-plans/create?calendarYear=${currentYear}`);
+      navigate(`/teacher/lesson-plans/create?calendarYear=${currentYear ?? availablePlannerYears[0]}`);
     }
     navigate(`/teacher/lesson-plans/${lessonPlan.id}`);
   }

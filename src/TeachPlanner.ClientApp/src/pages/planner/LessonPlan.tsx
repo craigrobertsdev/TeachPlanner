@@ -7,6 +7,7 @@ import AddContentDescriptionDialogContent from "../../components/planner/AddCont
 import AddResourcesDialogContent from "../../components/planner/AddResourcesDialogContent";
 import useAuth from "../../contexts/AuthContext";
 import PlannerService from "../../services/PlannerService";
+import { useThemeContext } from "../../contexts/ThemeContext";
 
 function LessonPlan() {
   const lessonPlan = useLoaderData() as LessonPlan;
@@ -17,6 +18,7 @@ function LessonPlan() {
   const [assessments, setAssessments] = useState<Assessment[]>(lessonPlan.assessments);
   const [originalPlanningNotes] = useState<string>(lessonPlan.planningNotes.join("\n\n"));
   const [unsavedChanges, setUnsavedChanges] = useState<boolean>(false);
+  const [currentSubject, setCurrentSubject] = useState<string>(lessonPlan.subject.name ?? "");
   const unsavedChangesDialog = useRef<HTMLDialogElement>(null);
   const addContentDescriptionsDialog = useRef<HTMLDialogElement>(null);
   const addResourcesDialog = useRef<HTMLDialogElement>(null);
@@ -25,26 +27,33 @@ function LessonPlan() {
   const [searchParams, setSearchParams] = useSearchParams();
 
   useEffect(() => {
-    console.log(searchParams)
     const getLessonPlanData = async () => {
       const isNewLessonPlan = window.location.pathname.includes("create");
 
       if (isNewLessonPlan) {
         const response = await PlannerService.getBlankLessonPlanData(teacher!, token!, searchParams.get("calendarYear")!);
-        setSubjects(response.subjects);
+        setSubjects(response.curriculumSubjects);
+        console.log(response.curriculumSubjects)
       } else {
+        // TODO: fetch the lesson plan data from the server 
       }
     };
 
     getLessonPlanData();
   }, []);
-  
+
   function handlePlanningNotesChange(event: React.ChangeEvent<HTMLTextAreaElement>) {
     setPlanningNotes(event.target.value);
     if (event.target.value !== originalPlanningNotes) {
       setUnsavedChanges(true);
     } else {
       setUnsavedChanges(false);
+    }
+  }
+
+  function handleSubjectChange(event: React.ChangeEvent<HTMLSelectElement>) {
+    if (event.target.value !== currentSubject) {
+      setCurrentSubject(event.target.value);
     }
   }
 
@@ -76,15 +85,25 @@ function LessonPlan() {
   }
 
   return (
-    <section className="flex flex-col text-darkGreen max-w-7xl flex-grow border border-darkGreen relative">
+    <section className="flex flex-col text-darkGreen max-w-7xl flex-grow relative">
       This needs to allow the user to edit just the planning notes, resources and assessments for the lesson. Editing of the lesson time and subject
       should be done in the day plan pattern in settings. On load, fetch the content descriptors applicable to the subject and year level(s) of the
       lesson. The user should be able to select the content descriptors that are applicable to the subject and add them as aims for the lesson.
       Resources should be fetched for the subject and year level(s) of the lesson. Same for assessments.
-      <div className={`flex justify-between items-center mb-3 border border-darkGreen p-2 bg-${lessonPlan.subject.name.toLowerCase()}`}>
-        <p className="text-center">Subject: {lessonPlan.subject.name}</p>
-        <p className="text-center">Start Time: {getCalendarTime(lessonPlan.startTime)}</p> {/*TODO: displays NAN:10am */}
+      <div className={`flex justify-between items-center mb-3 border border-darkGreen p-2 bg-${currentSubject.toLowerCase()}`}>
+        <p className="text-center">
+         <span className="mx-2">Subject: </span>
+          <select className="text-center rounded border border-darkGreen p-1 bg-primary" onChange={handleSubjectChange} value={currentSubject}>
+            {subjects?.map((s) => (
+              <option key={s.id} value={s.id}>
+                {s.name}
+              </option>
+            ))}
+          </select>
+        </p>
+        <p className="text-center">Start Time: {getCalendarTime(lessonPlan.startTime)}</p>
         <p className="text-center">Period Number: {lessonPlan.periodNumber}</p>
+        <p className="text-center">Number of Periods: {lessonPlan.numberOfPeriods}</p>
         <p className="text-center">Date: {getCalendarDate(lessonPlan.startTime)}</p>
       </div>
       <div className="flex flex-grow gap-3 items-between mb-4">
@@ -93,7 +112,7 @@ function LessonPlan() {
           <label htmlFor="planning-notes" className="text-lg font-semibold">
             Planning Notes
           </label>
-          <textarea className="p-2 w-full flex-grow resize-none" name="planning-notes" value={planningNotes} onChange={handlePlanningNotesChange} />
+          <textarea className="p-2 w-full flex-grow border border-darkGreen resize-none" name="planning-notes" value={planningNotes} onChange={handlePlanningNotesChange} />
         </form>
         {/* Resources and content descriptions contianer*/}
         <div className="flex flex-col gap-3 flex-grow w-1/3 items-center">

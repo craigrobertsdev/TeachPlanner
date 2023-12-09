@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.CodeDom;
+using Microsoft.EntityFrameworkCore;
 using TeachPlanner.Api.Common.Interfaces.Persistence;
 using TeachPlanner.Api.Domain.Common.Enums;
 using TeachPlanner.Api.Domain.CurriculumSubjects;
@@ -40,10 +41,16 @@ public class CurriculumRepository : ICurriculumRepository {
             .ToListAsync(cancellationToken);
     }
 
-    public async Task<List<CurriculumSubject>> GetSubjectsByYearLevels(IEnumerable<YearLevelValue> yearLevels, CancellationToken cancellationToken) {
-        return await _context.CurriculumSubjects
-             .Include(s => s.YearLevels.Where(
-                yl => yearLevels.Any(
-                    ylv => yl.GetYearLevels().Contains(ylv)))).ToListAsync(cancellationToken);
+    public async Task<List<CurriculumSubject>> GetSubjectsByYearLevels(List<YearLevelValue> yearLevels, CancellationToken cancellationToken) {
+        {
+            var subjects = await _context.CurriculumSubjects
+                .Include(s => s.YearLevels)
+                .ThenInclude(yl => yl.Strands)
+                .ThenInclude(s => s.ContentDescriptions)
+                .AsNoTracking()
+                .ToListAsync(cancellationToken);
+
+            return subjects.Select(s => CurriculumSubject.Create(s.Name, s.RemoveYearLevelsNotTaught(yearLevels))).ToList();
+        }
     }
 }

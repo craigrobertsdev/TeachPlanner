@@ -5,7 +5,6 @@ using TeachPlanner.Api.Common.Interfaces.Persistence;
 using TeachPlanner.Api.Contracts.Curriculum;
 using TeachPlanner.Api.Contracts.LessonPlans;
 using TeachPlanner.Api.Contracts.Resources;
-using TeachPlanner.Api.Domain.Common.Enums;
 using TeachPlanner.Api.Domain.Teachers;
 
 namespace TeachPlanner.Api.Features.LessonPlans;
@@ -35,7 +34,7 @@ public static class GetDataForBlankLessonPlan {
             }
 
             var yearLevels = await _yearDataRepository.GetYearLevelsTaught(request.TeacherId, request.CalendarYear, cancellationToken);
-            var subjects = await _curriculumRepository.GetSubjectsByYearLevels(yearLevels, cancellationToken);
+            var subjects = await _curriculumRepository.GetSubjectsByYearLevels(yearLevels.ToList(), cancellationToken);
 
             var subjectDtos = subjects.Select(s => new CurriculumSubjectDto(
                 s.Name,

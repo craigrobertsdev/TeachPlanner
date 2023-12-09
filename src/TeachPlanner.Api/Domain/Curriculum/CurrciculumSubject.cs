@@ -1,3 +1,4 @@
+using TeachPlanner.Api.Domain.Common.Enums;
 using TeachPlanner.Api.Domain.Common.Interfaces;
 using TeachPlanner.Api.Domain.Common.Primatives;
 
@@ -35,6 +36,22 @@ public sealed class CurriculumSubject : Entity<SubjectId>, IAggregateRoot {
     public void AddYearLevel(YearLevel yearLevel) {
         _yearLevels.Add(yearLevel);
     }
+
+    public List<YearLevel> RemoveYearLevelsNotTaught(List<YearLevelValue> yearLevels) {
+        var redactedYearLevels = new List<YearLevel>();
+        foreach (var yearLevel in _yearLevels) {
+            if (yearLevel.YearLevelValue.HasValue && yearLevels.Contains(yearLevel.YearLevelValue.Value)) {
+                redactedYearLevels.Add(yearLevel);
+            } else if (yearLevel.BandLevelValue.HasValue
+              && (yearLevels.Contains(yearLevel.GetYearLevelFromBandLevel()[0])
+                || yearLevels.Contains(yearLevel.GetYearLevelFromBandLevel()[1]))) {
+                redactedYearLevels.Add(yearLevel);
+            }
+        }
+
+        return redactedYearLevels;
+    }
+
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
     private CurriculumSubject() {
     }
