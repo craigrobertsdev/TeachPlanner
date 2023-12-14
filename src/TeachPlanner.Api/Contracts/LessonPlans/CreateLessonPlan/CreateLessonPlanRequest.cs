@@ -4,7 +4,6 @@ using TeachPlanner.Api.Domain.LessonPlans;
 namespace TeachPlanner.Api.Contracts.LessonPlans.CreateLessonPlan;
 
 public record CreateLessonPlanRequest(
-    Guid YearDataId,
     SubjectId SubjectId,
     List<string> CurriculumCodes,
     string PlanningNotes,

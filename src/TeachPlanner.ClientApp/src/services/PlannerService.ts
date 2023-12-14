@@ -15,6 +15,21 @@ class PlannerService {
         return data;
     }
 
+    async createNewLessonPlan(lessonPlan: LessonPlan, teacher: Teacher, token: string) {
+        const abortController = new AbortController();
+
+        const response = await fetch(`${baseUrl}/${teacher.id}/lesson-plans`, {
+            method: "POST",
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json",
+            },
+            signal: abortController.signal,
+            body: JSON.stringify(lessonPlan),
+        });
+
+        return await response.json();
+    }
 }
 
 export default new PlannerService();

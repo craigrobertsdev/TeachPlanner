@@ -51,11 +51,7 @@ export default function LessonPlanCalendarEntry({
           </button>
         )}
       </div>
-      {lessonPlan.planningNotes.map((note, i) => (
-        <p key={`lessonPlannerNote-${i}`} className="pb-4">
-          {note}
-        </p>
-      ))}
+        <p className="pb-4">{lessonPlan.planningNotes}</p>
       {lessonPlan.resources && (
         <>
           <h5 className="text-md font-semibold">Resources</h5>

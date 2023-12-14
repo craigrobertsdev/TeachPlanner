@@ -40,9 +40,9 @@ export default {
         // curriculum
         mathematics: "#FCCF03",
         english: "#85D42A",
-        "humanities and social science": "2AD48D",
-        "health and physical education": "AD3BFF",
-        science: "#FF3B3B",
+        humanitiesAndSocialScience: "#2AD48D",
+        healthAndPhysicalEducation: "#AD3BFF44",
+        science: "#FF3B3B44",
       },
       height: {
         screen: "100dvh",
@@ -77,7 +77,7 @@ export default {
       pattern: /row-span-(1|2)/,
     },
     {
-      pattern: /(bg|text|border)-(sage|maths|english|hass|health)/,
+      pattern: /(bg|text|border)-(sage|mathematics|english|science|humanitiesAndSocialScience|healthAndPhysicalEducation)/,
     },
     {
       pattern: /grid-rows-[^\s]+/,

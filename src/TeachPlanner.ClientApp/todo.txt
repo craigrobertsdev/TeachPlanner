@@ -1,0 +1,9 @@
+update the week planner to first draw the dayPlanPattern to get the lessons and breaks in the right place
+then draw the weekPlanner.lessonPlans over top of that. If there are any blank slots, the dayPlanTemplate will be consulted.
+
+A lesson plan should be allowed to change the number of periods it takes up when being modified.
+
+To make this happen, the user should be asked if they are sure they want to make the change, and be warned that any data in an overwritten period will be lost.
+
+The lessonPlan page will need to know about the dayPlanTemplate so it can perform checks on the client side.
+On the server, the dayPlan will be saved and need to be linked to the week planner.

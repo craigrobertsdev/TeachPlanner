@@ -7,16 +7,16 @@ import AddContentDescriptionDialogContent from "../../components/planner/AddCont
 import AddResourcesDialogContent from "../../components/planner/AddResourcesDialogContent";
 import useAuth from "../../contexts/AuthContext";
 import PlannerService from "../../services/PlannerService";
-import { useThemeContext } from "../../contexts/ThemeContext";
+import { createCssClassString } from "../../utils/helpers";
 
 function LessonPlan() {
   const lessonPlan = useLoaderData() as LessonPlan;
   const [subjects, setSubjects] = useState([] as Subject[]);
-  const [planningNotes, setPlanningNotes] = useState<string>(lessonPlan.planningNotes.join("\n\n"));
+  const [planningNotes, setPlanningNotes] = useState<string>(lessonPlan.planningNotes);
   const [contentDescriptions, setContentDescriptions] = useState<ContentDescription[]>(lessonPlan.contentDescriptions);
   const [resources, setResources] = useState<Resource[]>(lessonPlan.resources);
   const [assessments, setAssessments] = useState<Assessment[]>(lessonPlan.assessments);
-  const [originalPlanningNotes] = useState<string>(lessonPlan.planningNotes.join("\n\n"));
+  const [originalPlanningNotes] = useState<string>(lessonPlan.planningNotes);
   const [unsavedChanges, setUnsavedChanges] = useState<boolean>(false);
   const [currentSubject, setCurrentSubject] = useState<string>(lessonPlan.subject.name ?? "");
   const unsavedChangesDialog = useRef<HTMLDialogElement>(null);
@@ -33,9 +33,9 @@ function LessonPlan() {
       if (isNewLessonPlan) {
         const response = await PlannerService.getBlankLessonPlanData(teacher!, token!, searchParams.get("calendarYear")!);
         setSubjects(response.curriculumSubjects);
-        console.log(response.curriculumSubjects)
+        console.log(response);
       } else {
-        // TODO: fetch the lesson plan data from the server 
+        // TODO: fetch the lesson plan data from the server
       }
     };
 
@@ -54,10 +54,35 @@ function LessonPlan() {
   function handleSubjectChange(event: React.ChangeEvent<HTMLSelectElement>) {
     if (event.target.value !== currentSubject) {
       setCurrentSubject(event.target.value);
+      console.log(`bg-${createCssClassString(currentSubject)}`);
     }
   }
 
-  function handleUpdateLesson() {}
+  async function handleSave() {
+    const newLessonPlan = createLessonPlanFromState();
+    const isNewLessonPlan = window.location.pathname.includes("create");
+
+    if (isNewLessonPlan) {
+      const response = await PlannerService.createNewLessonPlan(newLessonPlan, teacher!, token!);
+
+      if (response.status.isOk) {
+        navigate("/teacher/week-planner");
+      }
+    }
+
+    // TODO: save updates to the lesson plan
+  }
+
+  function createLessonPlanFromState() {
+    return {
+      planningNotes: planningNotes,
+      subject: { name: currentSubject },
+      resources: resources,
+      assessments: assessments,
+      contentDescriptions: contentDescriptions,
+      // numberOfPeriods = 
+    } as LessonPlan;
+  }
 
   function handleAddResource() {
     addResourcesDialog!.current!.showModal();
@@ -86,14 +111,17 @@ function LessonPlan() {
 
   return (
     <section className="flex flex-col text-darkGreen max-w-7xl flex-grow relative">
-      This needs to allow the user to edit just the planning notes, resources and assessments for the lesson. Editing of the lesson time and subject
-      should be done in the day plan pattern in settings. On load, fetch the content descriptors applicable to the subject and year level(s) of the
-      lesson. The user should be able to select the content descriptors that are applicable to the subject and add them as aims for the lesson.
-      Resources should be fetched for the subject and year level(s) of the lesson. Same for assessments.
-      <div className={`flex justify-between items-center mb-3 border border-darkGreen p-2 bg-${currentSubject.toLowerCase()}`}>
+      This needs to allow the user to edit just the planning notes, resources and assessments for the lesson. Editing of the lesson time and should be
+      done in the day plan pattern in settings. On load, fetch the content descriptors applicable to the subject and year level(s) of the lesson. The
+      user should be able to select the content descriptors that are applicable to the subject and add them as aims for the lesson. Resources should
+      be fetched for the subject and year level(s) of the lesson. Same for assessments.
+      <div className={`flex justify-between items-center mb-3 border border-darkGreen p-2 bg-${createCssClassString(currentSubject)}`}>
         <p className="text-center">
-         <span className="mx-2">Subject: </span>
-          <select className="text-center rounded border border-darkGreen p-1 bg-primary" onChange={handleSubjectChange} value={currentSubject}>
+          <span className="mx-2">Subject: </span>
+          <select
+            className={`text-center rounded border border-darkGreen font-bold p-1 bg-${createCssClassString(currentSubject)}`}
+            onChange={handleSubjectChange}
+            value={currentSubject}>
             {subjects?.map((s) => (
               <option key={s.id} value={s.id}>
                 {s.name}
@@ -112,7 +140,12 @@ function LessonPlan() {
           <label htmlFor="planning-notes" className="text-lg font-semibold">
             Planning Notes
           </label>
-          <textarea className="p-2 w-full flex-grow border border-darkGreen resize-none" name="planning-notes" value={planningNotes} onChange={handlePlanningNotesChange} />
+          <textarea
+            className="p-2 w-full flex-grow border border-darkGreen resize-none"
+            name="planning-notes"
+            value={planningNotes}
+            onChange={handlePlanningNotesChange}
+          />
         </form>
         {/* Resources and content descriptions contianer*/}
         <div className="flex flex-col gap-3 flex-grow w-1/3 items-center">
@@ -192,7 +225,7 @@ function LessonPlan() {
         </div>
       </div>
       <div className="flex justify-around mb-4 w-1/2 m-auto">
-        <Button variant="submit" disabled={unsavedChanges} onClick={handleUpdateLesson}>
+        <Button variant="submit" disabled={unsavedChanges} onClick={handleSave}>
           Save
         </Button>
         <Button variant="cancel" onClick={handleCancel}>
@@ -225,7 +258,7 @@ export async function lessonPlanLoader(): Promise<LessonPlan> {
   return new Promise((resolve) => {
     const lessonPlanPromise = {
       numberOfPeriods: 2,
-      planningNotes: ["Exploring rounding to the nearest 10 and 100"],
+      planningNotes: "Exploring rounding to the nearest 10 and 100",
       resources: [
         {
           name: "Rounding to the nearest 10 and 100",
@@ -254,7 +287,7 @@ export async function lessonPlanLoader(): Promise<LessonPlan> {
       ] as ContentDescription[],
       subject: {
         id: "1",
-        name: "Maths",
+        name: "Mathematics",
         contentDescriptions: [
           {
             curriculumCode: "AC9EFLA03",
