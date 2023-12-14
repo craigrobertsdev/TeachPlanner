@@ -203,7 +203,8 @@ function WeekPlanner() {
 							key={uuidv1()} 
 							schoolEvent={dayPlan.events[schoolEventPos]} 
 							columnIndex={colIdx} 
-							rowIndex={i + 2} />
+							rowIndex={i + 2} 
+						/>
 					);
 
 					if (dayPlan.events[schoolEventPos].numberOfPeriods !== 1) {
@@ -211,7 +212,7 @@ function WeekPlanner() {
 					}
 
 					schoolEventPos++;
-				} else if (breakPos < dayPlan.breaks.length) {
+				} else if (breakPos < dayPlan.breaks.length && dayPlan.breaks[breakPos].periodNumber === i + 1) {
 					renderedDayPlans.push(
 						<BreakCalendarEntry 
 							key={uuidv1()} 
@@ -241,19 +242,20 @@ function WeekPlanner() {
 
 		if (pattern[periodNumber].periodType === "Lesson") {
 		return <LessonPlanCalendarEntry
-							key={uuidv1()}
-							lessonPlan={{ periodNumber: periodNumber + 1, numberOfPeriods: 1, subject: { name: "Add a lesson plan" }, planningNotes: "" } as LessonPlan}
-							columnIndex={colIdx}
-							selectLessonEntry={() => handleLessonPlanEntryClicked({ row: periodNumber, column: colIdx })}
-							isSelected={selectedLessonEntryIndex.row === periodNumber && selectedLessonEntryIndex.column === colIdx}
-							viewLessonPlan={() => handleViewLessonPlan({ row: periodNumber, column: colIdx })}
-						/>
+				key={uuidv1()}
+				lessonPlan={{ periodNumber: periodNumber + 1, numberOfPeriods: 1, subject: { name: "Add a lesson plan" }, planningNotes: "" } as LessonPlan}
+				columnIndex={colIdx}
+				selectLessonEntry={() => handleLessonPlanEntryClicked({ row: periodNumber, column: colIdx })}
+				isSelected={selectedLessonEntryIndex.row === periodNumber && selectedLessonEntryIndex.column === colIdx}
+				viewLessonPlan={() => handleViewLessonPlan({ row: periodNumber, column: colIdx })}
+			/>
 		} else {
 			return <BreakCalendarEntry 
 				key={uuidv1()} 
 				lessonBreak={{ name: pattern[periodNumber].name, periodNumber: periodNumber + 1 } as Break} 
 				columnIndex={colIdx} 
-				rowIndex={periodNumber} />
+				rowIndex={periodNumber} 
+			/>
 		}
 	}
 
