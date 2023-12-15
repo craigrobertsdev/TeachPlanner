@@ -1,5 +1,11 @@
 A lesson plan should be allowed to change the number of periods it takes up when being modified.
 
+Change ContentDescriptionSearchBox to show the details of the content description. It will need to accept an array of yearLevels so it can display the yearLevel that it is associated with. 
+
+Another feature will be adding a flag to say whether the CD is already planned for in another lesson, and maybe create a link to that lessonPlan.
+
+Need to again fix the time and date of the lesson.
+
 To make this happen, the user should be asked if they are sure they want to make the change, and be warned that any data in an overwritten period will be lost.
 
 The lessonPlan page will need to know about the dayPlanTemplate so it can perform checks on the client side.

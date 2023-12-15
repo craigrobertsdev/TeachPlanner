@@ -53,8 +53,13 @@ declare type LessonPlan = {
 declare type PlannerSubject = {
 	id: string;
 	name: string;
+	yearLevels: PlannerSubjectYearLevel[];
+}
+
+declare type PlannerSubjectYearLevel = {
+	name: string;
 	contentDescriptions: ContentDescription[];
-};
+}
 
 declare type DayPlan = {
 	startTime: Date;
@@ -113,7 +118,7 @@ declare type Subject = {
 declare type SubjectYearLevel = {
 	name: string;
 	subject: Subject;
-	strands: Strand[];
+	contentDescriptions: ContentDescription[];
 };
 
 declare type Strand = {

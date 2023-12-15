@@ -51,6 +51,7 @@ function LessonPlan() {
 				} as LessonPlan
 				setLessonPlan(lessonPlan)
 				setSubjects(response.curriculumSubjects);
+				setCurrentSubject(response.curriculumSubjects[0].name)
 				console.log(response);
 			} else {
 				// TODO: fetch the lesson plan data from the server
@@ -61,8 +62,9 @@ function LessonPlan() {
 	}, []);
 
 	useEffect(() => {
-		console.log(currentWeekPlanner);
-	}, []);
+		console.log(setCurrentSubject);
+		getContentDescriptions(currentSubject)
+	}, [currentSubject]);
 
 	function handlePlanningNotesChange(event: React.ChangeEvent<HTMLTextAreaElement>) {
 		setPlanningNotes(event.target.value);
@@ -76,7 +78,14 @@ function LessonPlan() {
 	function handleSubjectChange(event: React.ChangeEvent<HTMLSelectElement>) {
 		if (event.target.value !== currentSubject) {
 			setCurrentSubject(event.target.value);
-			console.log(`bg-${createCssClassString(currentSubject)}`);
+			const yearLevels = subjects.find(s => s.name === event.target.value)?.yearLevels.map(yl => {
+				return { name: event.target.value, contentDescriptions: yl.contentDescriptions } as PlannerSubjectYearLevel
+			});
+
+			lessonPlan.subject = {
+				name: event.target.value,
+				yearLevels
+			} as PlannerSubject;
 		}
 	}
 
@@ -116,6 +125,18 @@ function LessonPlan() {
 
 	function handleRemoveContentDescription(curriculumCode: string) {
 		setContentDescriptions(contentDescriptions.filter((cd) => cd.curriculumCode !== curriculumCode));
+	}
+
+	function getContentDescriptions(subjectName: string) {
+		const subject = subjects.find(s => s.name === subjectName);
+
+		if (!subject) {
+			return;
+		}
+		const contentDescriptions = subject.yearLevels.map(
+			yl => yl.contentDescriptions)
+
+		console.log(contentDescriptions)
 	}
 
 	function handleCancel() {
@@ -218,13 +239,13 @@ function LessonPlan() {
 							</div>
 							{/* Content descriptions */}
 							<dialog ref={addContentDescriptionsDialog} className="p-3 text-lg border border-darkGreen max-w-xl">
-							{ lessonPlan.subject.contentDescriptions && <AddContentDescriptionDialogContent
+								{lessonPlan.subject.yearLevels && <AddContentDescriptionDialogContent
 									dialogRef={addContentDescriptionsDialog}
 									initialSelectedContentDescriptions={contentDescriptions}
 									setContentDescriptions={setContentDescriptions}
-									availableContentDescriptions={lessonPlan.subject.contentDescriptions}
+									availableContentDescriptions={lessonPlan.subject.yearLevels.map(yl => yl.contentDescriptions).flat()}
 								/>
-							}
+								}
 							</dialog>
 							<div className="flex flex-col items-center w-full flex-grow h-1/2">
 								<div className="flex w-full items-center justify-between px-2 py-1">

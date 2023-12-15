@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using Humanizer;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using TeachPlanner.Api.Common.Exceptions;
 using TeachPlanner.Api.Common.Interfaces.Persistence;
@@ -36,14 +37,17 @@ public static class GetDataForBlankLessonPlan {
             var yearLevels = await _yearDataRepository.GetYearLevelsTaught(request.TeacherId, request.CalendarYear, cancellationToken);
             var subjects = await _curriculumRepository.GetSubjectsByYearLevels(yearLevels.ToList(), cancellationToken);
 
-            var contentDescriptionsPerSubject = new Dictionary<string, List<ContentDescriptionDto>>();
+            var subjectDtos = new List<CurriculumSubjectDto>();
 
             foreach (var subject in subjects) {
-                contentDescriptionsPerSubject.Add(subject.Name, new List<ContentDescriptionDto>());
+                subjectDtos.Add(new CurriculumSubjectDto(subject.Name, new List<YearLevelDto>()));
                 foreach (var yearLevel in subject.YearLevels) {
+                    subjectDtos.Last().YearLevels.Add(new YearLevelDto(
+                        yearLevel.YearLevelValue != null ? yearLevel.YearLevelValue.ToString() : yearLevel.BandLevelValue.ToString(),
+                        new List<ContentDescriptionDto>()));
                     foreach (var strand in yearLevel.Strands) {
                         foreach (var contentDescription in strand.ContentDescriptions) {
-                            contentDescriptionsPerSubject[subject.Name].Add(new ContentDescriptionDto(
+                            subjectDtos.Last().YearLevels.Last().ContentDescriptions.Add(new ContentDescriptionDto(
                                 strand.Name,
                                 contentDescription.CurriculumCode,
                                 contentDescription.Description));
@@ -51,15 +55,6 @@ public static class GetDataForBlankLessonPlan {
                     }
                 }
             }
-
-            var subjectDtos = subjects.Select(s => new CurriculumSubjectDto(
-                s.Name,
-                s.YearLevels.Select(yl => new YearLevelDto(
-                    yl.YearLevelValue != null ? yl.YearLevelValue.ToString() : yl.BandLevelValue.ToString(),
-                    contentDescriptionsPerSubject[s.Name]
-                    .ToList()))
-                .ToList()))
-            .ToList();
 
             var resources = teacher.Resources
                 .Select(r => new ResourceResponse(r.Name, r.Url, r.IsAssessment)).ToList();
