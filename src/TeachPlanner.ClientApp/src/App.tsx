@@ -30,7 +30,7 @@ export const router = createBrowserRouter(
         <Route path="week-planner" loader={weekPlannerLoader} element={<WeekPlanner />} />
         <Route path="lesson-plans">
           <Route element={<LessonPlans />} index />
-          <Route path=":lessonPlanId" element={<LessonPlan />} loader={lessonPlanLoader} />
+          <Route path=":lessonPlanId" element={<LessonPlan />} /* loader={lessonPlanLoader} */ />
         </Route>
         <Route path="term-planner" element={<TermPlanner />} />
         <Route path="year-planner" element={<YearPlanner />} />

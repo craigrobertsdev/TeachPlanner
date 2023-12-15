@@ -56,7 +56,7 @@ export const dayPlanHelper = {
 				name: "Lesson 6",
 			},
 		],
-	} as DayPlanPattern,
+	} as DayPlanTemplate,
 	dayPlans: [{
 		startTime: new Date(2023, 12, 11, 9, 10, 0),
 		lessonPlans: [

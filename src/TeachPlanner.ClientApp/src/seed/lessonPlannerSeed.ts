@@ -1,44 +1,44 @@
-export const dayPlanPatternSeed: DayPlanPattern = {
+export const dayPlanPatternSeed: DayPlanTemplate = {
   pattern: [
     {
-      startTime: new Date(2023, 8, 7, 9, 10, 0),
-      endTime: new Date(2023, 8, 7, 10, 0, 0),
-      periodType: "LessonPlan",
+      startTime: "09:10:00",
+      endTime: "10:00:00",
+      periodType: "Lesson",
     },
     {
-      startTime: new Date(2023, 8, 7, 10, 0, 0),
-      endTime: new Date(2023, 8, 7, 10, 50, 0),
-      periodType: "LessonPlan",
+      startTime: "10:00:00",
+      endTime: "10:50:00",
+      periodType: "Lesson",
     },
     {
-      startTime: new Date(2023, 8, 7, 10, 50, 0),
-      endTime: new Date(2023, 8, 7, 11, 20, 0),
+      startTime: "10:50:00",
+      endTime: "11:20:00",
       periodType: "Break",
     },
     {
-      startTime: new Date(2023, 8, 7, 11, 20, 0),
-      endTime: new Date(2023, 8, 7, 12, 10, 0),
-      periodType: "LessonPlan",
+      startTime: "11:20:00",
+      endTime: "12:10:00",
+      periodType: "Lesson",
     },
     {
-      startTime: new Date(2023, 8, 7, 12, 10, 0),
-      endTime: new Date(2023, 8, 7, 13, 0, 0),
-      periodType: "LessonPlan",
+      startTime: "12:10:00",
+      endTime: "13:00:00",
+      periodType: "Lesson",
     },
     {
-      startTime: new Date(2023, 8, 7, 13, 0, 0),
-      endTime: new Date(2023, 8, 7, 13, 30, 0),
+      startTime: "13:00:00",
+      endTime: "13:30:00",
       periodType: "Break",
     },
     {
-      startTime: new Date(2023, 8, 7, 13, 30, 0),
-      endTime: new Date(2023, 8, 7, 14, 20, 0),
-      periodType: "LessonPlan",
+      startTime: "13:30:00",
+      endTime: "14:20:00",
+      periodType: "Lesson",
     },
     {
-      startTime: new Date(2023, 8, 7, 14, 20, 0),
-      endTime: new Date(2023, 8, 7, 15, 10, 0),
-      periodType: "LessonPlan",
+      startTime: "14:20:00",
+      endTime: "15:10:00",
+      periodType: "Lesson",
     },
   ],
 };
@@ -413,35 +413,30 @@ const lessonPlanSeed5 = [
 export const dayPlansSeed = [
   {
     startTime: new Date(2023, 7, 7, 9, 0, 0),
-    endTime: new Date(2023, 7, 7, 15, 10, 0),
     breaks: lessonBreakSeed,
     events: [] as SchoolEvent[],
     lessonPlans: lessonPlanSeed1,
   },
   {
     startTime: new Date(2023, 7, 8, 9, 0, 0),
-    endTime: new Date(2023, 7, 8, 15, 10, 0),
     breaks: lessonBreakSeed,
     events: [] as SchoolEvent[],
     lessonPlans: lessonPlanSeed2,
   },
   {
     startTime: new Date(2023, 7, 9, 9, 0, 0),
-    endTime: new Date(2023, 7, 9, 15, 10, 0),
     breaks: lessonBreakSeed,
     events: [] as SchoolEvent[],
     lessonPlans: lessonPlanSeed3,
   },
   {
     startTime: new Date(2023, 7, 10, 9, 0, 0),
-    endTime: new Date(2023, 7, 10, 15, 10, 0),
     breaks: lessonBreakSeed,
     events: [] as SchoolEvent[],
     lessonPlans: lessonPlanSeed4,
   },
   {
     startTime: new Date(2023, 7, 11, 9, 0, 0),
-    endTime: new Date(2023, 7, 11, 15, 10, 0),
     breaks: lessonBreakSeed,
     events: [] as SchoolEvent[],
     lessonPlans: lessonPlanSeed5,

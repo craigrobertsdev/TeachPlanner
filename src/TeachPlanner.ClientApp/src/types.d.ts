@@ -25,7 +25,7 @@ declare type Student = {
 /**
  * Sets out the layout of the week planner based on the number of lessons and breaks, and when they are scheduled.
  */
-declare type DayPlanPattern = {
+declare type DayPlanTemplate = {
 	pattern: CalendarHeader[];
 };
 
@@ -40,8 +40,8 @@ declare type LessonPlan = {
 	id: string;
 	subject: PlannerSubject;
 	planningNotes: string;
-	startTime: Date;
-	endTime: Date;
+	startTime: string;
+	endTime: string;
 	numberOfPeriods: number;
 	periodNumber: number;
 	resources: Resource[];
@@ -58,8 +58,6 @@ declare type PlannerSubject = {
 
 declare type DayPlan = {
 	startTime: Date;
-	// endTime: Date;
-	//numberOfPeriods: number;
 	lessonPlans: LessonPlan[];
 	events: SchoolEvent[];
 	breaks: Break[];
@@ -196,12 +194,3 @@ declare type TermPlan = {
 	subjects: Subject[];
 };
 
-declare type DayPlanTemplate = {
-	calendarEntries: Period[];
-};
-
-declare type Period = {
-	type: "lesson" | "break" | "afterschool" | "beforeschool";
-	startTime: Date;
-	endTime: Date;
-};

@@ -55,7 +55,7 @@ function WeekPlanner() {
 				events: []
 			};
 			setCurrentWeekPlanner(weekPlanner);
-			setDayPlanPattern(dayPlanPattern);
+			setDayPlanPattern(dayPlanHelper.dayPlanPattern);
 			return response.json() as Promise<WeekPlannerData>;
 		}
 
@@ -169,7 +169,7 @@ function WeekPlanner() {
 		return renderedCalendarHeaders;
 	}
 
-	function getNumberOfPeriods(dayPlanPattern: DayPlanPattern) {
+	function getNumberOfPeriods(dayPlanPattern: DayPlanTemplate) {
 		return dayPlanPattern.pattern.length;
 	}
 
@@ -342,7 +342,7 @@ type LessonPlannerProps = {
 	lessonLength: number; // in mintues
 	weekNumber: number;
 	dayPlans: DayPlan[];
-	dayPlanPattern: DayPlanPattern;
+	dayPlanPattern: DayPlanTemplate;
 };
 
 type DayPlanData = {
@@ -365,11 +365,11 @@ type LessonPlanData = {
 	weekNumber: number;
 	weekStart: Date;
 	dayPlans: DayPlan[];
-	dayPlanPattern: DayPlanPattern;
+	dayPlanPattern: DayPlanTemplate;
 };
 
 type WeekPlannerData = {
-	dayPlanPattern: DayPlanPattern;
+	dayPlanPattern: DayPlanTemplate;
 	dayPlans: DayPlan[];
 	weekStart: Date;
 	weekNumber: number;
