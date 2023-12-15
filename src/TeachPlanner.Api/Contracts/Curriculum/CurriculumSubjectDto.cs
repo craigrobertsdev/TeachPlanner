@@ -9,5 +9,6 @@ public record YearLevelDto(
     List<ContentDescriptionDto> ContentDescriptions);
 
 public record ContentDescriptionDto(
+    string Strand,
     string CurriculumCode,
     string ContentDescription);

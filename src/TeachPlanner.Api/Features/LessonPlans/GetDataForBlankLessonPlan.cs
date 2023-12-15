@@ -36,11 +36,27 @@ public static class GetDataForBlankLessonPlan {
             var yearLevels = await _yearDataRepository.GetYearLevelsTaught(request.TeacherId, request.CalendarYear, cancellationToken);
             var subjects = await _curriculumRepository.GetSubjectsByYearLevels(yearLevels.ToList(), cancellationToken);
 
+            var contentDescriptionsPerSubject = new Dictionary<string, List<ContentDescriptionDto>>();
+
+            foreach (var subject in subjects) {
+                contentDescriptionsPerSubject.Add(subject.Name, new List<ContentDescriptionDto>());
+                foreach (var yearLevel in subject.YearLevels) {
+                    foreach (var strand in yearLevel.Strands) {
+                        foreach (var contentDescription in strand.ContentDescriptions) {
+                            contentDescriptionsPerSubject[subject.Name].Add(new ContentDescriptionDto(
+                                strand.Name,
+                                contentDescription.CurriculumCode,
+                                contentDescription.Description));
+                        }
+                    }
+                }
+            }
+
             var subjectDtos = subjects.Select(s => new CurriculumSubjectDto(
                 s.Name,
                 s.YearLevels.Select(yl => new YearLevelDto(
                     yl.YearLevelValue != null ? yl.YearLevelValue.ToString() : yl.BandLevelValue.ToString(),
-                    yl.GetContentDescriptions().Select(cd => new ContentDescriptionDto(cd.CurriculumCode, cd.Description))
+                    contentDescriptionsPerSubject[s.Name]
                     .ToList()))
                 .ToList()))
             .ToList();
