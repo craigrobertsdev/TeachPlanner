@@ -8,7 +8,7 @@ import EventCalendarEntry from "../../components/planner/EventCalendarEntry";
 import AfterSchoolCalendarEntry from "../../components/planner/AfterSchoolCalendarEntry";
 import LessonHeader from "../../components/planner/LessonHeader";
 import BreakHeader from "../../components/planner/BreakHeader";
-import { resolvePath, useLoaderData, useNavigate } from "react-router-dom";
+import { useLoaderData, useNavigate } from "react-router-dom";
 import { baseUrl } from "../../utils/constants";
 import { usePlannerContext } from "../../contexts/PlannerContext";
 import { dayPlanHelper } from "../../utils/helpers"
@@ -16,14 +16,15 @@ import { dayPlanHelper } from "../../utils/helpers"
 function WeekPlanner() {
 	const { teacher } = useAuth();
 	const { availablePlannerYears } = usePlannerContext();
-	const [currentYear, setCurrentYear] = useState<number>(); 
+	const [currentYear, setCurrentYear] = useState<number>();
 	const [gridRows, setGridRows] = useState<string>("");
 	const [selectedLessonEntryIndex, setSelectedLessonEntryIndex] = useState<GridCellLocation>({ row: -1, column: -1 });
 	const loaderData = useLoaderData() as LessonPlanData;
 	const navigate = useNavigate();
+	const { currentWeekPlanner, setCurrentWeekPlanner, setDayPlanPattern } = usePlannerContext();
 
-	const { weekNumber, dayPlans, dayPlanPattern, weekStart } = loaderData;
-	const numRows = dayPlanPattern.pattern.length + 2; // +2 for header row and after school
+	const { weekNumber, dayPlans, weekStart, dayPlanPattern } = loaderData;
+	const numRows = dayPlanPattern.pattern.length + 2; // +2 for before and after school
 
 	useEffect(() => {
 		async function getWeekPlanner() {
@@ -45,10 +46,21 @@ function WeekPlanner() {
 			// if (!response.ok) {
 			//   return new Promise((resolve, _) => resolve({ dayPlanPattern: { pattern: [] }, dayPlans: [], weekStart, weekNumber, termNumber, year } as WeekPlannerData));
 			// }
-
+			//
+			const weekPlanner: WeekPlanner = {
+				weekStart: new Date(2023, 12, 11),
+				termNumber: 4,
+				weekNumber: 9,
+				dayPlans: dayPlanHelper.dayPlans,
+				events: []
+			};
+			setCurrentWeekPlanner(weekPlanner);
+			setDayPlanPattern(dayPlanPattern);
 			return response.json() as Promise<WeekPlannerData>;
 		}
-	})
+
+		getWeekPlanner();
+	}, []);
 
 	useEffect(() => {
 		setGridDimensions();
@@ -162,8 +174,6 @@ function WeekPlanner() {
 	}
 
 	function renderDayPlans(dayPlans: DayPlan[]): React.ReactNode[][] {
-		// this function now should go through each dayPlan in dayPlan
-		// if there is a day plan whose period == i + 1 then renderDayPlanWithEntry(), otherwise renderDayPlanPlaceholder()
 		return dayPlans.map((dayPlan, colIdx) => {
 			const renderedDayPlans = [] as React.ReactNode[];
 
@@ -199,11 +209,11 @@ function WeekPlanner() {
 					lessonPlanPos++;
 				} else if (dayPlan.events.length && dayPlan.events[schoolEventPos].periodNumber === i + 1) {
 					renderedDayPlans.push(
-						<EventCalendarEntry 
-							key={uuidv1()} 
-							schoolEvent={dayPlan.events[schoolEventPos]} 
-							columnIndex={colIdx} 
-							rowIndex={i + 2} 
+						<EventCalendarEntry
+							key={uuidv1()}
+							schoolEvent={dayPlan.events[schoolEventPos]}
+							columnIndex={colIdx}
+							rowIndex={i + 2}
 						/>
 					);
 
@@ -214,10 +224,10 @@ function WeekPlanner() {
 					schoolEventPos++;
 				} else if (breakPos < dayPlan.breaks.length && dayPlan.breaks[breakPos].periodNumber === i + 1) {
 					renderedDayPlans.push(
-						<BreakCalendarEntry 
-							key={uuidv1()} 
-							lessonBreak={dayPlan.breaks[breakPos]} 
-							columnIndex={colIdx} 
+						<BreakCalendarEntry
+							key={uuidv1()}
+							lessonBreak={dayPlan.breaks[breakPos]}
+							columnIndex={colIdx}
 							rowIndex={i + 2} />);
 					breakPos++;
 				} else {
@@ -226,10 +236,10 @@ function WeekPlanner() {
 			}
 
 			renderedDayPlans.push(
-				<AfterSchoolCalendarEntry 
-					key={uuidv1()} 
-					rowIndex={numRows} 
-					columnIndex={colIdx} 
+				<AfterSchoolCalendarEntry
+					key={uuidv1()}
+					rowIndex={numRows}
+					columnIndex={colIdx}
 					afterSchoolActivity="Crossing duty" />);
 
 			return renderedDayPlans;
@@ -241,7 +251,7 @@ function WeekPlanner() {
 		const pattern = dayPlanPattern.pattern;
 
 		if (pattern[periodNumber].periodType === "Lesson") {
-		return <LessonPlanCalendarEntry
+			return <LessonPlanCalendarEntry
 				key={uuidv1()}
 				lessonPlan={{ periodNumber: periodNumber + 1, numberOfPeriods: 1, subject: { name: "Add a lesson plan" }, planningNotes: "" } as LessonPlan}
 				columnIndex={colIdx}
@@ -250,11 +260,11 @@ function WeekPlanner() {
 				viewLessonPlan={() => handleViewLessonPlan({ row: periodNumber, column: colIdx })}
 			/>
 		} else {
-			return <BreakCalendarEntry 
-				key={uuidv1()} 
-				lessonBreak={{ name: pattern[periodNumber].name, periodNumber: periodNumber + 1 } as Break} 
-				columnIndex={colIdx} 
-				rowIndex={periodNumber} 
+			return <BreakCalendarEntry
+				key={uuidv1()}
+				lessonBreak={{ name: pattern[periodNumber].name, periodNumber: periodNumber + 1 } as Break}
+				columnIndex={colIdx}
+				rowIndex={periodNumber}
 			/>
 		}
 	}
@@ -266,13 +276,14 @@ function WeekPlanner() {
 	}
 
 	function handleViewLessonPlan(cell: GridCellLocation) {
-		let lessonPlan = dayPlans[cell.column]?.lessonPlans[cell.row]as LessonPlan;
+		let lessonPlan = dayPlans[cell.column]?.lessonPlans[cell.row] as LessonPlan;
 		if (!lessonPlan) {
 			const periodNumber = calculatePeriodNumber(cell.row);
-			// const numberofPeriods = calculateNumberOfPeriods(cell.row);
-			// navigate(`/teacher/lesson-plans/create?calendarYear=${currentYear ?? availablePlannerYears[0]}&numberOfLessons=${lessonPlan.}`);
+			navigate(`/teacher/lesson-plans/create?calendarYear=${currentYear ?? availablePlannerYears[0]}&periodNumber=${periodNumber}`);
+		} else {
+			const numberOfPeriods = calculateNumberOfPeriods(cell);
+			navigate(`/teacher/lesson-plans/${lessonPlan.id}?calendarYear=${currentYear ?? availablePlannerYears[0]}&numberOfPeriods=${numberOfPeriods}`);
 		}
-		navigate(`/teacher/lesson-plans/${lessonPlan.id}`);
 	}
 
 	function calculatePeriodNumber(row: number) {
@@ -283,6 +294,14 @@ function WeekPlanner() {
 			}
 		}
 		return periodNumber + 1;
+	}
+
+	function calculateNumberOfPeriods(cell: GridCellLocation) {
+		const lessonPlan = dayPlans[cell.column].lessonPlans.find(
+			lp => lp.periodNumber === cell.row + 1
+		)
+
+		return lessonPlan?.numberOfPeriods
 	}
 
 	function handleCalendarYearChange(event: React.ChangeEvent<HTMLSelectElement>) {
@@ -377,7 +396,7 @@ export async function weekPlannerLoader(): Promise<WeekPlannerData> {
 	// if (!response.ok) {
 	//   return new Promise((resolve, _) => resolve({ dayPlanPattern: { pattern: [] }, dayPlans: [], weekStart, weekNumber, termNumber, year } as WeekPlannerData));
 	// }
-	//
+
 	return Promise.resolve({
 		year: 2023,
 		weekStart: new Date(2023, 12, 11),
