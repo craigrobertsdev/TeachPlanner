@@ -12,7 +12,6 @@ class PlannerService {
 		});
 
 		const data: LessonPlanData = await response.json();
-		console.log(data)
 		return data;
 	}
 

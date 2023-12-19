@@ -1,4 +1,4 @@
-import { useLoaderData, useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { getCalendarDate, getCalendarTime } from "../../utils/dateUtils";
 import { useEffect, useRef, useState } from "react";
 import Button from "../../components/common/Button";
@@ -21,6 +21,7 @@ function LessonPlan() {
 	const [originalPlanningNotes] = useState<string>(lessonPlan.planningNotes ?? "");
 	const [unsavedChanges, setUnsavedChanges] = useState<boolean>(false);
 	const [currentSubject, setCurrentSubject] = useState<string>(lessonPlan.subject?.name ?? "");
+	const [numberOfPeriods, setNumberOfPeriods] = useState(1);
 	const unsavedChangesDialog = useRef<HTMLDialogElement>(null);
 	const addContentDescriptionsDialog = useRef<HTMLDialogElement>(null);
 	const addResourcesDialog = useRef<HTMLDialogElement>(null);
@@ -51,8 +52,8 @@ function LessonPlan() {
 				} as LessonPlan
 				setLessonPlan(lessonPlan)
 				setSubjects(response.curriculumSubjects);
-				setCurrentSubject(response.curriculumSubjects[0].name)
-				console.log(response);
+				setCurrentSubject(response.curriculumSubjects[0].name);
+				setNumberOfPeriods(lessonPlan.numberOfPeriods);
 			} else {
 				// TODO: fetch the lesson plan data from the server
 			}
@@ -62,7 +63,6 @@ function LessonPlan() {
 	}, []);
 
 	useEffect(() => {
-		console.log(setCurrentSubject);
 		getContentDescriptions(currentSubject)
 	}, [currentSubject]);
 
@@ -115,6 +115,10 @@ function LessonPlan() {
 		} as LessonPlan;
 	}
 
+	function handleNumberOfPeriodsChange(e: React.ChangeEvent<HTMLSelectElement>) {
+		setNumberOfPeriods(+e.target.value);
+	}
+
 	function handleAddResource() {
 		addResourcesDialog!.current!.showModal();
 	}
@@ -135,8 +139,6 @@ function LessonPlan() {
 		}
 		const contentDescriptions = subject.yearLevels.map(
 			yl => yl.contentDescriptions)
-
-		console.log(contentDescriptions)
 	}
 
 	function handleCancel() {
@@ -176,7 +178,13 @@ function LessonPlan() {
 						</p>
 						<p className="text-center">Start Time: {getCalendarTime(lessonPlan.startTime)}</p>
 						<p className="text-center">Period Number: {lessonPlan.periodNumber}</p>
-						<p className="text-center">Number of Periods: {lessonPlan.numberOfPeriods}</p>
+						<div>
+						<label>Number of Periods: </label>
+						<select className="text-center bg-transparent border border-darkGreen rounded-md px-2 font-semibold" value={numberOfPeriods} onChange={handleNumberOfPeriodsChange}>
+							<option value="1">1</option>
+							<option value="2">2</option>
+						</select>
+						</div>
 						<p className="text-center">Date: {getCalendarDate(lessonPlan.startTime)}</p>
 					</div>
 					<div className="flex flex-grow gap-3 items-between mb-4">
