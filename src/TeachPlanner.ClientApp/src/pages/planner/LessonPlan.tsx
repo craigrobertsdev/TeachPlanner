@@ -22,9 +22,11 @@ function LessonPlan() {
 	const [unsavedChanges, setUnsavedChanges] = useState<boolean>(false);
 	const [currentSubject, setCurrentSubject] = useState<string>(lessonPlan.subject?.name ?? "");
 	const [numberOfPeriods, setNumberOfPeriods] = useState(1);
+	const [lessonOverlapExists, setLessonOverlapExists] = useState(false);
 	const unsavedChangesDialog = useRef<HTMLDialogElement>(null);
 	const addContentDescriptionsDialog = useRef<HTMLDialogElement>(null);
 	const addResourcesDialog = useRef<HTMLDialogElement>(null);
+	const lessonOverlapDialog = useRef<HTMLDialogElement>(null);
 	const navigate = useNavigate();
 	const { teacher, token } = useAuth();
 	const [searchParams] = useSearchParams();
@@ -89,8 +91,18 @@ function LessonPlan() {
 		}
 	}
 
-	async function handleSave() {
+	async function handleSave(overlapOverride: boolean) {
+		const overlapExists = overlapOverride ? false : checkLessonOverlap();
+		if (overlapExists) {
+			lessonOverlapDialog.current!.showModal();
+			return;
+		}
+
 		const newLessonPlan = createLessonPlanFromState();
+		if (!newLessonPlan) {
+			return;
+		}
+
 		const isNewLessonPlan = window.location.pathname.includes("create");
 
 		if (isNewLessonPlan) {
@@ -111,8 +123,21 @@ function LessonPlan() {
 			resources: resources,
 			assessments: assessments,
 			contentDescriptions: contentDescriptions,
-			// numberOfPeriods = 
+			numberOfPeriods
 		} as LessonPlan;
+	}
+
+	function checkLessonOverlap() {
+		const dayPlan = currentWeekPlanner.dayPlans[+searchParams.get("day")!];
+		for (let i = lessonPlan.periodNumber; i < numberOfPeriods; i++) {
+			if (dayPlan.lessonPlans.find(lp => lp.periodNumber === i + 1)) {
+				return true;
+			} else if (dayPlan.events.find(e => e.periodNumber === i + 1)) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	function handleNumberOfPeriodsChange(e: React.ChangeEvent<HTMLSelectElement>) {
@@ -139,6 +164,8 @@ function LessonPlan() {
 		}
 		const contentDescriptions = subject.yearLevels.map(
 			yl => yl.contentDescriptions)
+
+		return contentDescriptions;
 	}
 
 	function handleCancel() {
@@ -279,7 +306,7 @@ function LessonPlan() {
 						</div>
 					</div>
 					<div className="flex justify-around mb-4 w-1/2 m-auto">
-						<Button variant="submit" disabled={unsavedChanges} onClick={handleSave}>
+						<Button variant="submit" disabled={unsavedChanges} onClick={() => handleSave(false)}>
 							Save
 						</Button>
 						<Button variant="cancel" onClick={handleCancel}>
@@ -293,6 +320,18 @@ function LessonPlan() {
 								Yes
 							</Button>
 							<Button variant="cancel" onClick={() => unsavedChangesDialog.current!.close()}>
+								Cancel
+							</Button>
+						</div>
+					</dialog>
+					<dialog ref={lessonOverlapDialog} className="w-96 p-3 text-lg text-center border border-darkGreen">
+						<p className="p-2">The number of periods for this lesson creates an overlap with another lesson. Continuing will cause that lesson to be overwritten and that data will be lost.</p>
+						<p className="p-2">Do you want to continue?</p>
+						<div className="flex justify-around">
+							<Button variant="submit" onClick={() => handleSave(true)}>
+								Yes
+							</Button>
+							<Button variant="cancel" onClick={() => lessonOverlapDialog.current!.close()}>
 								Cancel
 							</Button>
 						</div>

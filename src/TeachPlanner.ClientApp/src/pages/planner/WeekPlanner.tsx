@@ -279,10 +279,10 @@ function WeekPlanner() {
 		let lessonPlan = dayPlans[cell.column]?.lessonPlans[cell.row] as LessonPlan;
 		if (!lessonPlan) {
 			const periodNumber = calculatePeriodNumber(cell.row);
-			navigate(`/teacher/lesson-plans/create?calendarYear=${currentYear ?? availablePlannerYears[0]}&periodNumber=${periodNumber}`);
+			navigate(`/teacher/lesson-plans/create?calendarYear=${currentYear ?? availablePlannerYears[0]}&periodNumber=${periodNumber}&day=${cell.column}`);
 		} else {
 			const numberOfPeriods = calculateNumberOfPeriods(cell);
-			navigate(`/teacher/lesson-plans/${lessonPlan.id}?calendarYear=${currentYear ?? availablePlannerYears[0]}&numberOfPeriods=${numberOfPeriods}`);
+			navigate(`/teacher/lesson-plans/${lessonPlan.id}?calendarYear=${currentYear ?? availablePlannerYears[0]}&numberOfPeriods=${numberOfPeriods}&day=${cell.column}`);
 		}
 	}
 
