@@ -46,6 +46,7 @@ export default {
       },
       height: {
         screen: "100dvh",
+				"80%": "80%"
       },
       maxWidth: {
         "80ch": "80ch",

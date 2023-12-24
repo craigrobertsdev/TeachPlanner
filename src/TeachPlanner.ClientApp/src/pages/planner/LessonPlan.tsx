@@ -10,6 +10,8 @@ import PlannerService from "../../services/PlannerService";
 import { createCssClassString } from "../../utils/helpers";
 import { usePlannerContext } from "../../contexts/PlannerContext";
 import { getLessonEnd, getLessonStart } from "../../utils/plannerHelpers";
+import "react-quill/dist/quill.snow.css"
+import ReactQuill from "react-quill"
 
 function LessonPlan() {
 	const [lessonPlan, setLessonPlan] = useState<LessonPlan>({} as LessonPlan);
@@ -220,12 +222,13 @@ function LessonPlan() {
 							<label htmlFor="planning-notes" className="text-lg font-semibold">
 								Planning Notes
 							</label>
-							<textarea
-								className="p-2 w-full flex-grow border border-darkGreen resize-none"
-								name="planning-notes"
+							<div className="w-full flex flex-col flex-grow">
+							<ReactQuill 
+								theme="snow"
+								style={{padding: "1px", width: "100%", flexGrow: 1, display: "flex", flexDirection: "column" }}
 								value={planningNotes}
-								onChange={handlePlanningNotesChange}
 							/>
+							</div>
 						</form>
 						{/* Resources and content descriptions contianer*/}
 						<div className="flex flex-col gap-3 flex-grow w-1/3 items-center">
@@ -233,7 +236,7 @@ function LessonPlan() {
 							<dialog ref={addResourcesDialog} className="p-3 text-lg border border-darkGreen max-w-xl">
 								<AddResourcesDialogContent
 									subjectId={lessonPlan.subject.id}
-									dialogRef={addContentDescriptionsDialog}
+									dialogRef={AddResourcesDialogContent}
 									initialSelectedResources={resources}
 									setResources={setResources}
 								/>
@@ -245,10 +248,10 @@ function LessonPlan() {
 										Add
 									</Button>
 								</div>
-								<div className="flex-grow w-full border border-darkGreen p-2 flex flex-col">
+								<div className="flex-grow w-full border border-darkGreen p-2 flex flex-col overflow-hidden">
 									{resources && <h3 className="text-lg text-center underline">Resources</h3>}
 									{resources && (
-										<ul>
+										<ul className="overflow-auto">
 											{resources.map((resource) => (
 												<li key={resource.url} className="text-center">
 													<a target="_blank" href={resource.url} className="text-peach underline">
@@ -260,7 +263,7 @@ function LessonPlan() {
 									)}
 									{assessments && <h3 className="text-lg text-center underline">Assessments</h3>}
 									{assessments && (
-										<ul>
+										<ul className="overflow-auto">
 											{assessments.map((assessment) => (
 												<li key={assessment.url} className="text-center">
 													<a target="_blank" href={assessment.url} className="text-peach underline">
@@ -273,12 +276,12 @@ function LessonPlan() {
 								</div>
 							</div>
 							{/* Content descriptions */}
-							<dialog ref={addContentDescriptionsDialog} className="p-3 text-lg border border-darkGreen max-w-xl">
-								{lessonPlan.subject.yearLevels && <AddContentDescriptionDialogContent
+							<dialog ref={addContentDescriptionsDialog} className="p-3 text-lg border border-darkGreen h-80% max-w-xl">
+								{<AddContentDescriptionDialogContent
 									dialogRef={addContentDescriptionsDialog}
 									initialSelectedContentDescriptions={contentDescriptions}
 									setContentDescriptions={setContentDescriptions}
-									availableContentDescriptions={lessonPlan.subject.yearLevels.map(yl => yl.contentDescriptions).flat()}
+									availableContentDescriptions={subjects.find(s => s.name === currentSubject)!.yearLevels.map(yl => yl.contentDescriptions).flat()}
 								/>
 								}
 							</dialog>
@@ -289,15 +292,15 @@ function LessonPlan() {
 										Add
 									</Button>
 								</div>
-								<div className="flex-grow w-full border border-darkGreen flex flex-col">
-									<ul>
+								<div className="flex-grow w-full border overflow-hidden border-darkGreen flex flex-col">
+									<ul className="overflow-auto">
 										{contentDescriptions &&
 											contentDescriptions.map((cd) => (
 												<li key={cd.curriculumCode} className="p-2 mb-2 hover:bg-sageHover group relative">
 													<div className="invisible group-hover:visible">
 														<CancelButton onClick={() => handleRemoveContentDescription(cd.curriculumCode)} />
 													</div>
-													<span className="underline">{cd.curriculumCode}:</span> {cd.description}
+													<span className="underline">{cd.curriculumCode}:</span> {cd.contentDescription}
 												</li>
 											))}
 									</ul>
@@ -343,67 +346,3 @@ function LessonPlan() {
 }
 
 export default LessonPlan;
-
-// this function is called both when there is a new lesson plan to be created, and one that needs to be viewed or edited.
-// export async function lessonPlanLoader(): Promise<LessonPlan> {
-// // const params = useParams();
-// // const response = await fetch(`${baseUrl}/lesson-plans/${params.lessonPlanId}`);
-// // return response.json();
-//
-// // return new Promise((resolve) => {
-// // 	const lessonPlanPromise = {
-// // 		numberOfPeriods: 2,
-// // 		planningNotes: "Exploring rounding to the nearest 10 and 100",
-// // 		resources: [
-// // 			{
-// // 				name: "Rounding to the nearest 10 and 100",
-// // 				url: "https://www.youtube.com/watch?v=qjxu6J6g",
-// // 			},
-// // 			{
-// // 				name: "Quadratics",
-// // 				url: "https://www.youtube.com/watch?v=9zXqjxJ6g",
-// // 			},
-// // 		] as Resource[],
-// // 		assessments: [
-// // 			{
-// // 				name: "Algebra assessment",
-// // 				url: "https://www.youtube.com/watch?v=9zXu6J6g",
-// // 			},
-// // 		] as Assessment[],
-// // 		contentDescriptions: [
-// // 			{
-// // 				curriculumCode: "AC9EFLA03",
-// // 				description: "Understand that texts can take many forms such as signs, books and digital texts'",
-// // 			},
-// // 			{
-// // 				curriculumCode: "AC9EFLA04",
-// // 				description: "Understand conventions of print and screen, including how books and simple digital texts are usually organised",
-// // 			},
-// // 		] as ContentDescription[],
-// // 		subject: {
-// // 			id: "1",
-// // 			name: "Mathematics",
-// // 			contentDescriptions: [
-// // 				{
-// // 					curriculumCode: "AC9EFLA03",
-// // 					description: "Understand that texts can take many forms such as signs, books and digital texts'",
-// // 				},
-// // 				{
-// // 					curriculumCode: "AC9EFLA04",
-// // 					description: "Understand conventions of print and screen, including how books and simple digital texts are usually organised",
-// // 				},
-// // 				{
-// // 					curriculumCode: "AC9EFLA05",
-// // 					description: "Recognise that sentences are key units for expressing ideas",
-// // 				},
-// // 			] as ContentDescription[],
-// // 		} as PlannerSubject,
-// // 		startTime: new Date(2023, 8, 7, 9, 10, 0),
-// // 		endTime: new Date(2023, 8, 7, 10, 50, 0),
-// // 		periodNumber: 1,
-// // 		id: "1",
-// // 	} as LessonPlan;
-// //
-// // 	resolve(lessonPlanPromise);
-// // });
-// }

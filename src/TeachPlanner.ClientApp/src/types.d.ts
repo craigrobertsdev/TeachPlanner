@@ -135,7 +135,7 @@ declare type Substrand = {
 };
 
 declare type ContentDescription = {
-	description: string;
+	contentDescription: string;
 	strand?: Strand;
 	substrand?: Substrand;
 	curriculumCode: string;

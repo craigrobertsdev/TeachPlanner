@@ -1,5 +1,3 @@
-A lesson plan should be allowed to change the number of periods it takes up when being modified.
-
 Change ContentDescriptionSearchBox to show the details of the content description. It will need to accept an array of yearLevels so it can display the yearLevel that it is associated with. 
 
 Another feature will be adding a flag to say whether the CD is already planned for in another lesson, and maybe create a link to that lessonPlan.
