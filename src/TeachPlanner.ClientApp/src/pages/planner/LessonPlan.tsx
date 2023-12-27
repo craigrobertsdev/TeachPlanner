@@ -10,8 +10,7 @@ import PlannerService from "../../services/PlannerService";
 import { createCssClassString } from "../../utils/helpers";
 import { usePlannerContext } from "../../contexts/PlannerContext";
 import { getLessonEnd, getLessonStart } from "../../utils/plannerHelpers";
-import "react-quill/dist/quill.snow.css"
-import ReactQuill from "react-quill"
+import RichTextEditor from "../../components/common/Editor";
 
 function LessonPlan() {
 	const [lessonPlan, setLessonPlan] = useState<LessonPlan>({} as LessonPlan);
@@ -33,6 +32,13 @@ function LessonPlan() {
 	const { teacher, token } = useAuth();
 	const [searchParams] = useSearchParams();
 	const { currentWeekPlanner, dayPlanTemplate } = usePlannerContext();
+	const initialConfig = {
+		namespace: "MyEditor",
+		onError,
+		theme: {
+			paragraph: "editor-paragraph"
+		}
+	};
 
 	useEffect(() => {
 		const getLessonPlanData = async () => {
@@ -65,10 +71,6 @@ function LessonPlan() {
 
 		getLessonPlanData();
 	}, []);
-
-	useEffect(() => {
-		getContentDescriptions(currentSubject)
-	}, [currentSubject]);
 
 	function handlePlanningNotesChange(event: React.ChangeEvent<HTMLTextAreaElement>) {
 		setPlanningNotes(event.target.value);
@@ -183,6 +185,10 @@ function LessonPlan() {
 		navigate(-1);
 	}
 
+	function onError(error: Error) {
+		console.log(error)
+	}
+
 	return (
 		<section className="flex flex-col text-darkGreen max-w-7xl flex-grow relative">
 			This needs to allow the user to edit just the planning notes, resources and assessments for the lesson. Editing of the lesson time and should be
@@ -208,11 +214,11 @@ function LessonPlan() {
 						<p className="text-center">Start Time: {getCalendarTime(lessonPlan.startTime)}</p>
 						<p className="text-center">Period Number: {lessonPlan.periodNumber}</p>
 						<div>
-						<label>Number of Periods: </label>
-						<select className="text-center bg-transparent border border-darkGreen rounded-md px-2 font-semibold" value={numberOfPeriods} onChange={handleNumberOfPeriodsChange}>
-							<option value="1">1</option>
-							<option value="2">2</option>
-						</select>
+							<label>Number of Periods: </label>
+							<select className="text-center bg-transparent border border-darkGreen rounded-md px-2 font-semibold" value={numberOfPeriods} onChange={handleNumberOfPeriodsChange}>
+								<option value="1">1</option>
+								<option value="2">2</option>
+							</select>
 						</div>
 						<p className="text-center">Date: {getCalendarDate(lessonPlan.startTime)}</p>
 					</div>
@@ -223,11 +229,7 @@ function LessonPlan() {
 								Planning Notes
 							</label>
 							<div className="w-full flex flex-col flex-grow">
-							<ReactQuill 
-								theme="snow"
-								style={{padding: "1px", width: "100%", flexGrow: 1, display: "flex", flexDirection: "column" }}
-								value={planningNotes}
-							/>
+								<RichTextEditor />
 							</div>
 						</form>
 						{/* Resources and content descriptions contianer*/}

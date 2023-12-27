@@ -10,7 +10,7 @@ import TermPlanner from "./pages/planner/TermPlanner.tsx";
 import YearPlanner from "./pages/planner/YearPlanner.tsx";
 import AuthLayout, { getTeacherData } from "./components/layouts/AuthLayout.tsx";
 import HomeLayout from "./components/layouts/HomeLayout.tsx";
-import LessonPlan, { lessonPlanLoader } from "./pages/planner/LessonPlan.tsx";
+import LessonPlan from "./pages/planner/LessonPlan.tsx";
 import LessonPlans from "./pages/planner/LessonPlans.tsx";
 import Settings from "./pages/Settings.tsx";
 import Register from "./pages/Register.tsx";
