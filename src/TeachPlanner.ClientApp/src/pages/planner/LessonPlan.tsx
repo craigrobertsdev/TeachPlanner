@@ -10,7 +10,7 @@ import PlannerService from "../../services/PlannerService";
 import { createCssClassString } from "../../utils/helpers";
 import { usePlannerContext } from "../../contexts/PlannerContext";
 import { getLessonEnd, getLessonStart } from "../../utils/plannerHelpers";
-import RichTextEditor from "../../components/common/Editor";
+import RichTextEditor from "../../components/common/RichTextEditor";
 
 function LessonPlan() {
 	const [lessonPlan, setLessonPlan] = useState<LessonPlan>({} as LessonPlan);
@@ -32,13 +32,6 @@ function LessonPlan() {
 	const { teacher, token } = useAuth();
 	const [searchParams] = useSearchParams();
 	const { currentWeekPlanner, dayPlanTemplate } = usePlannerContext();
-	const initialConfig = {
-		namespace: "MyEditor",
-		onError,
-		theme: {
-			paragraph: "editor-paragraph"
-		}
-	};
 
 	useEffect(() => {
 		const getLessonPlanData = async () => {
@@ -228,7 +221,7 @@ function LessonPlan() {
 							<label htmlFor="planning-notes" className="text-lg font-semibold">
 								Planning Notes
 							</label>
-							<div className="w-full flex flex-col flex-grow">
+							<div className="w-full flex flex-col flex-grow border border-darkGreen">
 								<RichTextEditor />
 							</div>
 						</form>

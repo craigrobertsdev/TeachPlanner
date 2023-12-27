@@ -41,12 +41,14 @@ editor-container {
   border-top-right-radius: 10px;
 }
 
-.editor-inner {
+.inner-editor {
+	flex-grow: 1;
   background: #fff;
   position: relative;
 }
 
 .editor-input {
+	height: 100%;
   min-height: 150px;
   resize: none;
   font-size: 15px;
@@ -655,81 +657,81 @@ i.chevron-down {
 }
 
 i.undo {
-  background-image: url("../../public/icons/arrow-counterclockwise.svg");
+  background-image: url("/icons/arrow-counterclockwise.svg");
 }
 
 i.redo {
-  background-image: url("../../public/icons/arrow-clockwise.svg");
+  background-image: url("/icons/arrow-clockwise.svg");
 }
 
 .icon.paragraph {
-  background-image: url("../../public/icons/text-paragraph.svg");
+  background-image: url("/icons/text-paragraph.svg");
 }
 
 .icon.large-heading,
 .icon.h1 {
-  background-image: url("../../public/icons/type-h1.svg");
+  background-image: url("/icons/type-h1.svg");
 }
 
 .icon.small-heading,
 .icon.h2 {
-  background-image: url("../../public/icons/type-h2.svg");
+  background-image: url("/icons/type-h2.svg");
 }
 
 .icon.bullet-list,
 .icon.ul {
-  background-image: url("../../public/icons/list-ul.svg");
+  background-image: url("/icons/list-ul.svg");
 }
 
 .icon.numbered-list,
 .icon.ol {
-  background-image: url("../../public/icons/list-ol.svg");
+  background-image: url("/icons/list-ol.svg");
 }
 
 .icon.quote {
-  background-image: url("../../public/icons/chat-square-quote.svg");
+  background-image: url("/icons/chat-square-quote.svg");
 }
 
 .icon.code {
-  background-image: url("../../public/icons/code.svg");
+  background-image: url("/icons/code.svg");
 }
 
 i.bold {
-  background-image: url("../../public/icons/type-bold.svg");
+  background-image: url("/icons/type-bold.svg");
 }
 
 i.italic {
-  background-image: url("../../public/icons/type-italic.svg");
+  background-image: url("/icons/type-italic.svg");
 }
 
 i.underline {
-  background-image: url("../../public/icons/type-underline.svg");
+  background-image: url("/icons/type-underline.svg");
 }
 
 i.strikethrough {
-  background-image: url("../../public/icons/type-strikethrough.svg");
+  background-image: url("/icons/type-strikethrough.svg");
 }
 
 i.code {
-  background-image: url("../../public/icons/code.svg");
+  background-image: url("/icons/code.svg");
 }
 
 i.link {
-  background-image: url("../../public/icons/link.svg");
+  background-image: url("/icons/link.svg");
 }
 
 i.left-align {
-  background-image: url("../../public/icons/text-left.svg");
+  background-image: url("/icons/text-left.svg");
 }
 
 i.center-align {
-  background-image: url("../../public/icons/text-center.svg");
+  background-image: url("/icons/text-center.svg");
 }
 
 i.right-align {
-  background-image: url("../../public/icons/text-right.svg");
+  background-image: url("/icons/text-right.svg");
 }
 
 i.justify-align {
-  background-image: url("../../public/icons/justify.svg");
+  background-image: url("/icons/justify.svg");
 }
