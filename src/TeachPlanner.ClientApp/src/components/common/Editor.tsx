@@ -1,3 +1,4 @@
+// this file, ToolbarPlugin and AutoLinkPlugin are courtesy of https://codesandbox.io/p/sandbox/lexical-rich-text-example-5tncvy?file=%2Fsrc%2Fstyles.css%3A43%2C7
 import "../../styles/editor.css";
 import { LexicalComposer } from "@lexical/react/LexicalComposer";
 import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
