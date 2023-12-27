@@ -49,7 +49,6 @@ editor-container {
 
 .editor-input {
 	height: 100%;
-  min-height: 150px;
   resize: none;
   font-size: 15px;
   caret-color: rgb(5, 5, 5);
@@ -458,7 +457,7 @@ i.chevron-down {
   display: inline-block;
   height: 8px;
   width: 8px;
-  background-image: url(images/icons/chevron-down.svg);
+  background-image: url(/icons/chevron-down.svg);
 }
 
 #block-controls button:hover {
