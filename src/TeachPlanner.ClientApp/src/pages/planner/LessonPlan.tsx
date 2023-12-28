@@ -16,7 +16,7 @@ import { LexicalEditor, EditorState } from "lexical";
 function LessonPlan() {
 	const [lessonPlan, setLessonPlan] = useState<LessonPlan>({} as LessonPlan);
 	const [subjects, setSubjects] = useState([] as Subject[]);
-	const [planningNotes, setPlanningNotes] = useState<string>(lessonPlan.planningNotes ?? "");
+	const [planningNotes, setPlanningNotes] = useState<EditorState>({} as EditorState);
 	const [contentDescriptions, setContentDescriptions] = useState<ContentDescription[]>(lessonPlan.contentDescriptions ?? []);
 	const [resources, setResources] = useState<Resource[]>(lessonPlan.resources ?? []);
 	const [assessments, setAssessments] = useState<Assessment[]>(lessonPlan.assessments ?? []);
@@ -66,15 +66,6 @@ function LessonPlan() {
 		getLessonPlanData();
 	}, []);
 
-	function handlePlanningNotesChange(event: React.ChangeEvent<HTMLTextAreaElement>) {
-		setPlanningNotes(event.target.value);
-		if (event.target.value !== originalPlanningNotes) {
-			setUnsavedChanges(true);
-		} else {
-			setUnsavedChanges(false);
-		}
-	}
-
 	function handleSubjectChange(event: React.ChangeEvent<HTMLSelectElement>) {
 		if (event.target.value !== currentSubject) {
 			setCurrentSubject(event.target.value);
@@ -114,9 +105,18 @@ function LessonPlan() {
 		// TODO: save updates to the lesson plan
 	}
 
+	function getPlanningNotesText() {
+		for (const [key, value] of planningNotes._nodeMap.entries()) {
+			// unless node tree changes for rich text editor, this is the key of the node with the planning notes.
+			if (key === "3") {
+				return value.__text;
+			}
+		}
+	}
+
 	function createLessonPlanFromState() {
 		return {
-			planningNotes: planningNotes,
+			planningNotes: getPlanningNotesText(),
 			subject: { name: currentSubject },
 			resources: resources,
 			assessments: assessments,
@@ -179,18 +179,12 @@ function LessonPlan() {
 		navigate(-1);
 	}
 
-	function onPlanningNotesChange(editorState: EditorState, editor: LexicalEditor, tags: Set<string>) {
-		const state = editor.getEditorState();
-
-		// console.log(JSON.stringify(state, null, 2))
+	function onPlanningNotesChange(editorState: EditorState) {
+		setPlanningNotes(editorState);
 	}
 
 	return (
 		<section className="flex flex-col text-darkGreen max-w-7xl flex-grow relative">
-			This needs to allow the user to edit just the planning notes, resources and assessments for the lesson. Editing of the lesson time and should be
-			done in the day plan pattern in settings. On load, fetch the content descriptors applicable to the subject and year level(s) of the lesson. The
-			user should be able to select the content descriptors that are applicable to the subject and add them as aims for the lesson. Resources should
-			be fetched for the subject and year level(s) of the lesson. Same for assessments.
 			{lessonPlan.startTime &&
 				<>
 					<div className={`flex justify-between items-center mb-3 border border-darkGreen p-2 bg-${createCssClassString(currentSubject)}`}>
@@ -225,7 +219,7 @@ function LessonPlan() {
 								Planning Notes
 							</label>
 							<div className="w-full flex flex-col flex-grow border border-darkGreen">
-								<RichTextEditor onChange={onPlanningNotesChange}/>
+								<RichTextEditor onChange={onPlanningNotesChange} />
 							</div>
 						</form>
 						{/* Resources and content descriptions contianer*/}
