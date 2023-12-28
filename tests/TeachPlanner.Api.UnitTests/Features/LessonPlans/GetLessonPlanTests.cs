@@ -12,10 +12,12 @@ namespace TeachPlanner.Api.UnitTests;
 public class GetLessonPlanTests {
     private readonly ITeacherRepository _teacherRepository;
     private readonly ICurriculumRepository _curriculumRepository;
+    private readonly IYearDataRepository _yearDataRepository;
 
     public GetLessonPlanTests() {
         _teacherRepository = A.Fake<ITeacherRepository>();
         _curriculumRepository = A.Fake<ICurriculumRepository>();
+        _yearDataRepository = A.Fake<IYearDataRepository>();
     }
     [Fact]
     public async void Handle_WhenLessonPlanExists_ReturnLessonPlan() {
@@ -23,11 +25,11 @@ public class GetLessonPlanTests {
         var teacher = TeacherHelpers.CreateTeacher();
         teacher.AddResource(ResourceHelpers.CreateBasicResource(teacher.Id));
         var yearLevels = TeacherHelpers.CreateYearLevelsTaught();
-        var query = new GetDataForBlankLessonPlan.Query(teacher.Id, yearLevels);
+        var query = new GetDataForBlankLessonPlan.Query(teacher.Id, 2023);
         var subjects = SubjectHelpers.CreateCurriculumSubjects();
         A.CallTo(() => _teacherRepository.GetWithResources(teacher.Id, default)).Returns(teacher);
         A.CallTo(() => _curriculumRepository.GetSubjectsByYearLevels(yearLevels, default)).Returns(subjects);
-        var handler = new GetDataForBlankLessonPlan.Handler(_teacherRepository, _curriculumRepository);
+        var handler = new GetDataForBlankLessonPlan.Handler(_teacherRepository, _curriculumRepository, _yearDataRepository);
 
         // Act
         var result = await handler.Handle(query, CancellationToken.None);
@@ -44,9 +46,9 @@ public class GetLessonPlanTests {
         // Arrange
         var teacher = TeacherHelpers.CreateTeacher();
         var yearLevels = TeacherHelpers.CreateYearLevelsTaught();
-        var query = new GetDataForBlankLessonPlan.Query(teacher.Id, yearLevels);
+        var query = new GetDataForBlankLessonPlan.Query(teacher.Id, 2023);
         A.CallTo(() => _teacherRepository.GetWithResources(teacher.Id, default)).Returns((Teacher)null);
-        var handler = new GetDataForBlankLessonPlan.Handler(_teacherRepository, _curriculumRepository);
+        var handler = new GetDataForBlankLessonPlan.Handler(_teacherRepository, _curriculumRepository, _yearDataRepository);
 
         // Act
         Func<Task> act = async () => await handler.Handle(query, CancellationToken.None);

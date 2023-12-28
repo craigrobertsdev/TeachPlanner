@@ -32,4 +32,38 @@ public static class SubjectHelpers {
 
         return subjects;
     }
+
+    public static CurriculumSubject CreateCurriculumSubjectWithYearLevels() {
+        return CurriculumSubject.Create("English", new List<YearLevel>() {
+            YearLevel.Create(
+                new List<Strand>(),
+                "",
+                "",
+                YearLevelValue.Year1,
+                null),
+            YearLevel.Create(
+                new List<Strand>(),
+                "",
+                "",
+                YearLevelValue.Year6,
+                null),
+        });
+    }
+    public static CurriculumSubject CreateCurriculumSubjectWithBandLevels() {
+        return CurriculumSubject.Create("English", new List<YearLevel>() {
+            YearLevel.Create(
+                new List<Strand>(),
+                "",
+                "",
+                null,
+                BandLevelValue.Years1To2),
+            YearLevel.Create(
+                new List<Strand>(),
+                "",
+                "",
+                null,
+                BandLevelValue.Years5To6),
+        });
+    }
+
 }
