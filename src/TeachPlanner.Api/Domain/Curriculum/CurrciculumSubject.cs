@@ -42,9 +42,17 @@ public sealed class CurriculumSubject : Entity<SubjectId>, IAggregateRoot {
         foreach (var yearLevel in _yearLevels) {
             if (yearLevel.YearLevelValue.HasValue && yearLevels.Contains(yearLevel.YearLevelValue.Value)) {
                 redactedYearLevels.Add(yearLevel);
-            } else if (yearLevel.BandLevelValue.HasValue
-              && (yearLevels.Contains(yearLevel.GetYearLevelFromBandLevel()[0])
-                || yearLevels.Contains(yearLevel.GetYearLevelFromBandLevel()[1]))) {
+                continue;
+            }
+
+            if (yearLevel.YearLevelValue.HasValue) {
+                continue;
+            }
+
+            var yearLevelsFromBandLevel = yearLevel.GetYearLevelsFromBandLevel(); 
+            if (yearLevels.Contains(yearLevelsFromBandLevel[0])) {
+                redactedYearLevels.Add(yearLevel);
+            } else if (yearLevelsFromBandLevel.Length > 1 && yearLevels.Contains(yearLevel.GetYearLevelsFromBandLevel()[1])) {
                 redactedYearLevels.Add(yearLevel);
             }
         }

@@ -44,7 +44,7 @@ public record YearLevel {
         return new YearLevel(strands, yearLevelValue, bandLevelValue, yearLevelDescription, achievementStandard);
     }
 
-    public YearLevelValue[] GetYearLevelFromBandLevel() {
+    public YearLevelValue[] GetYearLevelsFromBandLevel() {
         if (BandLevelValue == null) {
             return new[] { YearLevelValue!.Value };
         }
