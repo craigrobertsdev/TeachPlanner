@@ -5,6 +5,8 @@ import { RichTextPlugin } from "@lexical/react/LexicalRichTextPlugin";
 import { ContentEditable } from "@lexical/react/LexicalContentEditable";
 import { HistoryPlugin } from "@lexical/react/LexicalHistoryPlugin";
 import { AutoFocusPlugin } from "@lexical/react/LexicalAutoFocusPlugin";
+import { OnChangePlugin } from "@lexical/react/LexicalOnChangePlugin";
+import { TabIndentationPlugin } from "@lexical/react/LexicalTabIndentationPlugin";
 import AutoLinkPlugin from "../richTextEditor/AutoLinkPlugin";
 import ToolbarPlugin from "../richTextEditor/ToolbarPlugin";
 import LexicalErrorBoundary from "@lexical/react/LexicalErrorBoundary";
@@ -14,8 +16,13 @@ import { ListItemNode, ListNode } from "@lexical/list";
 import { AutoLinkNode, LinkNode } from "@lexical/link";
 import { LinkPlugin } from "@lexical/react/LexicalLinkPlugin";
 import { ListPlugin } from "@lexical/react/LexicalListPlugin";
+import { EditorThemeClasses, EditorState, LexicalEditor } from "lexical";
 
-const editorConfig = { 
+type EditorProps = {
+	onChange: (editorState: EditorState, editor: LexicalEditor, tags: Set<string>) => void;
+}
+
+const editorConfig = {
 	namespace: "MyEditor",
 	onError(error: Error) {
 		console.log(error)
@@ -30,30 +37,45 @@ const editorConfig = {
 		TableRowNode,
 		AutoLinkNode,
 		LinkNode
-	]
+	],
+	theme: {
+		list: {
+			ul: "editor-listitem",
+			ol: "editor-ol",
+		},
+		text: {
+			underline: "editor-text-underline",
+			bold: "editor-text-bold",
+			italic: "editor-text-italic",
+			strikethrough: "editor-text-strikethrough",
+			underlineStrikethrough: "editor-text-underlineStrikethrough",
+		}
+	} as EditorThemeClasses
 }
 
 function Placeholder() {
 	return <div className="editor-placeholder">Enter lesson notes here</div>
 }
 
-export default function RichTextEditor() {
+export default function RichTextEditor({ onChange }: EditorProps) {
 	return (
 		<LexicalComposer initialConfig={editorConfig}>
 			<div className="editor-container">
 				<ToolbarPlugin />
 			</div>
 			<div className="inner-editor">
-			<RichTextPlugin
-				contentEditable={<ContentEditable className="editor-input" />}
-				placeholder={<Placeholder />}
-				ErrorBoundary={LexicalErrorBoundary}
+				<RichTextPlugin
+					contentEditable={<ContentEditable className="editor-input" />}
+					placeholder={<Placeholder />}
+					ErrorBoundary={LexicalErrorBoundary}
 				/>
-			<HistoryPlugin />
+				<HistoryPlugin />
 				<AutoFocusPlugin />
 				<ListPlugin />
 				<LinkPlugin />
 				<AutoLinkPlugin />
+				<TabIndentationPlugin />
+				<OnChangePlugin onChange={onChange} />
 			</div>
 		</LexicalComposer>
 	)

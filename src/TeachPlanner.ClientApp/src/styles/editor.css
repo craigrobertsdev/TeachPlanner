@@ -232,24 +232,21 @@ editor-container {
   padding-left: 16px;
 }
 
-.editor-list-ol {
-  padding: 0;
-  margin: 0;
-  margin-left: 16px;
+.editor-ol {
+  margin: 8px 32px 8px 32px;
+	list-style-type: decimal;
+  list-style-position: inside;
 }
 
-.editor-list-ul {
+.editor-ul {
   padding: 0;
   margin: 0;
-  margin-left: 16px;
+  list-style-position: inside;
 }
 
 .editor-listitem {
   margin: 8px 32px 8px 32px;
-}
-
-.editor-nested-listitem {
-  list-style-type: none;
+	list-style-type: circle;
 }
 
 pre::-webkit-scrollbar {

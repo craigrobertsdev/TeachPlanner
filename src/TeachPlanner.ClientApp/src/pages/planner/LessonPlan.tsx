@@ -11,6 +11,7 @@ import { createCssClassString } from "../../utils/helpers";
 import { usePlannerContext } from "../../contexts/PlannerContext";
 import { getLessonEnd, getLessonStart } from "../../utils/plannerHelpers";
 import RichTextEditor from "../../components/common/RichTextEditor";
+import { LexicalEditor, EditorState } from "lexical";
 
 function LessonPlan() {
 	const [lessonPlan, setLessonPlan] = useState<LessonPlan>({} as LessonPlan);
@@ -178,8 +179,10 @@ function LessonPlan() {
 		navigate(-1);
 	}
 
-	function onError(error: Error) {
-		console.log(error)
+	function onPlanningNotesChange(editorState: EditorState, editor: LexicalEditor, tags: Set<string>) {
+		const state = editor.getEditorState();
+
+		// console.log(JSON.stringify(state, null, 2))
 	}
 
 	return (
@@ -222,7 +225,7 @@ function LessonPlan() {
 								Planning Notes
 							</label>
 							<div className="w-full flex flex-col flex-grow border border-darkGreen">
-								<RichTextEditor />
+								<RichTextEditor onChange={onPlanningNotesChange}/>
 							</div>
 						</form>
 						{/* Resources and content descriptions contianer*/}

@@ -33,19 +33,12 @@ import {
 	$createQuoteNode,
 	$isHeadingNode
 } from "@lexical/rich-text";
-import {
-	$createCodeNode,
-	$isCodeNode,
-	getDefaultCodeLanguage,
-	getCodeLanguages
-} from "@lexical/code";
 
 const LowPriority = 1;
 
 const supportedBlockTypes = new Set([
 	"paragraph",
 	"quote",
-	"code",
 	"h1",
 	"h2",
 	"ul",
@@ -53,7 +46,6 @@ const supportedBlockTypes = new Set([
 ]);
 
 const blockTypeToBlockName = {
-	code: "Code Block",
 	h1: "Large Heading",
 	h2: "Small Heading",
 	h3: "Heading",
@@ -360,18 +352,6 @@ function BlockOptionsDropdownList({
 		setShowBlockOptionsDropDown(false);
 	};
 
-	const formatCode = () => {
-		if (blockType !== "code") {
-			editor.update(() => {
-				const selection = $getSelection();
-
-				if ($isRangeSelection(selection)) {
-					$wrapNodes(selection, () => $createCodeNode());
-				}
-			});
-		}
-		setShowBlockOptionsDropDown(false);
-	};
 
 	return (
 		<div className="dropdown" ref={dropDownRef}>
@@ -419,14 +399,12 @@ export default function ToolbarPlugin() {
 	const [showBlockOptionsDropDown, setShowBlockOptionsDropDown] = useState(
 		false
 	);
-	const [codeLanguage, setCodeLanguage] = useState("");
 	const [isRTL, setIsRTL] = useState(false);
 	const [isLink, setIsLink] = useState(false);
 	const [isBold, setIsBold] = useState(false);
 	const [isItalic, setIsItalic] = useState(false);
 	const [isUnderline, setIsUnderline] = useState(false);
 	const [isStrikethrough, setIsStrikethrough] = useState(false);
-	const [isCode, setIsCode] = useState(false);
 
 	const updateToolbar = useCallback(() => {
 		const selection = $getSelection();
@@ -449,9 +427,6 @@ export default function ToolbarPlugin() {
 						? element.getTag()
 						: element.getType();
 					setBlockType(type);
-					if ($isCodeNode(element)) {
-						setCodeLanguage(element.getLanguage() || getDefaultCodeLanguage());
-					}
 				}
 			}
 			// Update text format
@@ -459,7 +434,6 @@ export default function ToolbarPlugin() {
 			setIsItalic(selection.hasFormat("italic"));
 			setIsUnderline(selection.hasFormat("underline"));
 			setIsStrikethrough(selection.hasFormat("strikethrough"));
-			setIsCode(selection.hasFormat("code"));
 			setIsRTL($isParentElementRTL(selection));
 
 			// Update links
@@ -506,21 +480,6 @@ export default function ToolbarPlugin() {
 			)
 		);
 	}, [editor, updateToolbar]);
-
-	const codeLanguges = useMemo(() => getCodeLanguages(), []);
-	const onCodeLanguageSelect = useCallback(
-		(e) => {
-			editor.update(() => {
-				if (selectedElementKey !== null) {
-					const node = $getNodeByKey(selectedElementKey);
-					if ($isCodeNode(node)) {
-						node.setLanguage(e.target.value);
-					}
-				}
-			});
-		},
-		[editor, selectedElementKey]
-	);
 
 	const insertLink = useCallback(() => {
 		if (!isLink) {
@@ -582,17 +541,6 @@ export default function ToolbarPlugin() {
 					<Divider />
 				</>
 			)}
-			{blockType === "code" ? (
-				<>
-					<Select
-						className="toolbar-item code-language"
-						onChange={onCodeLanguageSelect}
-						options={codeLanguges}
-						value={codeLanguage}
-					/>
-					<i className="chevron-down inside" />
-				</>
-			) : (
 				<>
 					<button
 						onClick={() => {
@@ -635,16 +583,6 @@ export default function ToolbarPlugin() {
 						type="button"
 					>
 						<i className="format strikethrough" />
-					</button>
-					<button
-						onClick={() => {
-							editor.dispatchCommand(FORMAT_TEXT_COMMAND, "code");
-						}}
-						className={"toolbar-item spaced " + (isCode ? "active" : "")}
-						aria-label="Insert Code"
-						type="button"
-					>
-						<i className="format code" />
 					</button>
 					<button
 						onClick={insertLink}
@@ -696,9 +634,8 @@ export default function ToolbarPlugin() {
 						type="button"
 					>
 						<i className="format justify-align" />
-					</button>{" "}
+					</button>
 				</>
-			)}
 		</div>
 	);
 }
