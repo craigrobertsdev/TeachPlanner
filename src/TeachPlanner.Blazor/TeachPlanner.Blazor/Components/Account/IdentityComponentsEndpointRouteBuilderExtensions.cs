@@ -10,7 +10,7 @@ using TeachPlanner.Blazor.Components.Account.Pages;
 using TeachPlanner.Blazor.Components.Account.Pages.Manage;
 using TeachPlanner.Blazor.Data;
 
-namespace Microsoft.AspNetCore.Routing;
+namespace TeachPlanner.Blazor.Components.Account;
 internal static class IdentityComponentsEndpointRouteBuilderExtensions {
     // These endpoints are required by the Identity Razor components defined in the /Components/Account/Pages directory of this project.
     public static IEndpointConventionBuilder MapAdditionalIdentityEndpoints(this IEndpointRouteBuilder endpoints) {

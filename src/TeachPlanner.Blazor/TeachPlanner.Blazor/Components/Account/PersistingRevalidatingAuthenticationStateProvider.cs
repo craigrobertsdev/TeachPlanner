@@ -8,6 +8,7 @@ using System.Diagnostics;
 using System.Security.Claims;
 using TeachPlanner.Blazor.Client;
 using TeachPlanner.Blazor.Data;
+using TeachPlanner.Shared;
 
 namespace TeachPlanner.Blazor.Components.Account;
 // This is a server-side AuthenticationStateProvider that revalidates the security stamp for the connected user

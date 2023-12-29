@@ -1,4 +1,4 @@
-﻿using TeachPlanner.Api.Domain.Common.Enums;
+﻿using TeachPlanner.Blazor.Shared.Domain.Common.Enums;
 using TeachPlanner.Api.Domain.Common.Interfaces;
 using TeachPlanner.Api.Domain.Common.Primatives;
 using TeachPlanner.Api.Domain.CurriculumSubjects;
