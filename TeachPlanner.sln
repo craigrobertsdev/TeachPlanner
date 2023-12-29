@@ -1,4 +1,5 @@
-﻿Microsoft Visual Studio Solution File, Format Version 12.00
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
@@ -15,6 +16,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeachPlanner.Blazor", "src\TeachPlanner.Blazor\TeachPlanner.Blazor\TeachPlanner.Blazor.csproj", "{0258AC2B-A65F-4281-AA63-432895EC1006}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeachPlanner.Blazor.Client", "src\TeachPlanner.Blazor\TeachPlanner.Blazor.Client\TeachPlanner.Blazor.Client.csproj", "{EFEE80F0-D29E-42A7-B138-0D6D0E52E989}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,6 +34,14 @@ Global
 		{16C56DA5-CA43-4E31-AD95-7307677A68A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{16C56DA5-CA43-4E31-AD95-7307677A68A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{16C56DA5-CA43-4E31-AD95-7307677A68A1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0258AC2B-A65F-4281-AA63-432895EC1006}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0258AC2B-A65F-4281-AA63-432895EC1006}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0258AC2B-A65F-4281-AA63-432895EC1006}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0258AC2B-A65F-4281-AA63-432895EC1006}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EFEE80F0-D29E-42A7-B138-0D6D0E52E989}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EFEE80F0-D29E-42A7-B138-0D6D0E52E989}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EFEE80F0-D29E-42A7-B138-0D6D0E52E989}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EFEE80F0-D29E-42A7-B138-0D6D0E52E989}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -36,6 +49,8 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{3A24EB4D-B547-4A81-9160-D2682CE56267} = {C8351487-90F8-4B15-88EF-FD6BE9AD55BC}
 		{16C56DA5-CA43-4E31-AD95-7307677A68A1} = {3DD1FB48-BC0E-4880-8B5B-45E89E600270}
+		{0258AC2B-A65F-4281-AA63-432895EC1006} = {C8351487-90F8-4B15-88EF-FD6BE9AD55BC}
+		{EFEE80F0-D29E-42A7-B138-0D6D0E52E989} = {C8351487-90F8-4B15-88EF-FD6BE9AD55BC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4B983D7D-DAC2-447E-9DDF-617C59EFE180}

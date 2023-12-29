@@ -14,4 +14,10 @@ public record UserId {
             : base(id => id.Value, value => new UserId(value), mappingHints) {
         }
     }
+
+    public class IdToStringConverter : ValueConverter<UserId, string> {
+        public IdToStringConverter(ConverterMappingHints? mappingHints = null)
+            : base(id => id.Value.ToString(), value => new UserId(Guid.Parse(value)), mappingHints) {
+        }
+    }   
 }
