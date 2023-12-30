@@ -19,8 +19,7 @@ public static class Infrastructure {
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration) {
         services.AddPersistence(configuration);
         services.AddServices();
-        services.AddAuth(configuration);
-        services.AddCurriculumParser();
+        //services.AddAuth(configuration);
         return services;
     }
 
@@ -31,7 +30,6 @@ public static class Infrastructure {
         var serverVersion = ServerVersion.AutoDetect(dbContextSettings.DefaultConnection);
 
         services.AddDbContext<ApplicationDbContext>(options => options
-            //.ReplaceService<IValueConverterSelector, StronglyTypedIdValueConverterSelector>()
             .UseMySql(dbContextSettings.DefaultConnection, serverVersion)
             .LogTo(Console.WriteLine, LogLevel.Information)
             .EnableSensitiveDataLogging()
@@ -57,6 +55,7 @@ public static class Infrastructure {
         services.AddSingleton<ICurriculumService, CurriculumService>();
         services.AddSingleton<ITermDatesService, TermDatesService>();
         services.AddTransient<IStorageManager, StorageManager>();
+        services.AddScoped<ICurriculumParser, CurriculumParser>();
 
         return services;
     }
@@ -83,11 +82,6 @@ public static class Infrastructure {
                 ValidateLifetime = true
             });
 
-        return services;
-    }
-
-    private static IServiceCollection AddCurriculumParser(this IServiceCollection services) {
-        services.AddScoped<ICurriculumParser, CurriculumParser>();
         return services;
     }
 }

@@ -14,13 +14,13 @@ public sealed class Teacher : Entity<TeacherId>, IAggregateRoot {
     private readonly List<YearDataEntry> _yearDataHistory = new();
     private readonly List<CurriculumSubject> _subjectsTaught = new();
 
-    private Teacher(TeacherId id, UserId userId, string firstName, string lastName) : base(id) {
+    private Teacher(TeacherId id, string userId, string firstName, string lastName) : base(id) {
         FirstName = firstName;
         LastName = lastName;
         UserId = userId;
     }
 
-    public UserId UserId { get; private set; }
+    public string UserId { get; private set; }
     public string FirstName { get; private set; }
     public string LastName { get; private set; }
     public IReadOnlyList<Assessment> Assessments => _assessments.AsReadOnly();
@@ -28,7 +28,7 @@ public sealed class Teacher : Entity<TeacherId>, IAggregateRoot {
     public IReadOnlyList<YearDataEntry> YearDataHistory => _yearDataHistory.AsReadOnly();
     public IReadOnlyList<CurriculumSubject> SubjectsTaught => _subjectsTaught.AsReadOnly();
 
-    public static Teacher Create(UserId userId, string firstName, string lastName) {
+    public static Teacher Create(string userId, string firstName, string lastName) {
         var teacher = new Teacher(new TeacherId(Guid.NewGuid()), userId, firstName, lastName);
         teacher.AddDomainEvent(new TeacherCreatedDomainEvent(Guid.NewGuid(), teacher.Id));
 

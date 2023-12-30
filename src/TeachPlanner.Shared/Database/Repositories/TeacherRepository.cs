@@ -32,7 +32,7 @@ public class TeacherRepository : ITeacherRepository {
             .FirstOrDefaultAsync(cancellationToken);
     }
 
-    public async Task<Teacher?> GetByUserId(UserId userId, CancellationToken cancellationToken) {
+    public async Task<Teacher?> GetByUserId(string userId, CancellationToken cancellationToken) {
         return await _context.Teachers
             .Where(t => t.UserId == userId)
             .FirstOrDefaultAsync(cancellationToken);

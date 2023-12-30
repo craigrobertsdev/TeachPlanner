@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using TeachPlanner.Shared.Domain.Assessments;
 using TeachPlanner.Shared.Domain.Calendar;
@@ -16,7 +17,7 @@ using TeachPlanner.Shared.Domain.YearDataRecords;
 
 namespace TeachPlanner.Shared.Database;
 
-public class ApplicationDbContext : DbContext {
+public class ApplicationDbContext : IdentityDbContext<ApplicationUser> {
     private readonly IPublisher _publisher = null!;
 
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, IPublisher publisher)
@@ -28,7 +29,6 @@ public class ApplicationDbContext : DbContext {
         : base(options) {
     }
 
-    public DbSet<User> Users { get; set; } = null!;
     public DbSet<CurriculumSubject> CurriculumSubjects { get; set; } = null!;
     public DbSet<Resource> Resources { get; set; } = null!;
     public DbSet<Teacher> Teachers { get; set; } = null!;

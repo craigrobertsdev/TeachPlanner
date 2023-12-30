@@ -7,7 +7,7 @@ using TeachPlanner.Shared.Domain.Users;
 namespace TeachPlanner.Shared.Database.QueryExtensions;
 
 public static class TeacherQueries {
-    public static async Task<Teacher?> GetTeacherByUserId(this ApplicationDbContext context, UserId userId) {
+    public static async Task<Teacher?> GetTeacherByUserId(this ApplicationDbContext context, string userId) {
         return await context.Teachers
             .AsNoTracking()
             .FirstOrDefaultAsync(t => t.UserId == userId);

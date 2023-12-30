@@ -8,7 +8,7 @@ using System.Security.Claims;
 using System.Text.Json;
 using TeachPlanner.Blazor.Components.Account.Pages;
 using TeachPlanner.Blazor.Components.Account.Pages.Manage;
-using TeachPlanner.Blazor.Data;
+using TeachPlanner.Shared.Domain.Users;
 
 namespace TeachPlanner.Blazor.Components.Account;
 internal static class IdentityComponentsEndpointRouteBuilderExtensions {

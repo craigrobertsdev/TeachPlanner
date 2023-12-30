@@ -5,7 +5,8 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using TeachPlanner.Blazor.Data;
+using TeachPlanner.Shared.Database;
+using TeachPlanner.Shared.Domain.Users;
 
 #nullable disable
 
@@ -232,7 +233,7 @@ namespace TeachPlanner.Blazor.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("TeachPlanner.Blazor.Data.ApplicationUser", b =>
+            modelBuilder.Entity("TeachPlanner.Shared.Domain.Users.ApplicationUser", b =>
                 {
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
 

@@ -8,7 +8,7 @@ namespace TeachPlanner.Shared.Common.Interfaces.Persistence;
 public interface ITeacherRepository {
     void Add(Teacher teacher);
     Task<Teacher?> GetByEmail(string email, CancellationToken cancellationToken);
-    Task<Teacher?> GetByUserId(UserId userId, CancellationToken cancellationToken);
+    Task<Teacher?> GetByUserId(string userId, CancellationToken cancellationToken);
     Task<Teacher?> GetById(TeacherId teacherId, CancellationToken cancellationToken);
     Task<Teacher?> GetWithResources(TeacherId teacherId, CancellationToken cancellationToken);
     Task<IEnumerable<Resource>> GetResourcesBySubject(TeacherId teacherId, SubjectId subjectId,

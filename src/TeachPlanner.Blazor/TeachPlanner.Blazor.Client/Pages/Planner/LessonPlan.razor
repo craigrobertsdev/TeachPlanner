@@ -29,7 +29,7 @@
 
     protected override async Task OnInitializedAsync() {
         if (NavigationManager.Uri.Contains("create")) {
-            var response = await Http.GetFromJsonAsync< 
+            // var response = await Http.GetFromJsonAsync< 
         }
         Subjects = new() {
             new CurriculumSubjectDto("Mathematics", new List<YearLevelDto>()),

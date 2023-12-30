@@ -24,7 +24,7 @@ public class TeacherConfiguration : IEntityTypeConfiguration<Teacher> {
             .WithOne()
             .IsRequired();
 
-        builder.HasOne<User>()
+        builder.HasOne<ApplicationUser>()
             .WithOne()
             .HasForeignKey<Teacher>(t => t.UserId)
             .IsRequired();

@@ -1,18 +1,27 @@
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Syncfusion.Licensing;
 using TeachPlanner.Blazor;
 using TeachPlanner.Blazor.Client.Pages;
 using TeachPlanner.Blazor.Components;
 using TeachPlanner.Blazor.Components.Account;
-using TeachPlanner.Blazor.Data;
+using TeachPlanner.Blazor.Extensions.DependencyInjection;
+using TeachPlanner.Shared.Database;
+using TeachPlanner.Shared.Domain.Users;
 
 var builder = WebApplication.CreateBuilder(args);
+
+var syncfusionLicenceKey = builder.Configuration["Syncfusion:LicenseKey"];
+SyncfusionLicenseProvider.RegisterLicense(syncfusionLicenceKey);
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents()
     .AddInteractiveWebAssemblyComponents();
+
+builder.Services.AddInfrastructure(builder.Configuration)
+    .AddApplication();
 
 builder.Services.AddCascadingAuthenticationState();
 builder.Services.AddScoped<IdentityUserAccessor>();
@@ -27,9 +36,9 @@ builder.Services.AddAuthentication(options => {
 
 builder.Services.AddHttpClient();
 
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(connectionString));
+//var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+//builder.Services.AddDbContext<ApplicationDbContext>(options =>
+//    options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddIdentityCore<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)

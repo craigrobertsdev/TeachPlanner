@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Identity;
-using TeachPlanner.Blazor.Data;
+using TeachPlanner.Shared.Domain.Users;
 
 namespace TeachPlanner.Blazor.Components.Account;
 internal sealed class IdentityUserAccessor(UserManager<ApplicationUser> userManager, IdentityRedirectManager redirectManager) {
