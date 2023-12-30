@@ -1,11 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using TeachPlanner.Blazor.Database.Converters;
-using TeachPlanner.Shared.Enums;
+using TeachPlanner.Shared.Domain.Common.Enums;
 using TeachPlanner.Shared.Domain.Curriculum;
-using TeachPlanner.Shared.Domain.Curriculum;
+using TeachPlanner.Shared.Database.Converters;
 
-namespace TeachPlanner.Blazor.Database.Configurations;
+namespace TeachPlanner.Shared.Database.Configurations;
 
 public class CurriculumSubjectConfiguration : IEntityTypeConfiguration<CurriculumSubject> {
     public void Configure(EntityTypeBuilder<CurriculumSubject> builder) {

@@ -1,4 +1,4 @@
-﻿using TeachPlanner.Api.Common.Exceptions;
+﻿using TeachPlanner.Shared.Common.Exceptions;
 using TeachPlanner.Shared.Domain.Common.Interfaces;
 using TeachPlanner.Shared.Domain.Common.Primatives;
 using TeachPlanner.Shared.Domain.PlannerTemplates;

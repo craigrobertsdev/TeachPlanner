@@ -2,12 +2,12 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using TeachPlanner.Blazor.Database.Converters;
-using TeachPlanner.Shared.Enums;
+using TeachPlanner.Shared.Domain.Common.Enums;
 using TeachPlanner.Shared.Domain.TermPlanners;
 using TeachPlanner.Shared.Domain.YearDataRecords;
+using TeachPlanner.Shared.Database.Converters;
 
-namespace TeachPlanner.Blazor.Database.Configurations;
+namespace TeachPlanner.Shared.Database.Configurations;
 
 public class TermPlannerConfiguration : IEntityTypeConfiguration<TermPlanner> {
     public void Configure(EntityTypeBuilder<TermPlanner> builder) {

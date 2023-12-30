@@ -1,4 +1,4 @@
-﻿using TeachPlanner.Api.Common.Exceptions;
+﻿using TeachPlanner.Shared.Common.Exceptions;
 using TeachPlanner.Shared.Domain.Curriculum;
 
 namespace TeachPlanner.Shared.Domain.TermPlanners;

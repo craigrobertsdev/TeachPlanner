@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using TeachPlanner.Blazor.Common.Interfaces.Persistence;
+using TeachPlanner.Shared.Common.Interfaces.Persistence;
 using TeachPlanner.Shared.Domain.Curriculum;
 
 namespace TeachPlanner.Blazor.Features.Subjects;

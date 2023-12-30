@@ -1,9 +1,9 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using TeachPlanner.Blazor.Common.Interfaces.Persistence;
 using TeachPlanner.Shared.Domain.Teachers;
 using TeachPlanner.Shared.Contracts.Resources;
 using TeachPlanner.Shared.Domain.Curriculum;
+using TeachPlanner.Shared.Common.Interfaces.Persistence;
 
 namespace TeachPlanner.Blazor.Features.Teachers;
 

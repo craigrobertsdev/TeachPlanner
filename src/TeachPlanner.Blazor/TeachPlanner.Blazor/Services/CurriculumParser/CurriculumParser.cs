@@ -1,6 +1,6 @@
 ﻿using Syncfusion.DocIO;
 using Syncfusion.DocIO.DLS;
-using TeachPlanner.Blazor.Common.Interfaces.Curriculum;
+using TeachPlanner.Shared.Common.Interfaces.Curriculum;
 using TeachPlanner.Shared.Domain.Curriculum;
 
 namespace TeachPlanner.Blazor.Services.CurriculumParser;

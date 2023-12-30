@@ -1,10 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using TeachPlanner.Blazor.Common.Interfaces.Persistence;
-using TeachPlanner.Blazor.Database;
+using TeachPlanner.Shared.Common.Interfaces.Persistence;
+using TeachPlanner.Shared.Database;
 using TeachPlanner.Shared.Domain.PlannerTemplates;
 using TeachPlanner.Shared.Domain.Teachers;
 
-namespace TeachPlanner.Blazor.Database.Repositories;
+namespace TeachPlanner.Shared.Database.Repositories;
 
 public class PlannerTemplateRepository : IPlannerTemplateRepository {
     private readonly ApplicationDbContext _context;

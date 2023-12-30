@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using TeachPlanner.Blazor.Database.Converters;
+using TeachPlanner.Shared.Database.Converters;
 using TeachPlanner.Shared.Domain.Common.Planner;
 
-namespace TeachPlanner.Blazor.Database.Configurations;
+namespace TeachPlanner.Shared.Database.Configurations;
 
 public class SchoolEventConfiguration : IEntityTypeConfiguration<SchoolEvent> {
     public void Configure(EntityTypeBuilder<SchoolEvent> builder) {

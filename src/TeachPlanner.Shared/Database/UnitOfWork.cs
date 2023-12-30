@@ -1,8 +1,8 @@
-﻿using TeachPlanner.Blazor.Common.Interfaces.Persistence;
+﻿using TeachPlanner.Shared.Common.Interfaces.Persistence;
 
-namespace TeachPlanner.Blazor.Database;
+namespace TeachPlanner.Shared.Database;
 
-internal sealed class UnitOfWork : IUnitOfWork {
+public sealed class UnitOfWork : IUnitOfWork {
     private readonly ApplicationDbContext _context;
 
     public UnitOfWork(ApplicationDbContext context) {

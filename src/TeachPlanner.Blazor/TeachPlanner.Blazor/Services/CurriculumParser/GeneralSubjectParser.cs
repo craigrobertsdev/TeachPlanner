@@ -1,7 +1,6 @@
-﻿using TeachPlanner.Shared.Enums;
+﻿using TeachPlanner.Shared.Domain.Common.Enums;
 using TeachPlanner.Shared.Domain.Curriculum;
 using TeachPlanner.Blazor.Extensions;
-using TeachPlanner.Shared.Domain.Curriculum;
 
 namespace TeachPlanner.Blazor.Services.CurriculumParser;
 

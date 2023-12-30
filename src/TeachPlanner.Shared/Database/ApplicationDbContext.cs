@@ -14,7 +14,7 @@ using TeachPlanner.Shared.Domain.Users;
 using TeachPlanner.Shared.Domain.WeekPlanners;
 using TeachPlanner.Shared.Domain.YearDataRecords;
 
-namespace TeachPlanner.Blazor.Database;
+namespace TeachPlanner.Shared.Database;
 
 public class ApplicationDbContext : DbContext {
     private readonly IPublisher _publisher = null!;

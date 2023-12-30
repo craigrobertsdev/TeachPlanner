@@ -1,14 +1,14 @@
 ﻿using FluentValidation;
 using Mapster;
 using MediatR;
-using TeachPlanner.Api.Common.Exceptions;
-using TeachPlanner.Api.Contracts.Teachers;
-using TeachPlanner.Api.Domain.Users;
-using TeachPlanner.Blazor.Common.Interfaces.Authentication;
-using TeachPlanner.Blazor.Common.Interfaces.Persistence;
+using TeachPlanner.Shared.Common.Exceptions;
+using TeachPlanner.Shared.Contracts.Teachers;
+using TeachPlanner.Shared.Domain.Users;
 using TeachPlanner.Shared.Domain.Teachers;
 using TeachPlanner.Blazor.Services.Authentication;
 using TeachPlanner.Shared.Contracts.Authentication;
+using TeachPlanner.Shared.Common.Interfaces.Authentication;
+using TeachPlanner.Shared.Common.Interfaces.Persistence;
 
 namespace TeachPlanner.Blazor.Features.Authentication;
 

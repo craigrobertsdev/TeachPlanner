@@ -1,10 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using TeachPlanner.Blazor.Database.Converters;
+using TeachPlanner.Shared.Database.Converters;
 using TeachPlanner.Shared.Domain.Teachers;
 using TeachPlanner.Shared.Domain.Users;
 
-namespace TeachPlanner.Blazor.Database.Configurations;
+namespace TeachPlanner.Shared.Database.Configurations;
 
 public class TeacherConfiguration : IEntityTypeConfiguration<Teacher> {
     public void Configure(EntityTypeBuilder<Teacher> builder) {

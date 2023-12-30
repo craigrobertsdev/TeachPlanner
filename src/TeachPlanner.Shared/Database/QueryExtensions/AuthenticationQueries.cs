@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using TeachPlanner.Blazor.Database;
+using TeachPlanner.Shared.Database;
 using TeachPlanner.Shared.Domain.Users;
 
-namespace TeachPlanner.Blazor.Database.QueryExtensions;
+namespace TeachPlanner.Shared.Database.QueryExtensions;
 
 public static class AuthenticationQueries {
     public static async Task<User?> GetUserByEmail(this ApplicationDbContext context, string email,

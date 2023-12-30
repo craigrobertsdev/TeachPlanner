@@ -1,10 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using TeachPlanner.Blazor.Database.Converters;
+using TeachPlanner.Shared.Database.Converters;
 using TeachPlanner.Shared.Domain.PlannerTemplates;
 using TeachPlanner.Shared.Domain.WeekPlanners;
 
-namespace TeachPlanner.Blazor.Database.Configurations;
+namespace TeachPlanner.Shared.Database.Configurations;
 
 public class WeekPlannerConfiguration : IEntityTypeConfiguration<WeekPlanner> {
     public void Configure(EntityTypeBuilder<WeekPlanner> builder) {

@@ -1,4 +1,4 @@
-﻿using TeachPlanner.Blazor.Common.Interfaces.Services;
+﻿using TeachPlanner.Shared.Common.Interfaces.Services;
 using TeachPlanner.Shared.Contracts.Curriculum;
 
 namespace TeachPlanner.Blazor.Features.Curriculum;

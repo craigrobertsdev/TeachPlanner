@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Identity;
-using TeachPlanner.Api.Domain.Users;
 using TeachPlanner.Shared.Domain.Teachers;
 
 namespace TeachPlanner.Blazor.Data;

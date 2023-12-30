@@ -1,10 +1,10 @@
 ﻿using MediatR;
-using TeachPlanner.Api.Common.Exceptions;
-using TeachPlanner.Api.Contracts.Resources;
-using TeachPlanner.Blazor.Common.Interfaces.Persistence;
-using TeachPlanner.Blazor.Common.Interfaces.Services;
+using TeachPlanner.Shared.Common.Exceptions;
+using TeachPlanner.Shared.Contracts.Resources;
 using TeachPlanner.Shared.Domain.Teachers;
 using TeachPlanner.Shared.Domain.Curriculum;
+using TeachPlanner.Shared.Common.Interfaces.Services;
+using TeachPlanner.Shared.Common.Interfaces.Persistence;
 
 namespace TeachPlanner.Blazor.Features.Resources;
 

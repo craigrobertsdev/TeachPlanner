@@ -3,11 +3,11 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using TeachPlanner.Blazor.Database;
+using TeachPlanner.Shared.Database;
 
 #nullable disable
 
-namespace TeachPlanner.Api.Database.Migrations {
+namespace TeachPlanner.Shared.Database.Migrations {
     [DbContext(typeof(ApplicationDbContext))]
     partial class ApplicationDbContextModelSnapshot : ModelSnapshot {
         protected override void BuildModel(ModelBuilder modelBuilder) {
@@ -58,7 +58,7 @@ namespace TeachPlanner.Api.Database.Migrations {
                 b.ToTable("DayPlanSchoolEvent");
             });
 
-            modelBuilder.Entity("TeachPlanner.Api.Domain.Assessments.Assessment", b => {
+            modelBuilder.Entity("TeachPlanner.Shared.Domain.Assessments.Assessment", b => {
                 b.Property<Guid>("Id")
                     .HasColumnType("char(36)")
                     .HasColumnName("Id");
@@ -109,7 +109,7 @@ namespace TeachPlanner.Api.Database.Migrations {
                 b.ToTable("assessments", (string)null);
             });
 
-            modelBuilder.Entity("TeachPlanner.Api.Domain.Calendar.Calendar", b => {
+            modelBuilder.Entity("TeachPlanner.Shared.Domain.Calendar.Calendar", b => {
                 b.Property<Guid>("Id")
                     .HasColumnType("char(36)")
                     .HasColumnName("Id");
@@ -134,7 +134,7 @@ namespace TeachPlanner.Api.Database.Migrations {
                 b.ToTable("calendar", (string)null);
             });
 
-            modelBuilder.Entity("TeachPlanner.Api.Domain.Common.Planner.SchoolEvent", b => {
+            modelBuilder.Entity("TeachPlanner.Shared.Domain.Common.Planner.SchoolEvent", b => {
                 b.Property<Guid>("Id")
                     .HasColumnType("char(36)")
                     .HasColumnName("Id");
@@ -164,7 +164,7 @@ namespace TeachPlanner.Api.Database.Migrations {
                 b.ToTable("school_events", (string)null);
             });
 
-            modelBuilder.Entity("TeachPlanner.Api.Domain.CurriculumSubjects.ContentDescription", b => {
+            modelBuilder.Entity("TeachPlanner.Shared.Domain.Curriculum.ContentDescription", b => {
                 b.Property<Guid>("Id")
                     .ValueGeneratedOnAdd()
                     .HasColumnType("char(36)");
@@ -193,7 +193,7 @@ namespace TeachPlanner.Api.Database.Migrations {
                 b.ToTable("content_descriptions", (string)null);
             });
 
-            modelBuilder.Entity("TeachPlanner.Api.Domain.CurriculumSubjects.CurriculumSubject", b => {
+            modelBuilder.Entity("TeachPlanner.Shared.Domain.Curriculum.CurriculumSubject", b => {
                 b.Property<Guid>("Id")
                     .HasColumnType("char(36)")
                     .HasColumnName("Id");
@@ -213,7 +213,7 @@ namespace TeachPlanner.Api.Database.Migrations {
                 b.ToTable("curriculum_subjects", (string)null);
             });
 
-            modelBuilder.Entity("TeachPlanner.Api.Domain.CurriculumSubjects.Elaboration", b => {
+            modelBuilder.Entity("TeachPlanner.Shared.Domain.Curriculum.Elaboration", b => {
                 b.Property<Guid>("Id")
                     .ValueGeneratedOnAdd()
                     .HasColumnType("char(36)");
@@ -233,7 +233,7 @@ namespace TeachPlanner.Api.Database.Migrations {
                 b.ToTable("elaborations", (string)null);
             });
 
-            modelBuilder.Entity("TeachPlanner.Api.Domain.CurriculumSubjects.Strand", b => {
+            modelBuilder.Entity("TeachPlanner.Shared.Domain.Curriculum.Strand", b => {
                 b.Property<Guid>("Id")
                     .ValueGeneratedOnAdd()
                     .HasColumnType("char(36)");
@@ -253,7 +253,7 @@ namespace TeachPlanner.Api.Database.Migrations {
                 b.ToTable("strands", (string)null);
             });
 
-            modelBuilder.Entity("TeachPlanner.Api.Domain.CurriculumSubjects.YearLevel", b => {
+            modelBuilder.Entity("TeachPlanner.Shared.Domain.Curriculum.YearLevel", b => {
                 b.Property<Guid>("Id")
                     .ValueGeneratedOnAdd()
                     .HasColumnType("char(36)");
@@ -280,7 +280,7 @@ namespace TeachPlanner.Api.Database.Migrations {
                 b.ToTable("year_levels", (string)null);
             });
 
-            modelBuilder.Entity("TeachPlanner.Api.Domain.LessonPlans.LessonPlan", b => {
+            modelBuilder.Entity("TeachPlanner.Shared.Domain.LessonPlans.LessonPlan", b => {
                 b.Property<Guid>("Id")
                     .HasColumnType("char(36)")
                     .HasColumnName("Id");
@@ -324,7 +324,7 @@ namespace TeachPlanner.Api.Database.Migrations {
                 b.ToTable("lesson_plans", (string)null);
             });
 
-            modelBuilder.Entity("TeachPlanner.Api.Domain.LessonPlans.LessonPlanResource", b => {
+            modelBuilder.Entity("TeachPlanner.Shared.Domain.LessonPlans.LessonPlanResource", b => {
                 b.Property<Guid>("LessonPlanId")
                     .HasColumnType("char(36)");
 
@@ -338,7 +338,7 @@ namespace TeachPlanner.Api.Database.Migrations {
                 b.ToTable("lesson_plan_resources", (string)null);
             });
 
-            modelBuilder.Entity("TeachPlanner.Api.Domain.PlannerTemplates.DayPlan", b => {
+            modelBuilder.Entity("TeachPlanner.Shared.Domain.PlannerTemplates.DayPlan", b => {
                 b.Property<Guid>("Id")
                     .HasColumnType("char(36)")
                     .HasColumnName("Id");
@@ -356,7 +356,7 @@ namespace TeachPlanner.Api.Database.Migrations {
                 b.ToTable("day_plans", (string)null);
             });
 
-            modelBuilder.Entity("TeachPlanner.Api.Domain.PlannerTemplates.DayPlanTemplate", b => {
+            modelBuilder.Entity("TeachPlanner.Shared.Domain.PlannerTemplates.DayPlanTemplate", b => {
                 b.Property<Guid>("Id")
                     .HasColumnType("char(36)");
 
@@ -370,7 +370,7 @@ namespace TeachPlanner.Api.Database.Migrations {
                 b.ToTable("day_plan_templates", (string)null);
             });
 
-            modelBuilder.Entity("TeachPlanner.Api.Domain.PlannerTemplates.TermDate", b => {
+            modelBuilder.Entity("TeachPlanner.Shared.Domain.PlannerTemplates.TermDate", b => {
                 b.Property<Guid>("Id")
                     .ValueGeneratedOnAdd()
                     .HasColumnType("char(36)");
@@ -389,7 +389,7 @@ namespace TeachPlanner.Api.Database.Migrations {
                 b.ToTable("term_dates", (string)null);
             });
 
-            modelBuilder.Entity("TeachPlanner.Api.Domain.Reports.Report", b => {
+            modelBuilder.Entity("TeachPlanner.Shared.Domain.Reports.Report", b => {
                 b.Property<Guid>("Id")
                     .HasColumnType("char(36)")
                     .HasColumnName("Id");
@@ -425,7 +425,7 @@ namespace TeachPlanner.Api.Database.Migrations {
                 b.ToTable("reports", (string)null);
             });
 
-            modelBuilder.Entity("TeachPlanner.Api.Domain.Students.Student", b => {
+            modelBuilder.Entity("TeachPlanner.Shared.Domain.Students.Student", b => {
                 b.Property<Guid>("Id")
                     .HasColumnType("char(36)")
                     .HasColumnName("Id");
@@ -453,7 +453,7 @@ namespace TeachPlanner.Api.Database.Migrations {
                 b.ToTable("students", (string)null);
             });
 
-            modelBuilder.Entity("TeachPlanner.Api.Domain.Teachers.Resource", b => {
+            modelBuilder.Entity("TeachPlanner.Shared.Domain.Teachers.Resource", b => {
                 b.Property<Guid>("Id")
                     .HasColumnType("char(36)")
                     .HasColumnName("Id");
@@ -496,7 +496,7 @@ namespace TeachPlanner.Api.Database.Migrations {
                 b.ToTable("resources", (string)null);
             });
 
-            modelBuilder.Entity("TeachPlanner.Api.Domain.Teachers.Teacher", b => {
+            modelBuilder.Entity("TeachPlanner.Shared.Domain.Teachers.Teacher", b => {
                 b.Property<Guid>("Id")
                     .HasColumnType("char(36)")
                     .HasColumnName("Id");
@@ -522,7 +522,7 @@ namespace TeachPlanner.Api.Database.Migrations {
                 b.ToTable("teachers", (string)null);
             });
 
-            modelBuilder.Entity("TeachPlanner.Api.Domain.TermPlanners.TermPlan", b => {
+            modelBuilder.Entity("TeachPlanner.Shared.Domain.TermPlanners.TermPlan", b => {
                 b.Property<Guid>("Id")
                     .ValueGeneratedOnAdd()
                     .HasColumnType("char(36)");
@@ -540,7 +540,7 @@ namespace TeachPlanner.Api.Database.Migrations {
                 b.ToTable("term_plans", (string)null);
             });
 
-            modelBuilder.Entity("TeachPlanner.Api.Domain.TermPlanners.TermPlanner", b => {
+            modelBuilder.Entity("TeachPlanner.Shared.Domain.TermPlanners.TermPlanner", b => {
                 b.Property<Guid>("Id")
                     .HasColumnType("char(36)")
                     .HasColumnName("Id");
@@ -564,7 +564,7 @@ namespace TeachPlanner.Api.Database.Migrations {
                 b.ToTable("term_planner", (string)null);
             });
 
-            modelBuilder.Entity("TeachPlanner.Api.Domain.Users.User", b => {
+            modelBuilder.Entity("TeachPlanner.Shared.Domain.Users.User", b => {
                 b.Property<Guid>("Id")
                     .HasColumnType("char(36)")
                     .HasColumnName("Id");
@@ -584,7 +584,7 @@ namespace TeachPlanner.Api.Database.Migrations {
                 b.ToTable("users", (string)null);
             });
 
-            modelBuilder.Entity("TeachPlanner.Api.Domain.WeekPlanners.WeekPlanner", b => {
+            modelBuilder.Entity("TeachPlanner.Shared.Domain.WeekPlanners.WeekPlanner", b => {
                 b.Property<Guid>("Id")
                     .HasColumnType("char(36)")
                     .HasColumnName("Id");
@@ -622,7 +622,7 @@ namespace TeachPlanner.Api.Database.Migrations {
                 b.ToTable("week_planner", (string)null);
             });
 
-            modelBuilder.Entity("TeachPlanner.Api.Domain.YearDataRecords.YearData", b => {
+            modelBuilder.Entity("TeachPlanner.Shared.Domain.YearDataRecords.YearData", b => {
                 b.Property<Guid>("Id")
                     .HasColumnType("char(36)")
                     .HasColumnName("Id");
@@ -658,13 +658,13 @@ namespace TeachPlanner.Api.Database.Migrations {
             });
 
             modelBuilder.Entity("CalendarSchoolEvent", b => {
-                b.HasOne("TeachPlanner.Api.Domain.Calendar.Calendar", null)
+                b.HasOne("TeachPlanner.Shared.Domain.Calendar.Calendar", null)
                     .WithMany()
                     .HasForeignKey("CalendarId")
                     .OnDelete(DeleteBehavior.Cascade)
                     .IsRequired();
 
-                b.HasOne("TeachPlanner.Api.Domain.Common.Planner.SchoolEvent", null)
+                b.HasOne("TeachPlanner.Shared.Domain.Common.Planner.SchoolEvent", null)
                     .WithMany()
                     .HasForeignKey("SchoolEventsId")
                     .OnDelete(DeleteBehavior.Cascade)
@@ -672,13 +672,13 @@ namespace TeachPlanner.Api.Database.Migrations {
             });
 
             modelBuilder.Entity("CurriculumSubjectTeacher", b => {
-                b.HasOne("TeachPlanner.Api.Domain.CurriculumSubjects.CurriculumSubject", null)
+                b.HasOne("TeachPlanner.Shared.Domain.Curriculum.CurriculumSubject", null)
                     .WithMany()
                     .HasForeignKey("SubjectsTaughtId")
                     .OnDelete(DeleteBehavior.Cascade)
                     .IsRequired();
 
-                b.HasOne("TeachPlanner.Api.Domain.Teachers.Teacher", null)
+                b.HasOne("TeachPlanner.Shared.Domain.Teachers.Teacher", null)
                     .WithMany()
                     .HasForeignKey("TeacherId")
                     .OnDelete(DeleteBehavior.Cascade)
@@ -686,45 +686,45 @@ namespace TeachPlanner.Api.Database.Migrations {
             });
 
             modelBuilder.Entity("DayPlanSchoolEvent", b => {
-                b.HasOne("TeachPlanner.Api.Domain.PlannerTemplates.DayPlan", null)
+                b.HasOne("TeachPlanner.Shared.Domain.PlannerTemplates.DayPlan", null)
                     .WithMany()
                     .HasForeignKey("DayPlanId")
                     .OnDelete(DeleteBehavior.Cascade)
                     .IsRequired();
 
-                b.HasOne("TeachPlanner.Api.Domain.Common.Planner.SchoolEvent", null)
+                b.HasOne("TeachPlanner.Shared.Domain.Common.Planner.SchoolEvent", null)
                     .WithMany()
                     .HasForeignKey("SchoolEventsId")
                     .OnDelete(DeleteBehavior.Cascade)
                     .IsRequired();
             });
 
-            modelBuilder.Entity("TeachPlanner.Api.Domain.Assessments.Assessment", b => {
-                b.HasOne("TeachPlanner.Api.Domain.LessonPlans.LessonPlan", null)
+            modelBuilder.Entity("TeachPlanner.Shared.Domain.Assessments.Assessment", b => {
+                b.HasOne("TeachPlanner.Shared.Domain.LessonPlans.LessonPlan", null)
                     .WithMany("Assessments")
                     .HasForeignKey("LessonPlanId")
                     .OnDelete(DeleteBehavior.Cascade)
                     .IsRequired();
 
-                b.HasOne("TeachPlanner.Api.Domain.Students.Student", null)
+                b.HasOne("TeachPlanner.Shared.Domain.Students.Student", null)
                     .WithMany("Assessments")
                     .HasForeignKey("StudentId")
                     .OnDelete(DeleteBehavior.Cascade)
                     .IsRequired();
 
-                b.HasOne("TeachPlanner.Api.Domain.CurriculumSubjects.CurriculumSubject", null)
+                b.HasOne("TeachPlanner.Shared.Domain.Curriculum.CurriculumSubject", null)
                     .WithMany()
                     .HasForeignKey("SubjectId")
                     .OnDelete(DeleteBehavior.Cascade)
                     .IsRequired();
 
-                b.HasOne("TeachPlanner.Api.Domain.Teachers.Teacher", null)
+                b.HasOne("TeachPlanner.Shared.Domain.Teachers.Teacher", null)
                     .WithMany("Assessments")
                     .HasForeignKey("TeacherId")
                     .OnDelete(DeleteBehavior.Cascade)
                     .IsRequired();
 
-                b.OwnsOne("TeachPlanner.Api.Domain.Assessments.AssessmentResult", "AssessmentResult", b1 => {
+                b.OwnsOne("TeachPlanner.Shared.Domain.Assessments.AssessmentResult", "AssessmentResult", b1 => {
                     b1.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
@@ -756,7 +756,7 @@ namespace TeachPlanner.Api.Database.Migrations {
                     b1.WithOwner()
                         .HasForeignKey("AssessmentId");
 
-                    b1.OwnsOne("TeachPlanner.Api.Domain.Assessments.AssessmentGrade", "Grade", b2 => {
+                    b1.OwnsOne("TeachPlanner.Shared.Domain.Assessments.AssessmentGrade", "Grade", b2 => {
                         b2.Property<Guid>("AssessmentResultId")
                             .HasColumnType("char(36)");
 
@@ -788,8 +788,8 @@ namespace TeachPlanner.Api.Database.Migrations {
                 b.Navigation("AssessmentResult");
             });
 
-            modelBuilder.Entity("TeachPlanner.Api.Domain.Common.Planner.SchoolEvent", b => {
-                b.OwnsOne("TeachPlanner.Api.Domain.Common.Planner.Location", "Location", b1 => {
+            modelBuilder.Entity("TeachPlanner.Shared.Domain.Common.Planner.SchoolEvent", b => {
+                b.OwnsOne("TeachPlanner.Shared.Domain.Common.Planner.Location", "Location", b1 => {
                     b1.Property<Guid>("SchoolEventId")
                         .HasColumnType("char(36)");
 
@@ -820,62 +820,62 @@ namespace TeachPlanner.Api.Database.Migrations {
                     .IsRequired();
             });
 
-            modelBuilder.Entity("TeachPlanner.Api.Domain.CurriculumSubjects.ContentDescription", b => {
-                b.HasOne("TeachPlanner.Api.Domain.CurriculumSubjects.Strand", null)
+            modelBuilder.Entity("TeachPlanner.Shared.Domain.Curriculum.ContentDescription", b => {
+                b.HasOne("TeachPlanner.Shared.Domain.Curriculum.Strand", null)
                     .WithMany("ContentDescriptions")
                     .HasForeignKey("StrandId")
                     .OnDelete(DeleteBehavior.Cascade);
             });
 
-            modelBuilder.Entity("TeachPlanner.Api.Domain.CurriculumSubjects.CurriculumSubject", b => {
-                b.HasOne("TeachPlanner.Api.Domain.TermPlanners.TermPlan", null)
+            modelBuilder.Entity("TeachPlanner.Shared.Domain.Curriculum.CurriculumSubject", b => {
+                b.HasOne("TeachPlanner.Shared.Domain.TermPlanners.TermPlan", null)
                     .WithMany("Subjects")
                     .HasForeignKey("TermPlanId");
             });
 
-            modelBuilder.Entity("TeachPlanner.Api.Domain.CurriculumSubjects.Elaboration", b => {
-                b.HasOne("TeachPlanner.Api.Domain.CurriculumSubjects.ContentDescription", null)
+            modelBuilder.Entity("TeachPlanner.Shared.Domain.Curriculum.Elaboration", b => {
+                b.HasOne("TeachPlanner.Shared.Domain.Curriculum.ContentDescription", null)
                     .WithMany("Elaborations")
                     .HasForeignKey("ContentDescriptionId")
                     .OnDelete(DeleteBehavior.Cascade);
             });
 
-            modelBuilder.Entity("TeachPlanner.Api.Domain.CurriculumSubjects.Strand", b => {
-                b.HasOne("TeachPlanner.Api.Domain.CurriculumSubjects.YearLevel", null)
+            modelBuilder.Entity("TeachPlanner.Shared.Domain.Curriculum.Strand", b => {
+                b.HasOne("TeachPlanner.Shared.Domain.Curriculum.YearLevel", null)
                     .WithMany("Strands")
                     .HasForeignKey("YearLevelId")
                     .OnDelete(DeleteBehavior.Cascade)
                     .IsRequired();
             });
 
-            modelBuilder.Entity("TeachPlanner.Api.Domain.CurriculumSubjects.YearLevel", b => {
-                b.HasOne("TeachPlanner.Api.Domain.CurriculumSubjects.CurriculumSubject", null)
+            modelBuilder.Entity("TeachPlanner.Shared.Domain.Curriculum.YearLevel", b => {
+                b.HasOne("TeachPlanner.Shared.Domain.Curriculum.CurriculumSubject", null)
                     .WithMany("YearLevels")
                     .HasForeignKey("CurriculumSubjectId")
                     .OnDelete(DeleteBehavior.Cascade)
                     .IsRequired();
             });
 
-            modelBuilder.Entity("TeachPlanner.Api.Domain.LessonPlans.LessonPlan", b => {
-                b.HasOne("TeachPlanner.Api.Domain.CurriculumSubjects.CurriculumSubject", null)
+            modelBuilder.Entity("TeachPlanner.Shared.Domain.LessonPlans.LessonPlan", b => {
+                b.HasOne("TeachPlanner.Shared.Domain.Curriculum.CurriculumSubject", null)
                     .WithMany()
                     .HasForeignKey("SubjectId")
                     .OnDelete(DeleteBehavior.Cascade)
                     .IsRequired();
 
-                b.HasOne("TeachPlanner.Api.Domain.PlannerTemplates.DayPlan", null)
+                b.HasOne("TeachPlanner.Shared.Domain.PlannerTemplates.DayPlan", null)
                     .WithMany("LessonPlans")
                     .HasForeignKey("WeekPlannerId")
                     .OnDelete(DeleteBehavior.Cascade)
                     .IsRequired();
 
-                b.HasOne("TeachPlanner.Api.Domain.YearDataRecords.YearData", null)
+                b.HasOne("TeachPlanner.Shared.Domain.YearDataRecords.YearData", null)
                     .WithMany("LessonPlans")
                     .HasForeignKey("YearDataId")
                     .OnDelete(DeleteBehavior.Cascade)
                     .IsRequired();
 
-                b.OwnsMany("TeachPlanner.Api.Domain.LessonPlans.LessonComment", "Comments", b1 => {
+                b.OwnsMany("TeachPlanner.Shared.Domain.LessonPlans.LessonComment", "Comments", b1 => {
                     b1.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
@@ -915,36 +915,36 @@ namespace TeachPlanner.Api.Database.Migrations {
                 b.Navigation("Comments");
             });
 
-            modelBuilder.Entity("TeachPlanner.Api.Domain.LessonPlans.LessonPlanResource", b => {
-                b.HasOne("TeachPlanner.Api.Domain.LessonPlans.LessonPlan", null)
+            modelBuilder.Entity("TeachPlanner.Shared.Domain.LessonPlans.LessonPlanResource", b => {
+                b.HasOne("TeachPlanner.Shared.Domain.LessonPlans.LessonPlan", null)
                     .WithMany("LessonPlanResources")
                     .HasForeignKey("LessonPlanId")
                     .OnDelete(DeleteBehavior.Cascade)
                     .IsRequired();
 
-                b.HasOne("TeachPlanner.Api.Domain.Teachers.Resource", null)
+                b.HasOne("TeachPlanner.Shared.Domain.Teachers.Resource", null)
                     .WithMany("LessonPlanResources")
                     .HasForeignKey("ResourceId")
                     .OnDelete(DeleteBehavior.Cascade)
                     .IsRequired();
             });
 
-            modelBuilder.Entity("TeachPlanner.Api.Domain.PlannerTemplates.DayPlan", b => {
-                b.HasOne("TeachPlanner.Api.Domain.WeekPlanners.WeekPlanner", null)
+            modelBuilder.Entity("TeachPlanner.Shared.Domain.PlannerTemplates.DayPlan", b => {
+                b.HasOne("TeachPlanner.Shared.Domain.WeekPlanners.WeekPlanner", null)
                     .WithMany("DayPlans")
                     .HasForeignKey("WeekPlannerId")
                     .OnDelete(DeleteBehavior.Cascade)
                     .IsRequired();
             });
 
-            modelBuilder.Entity("TeachPlanner.Api.Domain.PlannerTemplates.DayPlanTemplate", b => {
-                b.HasOne("TeachPlanner.Api.Domain.Teachers.Teacher", null)
+            modelBuilder.Entity("TeachPlanner.Shared.Domain.PlannerTemplates.DayPlanTemplate", b => {
+                b.HasOne("TeachPlanner.Shared.Domain.Teachers.Teacher", null)
                     .WithMany()
                     .HasForeignKey("TeacherId")
                     .OnDelete(DeleteBehavior.Cascade)
                     .IsRequired();
 
-                b.OwnsMany("TeachPlanner.Api.Domain.PlannerTemplates.TemplatePeriod", "Periods", b1 => {
+                b.OwnsMany("TeachPlanner.Shared.Domain.PlannerTemplates.TemplatePeriod", "Periods", b1 => {
                     b1.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
@@ -980,26 +980,26 @@ namespace TeachPlanner.Api.Database.Migrations {
                 b.Navigation("Periods");
             });
 
-            modelBuilder.Entity("TeachPlanner.Api.Domain.Reports.Report", b => {
-                b.HasOne("TeachPlanner.Api.Domain.Students.Student", null)
+            modelBuilder.Entity("TeachPlanner.Shared.Domain.Reports.Report", b => {
+                b.HasOne("TeachPlanner.Shared.Domain.Students.Student", null)
                     .WithMany("Reports")
                     .HasForeignKey("StudentId")
                     .OnDelete(DeleteBehavior.Cascade)
                     .IsRequired();
 
-                b.HasOne("TeachPlanner.Api.Domain.CurriculumSubjects.CurriculumSubject", null)
+                b.HasOne("TeachPlanner.Shared.Domain.Curriculum.CurriculumSubject", null)
                     .WithMany()
                     .HasForeignKey("SubjectId")
                     .OnDelete(DeleteBehavior.Cascade)
                     .IsRequired();
 
-                b.HasOne("TeachPlanner.Api.Domain.Teachers.Teacher", null)
+                b.HasOne("TeachPlanner.Shared.Domain.Teachers.Teacher", null)
                     .WithMany()
                     .HasForeignKey("TeacherId")
                     .OnDelete(DeleteBehavior.Cascade)
                     .IsRequired();
 
-                b.OwnsMany("TeachPlanner.Api.Domain.Reports.ReportComment", "ReportComments", b1 => {
+                b.OwnsMany("TeachPlanner.Shared.Domain.Reports.ReportComment", "ReportComments", b1 => {
                     b1.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
@@ -1033,38 +1033,38 @@ namespace TeachPlanner.Api.Database.Migrations {
                 b.Navigation("ReportComments");
             });
 
-            modelBuilder.Entity("TeachPlanner.Api.Domain.Students.Student", b => {
-                b.HasOne("TeachPlanner.Api.Domain.Teachers.Teacher", null)
+            modelBuilder.Entity("TeachPlanner.Shared.Domain.Students.Student", b => {
+                b.HasOne("TeachPlanner.Shared.Domain.Teachers.Teacher", null)
                     .WithMany()
                     .HasForeignKey("TeacherId")
                     .OnDelete(DeleteBehavior.Cascade)
                     .IsRequired();
 
-                b.HasOne("TeachPlanner.Api.Domain.YearDataRecords.YearData", null)
+                b.HasOne("TeachPlanner.Shared.Domain.YearDataRecords.YearData", null)
                     .WithMany("Students")
                     .HasForeignKey("YearDataId");
             });
 
-            modelBuilder.Entity("TeachPlanner.Api.Domain.Teachers.Resource", b => {
-                b.HasOne("TeachPlanner.Api.Domain.CurriculumSubjects.CurriculumSubject", null)
+            modelBuilder.Entity("TeachPlanner.Shared.Domain.Teachers.Resource", b => {
+                b.HasOne("TeachPlanner.Shared.Domain.Curriculum.CurriculumSubject", null)
                     .WithMany()
                     .HasForeignKey("SubjectId")
                     .OnDelete(DeleteBehavior.Cascade)
                     .IsRequired();
 
-                b.HasOne("TeachPlanner.Api.Domain.Teachers.Teacher", null)
+                b.HasOne("TeachPlanner.Shared.Domain.Teachers.Teacher", null)
                     .WithMany("Resources")
                     .HasForeignKey("TeacherId");
             });
 
-            modelBuilder.Entity("TeachPlanner.Api.Domain.Teachers.Teacher", b => {
-                b.HasOne("TeachPlanner.Api.Domain.Users.User", null)
+            modelBuilder.Entity("TeachPlanner.Shared.Domain.Teachers.Teacher", b => {
+                b.HasOne("TeachPlanner.Shared.Domain.Users.User", null)
                     .WithOne()
-                    .HasForeignKey("TeachPlanner.Api.Domain.Teachers.Teacher", "UserId")
+                    .HasForeignKey("TeachPlanner.Shared.Domain.Teachers.Teacher", "UserId")
                     .OnDelete(DeleteBehavior.Cascade)
                     .IsRequired();
 
-                b.OwnsMany("TeachPlanner.Api.Domain.Teachers.YearDataEntry", "YearDataHistory", b1 => {
+                b.OwnsMany("TeachPlanner.Shared.Domain.Teachers.YearDataEntry", "YearDataHistory", b1 => {
                     b1.Property<Guid>("TeacherId")
                         .HasColumnType("char(36)");
 
@@ -1091,8 +1091,8 @@ namespace TeachPlanner.Api.Database.Migrations {
                 b.Navigation("YearDataHistory");
             });
 
-            modelBuilder.Entity("TeachPlanner.Api.Domain.TermPlanners.TermPlan", b => {
-                b.HasOne("TeachPlanner.Api.Domain.TermPlanners.TermPlanner", "TermPlanner")
+            modelBuilder.Entity("TeachPlanner.Shared.Domain.TermPlanners.TermPlan", b => {
+                b.HasOne("TeachPlanner.Shared.Domain.TermPlanners.TermPlanner", "TermPlanner")
                     .WithMany("TermPlans")
                     .HasForeignKey("TermPlannerId")
                     .OnDelete(DeleteBehavior.Cascade)
@@ -1101,46 +1101,46 @@ namespace TeachPlanner.Api.Database.Migrations {
                 b.Navigation("TermPlanner");
             });
 
-            modelBuilder.Entity("TeachPlanner.Api.Domain.TermPlanners.TermPlanner", b => {
-                b.HasOne("TeachPlanner.Api.Domain.YearDataRecords.YearData", null)
+            modelBuilder.Entity("TeachPlanner.Shared.Domain.TermPlanners.TermPlanner", b => {
+                b.HasOne("TeachPlanner.Shared.Domain.YearDataRecords.YearData", null)
                     .WithOne()
-                    .HasForeignKey("TeachPlanner.Api.Domain.TermPlanners.TermPlanner", "YearDataId")
+                    .HasForeignKey("TeachPlanner.Shared.Domain.TermPlanners.TermPlanner", "YearDataId")
                     .OnDelete(DeleteBehavior.Cascade)
                     .IsRequired();
             });
 
-            modelBuilder.Entity("TeachPlanner.Api.Domain.WeekPlanners.WeekPlanner", b => {
-                b.HasOne("TeachPlanner.Api.Domain.PlannerTemplates.DayPlanTemplate", null)
+            modelBuilder.Entity("TeachPlanner.Shared.Domain.WeekPlanners.WeekPlanner", b => {
+                b.HasOne("TeachPlanner.Shared.Domain.PlannerTemplates.DayPlanTemplate", null)
                     .WithMany()
                     .HasForeignKey("DayPlanTemplateId")
                     .OnDelete(DeleteBehavior.Cascade)
                     .IsRequired();
 
-                b.HasOne("TeachPlanner.Api.Domain.YearDataRecords.YearData", null)
+                b.HasOne("TeachPlanner.Shared.Domain.YearDataRecords.YearData", null)
                     .WithMany("WeekPlanners")
                     .HasForeignKey("YearDataId")
                     .OnDelete(DeleteBehavior.Cascade)
                     .IsRequired();
             });
 
-            modelBuilder.Entity("TeachPlanner.Api.Domain.YearDataRecords.YearData", b => {
-                b.HasOne("TeachPlanner.Api.Domain.PlannerTemplates.DayPlanTemplate", "DayPlanTemplate")
+            modelBuilder.Entity("TeachPlanner.Shared.Domain.YearDataRecords.YearData", b => {
+                b.HasOne("TeachPlanner.Shared.Domain.PlannerTemplates.DayPlanTemplate", "DayPlanTemplate")
                     .WithMany()
                     .HasForeignKey("DayPlanTemplateId")
                     .OnDelete(DeleteBehavior.Cascade)
                     .IsRequired();
 
-                b.HasOne("TeachPlanner.Api.Domain.Teachers.Teacher", null)
+                b.HasOne("TeachPlanner.Shared.Domain.Teachers.Teacher", null)
                     .WithMany()
                     .HasForeignKey("TeacherId")
                     .OnDelete(DeleteBehavior.Cascade)
                     .IsRequired();
 
-                b.HasOne("TeachPlanner.Api.Domain.TermPlanners.TermPlanner", null)
+                b.HasOne("TeachPlanner.Shared.Domain.TermPlanners.TermPlanner", null)
                     .WithOne()
-                    .HasForeignKey("TeachPlanner.Api.Domain.YearDataRecords.YearData", "TermPlannerId");
+                    .HasForeignKey("TeachPlanner.Shared.Domain.YearDataRecords.YearData", "TermPlannerId");
 
-                b.OwnsMany("TeachPlanner.Api.Domain.YearDataRecords.Subject", "Subjects", b1 => {
+                b.OwnsMany("TeachPlanner.Shared.Domain.YearDataRecords.Subject", "Subjects", b1 => {
                     b1.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("char(36)");
@@ -1163,7 +1163,7 @@ namespace TeachPlanner.Api.Database.Migrations {
                     b1.WithOwner()
                         .HasForeignKey("YearDataId");
 
-                    b1.OwnsMany("TeachPlanner.Api.Domain.YearDataRecords.YearDataContentDescription", "ContentDescriptions", b2 => {
+                    b1.OwnsMany("TeachPlanner.Shared.Domain.YearDataRecords.YearDataContentDescription", "ContentDescriptions", b2 => {
                         b2.Property<Guid>("Id")
                             .ValueGeneratedOnAdd()
                             .HasColumnType("char(36)");
@@ -1194,61 +1194,61 @@ namespace TeachPlanner.Api.Database.Migrations {
                 b.Navigation("Subjects");
             });
 
-            modelBuilder.Entity("TeachPlanner.Api.Domain.CurriculumSubjects.ContentDescription", b => {
+            modelBuilder.Entity("TeachPlanner.Shared.Domain.Curriculum.ContentDescription", b => {
                 b.Navigation("Elaborations");
             });
 
-            modelBuilder.Entity("TeachPlanner.Api.Domain.CurriculumSubjects.CurriculumSubject", b => {
+            modelBuilder.Entity("TeachPlanner.Shared.Domain.Curriculum.CurriculumSubject", b => {
                 b.Navigation("YearLevels");
             });
 
-            modelBuilder.Entity("TeachPlanner.Api.Domain.CurriculumSubjects.Strand", b => {
+            modelBuilder.Entity("TeachPlanner.Shared.Domain.Curriculum.Strand", b => {
                 b.Navigation("ContentDescriptions");
             });
 
-            modelBuilder.Entity("TeachPlanner.Api.Domain.CurriculumSubjects.YearLevel", b => {
+            modelBuilder.Entity("TeachPlanner.Shared.Domain.Curriculum.YearLevel", b => {
                 b.Navigation("Strands");
             });
 
-            modelBuilder.Entity("TeachPlanner.Api.Domain.LessonPlans.LessonPlan", b => {
+            modelBuilder.Entity("TeachPlanner.Shared.Domain.LessonPlans.LessonPlan", b => {
                 b.Navigation("Assessments");
 
                 b.Navigation("LessonPlanResources");
             });
 
-            modelBuilder.Entity("TeachPlanner.Api.Domain.PlannerTemplates.DayPlan", b => {
+            modelBuilder.Entity("TeachPlanner.Shared.Domain.PlannerTemplates.DayPlan", b => {
                 b.Navigation("LessonPlans");
             });
 
-            modelBuilder.Entity("TeachPlanner.Api.Domain.Students.Student", b => {
+            modelBuilder.Entity("TeachPlanner.Shared.Domain.Students.Student", b => {
                 b.Navigation("Assessments");
 
                 b.Navigation("Reports");
             });
 
-            modelBuilder.Entity("TeachPlanner.Api.Domain.Teachers.Resource", b => {
+            modelBuilder.Entity("TeachPlanner.Shared.Domain.Teachers.Resource", b => {
                 b.Navigation("LessonPlanResources");
             });
 
-            modelBuilder.Entity("TeachPlanner.Api.Domain.Teachers.Teacher", b => {
+            modelBuilder.Entity("TeachPlanner.Shared.Domain.Teachers.Teacher", b => {
                 b.Navigation("Assessments");
 
                 b.Navigation("Resources");
             });
 
-            modelBuilder.Entity("TeachPlanner.Api.Domain.TermPlanners.TermPlan", b => {
+            modelBuilder.Entity("TeachPlanner.Shared.Domain.TermPlanners.TermPlan", b => {
                 b.Navigation("Subjects");
             });
 
-            modelBuilder.Entity("TeachPlanner.Api.Domain.TermPlanners.TermPlanner", b => {
+            modelBuilder.Entity("TeachPlanner.Shared.Domain.TermPlanners.TermPlanner", b => {
                 b.Navigation("TermPlans");
             });
 
-            modelBuilder.Entity("TeachPlanner.Api.Domain.WeekPlanners.WeekPlanner", b => {
+            modelBuilder.Entity("TeachPlanner.Shared.Domain.WeekPlanners.WeekPlanner", b => {
                 b.Navigation("DayPlans");
             });
 
-            modelBuilder.Entity("TeachPlanner.Api.Domain.YearDataRecords.YearData", b => {
+            modelBuilder.Entity("TeachPlanner.Shared.Domain.YearDataRecords.YearData", b => {
                 b.Navigation("LessonPlans");
 
                 b.Navigation("Students");

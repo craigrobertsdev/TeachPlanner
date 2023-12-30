@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using TeachPlanner.Blazor;
 using TeachPlanner.Blazor.Client.Pages;
 using TeachPlanner.Blazor.Components;
 using TeachPlanner.Blazor.Components.Account;
@@ -23,6 +24,8 @@ builder.Services.AddAuthentication(options => {
     options.DefaultSignInScheme = IdentityConstants.ExternalScheme;
 })
     .AddIdentityCookies();
+
+builder.Services.AddHttpClient();
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
@@ -60,5 +63,7 @@ app.MapRazorComponents<App>()
 
 // Add additional endpoints required by the Identity /Account Razor components.
 app.MapAdditionalIdentityEndpoints();
+
+app.MapApi();
 
 app.Run();

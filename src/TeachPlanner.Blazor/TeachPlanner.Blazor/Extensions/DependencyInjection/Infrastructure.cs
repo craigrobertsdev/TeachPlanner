@@ -2,16 +2,16 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using TeachPlanner.Blazor.Common.Interfaces.Authentication;
-using TeachPlanner.Blazor.Common.Interfaces.Curriculum;
-using TeachPlanner.Blazor.Common.Interfaces.Persistence;
-using TeachPlanner.Blazor.Common.Interfaces.Services;
-using TeachPlanner.Blazor.Database;
-using TeachPlanner.Blazor.Database.Repositories;
 using TeachPlanner.Blazor.Services;
 using TeachPlanner.Blazor.Services.Authentication;
 using TeachPlanner.Blazor.Services.CurriculumParser;
 using TeachPlanner.Blazor.Services.FileStorage;
+using TeachPlanner.Shared.Common.Interfaces.Authentication;
+using TeachPlanner.Shared.Common.Interfaces.Curriculum;
+using TeachPlanner.Shared.Common.Interfaces.Persistence;
+using TeachPlanner.Shared.Common.Interfaces.Services;
+using TeachPlanner.Shared.Database;
+using TeachPlanner.Shared.Database.Repositories;
 
 namespace TeachPlanner.Blazor.Extensions.DependencyInjection;
 

@@ -1,5 +1,5 @@
-using TeachPlanner.Api.Common.Exceptions;
-using TeachPlanner.Api.Domain.YearDataRecords.DomainEvents;
+using TeachPlanner.Shared.Common.Exceptions;
+using TeachPlanner.Shared.Domain.YearDataRecords.DomainEvents;
 using TeachPlanner.Shared.Domain.Common.Enums;
 using TeachPlanner.Shared.Domain.TermPlanners;
 using TeachPlanner.Shared.Domain.Common.Interfaces;

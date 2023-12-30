@@ -1,0 +1,50 @@
+﻿@page "/lesson-plan"
+
+@using TeachPlanner.Blazor.Client.Common
+@using TeachPlanner.Blazor.Client.Common.Interfaces
+@using TeachPlanner.Shared.Contracts.Curriculum
+@inject NavigationManager NavigationManager
+
+<section class="lesson-plan-container">
+    <div class="lesson-plan-header-bar">
+        <p class="subject-name bg-@(Helpers.CreateCssClass(SelectedSubject))">
+            <span>Subject: </span>
+            <select class="subject-select bg-@(Helpers.CreateCssClass(SelectedSubject))" @onchange="OnSubjectSelectionChange">
+                @foreach (var subject in Subjects) {
+                    <option value="@subject.Name">@subject.Name</option>
+                }
+            </select>
+        </p>
+
+        <p>@SelectedSubject</p>
+    </div>
+</section>
+
+@code {
+    [Inject]
+    public HttpClient Http { get; set; } = null!;
+    // public ILessonPlanService LessonPlanService { get; set; }
+    private string SelectedSubject { get; set; } = string.Empty;
+    private List<CurriculumSubjectDto> Subjects { get; set; } = new();
+
+    protected override async Task OnInitializedAsync() {
+        if (NavigationManager.Uri.Contains("create")) {
+            var response = await Http.GetFromJsonAsync< 
+        }
+        Subjects = new() {
+            new CurriculumSubjectDto("Mathematics", new List<YearLevelDto>()),
+            new CurriculumSubjectDto("Science", new List<YearLevelDto>()),
+            new CurriculumSubjectDto("English", new List<YearLevelDto>()),
+            new CurriculumSubjectDto("Humanities and Social Sciences", new List<YearLevelDto>()),
+            new CurriculumSubjectDto("Health and Physical Education", new List<YearLevelDto>()),
+        };
+
+        SelectedSubject = Subjects[0].Name;
+    }
+
+    private void OnSubjectSelectionChange(ChangeEventArgs e) {
+        if (e.Value is not null) {
+            SelectedSubject = e.Value.ToString();
+        }
+    }
+}

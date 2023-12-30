@@ -1,10 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using TeachPlanner.Api.Domain.WeekPlanners;
 using TeachPlanner.Shared.Domain.PlannerTemplates;
 using TeachPlanner.Shared.Domain.Teachers;
 
-namespace TeachPlanner.Blazor.Database.Configurations;
+namespace TeachPlanner.Shared.Database.Configurations;
 
 public class DayPlanTemplateConfiguration : IEntityTypeConfiguration<DayPlanTemplate> {
     public void Configure(EntityTypeBuilder<DayPlanTemplate> builder) {

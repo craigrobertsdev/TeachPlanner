@@ -1,14 +1,13 @@
 ﻿using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using TeachPlanner.Blazor.Common.Interfaces.Persistence;
 using TeachPlanner.Shared.Domain.Curriculum;
 using TeachPlanner.Shared.Domain.PlannerTemplates;
 using TeachPlanner.Shared.Domain.Teachers;
 using TeachPlanner.Shared.Contracts.Teachers.AccountSetup;
-using TeachPlanner.Blazor.Common.Exceptions;
-using TeachPlanner.Shared.Domain.PlannerTemplates;
 using TeachPlanner.Shared.Domain.Common.Enums;
+using TeachPlanner.Shared.Common.Interfaces.Persistence;
+using TeachPlanner.Shared.Common.Exceptions;
 
 namespace TeachPlanner.Blazor.Features.Teachers;
 

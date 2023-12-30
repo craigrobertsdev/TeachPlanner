@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using TeachPlanner.Api.Domain.Users;
+using TeachPlanner.Shared.Domain.Users;
 using TeachPlanner.Shared.Domain.Teachers;
 
 namespace TeachPlanner.Blazor.Data;

@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using TeachPlanner.Blazor.Common.Interfaces.Services;
-using TeachPlanner.Blazor.Database;
+using TeachPlanner.Shared.Common.Interfaces.Services;
+using TeachPlanner.Shared.Database;
 using TeachPlanner.Shared.Domain.PlannerTemplates;
 
 namespace TeachPlanner.Blazor.Services;

@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
-using TeachPlanner.Blazor.Common.Interfaces.Persistence;
-using TeachPlanner.Blazor.Database;
+using TeachPlanner.Shared.Common.Interfaces.Persistence;
+using TeachPlanner.Shared.Database;
 using TeachPlanner.Shared.Domain.Teachers;
 using TeachPlanner.Shared.Domain.YearDataRecords.DomainEvents;
 

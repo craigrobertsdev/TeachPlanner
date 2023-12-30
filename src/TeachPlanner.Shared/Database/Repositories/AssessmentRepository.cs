@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using TeachPlanner.Blazor.Common.Interfaces.Persistence;
-using TeachPlanner.Blazor.Database;
+using TeachPlanner.Shared.Common.Interfaces.Persistence;
+using TeachPlanner.Shared.Database;
 using TeachPlanner.Shared.Domain.Assessments;
 
-namespace TeachPlanner.Blazor.Database.Repositories;
+namespace TeachPlanner.Shared.Database.Repositories;
 
 public class AssessmentRepository : IAssessmentRepository {
     private readonly ApplicationDbContext _context;

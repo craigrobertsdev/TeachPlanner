@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace TeachPlanner.Api.Database.Migrations {
+namespace TeachPlanner.Shared.Database.Migrations {
     /// <inheritdoc />
     public partial class UpdatePlannerTemplate : Migration {
         /// <inheritdoc />

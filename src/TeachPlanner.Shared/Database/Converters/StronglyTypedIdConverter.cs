@@ -12,7 +12,7 @@ using TeachPlanner.Shared.Domain.WeekPlanners;
 using TeachPlanner.Shared.Domain.YearDataRecords;
 using TeachPlanner.Shared.Domain.Curriculum;
 
-namespace TeachPlanner.Blazor.Database.Converters;
+namespace TeachPlanner.Shared.Database.Converters;
 
 public static class StronglyTypedIdConverter {
     public class AssessmentIdConverter : ValueConverter<AssessmentId, Guid> {

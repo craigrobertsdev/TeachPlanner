@@ -1,4 +1,4 @@
-﻿namespace TeachPlanner.Blazor.Database;
+﻿namespace TeachPlanner.Shared.Database;
 
 public class DbContextSettings {
     public const string SectionName = "ConnectionStrings";

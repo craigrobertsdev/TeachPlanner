@@ -1,13 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using TeachPlanner.Blazor.Database.Converters;
 using TeachPlanner.Shared.Domain.Curriculum;
 using TeachPlanner.Shared.Domain.LessonPlans;
 using TeachPlanner.Shared.Domain.Teachers;
 using TeachPlanner.Shared.Domain.YearDataRecords;
-using TeachPlanner.Shared.Domain.LessonPlans;
+using TeachPlanner.Shared.Database.Converters;
 
-namespace TeachPlanner.Blazor.Database.Configurations;
+namespace TeachPlanner.Shared.Database.Configurations;
 
 public class LessonPlanConfiguration : IEntityTypeConfiguration<LessonPlan> {
     public void Configure(EntityTypeBuilder<LessonPlan> builder) {

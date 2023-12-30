@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using TeachPlanner.Blazor.Database;
+using TeachPlanner.Shared.Database;
 using TeachPlanner.Shared.Domain.TermPlanners;
 
-namespace TeachPlanner.Blazor.Database.QueryExtensions;
+namespace TeachPlanner.Shared.Database.QueryExtensions;
 
 public static class TermPlannerQueries {
     public static async Task<TermPlanner?> GetTermPlannerById(this ApplicationDbContext context,

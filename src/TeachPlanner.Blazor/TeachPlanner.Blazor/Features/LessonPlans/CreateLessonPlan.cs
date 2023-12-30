@@ -1,14 +1,13 @@
 ﻿using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using TeachPlanner.Api.Common.Exceptions;
-using TeachPlanner.Blazor.Common.Interfaces.Persistence;
+using TeachPlanner.Shared.Common.Exceptions;
 using TeachPlanner.Shared.Domain.Assessments;
 using TeachPlanner.Shared.Domain.LessonPlans;
 using TeachPlanner.Shared.Domain.Teachers;
 using TeachPlanner.Shared.Contracts.LessonPlans.CreateLessonPlan;
 using TeachPlanner.Shared.Domain.Curriculum;
-using TeachPlanner.Shared.Domain.LessonPlans;
+using TeachPlanner.Shared.Common.Interfaces.Persistence;
 
 namespace TeachPlanner.Blazor.Features.LessonPlans;
 

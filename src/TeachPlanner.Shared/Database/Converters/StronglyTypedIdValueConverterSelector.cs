@@ -1,7 +1,7 @@
 ﻿using System.Collections.Concurrent;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace TeachPlanner.Blazor.Database.Converters;
+namespace TeachPlanner.Shared.Database.Converters;
 
 // Taken from https://andrewlock.net/strongly-typed-ids-in-ef-core-using-strongly-typed-entity-ids-to-avoid-primitive-obsession-part-4/#creating-a-custom-valueconverterselector-for-strongly-typed-ids
 public class StronglyTypedIdValueConverterSelector : ValueConverterSelector {

@@ -1,12 +1,10 @@
 ﻿using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
-using TeachPlanner.Api.Common.Exceptions;
-using TeachPlanner.Blazor.Common.Interfaces.Persistence;
-using TeachPlanner.Blazor.Database;
-using TeachPlanner.Shared.Domain.Curriculum;
+using TeachPlanner.Shared.Common.Exceptions;
+using TeachPlanner.Shared.Common.Interfaces.Persistence;
 using TeachPlanner.Shared.Domain.Curriculum;
 
-namespace TeachPlanner.Blazor.Database.Repositories;
+namespace TeachPlanner.Shared.Database.Repositories;
 
 public class SubjectRepository : ISubjectRepository {
     private readonly ApplicationDbContext _context;

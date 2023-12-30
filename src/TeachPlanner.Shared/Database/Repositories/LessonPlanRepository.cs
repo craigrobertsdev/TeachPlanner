@@ -1,10 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using TeachPlanner.Blazor.Common.Interfaces.Persistence;
-using TeachPlanner.Blazor.Database;
+using TeachPlanner.Shared.Common.Interfaces.Persistence;
+using TeachPlanner.Shared.Database;
 using TeachPlanner.Shared.Domain.LessonPlans;
 using TeachPlanner.Shared.Domain.YearDataRecords;
 
-namespace TeachPlanner.Blazor.Database.Repositories;
+namespace TeachPlanner.Shared.Database.Repositories;
 
 public class LessonPlanRepository : ILessonPlanRepository {
     private readonly ApplicationDbContext _context;

@@ -1,4 +1,4 @@
-﻿using TeachPlanner.Api.Domain.Teachers.DomainEvents;
+﻿using TeachPlanner.Shared.Domain.Teachers.DomainEvents;
 using TeachPlanner.Shared.Domain.Assessments;
 using TeachPlanner.Shared.Domain.Common.Interfaces;
 using TeachPlanner.Shared.Domain.Common.Primatives;

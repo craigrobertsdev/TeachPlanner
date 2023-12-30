@@ -1,11 +1,9 @@
 ﻿using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
-using TeachPlanner.Api.Common.Exceptions;
-using TeachPlanner.Blazor.Database;
-using TeachPlanner.Shared.Domain.Curriculum;
+using TeachPlanner.Shared.Common.Exceptions;
 using TeachPlanner.Shared.Domain.Curriculum;
 
-namespace TeachPlanner.Blazor.Database.QueryExtensions;
+namespace TeachPlanner.Shared.Database.QueryExtensions;
 
 public static class SubjectQueries {
     public static async Task<List<CurriculumSubject>> GetCurriculumSubjects(

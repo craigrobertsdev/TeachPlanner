@@ -1,12 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using TeachPlanner.Api.Common.Exceptions;
-using TeachPlanner.Api.Domain.Teachers;
-using TeachPlanner.Blazor.Common.Interfaces.Persistence;
-using TeachPlanner.Blazor.Database;
+using TeachPlanner.Shared.Common.Exceptions;
+using TeachPlanner.Shared.Domain.Teachers;
+using TeachPlanner.Shared.Common.Interfaces.Persistence;
+using TeachPlanner.Shared.Database;
 using TeachPlanner.Shared.Domain.TermPlanners;
 using TeachPlanner.Shared.Domain.YearDataRecords;
 
-namespace TeachPlanner.Blazor.Database.Repositories;
+namespace TeachPlanner.Shared.Database.Repositories;
 
 public class TermPlannerRepository : ITermPlannerRepository {
     private readonly ApplicationDbContext _context;

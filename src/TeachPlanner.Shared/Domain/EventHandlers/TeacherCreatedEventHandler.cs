@@ -1,6 +1,6 @@
 ﻿using MediatR;
-using TeachPlanner.Blazor.Common.Interfaces.Persistence;
-using TeachPlanner.Blazor.Database;
+using TeachPlanner.Shared.Common.Interfaces.Persistence;
+using TeachPlanner.Shared.Database;
 using TeachPlanner.Shared.Domain.PlannerTemplates;
 using TeachPlanner.Shared.Domain.Teachers.DomainEvents;
 using TeachPlanner.Shared.Domain.YearDataRecords;

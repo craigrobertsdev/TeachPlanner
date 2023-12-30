@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel;
-using TeachPlanner.Blazor.Common.Interfaces.Services;
-using TeachPlanner.Blazor.Database;
+using TeachPlanner.Shared.Common.Interfaces.Services;
+using TeachPlanner.Shared.Database;
 using TeachPlanner.Shared.Domain.Curriculum;
 
 namespace TeachPlanner.Blazor.Services;

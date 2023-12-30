@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using TeachPlanner.Blazor.Database;
+using TeachPlanner.Shared.Database;
 using TeachPlanner.Shared.Domain.Teachers;
 using TeachPlanner.Shared.Domain.YearDataRecords;
 
-namespace TeachPlanner.Blazor.Database.QueryExtensions;
+namespace TeachPlanner.Shared.Database.QueryExtensions;
 
 public static class YearDataQueries {
     public static async Task<YearData?> GetYearData(this ApplicationDbContext context, TeacherId teacherId,

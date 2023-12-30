@@ -1,12 +1,9 @@
-﻿using System.CodeDom;
-using Microsoft.EntityFrameworkCore;
-using TeachPlanner.Blazor.Common.Interfaces.Persistence;
-using TeachPlanner.Blazor.Database;
-using TeachPlanner.Shared.Enums;
+﻿using Microsoft.EntityFrameworkCore;
+using TeachPlanner.Shared.Domain.Common.Enums;
 using TeachPlanner.Shared.Domain.Curriculum;
-using TeachPlanner.Shared.Domain.Curriculum;
+using TeachPlanner.Shared.Common.Interfaces.Persistence;
 
-namespace TeachPlanner.Blazor.Database.Repositories;
+namespace TeachPlanner.Shared.Database.Repositories;
 
 public class CurriculumRepository : ICurriculumRepository {
     private readonly ApplicationDbContext _context;

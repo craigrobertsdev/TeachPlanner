@@ -1,12 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using TeachPlanner.Blazor.Common.Interfaces.Persistence;
-using TeachPlanner.Blazor.Database;
-using TeachPlanner.Shared.Enums;
+using TeachPlanner.Shared.Domain.Common.Enums;
 using TeachPlanner.Shared.Domain.PlannerTemplates;
 using TeachPlanner.Shared.Domain.Teachers;
 using TeachPlanner.Shared.Domain.YearDataRecords;
+using TeachPlanner.Shared.Common.Interfaces.Persistence;
 
-namespace TeachPlanner.Blazor.Database.Repositories;
+namespace TeachPlanner.Shared.Database.Repositories;
 
 public class YearDataRepository : IYearDataRepository {
     private readonly ApplicationDbContext _context;

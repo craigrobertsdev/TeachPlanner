@@ -2,7 +2,7 @@
 using System.Security.Claims;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
-using TeachPlanner.Blazor.Common.Interfaces.Authentication;
+using TeachPlanner.Shared.Common.Interfaces.Authentication;
 using TeachPlanner.Shared.Domain.Teachers;
 
 namespace TeachPlanner.Blazor.Services.Authentication;

@@ -1,11 +1,11 @@
 using Microsoft.EntityFrameworkCore;
-using TeachPlanner.Api.Domain.PlannerTemplates;
-using TeachPlanner.Api.Domain.Teachers;
-using TeachPlanner.Blazor.Common.Interfaces.Persistence;
-using TeachPlanner.Blazor.Database;
+using TeachPlanner.Shared.Domain.PlannerTemplates;
+using TeachPlanner.Shared.Domain.Teachers;
+using TeachPlanner.Shared.Common.Interfaces.Persistence;
+using TeachPlanner.Shared.Database;
 using TeachPlanner.Shared.Domain.WeekPlanners;
 
-namespace TeachPlanner.Blazor.Database.Repositories;
+namespace TeachPlanner.Shared.Database.Repositories;
 
 public class WeekPlannerRepository : IWeekPlannerRepository {
     private readonly ApplicationDbContext _context;
