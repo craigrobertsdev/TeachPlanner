@@ -18,4 +18,8 @@
     <ProjectReference Include="..\..\TeachPlanner.Shared\TeachPlanner.Shared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Components\" />
+  </ItemGroup>
+
 </Project>

@@ -273,17 +273,15 @@ function LessonPlan() {
               </div>
               {/* Content descriptions */}
               <dialog ref={addContentDescriptionsDialog} className="p-3 text-lg border border-darkGreen h-80% max-w-xl">
-                {
-                  <AddContentDescriptionDialogContent
-                    dialogRef={addContentDescriptionsDialog}
-                    initialSelectedContentDescriptions={contentDescriptions}
-                    setContentDescriptions={setContentDescriptions}
-                    availableContentDescriptions={subjects
-                      .find((s) => s.name === currentSubject)!
-                      .yearLevels.map((yl) => yl.contentDescriptions)
-                      .flat()}
-                  />
-                }
+                <AddContentDescriptionDialogContent
+                  dialogRef={addContentDescriptionsDialog}
+                  initialSelectedContentDescriptions={contentDescriptions}
+                  setContentDescriptions={setContentDescriptions}
+                  availableContentDescriptions={subjects
+                    .find((s) => s.name === currentSubject)!
+                    .yearLevels.map((yl) => yl.contentDescriptions)
+                    .flat()}
+                />
               </dialog>
               <div className="flex flex-col items-center w-full flex-grow h-1/2">
                 <div className="flex w-full items-center justify-between px-2 py-1">

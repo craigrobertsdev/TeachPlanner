@@ -15,36 +15,7 @@
                 }
             </select>
         </p>
-
-        <p>@SelectedSubject</p>
+        <p class="header-paragraph">Start Time: @(Helpers.GetTimeFromString(LessonPlan.StartTime))</p>
     </div>
 </section>
 
-@code {
-    [Inject]
-    public HttpClient Http { get; set; } = null!;
-    // public ILessonPlanService LessonPlanService { get; set; }
-    private string SelectedSubject { get; set; } = string.Empty;
-    private List<CurriculumSubjectDto> Subjects { get; set; } = new();
-
-    protected override async Task OnInitializedAsync() {
-        if (NavigationManager.Uri.Contains("create")) {
-            // var response = await Http.GetFromJsonAsync< 
-        }
-        Subjects = new() {
-            new CurriculumSubjectDto("Mathematics", new List<YearLevelDto>()),
-            new CurriculumSubjectDto("Science", new List<YearLevelDto>()),
-            new CurriculumSubjectDto("English", new List<YearLevelDto>()),
-            new CurriculumSubjectDto("Humanities and Social Sciences", new List<YearLevelDto>()),
-            new CurriculumSubjectDto("Health and Physical Education", new List<YearLevelDto>()),
-        };
-
-        SelectedSubject = Subjects[0].Name;
-    }
-
-    private void OnSubjectSelectionChange(ChangeEventArgs e) {
-        if (e.Value is not null) {
-            SelectedSubject = e.Value.ToString();
-        }
-    }
-}
