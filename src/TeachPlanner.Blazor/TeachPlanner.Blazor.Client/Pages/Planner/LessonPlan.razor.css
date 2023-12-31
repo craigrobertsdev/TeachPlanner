@@ -1,7 +1,19 @@
 ﻿.bg-mathematics {
-    background-color: blue;
+    background-color: var(--mathematics-color);
 }
 
 .bg-science { 
-    background-color: green;
+    background-color: var(--science-color);
+}
+
+.bg-english {
+    background-color: var(--english-color);
+}
+
+.bg-humanitiesAndSocialSciences {
+    background-color: var(--hass-color);
+}
+
+.bg-healthAndPhysicalEducation {
+    background-color: var(--health-and-pe-color);
 }
