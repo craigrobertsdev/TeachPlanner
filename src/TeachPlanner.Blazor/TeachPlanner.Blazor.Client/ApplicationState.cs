@@ -2,9 +2,9 @@
 
 namespace TeachPlanner.Blazor.Client;
 
-public class StateContainer {
-    private TeacherId _teacherId = null!;
-    public TeacherId TeacherId {
+public class ApplicationState {
+    private TeacherId? _teacherId;
+    public TeacherId? TeacherId {
         get => _teacherId;
         set {
             _teacherId = value;

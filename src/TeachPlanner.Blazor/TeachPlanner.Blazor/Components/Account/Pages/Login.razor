@@ -3,12 +3,16 @@
 @using System.ComponentModel.DataAnnotations
 @using Microsoft.AspNetCore.Authentication
 @using Microsoft.AspNetCore.Identity
+@using TeachPlanner.Shared.Common.Interfaces.Persistence
 @using TeachPlanner.Shared.Domain.Users
 
 @inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
 @inject ILogger<Login> Logger
 @inject NavigationManager NavigationManager
 @inject IdentityRedirectManager RedirectManager
+@inject ITeacherRepository TeacherRepository
+@inject IJSRuntime JSRuntime
 
 <PageTitle>Log in</PageTitle>
 
@@ -74,7 +78,7 @@
     private InputModel Input { get; set; } = new();
 
     [SupplyParameterFromQuery]
-    private string? ReturnUrl { get; set; }
+    private string? ReturnUrl { get; set; } = "/lesson-plan";
 
     protected override async Task OnInitializedAsync()
     {
@@ -93,7 +97,7 @@
         if (result.Succeeded)
         {
             Logger.LogInformation("User logged in.");
-            RedirectManager.RedirectTo(ReturnUrl);
+            RedirectManager.RedirectTo(ReturnUrl ?? "/week-planner");
         }
         else if (result.RequiresTwoFactor)
         {

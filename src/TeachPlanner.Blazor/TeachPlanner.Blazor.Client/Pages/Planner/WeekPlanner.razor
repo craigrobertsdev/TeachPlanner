@@ -1,0 +1,30 @@
+﻿@page "/week-planner"
+@rendermode InteractiveWebAssembly
+
+@using System.Diagnostics
+@using System.Security.Claims
+@using TeachPlanner.Shared.Common.Interfaces.Services
+@using TeachPlanner.Shared.Domain.Teachers
+
+@inject IJSRuntime JSRuntime
+@inject ApplicationState AppState
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject ITeacherService TeacherService
+
+<div>Hello</div>
+<p>@AppState.TeacherId</p>
+
+@code {
+    protected override async Task OnInitializedAsync() {
+        if (AppState.TeacherId == null) {
+            var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            var userId = authState.User.Claims.First(c => c.Type == ClaimTypes.NameIdentifier).Value;
+            var teacherId = await TeacherService.GetTeacherId(userId, new CancellationToken());
+
+            if (teacherId is not null) {
+                AppState.TeacherId = new TeacherId((Guid)teacherId);
+            }
+
+        }
+    }
+}

@@ -1,3 +1,5 @@
+using TeachPlanner.Shared.Domain.Teachers;
+
 namespace TeachPlanner.Blazor.Client;
 
 // Add properties to this class and update the server and client AuthenticationStateProviders

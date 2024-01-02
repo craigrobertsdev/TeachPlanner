@@ -8,6 +8,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\LocalStorage.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\js\LocalStorage.js" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\TeachPlanner.Shared\TeachPlanner.Shared.csproj" />
     <ProjectReference Include="..\TeachPlanner.Blazor.Client\TeachPlanner.Blazor.Client.csproj" />
     <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />

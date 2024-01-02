@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Authorization;
 using System.Net.Http.Json;
 using TeachPlanner.Shared.Contracts.Curriculum;
 using TeachPlanner.Shared.Contracts.LessonPlans;
@@ -6,9 +7,13 @@ using TeachPlanner.Shared.Contracts.LessonPlans;
 namespace TeachPlanner.Blazor.Client.Pages.Planner;
 
 public partial class LessonPlan {
+    [Inject]
+    ApplicationState AppState { get; set; } = null!;
 
     [Inject]
-    private StateContainer appState { get; set; } = null!;
+    private NavigationManager NavigationManager { get; set; } = null!;
+    [Inject]
+    private AuthenticationStateProvider AuthenticationStateProvider { get; set; } = null!;
     public HttpClient Http { get; set; } = null!;
     // public ILessonPlanService LessonPlanService { get; set; }
     private string SelectedSubject { get; set; } = string.Empty;
@@ -16,7 +21,7 @@ public partial class LessonPlan {
 
     protected override async Task OnInitializedAsync() {
         if (NavigationManager.Uri.Contains("create")) {
-            var response = await Http.GetFromJsonAsync<GetLessonPlanDataResponse>($"/api/{appState.TeacherId.Value.ToString()}/lesson-plans/data");
+            var response = await Http.GetFromJsonAsync<GetLessonPlanDataResponse>($"/api/{AppState.TeacherId?.Value.ToString()}/lesson-plans/data");
         }
         Subjects = new() {
             new CurriculumSubjectDto("Mathematics", new List<YearLevelDto>()),
@@ -27,6 +32,8 @@ public partial class LessonPlan {
         };
 
         SelectedSubject = Subjects[0].Name;
+
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
     }
 
     private void OnSubjectSelectionChange(ChangeEventArgs e) {

@@ -16,6 +16,7 @@ public static class RouteMapper {
 
         noAuthGroup
             //.MapAuth()
+            .MapUser()
             .MapServices();
 
         authReqGroup
@@ -94,6 +95,12 @@ public static class RouteMapper {
         var termPlannerGroup = group.MapGroup("/term-planners");
         termPlannerGroup.MapPost("/", CreateTermPlanner.Delegate);
         termPlannerGroup.MapGet("/", GetTermPlanner.Delegate);
+        return group;
+    }
+
+    private static RouteGroupBuilder MapUser(this RouteGroupBuilder group) {
+        var userGroup = group.MapGroup("/user");
+        userGroup.MapGet("{userId}/teacher-id", GetTeacherId.Delegate);
         return group;
     }
 

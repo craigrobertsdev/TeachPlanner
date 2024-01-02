@@ -1,9 +1,9 @@
 ﻿@page "/lesson-plan"
+@rendermode InteractiveAuto
 
 @using TeachPlanner.Blazor.Client.Common
 @using TeachPlanner.Blazor.Client.Common.Interfaces
 @using TeachPlanner.Shared.Contracts.Curriculum
-@inject NavigationManager NavigationManager
 
 <section class="lesson-plan-container">
     <div class="lesson-plan-header-bar">
@@ -15,7 +15,7 @@
                 }
             </select>
         </p>
-        <p class="header-paragraph">Start Time: @(Helpers.GetTimeFromString(LessonPlan.StartTime))</p>
-    </div>
+@*         <p class="header-paragraph">Start Time: @(Helpers.GetTimeFromString(LessonPlan.StartTime))</p>
+ *@    </div>
 </section>
 

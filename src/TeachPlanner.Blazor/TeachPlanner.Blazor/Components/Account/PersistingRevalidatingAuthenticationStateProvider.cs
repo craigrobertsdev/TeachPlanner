@@ -7,7 +7,7 @@ using Microsoft.Extensions.Options;
 using System.Diagnostics;
 using System.Security.Claims;
 using TeachPlanner.Blazor.Client;
-using TeachPlanner.Shared;
+using TeachPlanner.Shared.Domain.Teachers;
 using TeachPlanner.Shared.Domain.Users;
 
 namespace TeachPlanner.Blazor.Components.Account;
@@ -80,7 +80,7 @@ internal sealed class PersistingRevalidatingAuthenticationStateProvider : Revali
                 state.PersistAsJson(nameof(UserInfo), new UserInfo {
                     UserId = userId,
                     Email = email,
-                });
+                }) ;
             }
         }
     }

@@ -1,12 +1,14 @@
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Syncfusion.Licensing;
 using TeachPlanner.Blazor;
+using TeachPlanner.Blazor.Client;
 using TeachPlanner.Blazor.Client.Pages;
+using TeachPlanner.Blazor.Services.Data;
 using TeachPlanner.Blazor.Components;
 using TeachPlanner.Blazor.Components.Account;
 using TeachPlanner.Blazor.Extensions.DependencyInjection;
+using TeachPlanner.Shared.Common.Interfaces.Services;
 using TeachPlanner.Shared.Database;
 using TeachPlanner.Shared.Domain.Users;
 
@@ -27,6 +29,8 @@ builder.Services.AddCascadingAuthenticationState();
 builder.Services.AddScoped<IdentityUserAccessor>();
 builder.Services.AddScoped<IdentityRedirectManager>();
 builder.Services.AddScoped<AuthenticationStateProvider, PersistingRevalidatingAuthenticationStateProvider>();
+builder.Services.AddScoped<ITeacherService, TeacherService>();
+builder.Services.AddScoped<ApplicationState>();
 
 builder.Services.AddAuthentication(options => {
     options.DefaultScheme = IdentityConstants.ApplicationScheme;
@@ -34,11 +38,6 @@ builder.Services.AddAuthentication(options => {
 })
     .AddIdentityCookies();
 
-builder.Services.AddHttpClient();
-
-//var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
-//builder.Services.AddDbContext<ApplicationDbContext>(options =>
-//    options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddIdentityCore<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
