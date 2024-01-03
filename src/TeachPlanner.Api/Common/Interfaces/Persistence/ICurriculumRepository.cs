@@ -1,4 +1,4 @@
-﻿using TeachPlanner.Api.Domain.Common.Enums;
+﻿using TeachPlanner.Shared.Domain.Common.Enums;
 using TeachPlanner.Api.Domain.CurriculumSubjects;
 
 namespace TeachPlanner.Api.Common.Interfaces.Persistence;

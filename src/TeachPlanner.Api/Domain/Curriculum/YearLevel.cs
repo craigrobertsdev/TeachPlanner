@@ -1,4 +1,4 @@
-using TeachPlanner.Api.Domain.Common.Enums;
+using TeachPlanner.Shared.Domain.Common.Enums;
 
 namespace TeachPlanner.Api.Domain.CurriculumSubjects;
 
@@ -28,11 +28,11 @@ public record YearLevel {
     public string Name {
         get {
             if (YearLevelValue != null)
-                return YearLevelValue == Common.Enums.YearLevelValue.Foundation
+                return this.YearLevelValue == Shared.Domain.Common.Enums.YearLevelValue.Foundation
                     ? "Foundation"
                     : YearLevelValue.ToString()!.Insert(4, " ");
             // Convert Years1And2 to "Years 1 and 2"
-            return BandLevelValue == Common.Enums.BandLevelValue.Foundation
+            return BandLevelValue == Shared.Domain.Common.Enums.BandLevelValue.Foundation
                 ? "Foundation"
                 : BandLevelValue.ToString()!.Insert(5, " ").Insert(7, " ").Insert(10, " ");
         }
@@ -49,10 +49,10 @@ public record YearLevel {
         }
 
         return BandLevelValue switch {
-            Common.Enums.BandLevelValue.Foundation => new[] { Common.Enums.YearLevelValue.Foundation },
-            Common.Enums.BandLevelValue.Years1To2 => new[] { Common.Enums.YearLevelValue.Year1, Common.Enums.YearLevelValue.Year2 },
-            Common.Enums.BandLevelValue.Years3To4 => new[] { Common.Enums.YearLevelValue.Year3, Common.Enums.YearLevelValue.Year4 },
-            Common.Enums.BandLevelValue.Years5To6 => new[] { Common.Enums.YearLevelValue.Year5, Common.Enums.YearLevelValue.Year6 },
+            Shared.Domain.Common.Enums.BandLevelValue.Foundation => new[] { Shared.Domain.Common.Enums.YearLevelValue.Foundation },
+            Shared.Domain.Common.Enums.BandLevelValue.Years1To2 => new[] { Shared.Domain.Common.Enums.YearLevelValue.Year1, Shared.Domain.Common.Enums.YearLevelValue.Year2 },
+            Shared.Domain.Common.Enums.BandLevelValue.Years3To4 => new[] { Shared.Domain.Common.Enums.YearLevelValue.Year3, Shared.Domain.Common.Enums.YearLevelValue.Year4 },
+            Shared.Domain.Common.Enums.BandLevelValue.Years5To6 => new[] { Shared.Domain.Common.Enums.YearLevelValue.Year5, Shared.Domain.Common.Enums.YearLevelValue.Year6 },
             _ => throw new ArgumentOutOfRangeException()
         };
     }
@@ -80,20 +80,20 @@ public record YearLevel {
         }
 
         switch (BandLevelValue) {
-            case Common.Enums.BandLevelValue.Foundation:
-                yearLevels.Add(Common.Enums.YearLevelValue.Foundation);
+            case Shared.Domain.Common.Enums.BandLevelValue.Foundation:
+                yearLevels.Add(Shared.Domain.Common.Enums.YearLevelValue.Foundation);
                 break;
-            case Common.Enums.BandLevelValue.Years1To2:
-                yearLevels.Add(Common.Enums.YearLevelValue.Year1);
-                yearLevels.Add(Common.Enums.YearLevelValue.Year2);
+            case Shared.Domain.Common.Enums.BandLevelValue.Years1To2:
+                yearLevels.Add(Shared.Domain.Common.Enums.YearLevelValue.Year1);
+                yearLevels.Add(Shared.Domain.Common.Enums.YearLevelValue.Year2);
                 break;
-            case Common.Enums.BandLevelValue.Years3To4:
-                yearLevels.Add(Common.Enums.YearLevelValue.Year3);
-                yearLevels.Add(Common.Enums.YearLevelValue.Year4);
+            case Shared.Domain.Common.Enums.BandLevelValue.Years3To4:
+                yearLevels.Add(Shared.Domain.Common.Enums.YearLevelValue.Year3);
+                yearLevels.Add(Shared.Domain.Common.Enums.YearLevelValue.Year4);
                 break;
-            case Common.Enums.BandLevelValue.Years5To6:
-                yearLevels.Add(Common.Enums.YearLevelValue.Year5);
-                yearLevels.Add(Common.Enums.YearLevelValue.Year6);
+            case Shared.Domain.Common.Enums.BandLevelValue.Years5To6:
+                yearLevels.Add(Shared.Domain.Common.Enums.YearLevelValue.Year5);
+                yearLevels.Add(Shared.Domain.Common.Enums.YearLevelValue.Year6);
                 break;
             default:
                 throw new ArgumentOutOfRangeException();

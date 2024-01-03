@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TeachPlanner.Api.Common.Interfaces.Persistence;
-using TeachPlanner.Api.Domain.Common.Enums;
+using TeachPlanner.Shared.Domain.Common.Enums;
 using TeachPlanner.Api.Domain.PlannerTemplates;
 using TeachPlanner.Api.Domain.Teachers;
 using TeachPlanner.Api.Domain.YearDataRecords;

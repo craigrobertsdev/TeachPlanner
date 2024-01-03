@@ -1,5 +1,5 @@
 using TeachPlanner.Api.Common.Exceptions;
-using TeachPlanner.Api.Domain.Common.Enums;
+using TeachPlanner.Shared.Domain.Common.Enums;
 using TeachPlanner.Api.Domain.Common.Interfaces;
 using TeachPlanner.Api.Domain.Common.Primatives;
 using TeachPlanner.Api.Domain.CurriculumSubjects;

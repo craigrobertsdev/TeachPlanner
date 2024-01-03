@@ -1,5 +1,5 @@
 ﻿using TeachPlanner.Api.Contracts.Subjects;
-using TeachPlanner.Api.Domain.Common.Enums;
+using TeachPlanner.Shared.Domain.Common.Enums;
 using TeachPlanner.Api.Domain.TermPlanners;
 
 namespace TeachPlanner.Api.Contracts.TermPlanners;

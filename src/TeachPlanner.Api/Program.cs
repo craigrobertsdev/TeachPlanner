@@ -8,6 +8,9 @@ var builder = WebApplication.CreateBuilder(args);
 var syncfusionLicenceKey = builder.Configuration["Syncfusion:LicenseKey"];
 SyncfusionLicenseProvider.RegisterLicense(syncfusionLicenceKey);
 
+builder.Services.AddControllersWithViews();
+builder.Services.AddRazorPages();
+
 builder.Services
     .AddInfrastructure(builder.Configuration)
     .AddApplication();
@@ -54,11 +57,12 @@ builder.Services.AddCors(opts => {
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment()) {
+    app.UseSwagger();
+    app.UseSwaggerUI();
+    app.UseDeveloperExceptionPage();
     app.UseWebAssemblyDebugging();
 }
 
-app.UseSwagger();
-app.UseSwaggerUI();
 
 // enable cors
 app.UseCors(builder => builder
@@ -66,9 +70,16 @@ app.UseCors(builder => builder
     .AllowAnyMethod()
     .AllowAnyHeader());
 
-// app.UseHttpsRedirection();
+app.UseHttpsRedirection();
+app.UseBlazorFrameworkFiles();
+app.UseStaticFiles();
+app.UseRouting();
+
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.MapRazorPages();
+app.MapFallbackToFile("index.html");
 
 app.MapApi();
 

@@ -1,5 +1,5 @@
 ﻿using TeachPlanner.Api.Domain.Assessments;
-using TeachPlanner.Api.Domain.Common.Enums;
+using TeachPlanner.Shared.Domain.Common.Enums;
 
 namespace TeachPlanner.Api.Contracts.Assessments;
 

@@ -1,6 +1,6 @@
 ﻿using TeachPlanner.Api.Contracts.LessonPlans;
 using TeachPlanner.Api.Contracts.TermPlanners;
-using TeachPlanner.Api.Domain.Common.Enums;
+using TeachPlanner.Shared.Domain.Common.Enums;
 using TeachPlanner.Api.Domain.LessonPlans;
 using TeachPlanner.Api.Domain.Students;
 using TeachPlanner.Api.Domain.TermPlanners;

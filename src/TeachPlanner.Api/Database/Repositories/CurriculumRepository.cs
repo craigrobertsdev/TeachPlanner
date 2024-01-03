@@ -1,7 +1,7 @@
 ﻿using System.CodeDom;
 using Microsoft.EntityFrameworkCore;
 using TeachPlanner.Api.Common.Interfaces.Persistence;
-using TeachPlanner.Api.Domain.Common.Enums;
+using TeachPlanner.Shared.Domain.Common.Enums;
 using TeachPlanner.Api.Domain.CurriculumSubjects;
 
 namespace TeachPlanner.Api.Database.Repositories;

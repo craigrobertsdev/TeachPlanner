@@ -2,7 +2,7 @@
 using TeachPlanner.Api.Contracts.Subjects;
 using TeachPlanner.Api.Contracts.TermPlanners;
 using TeachPlanner.Api.Contracts.WeekPlanners;
-using TeachPlanner.Api.Domain.Common.Enums;
+using TeachPlanner.Shared.Domain.Common.Enums;
 using TeachPlanner.Api.Domain.YearDataRecords;
 
 namespace TeachPlanner.Api.Contracts.YearData;
