@@ -2,6 +2,11 @@ using Microsoft.OpenApi.Models;
 using Syncfusion.Licensing;
 using TeachPlanner.Api;
 using TeachPlanner.Api.Extensions.DependencyInjection;
+using TeachPlanner.Shared.Contracts.Authentication;
+using TeachPlanner.Shared.Contracts.Teachers;
+using TeachPlanner.Shared.Database;
+using TeachPlanner.Shared.Domain.Teachers;
+using TeachPlanner.Shared.Domain.Users;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,7 +21,8 @@ builder.Services
     .AddApplication();
 
 builder.Services.AddAuthorization();
-
+builder.Services.AddIdentityApiEndpoints<ApplicationUser>()
+    .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddRazorPages();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -63,6 +69,7 @@ if (app.Environment.IsDevelopment()) {
     app.UseWebAssemblyDebugging();
 }
 
+app.MapIdentityApi<ApplicationUser>();
 
 // enable cors
 app.UseCors(builder => builder

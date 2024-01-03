@@ -1,9 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using System.Text.Json.Serialization;
+using TeachPlanner.Shared.Contracts;
+using TeachPlanner.Shared.Domain.Common.Interfaces;
 
 namespace TeachPlanner.Shared.Domain.YearDataRecords;
 
-public record YearDataId {
-    public Guid Value;
+[JsonConverter(typeof(StronglyTypedIdJsonConverter<YearDataId>))]
+public record YearDataId : IStronglyTypedId {
+    public Guid Value { get; set; }
 
     public YearDataId(Guid value) {
         Value = value;
