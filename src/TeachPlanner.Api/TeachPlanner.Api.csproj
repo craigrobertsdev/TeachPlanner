@@ -13,6 +13,7 @@
         <PackageReference Include="Mapster.DependencyInjection" Version="1.0.0" />
         <PackageReference Include="MediatR" Version="12.1.1" />
         <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.12" />
+        <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Server" Version="8.0.0" />
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.12" />
         <PackageReference Include="Microsoft.AspNetCore.SpaServices.Extensions" Version="7.0.12" />
         <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.12" />
@@ -42,5 +43,10 @@
     <ItemGroup>
       <Folder Include="Database\Migrations\" />
       <Folder Include="Domain\PlannerTemplates\DomainEvents\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\BlazorClient\TeachPlanner.BlazorClient\TeachPlanner.BlazorClient.csproj" />
+      <ProjectReference Include="..\TeachPlanner.Shared\TeachPlanner.Shared.csproj" />
     </ItemGroup>
 </Project>

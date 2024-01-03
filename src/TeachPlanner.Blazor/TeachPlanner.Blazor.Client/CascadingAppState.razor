@@ -1,0 +1,29 @@
+﻿@using TeachPlanner.Shared.Domain.Teachers
+
+@inject IJSRuntime JSRuntime
+
+<CascadingValue Value="this">
+    @ChildContent
+</CascadingValue>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    private bool _isDirty;
+    public TeacherId? TeacherId { get; set; } = default!;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender) {
+        await base.OnAfterRenderAsync(firstRender);
+
+        if (firstRender) {
+            await LoadStateFromLocalStorage();
+        }
+    }
+
+    private async Task LoadStateFromLocalStorage() {
+        var teacherId = await JSRuntime.InvokeAsync<string>("loadStateFromLocalStorage");
+
+        if (teacherId is not null) {
+            TeacherId = new TeacherId(Guid.Parse(teacherId));
+        }
+    }
+}

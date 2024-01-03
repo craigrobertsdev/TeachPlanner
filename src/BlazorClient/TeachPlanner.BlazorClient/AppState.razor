@@ -1,0 +1,30 @@
+﻿@inject IJSRuntime JSRuntime
+@inject HttpClient Http
+
+<CascadingValue Value="this">
+    @ChildContent
+</CascadingValue>
+
+@code {
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+    private bool _isDirty;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender) {
+        Console.WriteLine("Loading state");
+        await base.OnAfterRenderAsync(firstRender);
+
+        await LoadStateFromLocalStorage();
+    }
+
+    private async Task LoadStateFromLocalStorage() {
+        var state = await JSRuntime.InvokeAsync<string>("loadStateFromLocalStorage");
+
+        Console.WriteLine(state);
+
+        if (state == null) {
+            var teacherId = await Http.GetFromJsonAsync<Guid>("/api/")
+        }
+    }
+
+
+}
