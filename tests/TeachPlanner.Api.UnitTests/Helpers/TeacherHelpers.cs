@@ -1,14 +1,13 @@
-﻿using TeachPlanner.Api.Contracts.Teachers.AccountSetup;
-using TeachPlanner.Api.Domain.Common.Enums;
-using TeachPlanner.Api.Domain.CurriculumSubjects;
-using TeachPlanner.Api.Domain.PlannerTemplates;
-using TeachPlanner.Api.Domain.Teachers;
-using TeachPlanner.Api.Domain.Users;
+﻿using TeachPlanner.Shared.Contracts.Teachers.AccountSetup;
+using TeachPlanner.Shared.Domain.Common.Enums;
+using TeachPlanner.Shared.Domain.Curriculum;
+using TeachPlanner.Shared.Domain.PlannerTemplates;
+using TeachPlanner.Shared.Domain.Teachers;
 
 namespace TeachPlanner.Api.UnitTests.Helpers;
 internal static class TeacherHelpers {
     internal static Teacher CreateTeacher() {
-        return Teacher.Create(new UserId(Guid.NewGuid()), "First", "Last");
+        return Teacher.Create(Guid.NewGuid().ToString(), "First", "Last");
     }
 
     internal static List<string> CreateSubjectNames() {

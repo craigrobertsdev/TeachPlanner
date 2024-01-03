@@ -32,6 +32,7 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\..\src\TeachPlanner.Api\TeachPlanner.Api.csproj" />
+		<ProjectReference Include="..\..\src\TeachPlanner.Shared\TeachPlanner.Shared.csproj" />
 	</ItemGroup>
 
 </Project>

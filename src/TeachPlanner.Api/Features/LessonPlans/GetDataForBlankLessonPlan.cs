@@ -1,11 +1,11 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using TeachPlanner.Api.Common.Exceptions;
-using TeachPlanner.Api.Common.Interfaces.Persistence;
-using TeachPlanner.Api.Contracts.Curriculum;
-using TeachPlanner.Api.Contracts.LessonPlans;
-using TeachPlanner.Api.Contracts.Resources;
-using TeachPlanner.Api.Domain.Teachers;
+using TeachPlanner.Shared.Common.Exceptions;
+using TeachPlanner.Shared.Common.Interfaces.Persistence;
+using TeachPlanner.Shared.Contracts.Curriculum;
+using TeachPlanner.Shared.Contracts.LessonPlans;
+using TeachPlanner.Shared.Contracts.Resources;
+using TeachPlanner.Shared.Domain.Teachers;
 
 namespace TeachPlanner.Api.Features.LessonPlans;
 /// <summary>

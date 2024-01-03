@@ -1,10 +1,10 @@
 ﻿using MediatR;
-using TeachPlanner.Api.Common.Exceptions;
-using TeachPlanner.Api.Common.Interfaces.Persistence;
-using TeachPlanner.Api.Common.Interfaces.Services;
-using TeachPlanner.Api.Contracts.Resources;
-using TeachPlanner.Api.Domain.CurriculumSubjects;
-using TeachPlanner.Api.Domain.Teachers;
+using TeachPlanner.Shared.Common.Exceptions;
+using TeachPlanner.Shared.Common.Interfaces.Persistence;
+using TeachPlanner.Shared.Common.Interfaces.Services;
+using TeachPlanner.Shared.Contracts.Resources;
+using TeachPlanner.Shared.Domain.Curriculum;
+using TeachPlanner.Shared.Domain.Teachers;
 
 namespace TeachPlanner.Api.Features.Resources;
 

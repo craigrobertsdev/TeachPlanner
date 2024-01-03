@@ -1,7 +1,7 @@
 ﻿using Syncfusion.DocIO;
 using Syncfusion.DocIO.DLS;
-using TeachPlanner.Api.Common.Interfaces.Curriculum;
-using TeachPlanner.Api.Domain.CurriculumSubjects;
+using TeachPlanner.Shared.Common.Interfaces.Curriculum;
+using TeachPlanner.Shared.Domain.Curriculum;
 
 namespace TeachPlanner.Api.Services.CurriculumParser;
 

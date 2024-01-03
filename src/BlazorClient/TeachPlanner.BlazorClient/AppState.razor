@@ -10,19 +10,16 @@
     private bool _isDirty;
 
     protected override async Task OnAfterRenderAsync(bool firstRender) {
-        Console.WriteLine("Loading state");
         await base.OnAfterRenderAsync(firstRender);
-
         await LoadStateFromLocalStorage();
     }
 
     private async Task LoadStateFromLocalStorage() {
         var state = await JSRuntime.InvokeAsync<string>("loadStateFromLocalStorage");
 
-        Console.WriteLine(state);
-
+        var userId = "";
         if (state == null) {
-            // var teacherId = await Http.GetFromJsonAsync<Guid>("/api/")
+            var teacherId = await Http.GetFromJsonAsync<Guid>($"api/user/{userId}");
         }
     }
 

@@ -1,8 +1,8 @@
 ﻿using MediatR;
-using TeachPlanner.Api.Common.Exceptions;
-using TeachPlanner.Api.Common.Interfaces.Persistence;
-using TeachPlanner.Api.Contracts.TermPlanners.GetTermPlanner;
-using TeachPlanner.Api.Domain.Teachers;
+using TeachPlanner.Shared.Common.Exceptions;
+using TeachPlanner.Shared.Common.Interfaces.Persistence;
+using TeachPlanner.Shared.Contracts.TermPlanners.GetTermPlanner;
+using TeachPlanner.Shared.Domain.Teachers;
 
 namespace TeachPlanner.Api.Features.TermPlanners;
 

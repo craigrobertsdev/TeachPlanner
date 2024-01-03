@@ -1,13 +1,13 @@
 ﻿using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using TeachPlanner.Api.Common.Exceptions;
-using TeachPlanner.Api.Common.Interfaces.Persistence;
-using TeachPlanner.Api.Contracts.Teachers.AccountSetup;
+using TeachPlanner.Shared.Common.Exceptions;
+using TeachPlanner.Shared.Common.Interfaces.Persistence;
+using TeachPlanner.Shared.Contracts.Teachers.AccountSetup;
 using TeachPlanner.Shared.Domain.Common.Enums;
-using TeachPlanner.Api.Domain.CurriculumSubjects;
-using TeachPlanner.Api.Domain.PlannerTemplates;
-using TeachPlanner.Api.Domain.Teachers;
+using TeachPlanner.Shared.Domain.Curriculum;
+using TeachPlanner.Shared.Domain.PlannerTemplates;
+using TeachPlanner.Shared.Domain.Teachers;
 
 namespace TeachPlanner.Api.Features.Teachers;
 

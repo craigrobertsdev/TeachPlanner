@@ -1,5 +1,5 @@
-﻿using TeachPlanner.Api.Common.Interfaces.Services;
-using TeachPlanner.Api.Contracts.Curriculum;
+﻿using TeachPlanner.Shared.Common.Interfaces.Services;
+using TeachPlanner.Shared.Contracts.Curriculum;
 
 namespace TeachPlanner.Api.Features.Curriculum;
 

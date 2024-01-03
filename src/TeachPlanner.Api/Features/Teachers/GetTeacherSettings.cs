@@ -1,12 +1,12 @@
 ﻿using FluentValidation;
 using MediatR;
-using TeachPlanner.Api.Common.Exceptions;
-using TeachPlanner.Api.Common.Interfaces.Persistence;
-using TeachPlanner.Api.Contracts.Teachers.GetTeacherSettings;
-using TeachPlanner.Api.Domain.PlannerTemplates;
-using TeachPlanner.Api.Domain.Teachers;
-using TeachPlanner.Api.Domain.TermPlanners;
-using TeachPlanner.Api.Domain.YearDataRecords;
+using TeachPlanner.Shared.Common.Exceptions;
+using TeachPlanner.Shared.Common.Interfaces.Persistence;
+using TeachPlanner.Shared.Contracts.Teachers.GetTeacherSettings;
+using TeachPlanner.Shared.Domain.PlannerTemplates;
+using TeachPlanner.Shared.Domain.Teachers;
+using TeachPlanner.Shared.Domain.TermPlanners;
+using TeachPlanner.Shared.Domain.YearDataRecords;
 
 namespace TeachPlanner.Api.Features.Teachers;
 

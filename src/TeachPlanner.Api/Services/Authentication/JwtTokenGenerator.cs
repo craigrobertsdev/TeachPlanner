@@ -2,8 +2,8 @@
 using System.Security.Claims;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
-using TeachPlanner.Api.Common.Interfaces.Authentication;
-using TeachPlanner.Api.Domain.Teachers;
+using TeachPlanner.Shared.Common.Interfaces.Authentication;
+using TeachPlanner.Shared.Domain.Teachers;
 
 namespace TeachPlanner.Api.Services.Authentication;
 

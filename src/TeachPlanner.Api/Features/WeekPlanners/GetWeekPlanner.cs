@@ -1,11 +1,11 @@
 using MediatR;
-using TeachPlanner.Api.Common.Exceptions;
-using TeachPlanner.Api.Common.Interfaces.Persistence;
-using TeachPlanner.Api.Common.Interfaces.Services;
-using TeachPlanner.Api.Contracts.WeekPlanners;
-using TeachPlanner.Api.Domain.PlannerTemplates;
-using TeachPlanner.Api.Domain.Teachers;
-using TeachPlanner.Api.Domain.WeekPlanners;
+using TeachPlanner.Shared.Common.Exceptions;
+using TeachPlanner.Shared.Common.Interfaces.Persistence;
+using TeachPlanner.Shared.Common.Interfaces.Services;
+using TeachPlanner.Shared.Contracts.WeekPlanners;
+using TeachPlanner.Shared.Domain.PlannerTemplates;
+using TeachPlanner.Shared.Domain.Teachers;
+using TeachPlanner.Shared.Domain.WeekPlanners;
 
 namespace TeachPlanner.Api.Features.WeekPlanners;
 

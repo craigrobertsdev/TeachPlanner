@@ -1,5 +1,5 @@
 ﻿using TeachPlanner.Shared.Domain.Common.Enums;
-using TeachPlanner.Api.Domain.CurriculumSubjects;
+using TeachPlanner.Shared.Domain.Curriculum;
 using TeachPlanner.Api.Extensions;
 
 namespace TeachPlanner.Api.Services.CurriculumParser;

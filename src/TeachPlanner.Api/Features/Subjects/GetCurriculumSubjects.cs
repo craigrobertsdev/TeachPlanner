@@ -1,6 +1,6 @@
 ﻿using MediatR;
-using TeachPlanner.Api.Common.Interfaces.Persistence;
-using TeachPlanner.Api.Domain.CurriculumSubjects;
+using TeachPlanner.Shared.Common.Interfaces.Persistence;
+using TeachPlanner.Shared.Domain.Curriculum;
 
 namespace TeachPlanner.Api.Features.Subjects;
 

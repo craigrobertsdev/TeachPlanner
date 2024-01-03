@@ -1,12 +1,13 @@
 ﻿using FluentValidation;
 using Mapster;
 using MediatR;
-using TeachPlanner.Api.Common.Exceptions;
-using TeachPlanner.Api.Common.Interfaces.Authentication;
-using TeachPlanner.Api.Common.Interfaces.Persistence;
-using TeachPlanner.Api.Contracts.Authentication;
-using TeachPlanner.Api.Contracts.Teachers;
+using TeachPlanner.Shared.Common.Exceptions;
+using TeachPlanner.Shared.Common.Interfaces.Authentication;
+using TeachPlanner.Shared.Common.Interfaces.Persistence;
+using TeachPlanner.Shared.Contracts.Authentication;
+using TeachPlanner.Shared.Contracts.Teachers;
 using TeachPlanner.Api.Services.Authentication;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 
 namespace TeachPlanner.Api.Features.Authentication;
 
@@ -50,13 +51,15 @@ public static class Login {
             if (user == null || !PasswordService.VerifyPassword(request.Password, user.Password))
                 throw new InvalidCredentialsException();
 
-            var teacher = await _teacherRepository.GetByUserId(user.Id, cancellationToken);
+            var teacher = await _teacherRepository.GetByUserId(user.Id.Value.ToString(), cancellationToken);
             if (teacher == null) throw new TeacherNotFoundException();
 
-            var response = new TeacherResponse(
-                teacher.Id.Value,
-                teacher.FirstName,
-                teacher.LastName);
+            //var response = new TeacherResponse(
+            //    teacher.Id.Value,
+            //    teacher.FirstName,
+            //    teacher.LastName);
+
+            var response = default(TeacherResponse);
 
             return new AuthenticationResponse(response, _jwtTokenGenerator.GenerateToken(teacher));
         }

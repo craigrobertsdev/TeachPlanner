@@ -1,11 +1,11 @@
 ﻿using FluentValidation;
 using MediatR;
-using TeachPlanner.Api.Common.Exceptions;
-using TeachPlanner.Api.Common.Interfaces.Persistence;
-using TeachPlanner.Api.Contracts.TermPlanners.CreateTermPlanner;
+using TeachPlanner.Shared.Common.Exceptions;
+using TeachPlanner.Shared.Common.Interfaces.Persistence;
+using TeachPlanner.Shared.Contracts.TermPlanners.CreateTermPlanner;
 using TeachPlanner.Shared.Domain.Common.Enums;
-using TeachPlanner.Api.Domain.Teachers;
-using TeachPlanner.Api.Domain.TermPlanners;
+using TeachPlanner.Shared.Domain.Teachers;
+using TeachPlanner.Shared.Domain.TermPlanners;
 
 namespace TeachPlanner.Api.Features.TermPlanners;
 

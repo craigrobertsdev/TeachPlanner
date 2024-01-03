@@ -2,16 +2,16 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using TeachPlanner.Api.Common.Interfaces.Authentication;
-using TeachPlanner.Api.Common.Interfaces.Curriculum;
-using TeachPlanner.Api.Common.Interfaces.Persistence;
-using TeachPlanner.Api.Common.Interfaces.Services;
-using TeachPlanner.Api.Database;
-using TeachPlanner.Api.Database.Repositories;
 using TeachPlanner.Api.Services;
 using TeachPlanner.Api.Services.Authentication;
 using TeachPlanner.Api.Services.CurriculumParser;
 using TeachPlanner.Api.Services.FileStorage;
+using TeachPlanner.Shared.Common.Interfaces.Authentication;
+using TeachPlanner.Shared.Common.Interfaces.Curriculum;
+using TeachPlanner.Shared.Common.Interfaces.Persistence;
+using TeachPlanner.Shared.Common.Interfaces.Services;
+using TeachPlanner.Shared.Database;
+using TeachPlanner.Shared.Database.Repositories;
 
 namespace TeachPlanner.Api.Extensions.DependencyInjection;
 
@@ -31,8 +31,7 @@ public static class Infrastructure {
         var serverVersion = ServerVersion.AutoDetect(dbContextSettings.DefaultConnection);
 
         services.AddDbContext<ApplicationDbContext>(options => options
-            //.ReplaceService<IValueConverterSelector, StronglyTypedIdValueConverterSelector>()
-            .UseMySql(dbContextSettings.DefaultConnection, serverVersion)
+            .UseSqlServer(dbContextSettings.DefaultConnection)
             .LogTo(Console.WriteLine, LogLevel.Information)
             .EnableSensitiveDataLogging()
             .EnableDetailedErrors());

@@ -24,7 +24,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeachPlanner.Shared", "src\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Blazor.Client.UnitTests", "tests\Blazor.Client.UnitTests\Blazor.Client.UnitTests.csproj", "{03D1F412-A8D4-4B5F-B959-CE7428A7FDF8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeachPlanner.BlazorClient", "src\BlazorClient\TeachPlanner.BlazorClient\TeachPlanner.BlazorClient.csproj", "{E1736016-EACB-4FFE-B406-09D18F961CCC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeachPlanner.BlazorClient", "src\BlazorClient\TeachPlanner.BlazorClient\TeachPlanner.BlazorClient.csproj", "{E1736016-EACB-4FFE-B406-09D18F961CCC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -71,6 +71,7 @@ Global
 		{EFEE80F0-D29E-42A7-B138-0D6D0E52E989} = {C8351487-90F8-4B15-88EF-FD6BE9AD55BC}
 		{B903F4A2-ACF8-4F9E-9330-03408EE512F6} = {C8351487-90F8-4B15-88EF-FD6BE9AD55BC}
 		{03D1F412-A8D4-4B5F-B959-CE7428A7FDF8} = {3DD1FB48-BC0E-4880-8B5B-45E89E600270}
+		{E1736016-EACB-4FFE-B406-09D18F961CCC} = {C8351487-90F8-4B15-88EF-FD6BE9AD55BC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {4B983D7D-DAC2-447E-9DDF-617C59EFE180}

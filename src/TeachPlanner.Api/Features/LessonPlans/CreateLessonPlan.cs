@@ -1,13 +1,13 @@
 ﻿using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using TeachPlanner.Api.Common.Exceptions;
-using TeachPlanner.Api.Common.Interfaces.Persistence;
-using TeachPlanner.Api.Contracts.LessonPlans.CreateLessonPlan;
-using TeachPlanner.Api.Domain.Assessments;
-using TeachPlanner.Api.Domain.CurriculumSubjects;
-using TeachPlanner.Api.Domain.LessonPlans;
-using TeachPlanner.Api.Domain.Teachers;
+using TeachPlanner.Shared.Common.Exceptions;
+using TeachPlanner.Shared.Common.Interfaces.Persistence;
+using TeachPlanner.Shared.Contracts.LessonPlans.CreateLessonPlan;
+using TeachPlanner.Shared.Domain.Assessments;
+using TeachPlanner.Shared.Domain.Curriculum;
+using TeachPlanner.Shared.Domain.LessonPlans;
+using TeachPlanner.Shared.Domain.Teachers;
 
 namespace TeachPlanner.Api.Features.LessonPlans;
 

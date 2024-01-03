@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using TeachPlanner.Api.Common.Interfaces.Services;
-using TeachPlanner.Api.Database;
-using TeachPlanner.Api.Domain.PlannerTemplates;
+using TeachPlanner.Shared.Common.Interfaces.Services;
+using TeachPlanner.Shared.Database;
+using TeachPlanner.Shared.Domain.PlannerTemplates;
 
 namespace TeachPlanner.Api.Services;
 

@@ -1,10 +1,9 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using TeachPlanner.Api.Common.Interfaces.Services;
-using TeachPlanner.Api.Contracts.Services;
-using TeachPlanner.Api.Contracts.Teachers.AccountSetup;
-using TeachPlanner.Api.Database;
-using TeachPlanner.Api.Domain.PlannerTemplates;
+using TeachPlanner.Shared.Common.Interfaces.Services;
+using TeachPlanner.Shared.Contracts.Services;
+using TeachPlanner.Shared.Database;
+using TeachPlanner.Shared.Domain.PlannerTemplates;
 
 namespace TeachPlanner.Api.Features.Services;
 

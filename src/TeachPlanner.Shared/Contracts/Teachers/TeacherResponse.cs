@@ -1,6 +1,8 @@
-﻿namespace TeachPlanner.Shared.Contracts.Teachers;
+﻿using TeachPlanner.Shared.Domain.Teachers;
+
+namespace TeachPlanner.Shared.Contracts.Teachers;
 
 public record TeacherResponse(
-    Guid Id,
+    TeacherId Id,
     string FirstName,
     string LastName);

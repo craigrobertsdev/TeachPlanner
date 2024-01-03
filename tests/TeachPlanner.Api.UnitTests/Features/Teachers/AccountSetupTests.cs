@@ -1,13 +1,12 @@
 ﻿using FakeItEasy;
 using FluentAssertions;
 using MediatR;
-using TeachPlanner.Api.Common.Exceptions;
-using TeachPlanner.Api.Common.Interfaces.Persistence;
-using TeachPlanner.Api.Contracts.Teachers.AccountSetup;
-using TeachPlanner.Api.Domain.Common.Enums;
-using TeachPlanner.Api.Domain.Teachers;
 using TeachPlanner.Api.Features.Teachers;
 using TeachPlanner.Api.UnitTests.Helpers;
+using TeachPlanner.Shared.Common.Exceptions;
+using TeachPlanner.Shared.Common.Interfaces.Persistence;
+using TeachPlanner.Shared.Contracts.Teachers.AccountSetup;
+using TeachPlanner.Shared.Domain.Teachers;
 
 namespace TeachPlanner.Api.UnitTests.Features.Teachers;
 public class AccountSetupTests {

@@ -21,6 +21,7 @@
           <PrivateAssets>all</PrivateAssets>
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.0" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.0">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -40,11 +41,6 @@
         <AssemblyAttribute Include="System.Runtime.CompilerServices.InternalsVisibleTo">
             <_Parameter1>TeachPlanner.Api.UnitTests</_Parameter1>
         </AssemblyAttribute>
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Database\Migrations\" />
-      <Folder Include="Domain\PlannerTemplates\DomainEvents\" />
     </ItemGroup>
 
     <ItemGroup>

@@ -1,4 +1,4 @@
-﻿using TeachPlanner.Api.Common.Interfaces.Services;
+﻿using TeachPlanner.Shared.Common.Interfaces.Services;
 
 namespace TeachPlanner.Api.Services.FileStorage;
 

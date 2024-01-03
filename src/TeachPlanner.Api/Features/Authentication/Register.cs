@@ -1,13 +1,13 @@
 ﻿using FluentValidation;
 using Mapster;
 using MediatR;
-using TeachPlanner.Api.Common.Exceptions;
-using TeachPlanner.Api.Common.Interfaces.Authentication;
-using TeachPlanner.Api.Common.Interfaces.Persistence;
-using TeachPlanner.Api.Contracts.Authentication;
-using TeachPlanner.Api.Contracts.Teachers;
-using TeachPlanner.Api.Domain.Teachers;
-using TeachPlanner.Api.Domain.Users;
+using TeachPlanner.Shared.Common.Exceptions;
+using TeachPlanner.Shared.Common.Interfaces.Authentication;
+using TeachPlanner.Shared.Common.Interfaces.Persistence;
+using TeachPlanner.Shared.Contracts.Authentication;
+using TeachPlanner.Shared.Contracts.Teachers;
+using TeachPlanner.Shared.Domain.Teachers;
+using TeachPlanner.Shared.Domain.Users;
 using TeachPlanner.Api.Services.Authentication;
 
 namespace TeachPlanner.Api.Features.Authentication;
@@ -59,16 +59,18 @@ public static class Register {
             user = new User(request.Email, PasswordService.HashPassword(request.Password));
             _userRepository.Add(user);
 
-            var teacher = Teacher.Create(user.Id, request.FirstName, request.LastName);
+            var teacher = Teacher.Create(user.Id.Value.ToString(), request.FirstName, request.LastName);
             _teacherRepository.Add(teacher);
 
             await _unitOfWork.SaveChangesAsync(cancellationToken);
 
             var token = _jwtTokenGenerator.GenerateToken(teacher);
-            var response = new TeacherResponse(
-                teacher.Id.Value,
-                teacher.FirstName,
-                teacher.LastName);
+            //var response = new TeacherResponse(
+            //    teacher.Id.Value,
+            //    teacher.FirstName,
+            //    teacher.LastName);
+
+            var response = default(TeacherResponse);
 
             return new AuthenticationResponse(response, token);
         }
