@@ -1,0 +1,10 @@
+I have removed the reference to TeacherId on YearData, so the following API features will need to be fixed:
+GetTeacherSettings
+CreateTermPlanner
+GetWeekPlanner
+SetSubjectsTaught
+GetDataForBlankLessonPlan
+YearDataCreatedDomainEvent
+YearDataCreatedDomainEventHandler
+TeacherCreatedDomainEventHandler
+AccountSetup

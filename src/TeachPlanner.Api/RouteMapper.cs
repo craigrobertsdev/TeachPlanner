@@ -16,7 +16,7 @@ public static class RouteMapper {
         var noAuthGroup = app.MapGroup("/api");
 
         noAuthGroup
-            .MapAuth()
+            //.MapAuth()
             .MapServices();
 
         authReqGroup
@@ -34,8 +34,8 @@ public static class RouteMapper {
 
     private static RouteGroupBuilder MapAuth(this RouteGroupBuilder group) {
         var authGroup = group.MapGroup("/auth");
-        authGroup.MapPost("/register", Register.Delegate);
-        authGroup.MapPost("/login", Login.Delegate);
+        //authGroup.MapPost("/register", Register.Delegate);
+        //authGroup.MapPost("/login", Login.Delegate);
 
         return group;
     }

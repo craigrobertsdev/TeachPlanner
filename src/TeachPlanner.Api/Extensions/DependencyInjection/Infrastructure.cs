@@ -1,17 +1,14 @@
-﻿using System.Text;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
 using TeachPlanner.Api.Services;
-using TeachPlanner.Api.Services.Authentication;
 using TeachPlanner.Api.Services.CurriculumParser;
 using TeachPlanner.Api.Services.FileStorage;
-using TeachPlanner.Shared.Common.Interfaces.Authentication;
 using TeachPlanner.Shared.Common.Interfaces.Curriculum;
 using TeachPlanner.Shared.Common.Interfaces.Persistence;
 using TeachPlanner.Shared.Common.Interfaces.Services;
 using TeachPlanner.Shared.Database;
 using TeachPlanner.Shared.Database.Repositories;
+using TeachPlanner.Shared.Domain.Users;
 
 namespace TeachPlanner.Api.Extensions.DependencyInjection;
 
@@ -27,8 +24,6 @@ public static class Infrastructure {
     private static IServiceCollection AddPersistence(this IServiceCollection services, IConfiguration configuration) {
         var dbContextSettings = new DbContextSettings();
         configuration.Bind(DbContextSettings.SectionName, dbContextSettings);
-
-        var serverVersion = ServerVersion.AutoDetect(dbContextSettings.DefaultConnection);
 
         services.AddDbContext<ApplicationDbContext>(options => options
             .UseSqlServer(dbContextSettings.DefaultConnection)
@@ -61,26 +56,27 @@ public static class Infrastructure {
     }
 
     private static IServiceCollection AddAuth(this IServiceCollection services, IConfiguration configuration) {
-        var jwtSettings = new JwtSettings();
-        configuration.Bind(JwtSettings.SectionName, jwtSettings);
+        // cookie authentication
+        services.AddAuthentication(IdentityConstants.ApplicationScheme).AddIdentityCookies();
 
-        services.AddSingleton(jwtSettings);
-        services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
+        // configure authorisation
+        services.AddAuthorizationBuilder();
 
-        services.AddAuthentication(x => {
-            x.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-            x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-            x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-        })
-            .AddJwtBearer(options => options.TokenValidationParameters = new TokenValidationParameters {
-                ValidIssuer = jwtSettings.Issuer,
-                ValidAudience = jwtSettings.Audience,
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.Secret)),
-                ValidateIssuer = true,
-                ValidateAudience = true,
-                ValidateIssuerSigningKey = true,
-                ValidateLifetime = true
-            });
+        // add identity and opt-in to endpoints
+        services.AddIdentityCore<ApplicationUser>()
+            .AddEntityFrameworkStores<ApplicationDbContext>()
+            .AddApiEndpoints();
+
+        // add CORS policy for WASM client
+        services.AddCors(
+            options => options.AddPolicy(
+                "wasm",
+                policy => policy.WithOrigins(configuration["ServerUrl"] ?? "https://localhost:5000",
+                configuration["ClientUrl"] ?? "https://localhost:5001")
+                .AllowAnyMethod()
+                .SetIsOriginAllowed(pol => true)
+                .AllowAnyHeader()
+                .AllowCredentials()));
 
         return services;
     }

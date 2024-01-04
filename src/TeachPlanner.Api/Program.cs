@@ -1,11 +1,6 @@
-using Microsoft.OpenApi.Models;
 using Syncfusion.Licensing;
 using TeachPlanner.Api;
 using TeachPlanner.Api.Extensions.DependencyInjection;
-using TeachPlanner.Shared.Contracts.Authentication;
-using TeachPlanner.Shared.Contracts.Teachers;
-using TeachPlanner.Shared.Database;
-using TeachPlanner.Shared.Domain.Teachers;
 using TeachPlanner.Shared.Domain.Users;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -20,47 +15,15 @@ builder.Services
     .AddInfrastructure(builder.Configuration)
     .AddApplication();
 
-builder.Services.AddAuthorization();
-builder.Services.AddIdentityApiEndpoints<ApplicationUser>()
-    .AddEntityFrameworkStores<ApplicationDbContext>();
 builder.Services.AddRazorPages();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(opt => {
-    opt.SwaggerDoc("v1", new OpenApiInfo {
-        Title = "TeachPlanner Api",
-        Version = "v1"
-    });
-    opt.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme {
-        Name = "Authorization",
-        Type = SecuritySchemeType.ApiKey
-    });
-
-    opt.AddSecurityRequirement(new OpenApiSecurityRequirement
-    {
-        {
-            new OpenApiSecurityScheme
-            {
-                Reference = new OpenApiReference
-                {
-                    Type = ReferenceType.SecurityScheme,
-                    Id = "Bearer"
-                }
-            },
-            Array.Empty<string>()
-        }
-    });
-});
-builder.Services.AddCors(opts => {
-    opts.AddDefaultPolicy(builder => {
-        builder.AllowAnyOrigin()
-            .AllowAnyMethod()
-            .AllowAnyHeader();
-    });
-});
+builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+
+app.MapIdentityApi<ApplicationUser>();
 
 if (app.Environment.IsDevelopment()) {
     app.UseSwagger();
@@ -69,21 +32,13 @@ if (app.Environment.IsDevelopment()) {
     app.UseWebAssemblyDebugging();
 }
 
-app.MapIdentityApi<ApplicationUser>();
-
 // enable cors
-app.UseCors(builder => builder
-    .AllowAnyOrigin()
-    .AllowAnyMethod()
-    .AllowAnyHeader());
+app.UseCors("wasm");
 
 app.UseHttpsRedirection();
 app.UseBlazorFrameworkFiles();
 app.UseStaticFiles();
 app.UseRouting();
-
-app.UseAuthentication();
-app.UseAuthorization();
 
 app.MapRazorPages();
 app.MapFallbackToFile("index.html");

@@ -1,0 +1,38 @@
+﻿@page "/authentication/login"
+@using TeachPlanner.BlazorClient.Services
+@using TeachPlanner.Shared.Contracts.Authentication
+@attribute [AllowAnonymous]
+@inject IAuthenticationService AuthenticationService
+
+<fieldset>
+    <EditForm Model=@model onsubmit="@HandleSubmit">
+        <h2>Login</h2>
+        <label htmlFor="email">Email</label>
+        <InputText @bind-Value="@model.Email" id="email" name="email" required />
+        <label htmlFor="password">Password</label>
+        <InputText type="password" @bind-Value="@model.Password" id="password" name="password" required />
+
+        <button type="submit">Login</button>
+    </EditForm>
+</fieldset>
+
+if (_errorMessage is not null) {
+    <p class="text-ceramic text-lg">@_errorMessage</p>
+}
+
+@code {
+    [CascadingParameter]
+    private AppState AppState { get; set; } = null!;
+    private LoginModel model = new LoginModel();
+    private string? _errorMessage = null;
+
+    private async Task HandleSubmit() {
+        var response = await AuthenticationService.Login(model);
+        AppState.TeacherId = response.Id;
+
+        Console.WriteLine(response.Id);
+        Console.WriteLine(response.FirstName);
+        Console.WriteLine(response.LastName);
+    }
+
+}
