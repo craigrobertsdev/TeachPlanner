@@ -22,10 +22,6 @@ public class YearDataConfiguration : IEntityTypeConfiguration<YearData> {
         builder.HasMany(yd => yd.Students)
             .WithOne();
 
-        builder.HasOne<Teacher>()
-            .WithMany()
-            .HasForeignKey(yd => yd.TeacherId);
-
         builder.HasOne<TermPlanner>()
             .WithOne()
             .HasForeignKey<TermPlanner>(tp => tp.YearDataId);
@@ -34,9 +30,15 @@ public class YearDataConfiguration : IEntityTypeConfiguration<YearData> {
             .WithOne()
             .HasForeignKey(lp => lp.YearDataId);
 
+        builder.HasOne<Teacher>()
+            .WithMany()
+            .HasForeignKey(yd => yd.TeacherId)
+            .OnDelete(DeleteBehavior.NoAction);
+
         builder.HasMany(yd => yd.WeekPlanners)
             .WithOne()
-            .HasForeignKey(wp => wp.YearDataId);
+            .HasForeignKey(wp => wp.YearDataId)
+            .OnDelete(DeleteBehavior.NoAction);
 
 #pragma warning disable CS8600, CS8603, CS8604 // Converting null literal or possible null value to non-nullable type.
         builder.Property<List<YearLevelValue>>("_yearLevelsTaught")

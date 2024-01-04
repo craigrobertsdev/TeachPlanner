@@ -2,12 +2,13 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TeachPlanner.Shared.Database;
 
 #nullable disable
 
-namespace TeachPlanner.Shared.Migrations
+namespace TeachPlanner.Shared.Database.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     partial class ApplicationDbContextModelSnapshot : ModelSnapshot
@@ -17,15 +18,17 @@ namespace TeachPlanner.Shared.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "8.0.0")
-                .HasAnnotation("Relational:MaxIdentifierLength", 64);
+                .HasAnnotation("Relational:MaxIdentifierLength", 128);
+
+            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
             modelBuilder.Entity("CalendarSchoolEvent", b =>
                 {
                     b.Property<Guid>("CalendarId")
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("SchoolEventsId")
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("CalendarId", "SchoolEventsId");
 
@@ -37,10 +40,10 @@ namespace TeachPlanner.Shared.Migrations
             modelBuilder.Entity("CurriculumSubjectTeacher", b =>
                 {
                     b.Property<Guid>("SubjectsTaughtId")
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("TeacherId")
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("SubjectsTaughtId", "TeacherId");
 
@@ -52,10 +55,10 @@ namespace TeachPlanner.Shared.Migrations
             modelBuilder.Entity("DayPlanSchoolEvent", b =>
                 {
                     b.Property<Guid>("DayPlanId")
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("SchoolEventsId")
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("DayPlanId", "SchoolEventsId");
 
@@ -67,25 +70,26 @@ namespace TeachPlanner.Shared.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .HasMaxLength(256)
-                        .HasColumnType("varchar(256)");
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<string>("NormalizedName")
                         .HasMaxLength(256)
-                        .HasColumnType("varchar(256)");
+                        .HasColumnType("nvarchar(256)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("NormalizedName")
                         .IsUnique()
-                        .HasDatabaseName("RoleNameIndex");
+                        .HasDatabaseName("RoleNameIndex")
+                        .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
                 });
@@ -96,15 +100,17 @@ namespace TeachPlanner.Shared.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
                     b.Property<string>("ClaimType")
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ClaimValue")
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("RoleId")
                         .IsRequired()
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
@@ -119,15 +125,17 @@ namespace TeachPlanner.Shared.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
                     b.Property<string>("ClaimType")
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ClaimValue")
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
@@ -139,17 +147,17 @@ namespace TeachPlanner.Shared.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProviderKey")
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProviderDisplayName")
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("LoginProvider", "ProviderKey");
 
@@ -161,10 +169,10 @@ namespace TeachPlanner.Shared.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
                 {
                     b.Property<string>("UserId")
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("RoleId")
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("UserId", "RoleId");
 
@@ -176,16 +184,16 @@ namespace TeachPlanner.Shared.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
                     b.Property<string>("UserId")
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("LoginProvider")
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Name")
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Value")
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("UserId", "LoginProvider", "Name");
 
@@ -195,41 +203,41 @@ namespace TeachPlanner.Shared.Migrations
             modelBuilder.Entity("TeachPlanner.Shared.Domain.Assessments.Assessment", b =>
                 {
                     b.Property<Guid>("Id")
-                        .HasColumnType("char(36)")
+                        .HasColumnType("uniqueidentifier")
                         .HasColumnName("Id");
 
                     b.Property<string>("AssessmentType")
                         .IsRequired()
                         .HasMaxLength(15)
-                        .HasColumnType("varchar(15)");
+                        .HasColumnType("nvarchar(15)");
 
                     b.Property<DateTime>("DateConducted")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime2");
 
                     b.Property<Guid>("LessonPlanId")
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("PlanningNotes")
                         .IsRequired()
                         .HasMaxLength(500)
-                        .HasColumnType("varchar(500)");
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<Guid>("StudentId")
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("SubjectId")
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("TeacherId")
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("UpdatedDateTime")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("YearLevel")
                         .IsRequired()
                         .HasMaxLength(15)
-                        .HasColumnType("varchar(15)");
+                        .HasColumnType("nvarchar(15)");
 
                     b.HasKey("Id");
 
@@ -247,23 +255,23 @@ namespace TeachPlanner.Shared.Migrations
             modelBuilder.Entity("TeachPlanner.Shared.Domain.Calendar.Calendar", b =>
                 {
                     b.Property<Guid>("Id")
-                        .HasColumnType("char(36)")
+                        .HasColumnType("uniqueidentifier")
                         .HasColumnName("Id");
 
                     b.Property<DateTime>("CreatedDateTime")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime>("TermEnd")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("TermNumber")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("TermStart")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime>("UpdatedDateTime")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -273,28 +281,28 @@ namespace TeachPlanner.Shared.Migrations
             modelBuilder.Entity("TeachPlanner.Shared.Domain.Common.Planner.SchoolEvent", b =>
                 {
                     b.Property<Guid>("Id")
-                        .HasColumnType("char(36)")
+                        .HasColumnType("uniqueidentifier")
                         .HasColumnName("Id");
 
                     b.Property<DateTime>("CreatedDateTime")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime>("EventEnd")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime>("EventStart")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime2");
 
                     b.Property<bool>("FullDay")
-                        .HasColumnType("tinyint(1)");
+                        .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(100)
-                        .HasColumnType("varchar(100)");
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<DateTime>("UpdatedDateTime")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -305,24 +313,24 @@ namespace TeachPlanner.Shared.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("CurriculumCode")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("varchar(50)");
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasMaxLength(1000)
-                        .HasColumnType("varchar(1000)");
+                        .HasColumnType("nvarchar(1000)");
 
                     b.Property<Guid?>("StrandId")
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Substrand")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -334,16 +342,16 @@ namespace TeachPlanner.Shared.Migrations
             modelBuilder.Entity("TeachPlanner.Shared.Domain.Curriculum.CurriculumSubject", b =>
                 {
                     b.Property<Guid>("Id")
-                        .HasColumnType("char(36)")
+                        .HasColumnType("uniqueidentifier")
                         .HasColumnName("Id");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("varchar(50)");
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<Guid?>("TermPlanId")
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
@@ -356,15 +364,15 @@ namespace TeachPlanner.Shared.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid?>("ContentDescriptionId")
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasMaxLength(1000)
-                        .HasColumnType("varchar(1000)");
+                        .HasColumnType("nvarchar(1000)");
 
                     b.HasKey("Id");
 
@@ -377,15 +385,15 @@ namespace TeachPlanner.Shared.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("varchar(50)");
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<Guid>("YearLevelId")
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
@@ -398,19 +406,19 @@ namespace TeachPlanner.Shared.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("AchievementStandard")
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("BandLevelValue")
                         .HasColumnType("int");
 
                     b.Property<Guid>("CurriculumSubjectId")
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("YearLevelDescription")
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("YearLevelValue")
                         .HasColumnType("int");
@@ -425,11 +433,11 @@ namespace TeachPlanner.Shared.Migrations
             modelBuilder.Entity("TeachPlanner.Shared.Domain.LessonPlans.LessonPlan", b =>
                 {
                     b.Property<Guid>("Id")
-                        .HasColumnType("char(36)")
+                        .HasColumnType("uniqueidentifier")
                         .HasColumnName("Id");
 
                     b.Property<DateTime>("CreatedDateTime")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime2");
 
                     b.Property<DateOnly>("LessonDate")
                         .HasColumnType("date");
@@ -439,22 +447,22 @@ namespace TeachPlanner.Shared.Migrations
 
                     b.Property<string>("PlanningNotes")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("StartPeriod")
                         .HasColumnType("int");
 
                     b.Property<Guid>("SubjectId")
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("UpdatedDateTime")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime2");
 
                     b.Property<Guid>("WeekPlannerId")
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("YearDataId")
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
@@ -470,10 +478,10 @@ namespace TeachPlanner.Shared.Migrations
             modelBuilder.Entity("TeachPlanner.Shared.Domain.LessonPlans.LessonPlanResource", b =>
                 {
                     b.Property<Guid>("LessonPlanId")
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("ResourceId")
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("LessonPlanId", "ResourceId");
 
@@ -485,10 +493,10 @@ namespace TeachPlanner.Shared.Migrations
             modelBuilder.Entity("TeachPlanner.Shared.Domain.PlannerTemplates.DayPlanTemplate", b =>
                 {
                     b.Property<Guid>("Id")
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("TeacherId")
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
@@ -501,7 +509,7 @@ namespace TeachPlanner.Shared.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateOnly>("EndDate")
                         .HasColumnType("date");
@@ -520,28 +528,28 @@ namespace TeachPlanner.Shared.Migrations
             modelBuilder.Entity("TeachPlanner.Shared.Domain.Reports.Report", b =>
                 {
                     b.Property<Guid>("Id")
-                        .HasColumnType("char(36)")
+                        .HasColumnType("uniqueidentifier")
                         .HasColumnName("Id");
 
                     b.Property<DateTime>("CreatedDateTime")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime2");
 
                     b.Property<Guid>("StudentId")
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("SubjectId")
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("TeacherId")
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("UpdatedDateTime")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("YearLevel")
                         .IsRequired()
                         .HasMaxLength(15)
-                        .HasColumnType("varchar(15)");
+                        .HasColumnType("nvarchar(15)");
 
                     b.HasKey("Id");
 
@@ -557,22 +565,22 @@ namespace TeachPlanner.Shared.Migrations
             modelBuilder.Entity("TeachPlanner.Shared.Domain.Students.Student", b =>
                 {
                     b.Property<Guid>("Id")
-                        .HasColumnType("char(36)")
+                        .HasColumnType("uniqueidentifier")
                         .HasColumnName("Id");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LastName")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid>("TeacherId")
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid?>("YearDataId")
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
@@ -586,37 +594,37 @@ namespace TeachPlanner.Shared.Migrations
             modelBuilder.Entity("TeachPlanner.Shared.Domain.Teachers.Resource", b =>
                 {
                     b.Property<Guid>("Id")
-                        .HasColumnType("char(36)")
+                        .HasColumnType("uniqueidentifier")
                         .HasColumnName("Id");
 
                     b.Property<string>("AssociatedStrands")
                         .IsRequired()
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedDateTime")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime2");
 
                     b.Property<bool>("IsAssessment")
-                        .HasColumnType("tinyint(1)");
+                        .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(100)
-                        .HasColumnType("varchar(100)");
+                        .HasColumnType("nvarchar(100)");
 
                     b.Property<Guid>("SubjectId")
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid?>("TeacherId")
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime>("UpdatedDateTime")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Url")
                         .IsRequired()
                         .HasMaxLength(300)
-                        .HasColumnType("varchar(300)");
+                        .HasColumnType("nvarchar(300)");
 
                     b.HasKey("Id");
 
@@ -630,22 +638,22 @@ namespace TeachPlanner.Shared.Migrations
             modelBuilder.Entity("TeachPlanner.Shared.Domain.Teachers.Teacher", b =>
                 {
                     b.Property<Guid>("Id")
-                        .HasColumnType("char(36)")
+                        .HasColumnType("uniqueidentifier")
                         .HasColumnName("Id");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("varchar(50)");
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("varchar(50)");
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
@@ -659,13 +667,13 @@ namespace TeachPlanner.Shared.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("TermNumber")
                         .HasColumnType("int");
 
                     b.Property<Guid>("TermPlannerId")
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
@@ -677,18 +685,18 @@ namespace TeachPlanner.Shared.Migrations
             modelBuilder.Entity("TeachPlanner.Shared.Domain.TermPlanners.TermPlanner", b =>
                 {
                     b.Property<Guid>("Id")
-                        .HasColumnType("char(36)")
+                        .HasColumnType("uniqueidentifier")
                         .HasColumnName("Id");
 
                     b.Property<int>("CalendarYear")
                         .HasColumnType("int");
 
                     b.Property<Guid>("YearDataId")
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("_yearLevels")
                         .IsRequired()
-                        .HasColumnType("longtext")
+                        .HasColumnType("nvarchar(max)")
                         .HasColumnName("YearLevels");
 
                     b.HasKey("Id");
@@ -702,54 +710,54 @@ namespace TeachPlanner.Shared.Migrations
             modelBuilder.Entity("TeachPlanner.Shared.Domain.Users.ApplicationUser", b =>
                 {
                     b.Property<string>("Id")
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256)
-                        .HasColumnType("varchar(256)");
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("tinyint(1)");
+                        .HasColumnType("bit");
 
                     b.Property<bool>("LockoutEnabled")
-                        .HasColumnType("tinyint(1)");
+                        .HasColumnType("bit");
 
                     b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)
-                        .HasColumnType("varchar(256)");
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<string>("NormalizedUserName")
                         .HasMaxLength(256)
-                        .HasColumnType("varchar(256)");
+                        .HasColumnType("nvarchar(256)");
 
                     b.Property<string>("PasswordHash")
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PhoneNumber")
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("PhoneNumberConfirmed")
-                        .HasColumnType("tinyint(1)");
+                        .HasColumnType("bit");
 
                     b.Property<string>("SecurityStamp")
-                        .HasColumnType("longtext");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnType("tinyint(1)");
+                        .HasColumnType("bit");
 
                     b.Property<string>("UserName")
                         .HasMaxLength(256)
-                        .HasColumnType("varchar(256)");
+                        .HasColumnType("nvarchar(256)");
 
                     b.HasKey("Id");
 
@@ -758,7 +766,8 @@ namespace TeachPlanner.Shared.Migrations
 
                     b.HasIndex("NormalizedUserName")
                         .IsUnique()
-                        .HasDatabaseName("UserNameIndex");
+                        .HasDatabaseName("UserNameIndex")
+                        .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
                 });
@@ -766,14 +775,14 @@ namespace TeachPlanner.Shared.Migrations
             modelBuilder.Entity("TeachPlanner.Shared.Domain.WeekPlanners.DayPlan", b =>
                 {
                     b.Property<Guid>("Id")
-                        .HasColumnType("char(36)")
+                        .HasColumnType("uniqueidentifier")
                         .HasColumnName("Id");
 
                     b.Property<DateOnly>("Date")
                         .HasColumnType("date");
 
                     b.Property<Guid>("WeekPlannerId")
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
@@ -785,20 +794,20 @@ namespace TeachPlanner.Shared.Migrations
             modelBuilder.Entity("TeachPlanner.Shared.Domain.WeekPlanners.WeekPlanner", b =>
                 {
                     b.Property<Guid>("Id")
-                        .HasColumnType("char(36)")
+                        .HasColumnType("uniqueidentifier")
                         .HasColumnName("Id");
 
                     b.Property<DateTime>("CreatedDateTime")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime2");
 
                     b.Property<Guid>("DayPlanTemplateId")
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("TermNumber")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("UpdatedDateTime")
-                        .HasColumnType("datetime(6)");
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("WeekNumber")
                         .HasColumnType("int");
@@ -810,7 +819,7 @@ namespace TeachPlanner.Shared.Migrations
                         .HasColumnType("int");
 
                     b.Property<Guid>("YearDataId")
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
@@ -824,25 +833,25 @@ namespace TeachPlanner.Shared.Migrations
             modelBuilder.Entity("TeachPlanner.Shared.Domain.YearDataRecords.YearData", b =>
                 {
                     b.Property<Guid>("Id")
-                        .HasColumnType("char(36)")
+                        .HasColumnType("uniqueidentifier")
                         .HasColumnName("Id");
 
                     b.Property<int>("CalendarYear")
                         .HasColumnType("int");
 
                     b.Property<Guid>("DayPlanTemplateId")
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("TeacherId")
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid?>("TermPlannerId")
-                        .HasColumnType("char(36)");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("_yearLevelsTaught")
                         .IsRequired()
                         .HasMaxLength(100)
-                        .HasColumnType("varchar(100)")
+                        .HasColumnType("nvarchar(100)")
                         .HasColumnName("YearLevels");
 
                     b.HasKey("Id");
@@ -852,7 +861,8 @@ namespace TeachPlanner.Shared.Migrations
                     b.HasIndex("TeacherId");
 
                     b.HasIndex("TermPlannerId")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[TermPlannerId] IS NOT NULL");
 
                     b.ToTable("yeardata", (string)null);
                 });
@@ -958,13 +968,13 @@ namespace TeachPlanner.Shared.Migrations
                     b.HasOne("TeachPlanner.Shared.Domain.LessonPlans.LessonPlan", null)
                         .WithMany("Assessments")
                         .HasForeignKey("LessonPlanId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("TeachPlanner.Shared.Domain.Students.Student", null)
                         .WithMany("Assessments")
                         .HasForeignKey("StudentId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("TeachPlanner.Shared.Domain.Curriculum.CurriculumSubject", null)
@@ -983,24 +993,24 @@ namespace TeachPlanner.Shared.Migrations
                         {
                             b1.Property<Guid>("Id")
                                 .ValueGeneratedOnAdd()
-                                .HasColumnType("char(36)");
+                                .HasColumnType("uniqueidentifier");
 
                             b1.Property<Guid>("AssessmentId")
-                                .HasColumnType("char(36)");
+                                .HasColumnType("uniqueidentifier");
 
                             b1.Property<string>("Comments")
                                 .IsRequired()
                                 .HasMaxLength(1000)
-                                .HasColumnType("varchar(1000)");
+                                .HasColumnType("nvarchar(1000)");
 
                             b1.Property<DateTime>("CreatedDateTime")
-                                .HasColumnType("datetime(6)");
+                                .HasColumnType("datetime2");
 
                             b1.Property<DateTime>("DateMarked")
-                                .HasColumnType("datetime(6)");
+                                .HasColumnType("datetime2");
 
                             b1.Property<DateTime>("UpdatedDateTime")
-                                .HasColumnType("datetime(6)");
+                                .HasColumnType("datetime2");
 
                             b1.HasKey("Id", "AssessmentId");
 
@@ -1015,19 +1025,19 @@ namespace TeachPlanner.Shared.Migrations
                             b1.OwnsOne("TeachPlanner.Shared.Domain.Assessments.AssessmentGrade", "Grade", b2 =>
                                 {
                                     b2.Property<Guid>("AssessmentResultId")
-                                        .HasColumnType("char(36)");
+                                        .HasColumnType("uniqueidentifier");
 
                                     b2.Property<Guid>("AssessmentResultAssessmentId")
-                                        .HasColumnType("char(36)");
+                                        .HasColumnType("uniqueidentifier");
 
                                     b2.Property<string>("Grade")
                                         .IsRequired()
                                         .HasMaxLength(10)
-                                        .HasColumnType("varchar(10)");
+                                        .HasColumnType("nvarchar(10)");
 
                                     b2.Property<double?>("Percentage")
                                         .IsRequired()
-                                        .HasColumnType("double")
+                                        .HasColumnType("float")
                                         .HasColumnName("Percentage");
 
                                     b2.HasKey("AssessmentResultId", "AssessmentResultAssessmentId");
@@ -1050,22 +1060,22 @@ namespace TeachPlanner.Shared.Migrations
                     b.OwnsOne("TeachPlanner.Shared.Domain.Common.Location", "Location", b1 =>
                         {
                             b1.Property<Guid>("SchoolEventId")
-                                .HasColumnType("char(36)");
+                                .HasColumnType("uniqueidentifier");
 
                             b1.Property<string>("StreetName")
                                 .IsRequired()
                                 .HasMaxLength(50)
-                                .HasColumnType("varchar(50)");
+                                .HasColumnType("nvarchar(50)");
 
                             b1.Property<string>("StreetNumber")
                                 .IsRequired()
                                 .HasMaxLength(30)
-                                .HasColumnType("varchar(30)");
+                                .HasColumnType("nvarchar(30)");
 
                             b1.Property<string>("Suburb")
                                 .IsRequired()
                                 .HasMaxLength(50)
-                                .HasColumnType("varchar(50)");
+                                .HasColumnType("nvarchar(50)");
 
                             b1.HasKey("SchoolEventId");
 
@@ -1125,7 +1135,7 @@ namespace TeachPlanner.Shared.Migrations
                     b.HasOne("TeachPlanner.Shared.Domain.Curriculum.CurriculumSubject", null)
                         .WithMany()
                         .HasForeignKey("SubjectId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("TeachPlanner.Shared.Domain.WeekPlanners.DayPlan", null)
@@ -1137,36 +1147,36 @@ namespace TeachPlanner.Shared.Migrations
                     b.HasOne("TeachPlanner.Shared.Domain.YearDataRecords.YearData", null)
                         .WithMany("LessonPlans")
                         .HasForeignKey("YearDataId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.OwnsMany("TeachPlanner.Shared.Domain.LessonPlans.LessonComment", "Comments", b1 =>
                         {
                             b1.Property<Guid>("Id")
                                 .ValueGeneratedOnAdd()
-                                .HasColumnType("char(36)");
+                                .HasColumnType("uniqueidentifier");
 
                             b1.Property<Guid>("LessonPlanId")
-                                .HasColumnType("char(36)");
+                                .HasColumnType("uniqueidentifier");
 
                             b1.Property<bool>("Completed")
-                                .HasColumnType("tinyint(1)");
+                                .HasColumnType("bit");
 
                             b1.Property<DateTime?>("CompletedDateTime")
-                                .HasColumnType("datetime(6)");
+                                .HasColumnType("datetime2");
 
                             b1.Property<string>("Content")
                                 .IsRequired()
-                                .HasColumnType("longtext");
+                                .HasColumnType("nvarchar(max)");
 
                             b1.Property<DateTime>("CreatedDateTime")
-                                .HasColumnType("datetime(6)");
+                                .HasColumnType("datetime2");
 
                             b1.Property<bool>("StruckOut")
-                                .HasColumnType("tinyint(1)");
+                                .HasColumnType("bit");
 
                             b1.Property<DateTime>("UpdatedDateTime")
-                                .HasColumnType("datetime(6)");
+                                .HasColumnType("datetime2");
 
                             b1.HasKey("Id", "LessonPlanId");
 
@@ -1186,13 +1196,13 @@ namespace TeachPlanner.Shared.Migrations
                     b.HasOne("TeachPlanner.Shared.Domain.LessonPlans.LessonPlan", null)
                         .WithMany("LessonPlanResources")
                         .HasForeignKey("LessonPlanId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("TeachPlanner.Shared.Domain.Teachers.Resource", null)
                         .WithMany("LessonPlanResources")
                         .HasForeignKey("ResourceId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
                 });
 
@@ -1208,25 +1218,25 @@ namespace TeachPlanner.Shared.Migrations
                         {
                             b1.Property<Guid>("Id")
                                 .ValueGeneratedOnAdd()
-                                .HasColumnType("char(36)");
+                                .HasColumnType("uniqueidentifier");
 
                             b1.Property<Guid>("DayPlanTemplateId")
-                                .HasColumnType("char(36)");
+                                .HasColumnType("uniqueidentifier");
 
                             b1.Property<TimeOnly>("EndTime")
-                                .HasColumnType("time(6)");
+                                .HasColumnType("time");
 
                             b1.Property<string>("Name")
                                 .IsRequired()
-                                .HasColumnType("longtext");
+                                .HasColumnType("nvarchar(max)");
 
                             b1.Property<string>("PeriodType")
                                 .IsRequired()
                                 .HasMaxLength(20)
-                                .HasColumnType("varchar(20)");
+                                .HasColumnType("nvarchar(20)");
 
                             b1.Property<TimeOnly>("StartTime")
-                                .HasColumnType("time(6)");
+                                .HasColumnType("time");
 
                             b1.HasKey("Id");
 
@@ -1246,26 +1256,26 @@ namespace TeachPlanner.Shared.Migrations
                     b.HasOne("TeachPlanner.Shared.Domain.Students.Student", null)
                         .WithMany("Reports")
                         .HasForeignKey("StudentId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("TeachPlanner.Shared.Domain.Curriculum.CurriculumSubject", null)
                         .WithMany()
                         .HasForeignKey("SubjectId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("TeachPlanner.Shared.Domain.Teachers.Teacher", null)
                         .WithMany()
                         .HasForeignKey("TeacherId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.OwnsMany("TeachPlanner.Shared.Domain.Reports.ReportComment", "ReportComments", b1 =>
                         {
                             b1.Property<Guid>("Id")
                                 .ValueGeneratedOnAdd()
-                                .HasColumnType("char(36)");
+                                .HasColumnType("uniqueidentifier");
 
                             b1.Property<int>("CharacterLimit")
                                 .HasColumnType("int");
@@ -1273,15 +1283,15 @@ namespace TeachPlanner.Shared.Migrations
                             b1.Property<string>("Comments")
                                 .IsRequired()
                                 .HasMaxLength(500)
-                                .HasColumnType("varchar(500)");
+                                .HasColumnType("nvarchar(500)");
 
                             b1.Property<string>("Grade")
                                 .IsRequired()
                                 .HasMaxLength(10)
-                                .HasColumnType("varchar(10)");
+                                .HasColumnType("nvarchar(10)");
 
                             b1.Property<Guid>("ReportId")
-                                .HasColumnType("char(36)");
+                                .HasColumnType("uniqueidentifier");
 
                             b1.HasKey("Id");
 
@@ -1333,18 +1343,18 @@ namespace TeachPlanner.Shared.Migrations
                     b.OwnsMany("TeachPlanner.Shared.Domain.Teachers.YearDataEntry", "YearDataHistory", b1 =>
                         {
                             b1.Property<Guid>("TeacherId")
-                                .HasColumnType("char(36)");
+                                .HasColumnType("uniqueidentifier");
 
                             b1.Property<Guid>("Id")
                                 .ValueGeneratedOnAdd()
-                                .HasColumnType("char(36)");
+                                .HasColumnType("uniqueidentifier");
 
                             b1.Property<int>("CalendarYear")
                                 .HasColumnType("int")
                                 .HasColumnName("CalendarYear");
 
                             b1.Property<Guid>("YearDataId")
-                                .HasColumnType("char(36)")
+                                .HasColumnType("uniqueidentifier")
                                 .HasColumnName("YearDataId");
 
                             b1.HasKey("TeacherId", "Id");
@@ -1398,7 +1408,7 @@ namespace TeachPlanner.Shared.Migrations
                     b.HasOne("TeachPlanner.Shared.Domain.YearDataRecords.YearData", null)
                         .WithMany("WeekPlanners")
                         .HasForeignKey("YearDataId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
                 });
 
@@ -1413,7 +1423,7 @@ namespace TeachPlanner.Shared.Migrations
                     b.HasOne("TeachPlanner.Shared.Domain.Teachers.Teacher", null)
                         .WithMany()
                         .HasForeignKey("TeacherId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("TeachPlanner.Shared.Domain.TermPlanners.TermPlanner", null)
@@ -1424,16 +1434,16 @@ namespace TeachPlanner.Shared.Migrations
                         {
                             b1.Property<Guid>("Id")
                                 .ValueGeneratedOnAdd()
-                                .HasColumnType("char(36)");
+                                .HasColumnType("uniqueidentifier");
 
                             b1.Property<string>("Name")
                                 .IsRequired()
                                 .HasMaxLength(50)
-                                .HasColumnType("varchar(50)")
+                                .HasColumnType("nvarchar(50)")
                                 .HasColumnName("Name");
 
                             b1.Property<Guid>("YearDataId")
-                                .HasColumnType("char(36)");
+                                .HasColumnType("uniqueidentifier");
 
                             b1.HasKey("Id");
 
@@ -1448,15 +1458,15 @@ namespace TeachPlanner.Shared.Migrations
                                 {
                                     b2.Property<Guid>("Id")
                                         .ValueGeneratedOnAdd()
-                                        .HasColumnType("char(36)");
+                                        .HasColumnType("uniqueidentifier");
 
                                     b2.Property<string>("CurriculumCode")
                                         .IsRequired()
                                         .HasMaxLength(15)
-                                        .HasColumnType("varchar(15)");
+                                        .HasColumnType("nvarchar(15)");
 
                                     b2.Property<Guid>("SubjectId")
-                                        .HasColumnType("char(36)");
+                                        .HasColumnType("uniqueidentifier");
 
                                     b2.HasKey("Id");
 

@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using TeachPlanner.Shared.Database.Converters;
 using TeachPlanner.Shared.Domain.Teachers;
 using TeachPlanner.Shared.Domain.Users;
+using TeachPlanner.Shared.Domain.YearDataRecords;
 
 namespace TeachPlanner.Shared.Database.Configurations;
 

@@ -2,7 +2,7 @@
 
 namespace TeachPlanner.Shared.Contracts.Teachers;
 
-public record TeacherResponse(
+public record TeacherModel(
     TeacherId Id,
     string FirstName,
     string LastName);

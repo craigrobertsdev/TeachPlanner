@@ -18,7 +18,7 @@ internal sealed class YearDataCreatedDomainEventHandler : INotificationHandler<Y
 
     public async Task Handle(YearDataCreatedDomainEvent notification, CancellationToken cancellationToken) {
         var teacher = await _context.Teachers
-            .Where(t => t.Id == notification.TeacherId)
+            //.Where(t => t.Id == notification.TeacherId)
             .FirstAsync(cancellationToken);
 
         teacher.AddYearData(YearDataEntry.Create(notification.CalendarYear, notification.YearDataId));

@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using TeachPlanner.Shared.Database.Converters;
 using TeachPlanner.Shared.Domain.Assessments;
 using TeachPlanner.Shared.Domain.Curriculum;
+using TeachPlanner.Shared.Domain.LessonPlans;
 using TeachPlanner.Shared.Domain.Students;
 using TeachPlanner.Shared.Domain.Teachers;
 
@@ -36,7 +37,12 @@ internal class AssessmentConfiguration : IEntityTypeConfiguration<Assessment> {
         builder.HasOne<Student>()
             .WithMany(s => s.Assessments)
             .HasForeignKey(a => a.StudentId)
-            .IsRequired();
+            .OnDelete(DeleteBehavior.NoAction);
+
+        builder.HasOne<LessonPlan>()
+            .WithMany(lp => lp.Assessments)
+            .HasForeignKey(a => a.LessonPlanId)
+            .OnDelete(DeleteBehavior.NoAction);
 
         builder.HasOne<Teacher>()
             .WithMany(t => t.Assessments)

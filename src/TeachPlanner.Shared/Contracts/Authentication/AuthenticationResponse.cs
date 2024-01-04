@@ -2,4 +2,4 @@
 
 namespace TeachPlanner.Shared.Contracts.Authentication;
 
-public record AuthenticationResponse(TeacherResponse Teacher, string Token);
+public record AuthenticationResponse(TeacherModel Teacher, string Token);

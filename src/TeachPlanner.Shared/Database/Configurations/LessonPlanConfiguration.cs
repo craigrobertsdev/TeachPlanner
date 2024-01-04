@@ -21,12 +21,12 @@ public class LessonPlanConfiguration : IEntityTypeConfiguration<LessonPlan> {
         builder.HasOne<YearData>()
             .WithMany(yd => yd.LessonPlans)
             .HasForeignKey(lp => lp.YearDataId)
-            .IsRequired();
+            .OnDelete(DeleteBehavior.NoAction);
 
         builder.HasOne<CurriculumSubject>()
             .WithMany()
             .HasForeignKey(lp => lp.SubjectId)
-            .IsRequired();
+            .OnDelete(DeleteBehavior.NoAction);
 
         builder.HasMany(lp => lp.Assessments)
             .WithOne()
@@ -53,11 +53,11 @@ public class LessonPlanResourceConfiguration : IEntityTypeConfiguration<LessonPl
         builder.HasOne<LessonPlan>()
             .WithMany(lp => lp.LessonPlanResources)
             .HasForeignKey(lr => lr.LessonPlanId)
-            .IsRequired();
+            .OnDelete(DeleteBehavior.NoAction);
 
         builder.HasOne<Resource>()
             .WithMany(r => r.LessonPlanResources)
             .HasForeignKey(lr => lr.ResourceId)
-            .IsRequired();
+            .OnDelete(DeleteBehavior.NoAction);
     }
 }

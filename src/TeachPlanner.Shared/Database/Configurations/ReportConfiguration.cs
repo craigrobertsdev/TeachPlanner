@@ -21,17 +21,17 @@ public class ReportConfiguration : IEntityTypeConfiguration<Report> {
         builder.HasOne<Teacher>()
             .WithMany()
             .HasForeignKey(r => r.TeacherId)
-            .IsRequired();
+            .OnDelete(DeleteBehavior.NoAction);
 
         builder.HasOne<CurriculumSubject>()
             .WithMany()
             .HasForeignKey(r => r.SubjectId)
-            .IsRequired();
+            .OnDelete(DeleteBehavior.NoAction);
 
         builder.HasOne<Student>()
             .WithMany(s => s.Reports)
             .HasForeignKey(r => r.StudentId)
-            .IsRequired();
+            .OnDelete(DeleteBehavior.NoAction);
 
         builder.Property(r => r.YearLevel)
             .HasConversion<string>()

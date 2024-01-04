@@ -21,8 +21,7 @@ public class StudentConfiguration : IEntityTypeConfiguration<Student> {
 
         builder.HasMany(s => s.Assessments)
             .WithOne()
-            .HasForeignKey(a => a.StudentId)
-            .IsRequired();
+            .HasForeignKey(a => a.StudentId);
 
         builder.HasOne<Teacher>()
             .WithMany()

@@ -17,7 +17,6 @@ public class YearDataRepository : IYearDataRepository {
     public async Task<YearData?> GetByTeacherIdAndYear(TeacherId teacherId, int calendarYear,
         CancellationToken cancellationToken) {
         return await _context.YearData
-            .Where(yd => yd.TeacherId == teacherId)
             .Where(yd => yd.CalendarYear == calendarYear)
             .Include(yd => yd.Subjects)
             .Include(yd => yd.Students)
@@ -31,7 +30,6 @@ public class YearDataRepository : IYearDataRepository {
     public async Task SetInitialAccountDetails(Teacher teacher, List<YearLevelValue> yearLevelsTaught, DayPlanTemplate dayPlanTemplate,
                int calendarYear, CancellationToken cancellationToken) {
         var yearData = await _context.YearData
-            .Where(yd => yd.TeacherId == teacher.Id)
             .Where(yd => yd.CalendarYear == calendarYear)
             .Include(yd => yd.DayPlanTemplate)
             .FirstAsync(cancellationToken);
@@ -50,7 +48,6 @@ public class YearDataRepository : IYearDataRepository {
 
     public async Task<IEnumerable<YearLevelValue>> GetYearLevelsTaught(TeacherId teacherId, int calendarYear, CancellationToken cancellationToken) {
         var yearData = await _context.YearData
-            .Where(yd => yd.TeacherId == teacherId)
             .Where(yd => yd.CalendarYear == calendarYear)
             .AsNoTracking()
             .FirstOrDefaultAsync(cancellationToken);

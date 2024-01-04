@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using TeachPlanner.Shared.Database.Converters;
 using TeachPlanner.Shared.Domain.PlannerTemplates;
 using TeachPlanner.Shared.Domain.WeekPlanners;
+using TeachPlanner.Shared.Domain.YearDataRecords;
 
 namespace TeachPlanner.Shared.Database.Configurations;
 
@@ -21,5 +22,10 @@ public class WeekPlannerConfiguration : IEntityTypeConfiguration<WeekPlanner> {
         builder.HasOne<DayPlanTemplate>()
             .WithMany()
             .HasForeignKey(wp => wp.DayPlanTemplateId);
+
+        builder.HasOne<YearData>()
+            .WithMany()
+            .HasForeignKey(wp => wp.YearDataId)
+            .OnDelete(DeleteBehavior.NoAction);
     }
 }
