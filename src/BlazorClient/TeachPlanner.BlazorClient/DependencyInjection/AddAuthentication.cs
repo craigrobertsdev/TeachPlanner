@@ -1,14 +1,13 @@
 ﻿using Microsoft.AspNetCore.Components.Authorization;
-using TeachPlanner.BlazorClient.Services;
+using TeachPlanner.BlazorClient.Authentication;
 
 namespace TeachPlanner.BlazorClient.DependencyInjection;
 
 public static class AddAuthentication {
     public static IServiceCollection AddAuthenticationServices(this IServiceCollection services) {
-        services.AddSingleton<AuthenticationStateProvider>();
-        services.AddScoped<UserService>();
-        services.AddApiAuthorization();
         services.AddAuthorizationCore();
+        services.AddSingleton<AuthenticationStateProvider, TeachPlannerAuthenticationStateProvider>();
+        services.AddApiAuthorization();
 
         return services;
     }

@@ -13,7 +13,7 @@ public record YearDataResponse(
     List<Guid> StudentIds,
     List<SubjectResponse> Subjects,
     List<YearLevelValue> YearLevels,
-    List<LessonPlanResponse> LessonPlans,
+    List<LessonPlanModel> LessonPlans,
     List<WeekPlannerResponse> WeekPlanners,
     TermPlannerResponse TermPlanner);
 

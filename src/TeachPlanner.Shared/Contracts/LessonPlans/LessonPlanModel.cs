@@ -3,7 +3,7 @@ using TeachPlanner.Shared.Contracts.Resources;
 
 namespace TeachPlanner.Shared.Contracts.LessonPlans;
 
-public record LessonPlanResponse(
+public record LessonPlanModel(
     Guid LessonPlanId,
     Guid SubjectId,
     string PlanningNotes,

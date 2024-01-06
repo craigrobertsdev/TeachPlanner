@@ -1,11 +1,12 @@
 ﻿using TeachPlanner.Shared.Contracts.Authentication;
-using TeachPlanner.Shared.Contracts.Teachers;
 
 namespace TeachPlanner.BlazorClient.Services;
 
 public interface IAuthenticationService {
-    ValueTask<string> GetJWT();
-    Task<TeacherModel> Login(LoginModel model);
-    Task Logout();
+    event Action<string?>? LoginChange;
 
+    ValueTask<string> GetJwtAsync();
+    Task<DateTime> LoginAsync(LoginModel model);
+    Task LogoutAsync();
+    Task<bool> RefreshAsync();
 }

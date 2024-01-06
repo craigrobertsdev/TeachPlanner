@@ -1,6 +1,9 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 using TeachPlanner.Api.Services;
+using TeachPlanner.Api.Services.Authentication;
 using TeachPlanner.Api.Services.CurriculumParser;
 using TeachPlanner.Api.Services.FileStorage;
 using TeachPlanner.Shared.Common.Interfaces.Curriculum;
@@ -56,27 +59,29 @@ public static class Infrastructure {
     }
 
     private static IServiceCollection AddAuth(this IServiceCollection services, IConfiguration configuration) {
-        // cookie authentication
-        services.AddAuthentication(IdentityConstants.ApplicationScheme).AddIdentityCookies();
-
-        // configure authorisation
-        services.AddAuthorizationBuilder();
-
         // add identity and opt-in to endpoints
         services.AddIdentityCore<ApplicationUser>()
-            .AddEntityFrameworkStores<ApplicationDbContext>()
-            .AddApiEndpoints();
+            .AddEntityFrameworkStores<ApplicationDbContext>();
 
-        // add CORS policy for WASM client
-        services.AddCors(
-            options => options.AddPolicy(
-                "wasm",
-                policy => policy.WithOrigins(configuration["ServerUrl"] ?? "https://localhost:5000",
-                configuration["ClientUrl"] ?? "https://localhost:5001")
-                .AllowAnyMethod()
-                .SetIsOriginAllowed(pol => true)
-                .AllowAnyHeader()
-                .AllowCredentials()));
+        var jwtSettings = new JwtSettings();
+        configuration.Bind(JwtSettings.SectionName, jwtSettings);
+
+        services.AddSingleton(jwtSettings);
+        
+        services.AddAuthentication(x => {
+            x.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+            x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+        })
+            .AddJwtBearer(options => options.TokenValidationParameters = new TokenValidationParameters {
+                ValidIssuer = jwtSettings.Issuer,
+                ValidAudience = jwtSettings.Audience,
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.Secret)),
+                ValidateIssuer = true,
+                ValidateAudience = true,
+                ValidateIssuerSigningKey = true,
+                ValidateLifetime = true
+            });
 
         return services;
     }
