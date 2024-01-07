@@ -4,7 +4,7 @@
 @inject IAuthenticationService AuthenticationService
 
 <fieldset>
-    <EditForm Model=@model onsubmit="@HandleSubmit">
+    <EditForm Model=@model OnSubmit="HandleSubmit">
         <h2>Login</h2>
         <label htmlFor="email">Email</label>
         <InputText @bind-Value="@model.Email" id="email" name="email" required />
@@ -15,7 +15,7 @@
     </EditForm>
 </fieldset>
 
-if (_errorMessage is not null) {
+@if (_errorMessage is not null) {
     <p class="text-ceramic text-lg">@_errorMessage</p>
 }
 
@@ -26,12 +26,9 @@ if (_errorMessage is not null) {
     private string? _errorMessage = null;
 
     private async Task HandleSubmit() {
-        // var response = await AuthenticationService.Login(model);
-        // AppState.TeacherId = response.Id;
-
-        // Console.WriteLine(response.Id);
-        // Console.WriteLine(response.FirstName);
-        // Console.WriteLine(response.LastName);
+         var response = await AuthenticationService.Login(model);
+         
+         Console.WriteLine(response);
     }
 
 }

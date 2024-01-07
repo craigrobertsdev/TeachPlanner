@@ -22,14 +22,14 @@ public class AuthenticationService : IAuthenticationService {
         _localStorage = localStorage;
     }
 
-    public async ValueTask<string> GetJwtAsync() {
+    public async ValueTask<string> GetJwt() {
         if (string.IsNullOrEmpty(_jwtCache))
             _jwtCache = await _localStorage.GetItemAsync<string>(JWT_KEY);
 
         return _jwtCache;
     }
 
-    public async Task LogoutAsync() {
+    public async Task Logout() {
         var response = await _factory.CreateClient("ServerApi").DeleteAsync("api/authentication/revoke");
 
         await _localStorage.RemoveItemAsync(JWT_KEY);
@@ -48,7 +48,7 @@ public class AuthenticationService : IAuthenticationService {
         return jwt.Claims.First(c => c.Type == ClaimTypes.Name).Value;
     }
 
-    public async Task<DateTime> LoginAsync(LoginModel model) {
+    public async Task<DateTime> Login(LoginModel model) {
         var response = await _factory.CreateClient("ServerApi").PostAsync("api/authentication/login",
             JsonContent.Create(model));
 
@@ -68,7 +68,7 @@ public class AuthenticationService : IAuthenticationService {
         return content.Expiration;
     }
 
-    public async Task<bool> RefreshAsync() {
+    public async Task<bool> Refresh() {
         var accessToken = await _localStorage.GetItemAsync<string>(JWT_KEY);
         var refreshToken = await _localStorage.GetItemAsync<string>(REFRESH_KEY);
         var model = new RefreshModel(accessToken, refreshToken);
@@ -77,7 +77,7 @@ public class AuthenticationService : IAuthenticationService {
                                                     JsonContent.Create(model));
 
         if (!response.IsSuccessStatusCode) {
-            await LogoutAsync();
+            await Logout();
 
             return false;
         }

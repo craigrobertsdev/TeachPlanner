@@ -12,6 +12,16 @@ builder.Services
     .AddInfrastructure(builder.Configuration)
     .AddApplication();
 
+builder.Services.AddCors(options => {
+    options.AddPolicy("wasm",
+      p => {
+          p.AllowAnyHeader();
+          p.AllowAnyMethod();
+          p.AllowAnyHeader();
+          p.AllowAnyOrigin();
+      });
+});
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

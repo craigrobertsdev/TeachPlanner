@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
@@ -59,7 +60,7 @@ public static class Infrastructure {
     }
 
     private static IServiceCollection AddAuth(this IServiceCollection services, IConfiguration configuration) {
-        services.AddIdentityCore<ApplicationUser>()
+        services.AddIdentity<ApplicationUser, IdentityRole>()
             .AddEntityFrameworkStores<ApplicationDbContext>();
 
         var jwtSettings = new JwtSettings();
@@ -67,21 +68,26 @@ public static class Infrastructure {
 
         services.AddSingleton(jwtSettings);
         services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
-        
+
         services.AddAuthentication(x => {
             x.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
             x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
             x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
         })
-            .AddJwtBearer(options => options.TokenValidationParameters = new TokenValidationParameters {
-                ValidIssuer = jwtSettings.Issuer,
-                ValidAudience = jwtSettings.Audience,
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.Secret)),
-                ValidateIssuer = true,
-                ValidateAudience = true,
-                ValidateIssuerSigningKey = true,
-                ValidateLifetime = true
+            .AddJwtBearer(options => {
+                options.TokenValidationParameters = new TokenValidationParameters {
+                    ValidIssuer = jwtSettings.Issuer,
+                    ValidAudience = jwtSettings.Audience,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.Secret)),
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidateLifetime = true
+                };
+                options.SaveToken = true;
             });
+
+        services.AddAuthorization();
 
         return services;
     }

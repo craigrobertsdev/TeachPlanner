@@ -5,8 +5,8 @@ namespace TeachPlanner.BlazorClient.Services;
 public interface IAuthenticationService {
     event Action<string?>? LoginChange;
 
-    ValueTask<string> GetJwtAsync();
-    Task<DateTime> LoginAsync(LoginModel model);
-    Task LogoutAsync();
-    Task<bool> RefreshAsync();
+    ValueTask<string> GetJwt();
+    Task<DateTime> Login(LoginModel model);
+    Task Logout();
+    Task<bool> Refresh();
 }

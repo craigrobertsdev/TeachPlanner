@@ -15,7 +15,7 @@ public class AuthenticationHandler : DelegatingHandler {
     }
 
     protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken) {
-        var jwt = await _authenticationService.GetJwtAsync();
+        var jwt = await _authenticationService.GetJwt();
         var isToServer = request.RequestUri?.AbsoluteUri.StartsWith(_configuration["ServerUrl"] ?? "") ?? false;
 
         if (isToServer && !string.IsNullOrEmpty(jwt))
@@ -27,8 +27,8 @@ public class AuthenticationHandler : DelegatingHandler {
             try {
                 _refreshing = true;
 
-                if (await _authenticationService.RefreshAsync()) {
-                    jwt = await _authenticationService.GetJwtAsync();
+                if (await _authenticationService.Refresh()) {
+                    jwt = await _authenticationService.GetJwt();
 
                     if (isToServer && !string.IsNullOrEmpty(jwt))
                         request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", jwt);
