@@ -4,12 +4,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using TeachPlanner.Shared.Database;
 
 #nullable disable
 
-namespace TeachPlanner.Shared.Database.Migrations
-{
+namespace TeachPlanner.Shared.Database.Migrations {
     [DbContext(typeof(ApplicationDbContext))]
     partial class ApplicationDbContextModelSnapshot : ModelSnapshot
     {

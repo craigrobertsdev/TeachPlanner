@@ -2,8 +2,8 @@ using Microsoft.EntityFrameworkCore;
 using TeachPlanner.Shared.Domain.PlannerTemplates;
 using TeachPlanner.Shared.Domain.Teachers;
 using TeachPlanner.Shared.Common.Interfaces.Persistence;
-using TeachPlanner.Shared.Database;
 using TeachPlanner.Shared.Domain.WeekPlanners;
+using TeachPlanner.Shared.Database;
 
 namespace TeachPlanner.Shared.Database.Repositories;
 

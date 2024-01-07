@@ -2,9 +2,9 @@
 using TeachPlanner.Shared.Common.Exceptions;
 using TeachPlanner.Shared.Domain.Teachers;
 using TeachPlanner.Shared.Common.Interfaces.Persistence;
-using TeachPlanner.Shared.Database;
 using TeachPlanner.Shared.Domain.TermPlanners;
 using TeachPlanner.Shared.Domain.YearDataRecords;
+using TeachPlanner.Shared.Database;
 
 namespace TeachPlanner.Shared.Database.Repositories;
 

@@ -4,6 +4,7 @@ using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using TeachPlanner.Shared.Common.Interfaces.Authentication;
 using TeachPlanner.Shared.Domain.Teachers;
+using TeachPlanner.Shared.Models.Authentication;
 
 namespace TeachPlanner.Api.Services.Authentication;
 
@@ -14,7 +15,7 @@ public class JwtTokenGenerator : IJwtTokenGenerator {
         _jwtSettings = jwtSettings;
     }
 
-    public string GenerateToken(Teacher teacher) {
+    public TokenResponse GenerateToken(Teacher teacher) {
         var signingCredentials = new SigningCredentials(
             new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.Secret)),
             SecurityAlgorithms.HmacSha256
@@ -37,6 +38,8 @@ public class JwtTokenGenerator : IJwtTokenGenerator {
             signingCredentials: signingCredentials
         );
 
-        return new JwtSecurityTokenHandler().WriteToken(securityToken);
+        var token = new JwtSecurityTokenHandler().WriteToken(securityToken);
+
+        return new TokenResponse(token, securityToken.ValidTo);
     }
 }

@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using TeachPlanner.Shared.Common.Exceptions;
 using TeachPlanner.Shared.Common.Interfaces.Persistence;
+using TeachPlanner.Shared.Database;
 using TeachPlanner.Shared.Domain.Curriculum;
 
 namespace TeachPlanner.Shared.Database.Repositories;

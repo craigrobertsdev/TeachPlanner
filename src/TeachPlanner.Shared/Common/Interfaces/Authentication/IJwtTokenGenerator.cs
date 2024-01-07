@@ -1,7 +1,8 @@
 ﻿using TeachPlanner.Shared.Domain.Teachers;
+using TeachPlanner.Shared.Models.Authentication;
 
 namespace TeachPlanner.Shared.Common.Interfaces.Authentication;
 
 public interface IJwtTokenGenerator {
-    string GenerateToken(Teacher teacher);
+    TokenResponse GenerateToken(Teacher teacher);
 }

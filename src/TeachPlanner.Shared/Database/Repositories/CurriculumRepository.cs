@@ -2,6 +2,7 @@
 using TeachPlanner.Shared.Domain.Common.Enums;
 using TeachPlanner.Shared.Domain.Curriculum;
 using TeachPlanner.Shared.Common.Interfaces.Persistence;
+using TeachPlanner.Shared.Database;
 
 namespace TeachPlanner.Shared.Database.Repositories;
 

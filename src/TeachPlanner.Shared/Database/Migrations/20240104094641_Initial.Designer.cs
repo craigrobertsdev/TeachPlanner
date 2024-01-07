@@ -5,12 +5,10 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using TeachPlanner.Shared.Database;
 
 #nullable disable
 
-namespace TeachPlanner.Shared.Database.Migrations
-{
+namespace TeachPlanner.Shared.Database.Migrations {
     [DbContext(typeof(ApplicationDbContext))]
     [Migration("20240104094641_Initial")]
     partial class Initial

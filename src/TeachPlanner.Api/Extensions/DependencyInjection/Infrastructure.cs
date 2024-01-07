@@ -6,6 +6,7 @@ using TeachPlanner.Api.Services;
 using TeachPlanner.Api.Services.Authentication;
 using TeachPlanner.Api.Services.CurriculumParser;
 using TeachPlanner.Api.Services.FileStorage;
+using TeachPlanner.Shared.Common.Interfaces.Authentication;
 using TeachPlanner.Shared.Common.Interfaces.Curriculum;
 using TeachPlanner.Shared.Common.Interfaces.Persistence;
 using TeachPlanner.Shared.Common.Interfaces.Services;
@@ -43,7 +44,6 @@ public static class Infrastructure {
         services.AddScoped<ISubjectRepository, SubjectRepository>();
         services.AddScoped<ITeacherRepository, TeacherRepository>();
         services.AddScoped<ITermPlannerRepository, TermPlannerRepository>();
-        services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IWeekPlannerRepository, WeekPlannerRepository>();
         services.AddScoped<IYearDataRepository, YearDataRepository>();
 
@@ -59,7 +59,6 @@ public static class Infrastructure {
     }
 
     private static IServiceCollection AddAuth(this IServiceCollection services, IConfiguration configuration) {
-        // add identity and opt-in to endpoints
         services.AddIdentityCore<ApplicationUser>()
             .AddEntityFrameworkStores<ApplicationDbContext>();
 
@@ -67,6 +66,7 @@ public static class Infrastructure {
         configuration.Bind(JwtSettings.SectionName, jwtSettings);
 
         services.AddSingleton(jwtSettings);
+        services.AddScoped<IJwtTokenGenerator, JwtTokenGenerator>();
         
         services.AddAuthentication(x => {
             x.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;

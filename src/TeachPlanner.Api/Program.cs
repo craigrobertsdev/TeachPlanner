@@ -23,8 +23,6 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-app.MapIdentityApi<ApplicationUser>();
-
 if (app.Environment.IsDevelopment()) {
     app.UseSwagger();
     app.UseSwaggerUI();
@@ -36,12 +34,16 @@ if (app.Environment.IsDevelopment()) {
 app.UseCors("wasm");
 
 app.UseHttpsRedirection();
+
 app.UseBlazorFrameworkFiles();
 app.UseStaticFiles();
 app.UseRouting();
 
+app.UseAuthentication();
+app.UseAuthorization();
+
 app.MapRazorPages();
-app.MapFallbackToFile("index.html");
+//app.MapFallbackToFile("index.html");
 
 app.MapApi();
 

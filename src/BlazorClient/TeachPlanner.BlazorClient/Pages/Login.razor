@@ -27,12 +27,12 @@ if (_errorMessage is not null) {
     private string? _errorMessage = null;
 
     private async Task HandleSubmit() {
-        var response = await AuthenticationService.Login(model);
-        AppState.TeacherId = response.Id;
+        // var response = await AuthenticationService.Login(model);
+        // AppState.TeacherId = response.Id;
 
-        Console.WriteLine(response.Id);
-        Console.WriteLine(response.FirstName);
-        Console.WriteLine(response.LastName);
+        // Console.WriteLine(response.Id);
+        // Console.WriteLine(response.FirstName);
+        // Console.WriteLine(response.LastName);
     }
 
 }
