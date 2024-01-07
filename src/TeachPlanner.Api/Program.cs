@@ -8,14 +8,9 @@ var builder = WebApplication.CreateBuilder(args);
 var syncfusionLicenceKey = builder.Configuration["Syncfusion:LicenseKey"];
 SyncfusionLicenseProvider.RegisterLicense(syncfusionLicenceKey);
 
-builder.Services.AddControllersWithViews();
-builder.Services.AddRazorPages();
-
 builder.Services
     .AddInfrastructure(builder.Configuration)
     .AddApplication();
-
-builder.Services.AddRazorPages();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -32,18 +27,11 @@ if (app.Environment.IsDevelopment()) {
 
 // enable cors
 app.UseCors("wasm");
-
 app.UseHttpsRedirection();
-
-app.UseBlazorFrameworkFiles();
-app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthentication();
 app.UseAuthorization();
-
-app.MapRazorPages();
-//app.MapFallbackToFile("index.html");
 
 app.MapApi();
 

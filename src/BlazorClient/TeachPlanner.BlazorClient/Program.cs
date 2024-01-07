@@ -9,13 +9,13 @@ var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 
-builder.Services.AddTransient<AuthenticationHandler>();
+//builder.Services.AddTransient<AuthenticationHandler>();
 
 builder.Services.AddHttpClient("ServerApi")
-    .ConfigureHttpClient(c => c.BaseAddress = new Uri(builder.Configuration["ServerUrl"] ?? ""))
-    .AddHttpMessageHandler<AuthenticationHandler>();
+    .ConfigureHttpClient(c => c.BaseAddress = new Uri(builder.Configuration["ServerUrl"] ?? ""));
+    //.AddHttpMessageHandler<AuthenticationHandler>();
 
-builder.Services.AddSingleton<IAuthenticationService, AuthenticationService>();
+//builder.Services.AddSingleton<IAuthenticationService, AuthenticationService>();
 builder.Services.AddBlazoredLocalStorageAsSingleton();
 
 await builder.Build().RunAsync();
